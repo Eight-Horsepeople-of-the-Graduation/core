@@ -8,16 +8,78 @@ datasource db {
 }
 
 model User {
-    id             Int       @id @default(autoincrement())
-    username       String    @unique
-    email          String    @unique
+    id             Int          @id @default(autoincrement())
+    username       String       @unique
+    email          String       @unique
     password       String
     country        String
     gender         Gender
     birthDate      DateTime?
-    joinDate       DateTime  @default(now())
+    joinDate       DateTime     @default(now())
     profilePicture String?
-    isAdmin        Boolean   @default(false)
+    isAdmin        Boolean      @default(false)
+    books          BookToUser[]
+    reviews        Review[]
+}
+
+model Book {
+    id          Int               @id @default(autoincrement())
+    title       String
+    isbn        String            @unique
+    description String
+    publishDate DateTime
+    format      Format
+    language    String
+    country     String
+    numOfPages  Int
+    owners      BookToUser[]
+    shelf       BookToBookshelf[]
+    reviews     Review[]
+}
+
+model Bookshelf {
+    id         Int               @id @default(autoincrement())
+    title      String
+    numOfBooks Int
+    books      BookToBookshelf[]
+}
+
+model BookToUser {
+    user User @relation(fields: [userId], references: [id])
+    book Book @relation(fields: [bookId], references: [id])
+
+    userId Int
+    bookId Int
+
+    @@id([userId, bookId])
+}
+
+model BookToBookshelf {
+    book      Book      @relation(fields: [bookId], references: [id])
+    bookshelf Bookshelf @relation(fields: [bookshelfId], references: [id])
+
+    bookId      Int
+    bookshelfId Int
+
+    @@id([bookId, bookshelfId])
+}
+
+model Review {
+    id          Int    @id @default(autoincrement())
+    title       String
+    description String
+    rating      Float
+
+    User   User? @relation(fields: [userId], references: [id])
+    userId Int?
+    Book   Book? @relation(fields: [bookId], references: [id])
+    bookId Int?
+}
+
+enum Format {
+    PAPERBACK
+    EBOOK
+    HARDCOVER
 }
 
 enum Gender {
