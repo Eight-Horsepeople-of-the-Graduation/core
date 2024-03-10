@@ -8,19 +8,19 @@ datasource db {
 }
 
 model User {
-    id               Int                @id @default(autoincrement())
-    username         String             @unique
-    email            String             @unique
-    password         String
-    country          String
-    gender           Gender
-    birthDate        DateTime?
-    joinDate         DateTime           @default(now())
-    profilePicture   String?
-    isAdmin          Boolean            @default(false)
-    books            BookToUser[]
-    reviews          Review[]
-    ReadingChallenge ReadingChallenge[]
+    id                Int                @id @default(autoincrement())
+    username          String             @unique
+    email             String             @unique
+    password          String
+    country           String
+    gender            Gender
+    birthDate         DateTime?
+    joinDate          DateTime           @default(now())
+    profilePicture    String?
+    isAdmin           Boolean            @default(false)
+    books             BookToUser[]
+    reviews           Review[]
+    readingChallenges ReadingChallenge[]
 }
 
 model Book {
