@@ -21,6 +21,7 @@ model User {
     books             BookToUser[]
     reviews           Review[]
     readingChallenges ReadingChallenge[]
+    lists             List[]
 }
 
 model Book {
@@ -65,6 +66,16 @@ model ReadingChallenge {
     type       Type
     numOfBooks Int
     progress   Int
+}
+
+model List {
+    id          Int      @id @default(autoincrement())
+    title       String
+    user        User?    @relation(fields: [userId], references: [id])
+    userId      Int?
+    description String
+    numOfbooks  Int
+    createdAt   DateTime @default(now())
 }
 
 model BookToUser {

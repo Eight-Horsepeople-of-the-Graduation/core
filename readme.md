@@ -15,7 +15,7 @@
 - [x] Bookshelf
 - [x] Review
 - [ ] Genre
-- [ ] List
+- [x] List
 - [ ] UserFavoriteGenres
 - [x] BookToUser
 - [ ] BookToAuthor
