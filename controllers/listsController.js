@@ -1,13 +1,19 @@
-const listServices = require("../services/listsServices");
+const listService = require("../services/listsServices");
 
 const createList = async (req, res) => {
-    const listData = req.body;
-    const list = await listServices.createList(listData);
+  const listData = req.body;
+  const list = await listService.createList(listData);
 
-    return res.send(list);
+  return res.send(list);
 };
 
 const listAllLists = async (req, res) => {
-    const lists = await listServices.getAllLissts();
-    return res.send(lists); 
-}
+  const lists = await listService.getAllLists();
+
+  return res.send(lists);
+};
+
+module.exports = {
+  createList,
+  listAllLists,
+};

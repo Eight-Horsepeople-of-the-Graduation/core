@@ -1,23 +1,25 @@
 const prisma = require("../utils/prisma");
 
-const createList = aysnc (listData) => {
-    const {title, description}  = listData;
+const createList = async (listData) => {
+  const { title, description } = listData;
 
-    const list = await prisma.list.create({
-        data: {
-            title,
-            description,
-        },
-    });
-    return list;
+  const list = await prisma.list.create({
+    data: {
+      title,
+      description,
+    },
+  });
+
+  return list;
 };
 
-const getAllLissts = aysnc () => {
-    const lists = await prisma.lists.findmany(); 
-    return lists;
+const getAllLists = async () => {
+  const lists = await prisma.list.findMany();
+
+  return lists;
 };
 
 module.exports = {
-    getAllLissts,
-    createList,
+  getAllLists,
+  createList,
 };

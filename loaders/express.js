@@ -1,6 +1,6 @@
 const usersRouter = require("../routes/users");
 const readingChallengesRouter = require("../routes/readingChallenges");
-const lists = require("../routes/lists");
+const listsRouter = require("../routes/lists");
 
 module.exports = (app) => {
   app.use("/users", usersRouter);
