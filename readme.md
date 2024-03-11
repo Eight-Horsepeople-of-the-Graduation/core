@@ -10,13 +10,13 @@
 ## Models:
 - [x] User
 - [ ] Author
-- [ ] ReadingChallenge
-- [ ] Book
-- [ ] Bookshelf
-- [ ] Review
+- [x] ReadingChallenge
+- [x] Book
+- [x] Bookshelf
+- [x] Review
 - [ ] Genre
-- [ ] List
+- [x] List
 - [ ] UserFavoriteGenres
-- [ ] BookToUser
+- [x] BookToUser
 - [ ] BookToAuthor
-- [ ] BookToBookshelf
+- [x] BookToBookshelf
