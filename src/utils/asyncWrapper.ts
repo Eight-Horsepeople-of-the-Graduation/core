@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import winston from "winston";
 
 type AsyncHandler = (
   req: Request,
