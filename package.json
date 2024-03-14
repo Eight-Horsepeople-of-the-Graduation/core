@@ -2,7 +2,10 @@
   "name": "grad-proj-core",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "src/app.ts",
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
+  },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
