@@ -61,8 +61,8 @@ model Review {
 model ReadingChallenge {
     id         Int    @id @default(autoincrement())
     title      String
-    userId     Int
-    user       User   @relation(fields: [userId], references: [id])
+    userId     Int?
+    user       User?  @relation(fields: [userId], references: [id])
     type       Type
     numOfBooks Int
     progress   Int
@@ -74,7 +74,7 @@ model List {
     user        User?    @relation(fields: [userId], references: [id])
     userId      Int?
     description String
-    numOfbooks  Int
+    numOfBooks  Int
     createdAt   DateTime @default(now())
 }
 
