@@ -1,6 +1,6 @@
 import express from "express";
-import loadRouters from "./src/loaders/express";
-import config from "./src/config";
+import loadRouters from "./loaders/express";
+import config from "./config";
 import morgan from "morgan";
 
 /**
