@@ -16,4 +16,3 @@
 - [x] Review
 - [x] Genre
 - [x] List
-- [ ] UserFavoriteGenres
