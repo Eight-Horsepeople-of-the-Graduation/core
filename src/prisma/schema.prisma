@@ -1,116 +1,125 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id                Int                @id @default(autoincrement())
-    username          String             @unique
-    email             String             @unique
-    password          String
-    country           String
-    gender            Gender
-    birthDate         DateTime?
-    joinDate          DateTime           @default(now())
-    profilePicture    String?
-    isAdmin           Boolean            @default(false)
-    books             BookToUser[]
-    reviews           Review[]
-    readingChallenges ReadingChallenge[]
-    lists             List[]
+  id                Int                @id @default(autoincrement())
+  username          String             @unique
+  email             String             @unique
+  password          String
+  country           String
+  gender            Gender
+  birthDate         DateTime?
+  joinDate          DateTime           @default(now())
+  profilePicture    String?
+  isAdmin           Boolean            @default(false)
+  books             Book[]
+  bookshelves       Bookshelf[]
+  lists             List[]
+  readingChallenges ReadingChallenge[]
+  reviews           Review[]
 }
 
 model Book {
-    id          Int               @id @default(autoincrement())
-    title       String
-    isbn        String            @unique
-    description String
-    publishDate DateTime
-    format      Format
-    language    String
-    country     String
-    numOfPages  Int
-    owners      BookToUser[]
-    shelf       BookToBookshelf[]
-    reviews     Review[]
+  id                Int                @id @default(autoincrement())
+  title             String
+  isbn              String             @unique
+  description       String
+  publishDate       DateTime
+  format            Format
+  language          String
+  country           String
+  numOfPages        Int
+  authors           Author[]
+  bookshelves       Bookshelf[]
+  genres            Genre[]
+  lists             List[]
+  owners            User[]
+  readingChallenges ReadingChallenge[]
+  reviews           Review[]
 }
 
 model Bookshelf {
-    id         Int               @id @default(autoincrement())
-    title      String
-    numOfBooks Int
-    books      BookToBookshelf[]
+  id         Int      @id @default(autoincrement())
+  title      String
+  numOfBooks Int
+  createdAt  DateTime @default(now())
+  books      Book[]
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+
+  @@unique([userId, title])
 }
 
 model Review {
-    id          Int    @id @default(autoincrement())
-    title       String
-    description String
-    rating      Float
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  rating      Float
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  book        Book     @relation(fields: [bookId], references: [id])
+  bookId      Int
 
-    User   User? @relation(fields: [userId], references: [id])
-    userId Int?
-    Book   Book? @relation(fields: [bookId], references: [id])
-    bookId Int?
+  @@unique([userId, bookId])
 }
 
 model ReadingChallenge {
-    id         Int    @id @default(autoincrement())
-    title      String
-    userId     Int?
-    user       User?  @relation(fields: [userId], references: [id])
-    type       Type
-    numOfBooks Int
-    progress   Int
+  id        Int      @id @default(autoincrement())
+  title     String
+  type      Type
+  startDate DateTime @default(now())
+  progress  Int
+  books     Book[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 model List {
-    id          Int      @id @default(autoincrement())
-    title       String
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      Int?
-    description String
-    numOfBooks  Int
-    createdAt   DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  numOfBooks  Int
+  createdAt   DateTime @default(now())
+  books       Book[]
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+
+  @@unique([userId, title])
 }
 
-model BookToUser {
-    user User @relation(fields: [userId], references: [id])
-    book Book @relation(fields: [bookId], references: [id])
-
-    userId Int
-    bookId Int
-
-    @@id([userId, bookId])
+model Genre {
+  id          Int    @id @default(autoincrement())
+  title       String @unique
+  description String
+  books       Book[]
 }
 
-model BookToBookshelf {
-    book      Book      @relation(fields: [bookId], references: [id])
-    bookshelf Bookshelf @relation(fields: [bookshelfId], references: [id])
-
-    bookId      Int
-    bookshelfId Int
-
-    @@id([bookId, bookshelfId])
+model Author {
+  id    Int    @id @default(autoincrement())
+  name  String
+  books Book[]
 }
 
 enum Format {
-    PAPERBACK
-    EBOOK
-    HARDCOVER
+  PAPERBACK
+  HARDCOVER
+  EBOOK
 }
 
 enum Gender {
-    MALE
-    FEMALE
+  MALE
+  FEMALE
 }
 
 enum Type {
-    ANNUAL
-    MONTHLY
-    WEEKLY
+  WEEKLY
+  MONTHLY
+  ANNUAL
 }
