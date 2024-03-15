@@ -20,6 +20,7 @@ model User {
   isAdmin           Boolean            @default(false)
   books             Book[]
   bookshelves       Bookshelf[]
+  favoriteGenres    Genre[]
   lists             List[]
   readingChallenges ReadingChallenge[]
   reviews           Review[]
@@ -99,6 +100,7 @@ model Genre {
   title       String @unique
   description String
   books       Book[]
+  users       User[]
 }
 
 model Author {
