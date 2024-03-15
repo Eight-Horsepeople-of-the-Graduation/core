@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import { listUsers, createUser } from "../controllers/usersController";
-import asyncWrapper from "../utils/asyncWrapper";
+import { listUsers, createUser } from "../controllers/users.controller";
+import asyncWrapper from "../utils/async-wrapper";
 
 const router: Router = express.Router();
 

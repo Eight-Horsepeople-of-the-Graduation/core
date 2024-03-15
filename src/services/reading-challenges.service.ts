@@ -20,7 +20,6 @@ export const createReadingChallenge = async (readingChallengeData: {
       title,
       type,
       userId,
-      numOfBooks,
       progress,
     },
   });

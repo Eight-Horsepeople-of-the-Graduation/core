@@ -2,8 +2,8 @@ import express, { Router } from "express";
 import {
   listReadingChallenges,
   createReadingChallenge,
-} from "../controllers/readingChallengesController";
-import asyncWrapper from "../utils/asyncWrapper";
+} from "../controllers/reading-challenges.controller";
+import asyncWrapper from "../utils/async-wrapper";
 
 const router: Router = express.Router();
 

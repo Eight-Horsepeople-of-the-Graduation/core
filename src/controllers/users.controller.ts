@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as userService from "../services/usersService";
+import * as userService from "../services/users.service";
 
 export const listUsers = async (req: Request, res: Response) => {
   try {
