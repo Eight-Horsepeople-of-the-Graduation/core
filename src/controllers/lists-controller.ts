@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as listsService from "../services/listsServices";
+import * as listsService from "../services/lists.service";
 
 export const listAllLists = async (req: Request, res: Response) => {
   try {

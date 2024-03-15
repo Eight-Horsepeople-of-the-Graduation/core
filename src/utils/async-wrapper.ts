@@ -11,7 +11,7 @@ type AsyncHandler = (
  * @param handler - The async route handler
  * @returns The wrapped route handler
  * @example
- * router.get("/", asyncWrapper(usersService.getAllUsers));
+ * router.get("/", asyncWrapper(usersController.getAllUsers));
  */
 const asyncWrapper = (handler: AsyncHandler) => {
   return async (req: Request, res: Response, next: NextFunction) => {
