@@ -9,14 +9,11 @@
 # Milestones:
 ## Models:
 - [x] User
-- [ ] Author
+- [x] Author
 - [x] ReadingChallenge
 - [x] Book
 - [x] Bookshelf
 - [x] Review
-- [ ] Genre
+- [x] Genre
 - [x] List
 - [ ] UserFavoriteGenres
-- [x] BookToUser
-- [ ] BookToAuthor
-- [x] BookToBookshelf
