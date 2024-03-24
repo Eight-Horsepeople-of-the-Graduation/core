@@ -8,7 +8,7 @@ export const getBookshelves = async () => {
 
 export const getBookshelf = async (title: string) => {
   try {
-    return await prisma.bookshelf.findUnique({
+    return await prisma.bookshelf.findFirst({
       where: {
         title: title,
       },
@@ -18,11 +18,10 @@ export const getBookshelf = async (title: string) => {
   }
 };
 
-export const addBookshelf = async (bookshelfInfo: { title: any }) => {
-  const { title } = bookshelfInfo;
-  // TODO: add automatic total sum of books on said shelf
-  const bookshelf = await prisma.bookshelf.create({
-    data: { title },
-  });
-  return bookshelf;
-};
+// export const addBookshelf = async (bookshelfInfo: { title: any }) => {
+//   const { title } = bookshelfInfo;
+//   const bookshelf = await prisma.bookshelf.create({
+//     data: { title },
+//   });
+//   return bookshelf;
+// };
