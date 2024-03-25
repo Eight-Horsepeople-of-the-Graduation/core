@@ -48,7 +48,7 @@ model Book {
 model Bookshelf {
   id         Int      @id @default(autoincrement())
   title      String
-  numOfBooks Int
+  numOfBooks Int?
   createdAt  DateTime @default(now())
   books      Book[]
   user       User     @relation(fields: [userId], references: [id])
