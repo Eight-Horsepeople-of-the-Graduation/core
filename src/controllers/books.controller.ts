@@ -15,12 +15,29 @@ export const listBooks = async (req: Request, res: Response) => {
 };
 //show book by title
 export const listBook = async (req: Request, res: Response) => {
-  const title: string | undefined = req.query.title as string; // not working
+  const { title } = req.query;
   if (!title || typeof title !== "string") {
     return res.status(400).send("Invalid title parameter");
   }
   try {
     const book = await bookService.getBook(title);
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    return res.status(200).send(book);
+  } catch (error) {
+    console.error("Error viewing book:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export const listManyBooks = async (req: Request, res: Response) => {
+  const { title } = req.query;
+  if (!title || typeof title !== "string") {
+    return res.status(400).send("Invalid title parameter");
+  }
+  try {
+    const book = await bookService.getManyBooks(title);
     if (!book) {
       return res.status(404).send("Book not found");
     }

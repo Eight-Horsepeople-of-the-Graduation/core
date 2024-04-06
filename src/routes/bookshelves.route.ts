@@ -3,12 +3,14 @@ import {
   addBookshelf,
   listBooksehlves,
   listBookshelf,
+  listManyBookshelves,
 } from "../controllers/bookshelves.controller";
 
 const router: Router = express.Router();
 
 router.get("/", listBooksehlves);
-router.get("/bookshelves/:title", listBookshelf);
+router.get("/find", listBookshelf);
+router.get("/findMany", listManyBookshelves);
 router.post("/", addBookshelf);
 
 export default router;

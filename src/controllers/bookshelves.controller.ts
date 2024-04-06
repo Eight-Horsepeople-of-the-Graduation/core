@@ -28,6 +28,23 @@ export const listBookshelf = async (req: Request, res: Response) => {
   }
 };
 
+export const listManyBookshelves = async (req: Request, res: Response) => {
+  const { title } = req.query;
+  if (!title || typeof title !== "string") {
+    return res.status(400).send("Invalid title parameter");
+  }
+  try {
+    const bookshelf = await bookshelfService.getManyBookshelves(title);
+    if (!bookshelf) {
+      return res.status(404).send("Bookshelf not found");
+    }
+    return res.status(200).send(bookshelf);
+  } catch (error) {
+    console.error("Error viewing bookshelf:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
 export const addBookshelf = async (req: Request, res: Response) => {
   try {
     const bookshelfData = req.body;

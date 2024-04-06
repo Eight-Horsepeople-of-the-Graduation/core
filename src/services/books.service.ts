@@ -21,11 +21,22 @@ export const getBooks = async () => {
   return books;
 };
 
-// view book by title
-// getBookbyId
+// ONE BOOK - technically useless
 export const getBook = async (title: string) => {
   try {
     return await prisma.book.findFirst({
+      where: {
+        title: title,
+      },
+    });
+  } catch (error) {
+    console.error("Error finding Book:", error);
+  }
+};
+// MANY BOOKS
+export const getManyBooks = async (title: string) => {
+  try {
+    return await prisma.book.findMany({
       where: {
         title: title,
       },
