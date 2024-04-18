@@ -46,13 +46,12 @@ model Book {
 }
 
 model Bookshelf {
-  id         Int      @id @default(autoincrement())
-  title      String
-  numOfBooks Int
-  createdAt  DateTime @default(now())
-  books      Book[]
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  books     Book[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
 
   @@unique([userId, title])
 }
