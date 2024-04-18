@@ -1,30 +1,35 @@
 import prisma from "../utils/prisma";
 
-export const getBookshelves = async () => {
+export const getAllBookshelves = async () => {
   const bookshelves = await prisma.bookshelf.findMany();
 
   return bookshelves;
 };
 
 export const getBookshelf = async (title: string) => {
-  try {
-    return await prisma.bookshelf.findFirst({
-      where: {
-        title: title,
-      },
-    });
-  } catch (error) {
-    console.error("Error finding Book:", error);
-  }
+  const bookshelf = await prisma.bookshelf.findFirst({
+    where: {
+      title: title,
+    },
+  });
+
+  return bookshelf;
 };
 
-export const addBookshelf = async (bookshelfInfo: {
+export const createBookshelf = async (bookshelfInfo: {
   title: string;
   userId: number;
 }) => {
   const { title, userId } = bookshelfInfo;
   const bookshelf = await prisma.bookshelf.create({
-    data: { title, userId },
+    data: { title, userId }, // won't work until I migrate
   });
+
   return bookshelf;
+};
+
+export default {
+  getAllBookshelves,
+  getBookshelf,
+  createBookshelf,
 };

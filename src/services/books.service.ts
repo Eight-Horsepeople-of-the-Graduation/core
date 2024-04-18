@@ -2,7 +2,7 @@ import { Author, Genre } from "@prisma/client";
 import prisma from "../utils/prisma";
 
 // view all books
-export const getBooks = async () => {
+export const getAllBooks = async () => {
   const books = await prisma.book.findMany({
     include: {
       authors: {
@@ -24,19 +24,17 @@ export const getBooks = async () => {
 // view book by title
 // getBookbyId
 export const getBook = async (title: string) => {
-  try {
-    return await prisma.book.findFirst({
-      where: {
-        title: title,
-      },
-    });
-  } catch (error) {
-    console.error("Error finding Book:", error);
-  }
+  const book = await prisma.book.findFirst({
+    where: {
+      title: title,
+    },
+  });
+
+  return book;
 };
 
 // add a book
-export const addBook = async (bookInfo: {
+export const createBook = async (bookInfo: {
   title: any;
   isbn: any;
   description: any;
@@ -61,7 +59,6 @@ export const addBook = async (bookInfo: {
     genres,
   } = bookInfo;
 
-  console.log(bookInfo);
   const book = await prisma.book.create({
     data: {
       title,
@@ -78,8 +75,9 @@ export const addBook = async (bookInfo: {
     include: {
       authors: true,
       genres: true,
-      // to-do: make them retrived if already present
+      // to-do: make them retrieved if already present
     },
   });
+
   return book;
 };

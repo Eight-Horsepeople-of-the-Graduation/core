@@ -1,14 +1,15 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import {
-  addBookshelf,
-  listBooksehlves,
-  listBookshelf,
+  createBookshelf,
+  getAllBookshelves,
+  getBookshelf,
 } from "../controllers/bookshelves.controller";
+import asyncWrapper from "../utils/async-wrapper";
 
-const router: Router = express.Router();
+const router: Router = Router();
 
-router.get("/", listBooksehlves);
-router.get("/bookshelves/:title", listBookshelf);
-router.post("/", addBookshelf);
+router.get("/", asyncWrapper(getAllBookshelves));
+router.get("/bookshelves/:title", asyncWrapper(getBookshelf));
+router.post("/", asyncWrapper(createBookshelf));
 
 export default router;
