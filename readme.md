@@ -6,8 +6,10 @@
 - [Bulletproof Node.js Boilerplate](https://www.softwareontheroad.com/ideal-nodejs-project-structure/)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-# Milestones:
-## Models:
+# Milestones
+
+## Models
+
 - [x] User
 - [x] Author
 - [x] ReadingChallenge
@@ -15,4 +17,3 @@
 - [x] Bookshelf
 - [x] Review
 - [x] Genre
-- [x] List
