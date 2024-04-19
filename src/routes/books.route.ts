@@ -1,16 +1,9 @@
-import express, { Router } from "express";
-import {
-  addBook,
-  listBook,
-  listBooks,
-  listManyBooks,
-} from "../controllers/books.controller";
+import { Router } from "express";
+import { createBook, getAllBooks } from "../controllers/books.controller";
 
-const router: Router = express.Router();
+const router = Router();
 
-router.get("/", listBooks);
-router.get("/find", listBook);
-router.get("/findMany", listManyBooks);
-router.post("/", addBook);
+router.get("/", getAllBooks);
+router.post("/", createBook);
 
 export default router;
