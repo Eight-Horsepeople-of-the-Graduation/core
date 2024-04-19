@@ -1,38 +1,6 @@
 import { Author, Genre } from "@prisma/client";
 import prisma from "../utils/prisma";
 
-// view all books
-export const getAllBooks = async () => {
-  const books = await prisma.book.findMany({
-    include: {
-      authors: {
-        select: {
-          name: true,
-        },
-      },
-      genres: {
-        select: {
-          title: true,
-        },
-      },
-    },
-  });
-
-  return books;
-};
-
-// view book by title
-// getBookbyId
-export const getBook = async (title: string) => {
-  const book = await prisma.book.findFirst({
-    where: {
-      title: title,
-    },
-  });
-
-  return book;
-};
-
 // add a book
 export const createBook = async (bookInfo: {
   title: any;
@@ -75,9 +43,50 @@ export const createBook = async (bookInfo: {
     include: {
       authors: true,
       genres: true,
-      // to-do: make them retrieved if already present
+      // TO-DO: make them retrieved if already present
     },
   });
 
   return book;
 };
+
+// view all books
+export const getAllBooks = async () => {
+  const books = await prisma.book.findMany({
+    include: {
+      authors: {
+        select: {
+          name: true,
+        },
+      },
+      genres: {
+        select: {
+          title: true,
+        },
+      },
+    },
+  });
+
+  return books;
+};
+
+// view book by id, TO-DO: missing controller and route
+export const getBookById = async (bookId: number) => {
+  try {
+    return await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+    });
+  } catch (error) {
+    console.error("Error finding Book:", error);
+  }
+};
+
+//TO-DO
+
+// view book by title
+
+//update book info
+
+//delete book
