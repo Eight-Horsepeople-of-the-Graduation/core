@@ -21,7 +21,6 @@ model User {
   books             Book[]
   bookshelves       Bookshelf[]
   favoriteGenres    Genre[]
-  lists             List[]
   readingChallenges ReadingChallenge[]
   reviews           Review[]
 }
@@ -39,20 +38,20 @@ model Book {
   authors           Author[]
   bookshelves       Bookshelf[]
   genres            Genre[]
-  lists             List[]
   owners            User[]
   readingChallenges ReadingChallenge[]
   reviews           Review[]
 }
 
 model Bookshelf {
-  id         Int      @id @default(autoincrement())
-  title      String
-  numOfBooks Int
-  createdAt  DateTime @default(now())
-  books      Book[]
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  privacy     Privacy
+  books       Book[]
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
 
   @@unique([userId, title])
 }
@@ -80,19 +79,6 @@ model ReadingChallenge {
   books     Book[]
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
-}
-
-model List {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  numOfBooks  Int
-  createdAt   DateTime @default(now())
-  books       Book[]
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-
-  @@unique([userId, title])
 }
 
 model Genre {
@@ -124,4 +110,9 @@ enum Type {
   WEEKLY
   MONTHLY
   ANNUAL
+}
+
+enum Privacy {
+  PUBLIC
+  PRIVATE
 }
