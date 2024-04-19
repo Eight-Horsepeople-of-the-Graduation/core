@@ -19,11 +19,13 @@ export const getAllBookshelves = async () => {
 //create
 export const createBookshelf = async (bookshelfInfo: {
   title: string;
+  description: string;
+  privacy: "PUBLIC" | "PRIVATE";
   userId: number;
 }) => {
-  const { title, userId } = bookshelfInfo;
+  const { title, userId, description, privacy } = bookshelfInfo;
   const bookshelf = await prisma.bookshelf.create({
-    data: { title, userId },
+    data: { title, description, privacy, userId },
   });
 
   return bookshelf;
