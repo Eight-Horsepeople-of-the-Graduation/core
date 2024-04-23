@@ -19,7 +19,7 @@ const asyncWrapper = (handler: AsyncHandler) => {
     try {
       await handler(req, res, next);
     } catch (error: any) {
-      logger.error(error.stack);
+      // logger.error(error.stack);
       next(error);
     }
   };

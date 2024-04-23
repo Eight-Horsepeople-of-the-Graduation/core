@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import * as readingChallengesService from "../services/reading-challenges.service";
 
-export const listReadingChallenges = async (req: Request, res: Response) => {
+export const getAllReadingChallenges = async (req: Request, res: Response) => {
   const readingChallenges =
-    await readingChallengesService.getReadingChallenges();
+    await readingChallengesService.getAllReadingChallenges();
 
   return res.send(readingChallenges);
 };
@@ -14,4 +14,9 @@ export const createReadingChallenge = async (req: Request, res: Response) => {
     await readingChallengesService.createReadingChallenge(readingChallengeData);
 
   return res.status(201).send(readingChallenge);
+};
+
+export default {
+  getAllReadingChallenges,
+  createReadingChallenge,
 };
