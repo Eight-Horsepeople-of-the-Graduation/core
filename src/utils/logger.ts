@@ -1,28 +1,32 @@
-import { format, createLogger, transports } from "winston";
+import { createLogger, format, transports } from "winston";
+const { colorize, combine, prettyPrint, simple, timestamp } = format;
+const { Console, File } = transports;
 
-const { combine, timestamp, label, printf, prettyPrint } = format;
+const winstonFormat = combine(
+  timestamp({
+    format: "DD-MM-YYYY HH:mm:ss",
+  }),
+  prettyPrint()
+);
 
-const CATEGORY = "winston custom format";
+const winstonTransports = [
+  new Console({
+    format: combine(winstonFormat, colorize({ all: true })),
+  }),
+  new File({
+    filename: "logs/error.log",
+    level: "error",
+    format: combine(winstonFormat, prettyPrint()),
+  }),
+  new File({
+    filename: "logs/all.log",
+    format: combine(winstonFormat, prettyPrint()),
+  }),
+];
 
 const logger = createLogger({
-  level: "debug",
-  format: combine(
-    label({ label: CATEGORY }),
-    timestamp({
-      format: "MMM-DD-YYYY HH:mm:ss",
-    }),
-    prettyPrint()
-  ),
-  transports: [
-    new transports.File({
-      filename: "logs/example.log",
-    }),
-    new transports.File({
-      level: "error",
-      filename: "logs/error.log",
-    }),
-    new transports.Console(),
-  ],
+  format: winstonFormat,
+  transports: winstonTransports,
 });
 
 export default logger;
