@@ -3,14 +3,14 @@ import prisma from "../utils/prisma";
 
 // add a book
 export const createBook = async (bookInfo: {
-  title: any;
-  isbn: any;
-  description: any;
-  language: any;
-  format: any;
-  country: any;
-  numOfPages: any;
-  publishDate: any;
+  title: string;
+  isbn: string;
+  description: string;
+  language: string;
+  format: "PAPERBACK" | "HARDCOVER" | "EBOOK";
+  country: string;
+  numOfPages: number;
+  publishDate: Date;
   authors: Author[];
   genres: Genre[];
 }) => {
