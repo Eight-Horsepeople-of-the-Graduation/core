@@ -17,7 +17,7 @@ router.get("/:id", asyncWrapper(getBookshelfById));
 router.get("/title/:title", asyncWrapper(getBookshelvesByTitle));
 router.get("/", asyncWrapper(getAllBookshelves));
 router.post("/", asyncWrapper(createBookshelf));
-router.put("/add-book", asyncWrapper(addBookToBookshelf));
+router.put("/add-book/:id", asyncWrapper(addBookToBookshelf));
 router.put("/:id", asyncWrapper(updateBookshelf));
 router.delete("/:id", asyncWrapper(deleteBookshelf));
 

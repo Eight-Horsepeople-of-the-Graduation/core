@@ -1,33 +1,5 @@
 import prisma from "../utils/prisma";
 import { getBookById } from "../services/books.service";
-import { title } from "process";
-
-//get all
-export const getAllBookshelves = async () => {
-  const bookshelves = await prisma.bookshelf.findMany({
-    include: {
-      books: true,
-      _count: {
-        select: { books: true },
-      },
-    },
-  });
-
-  return bookshelves;
-};
-
-//MANY BOOKSHELVES
-export const getManyBookshelves = async (title: string) => {
-  try {
-    return await prisma.bookshelf.findMany({
-      where: {
-        title: title,
-      },
-    });
-  } catch (error) {
-    console.error("Error finding Book:", error);
-  }
-};
 
 //create
 export const createBookshelf = async (bookshelfInfo: {
@@ -44,7 +16,21 @@ export const createBookshelf = async (bookshelfInfo: {
   return bookshelf;
 };
 
-//get by id
+//get all
+export const getAllBookshelves = async () => {
+  const bookshelves = await prisma.bookshelf.findMany({
+    include: {
+      books: true,
+      _count: {
+        select: { books: true },
+      },
+    },
+  });
+
+  return bookshelves;
+};
+
+//get by bookshelfId
 export const getBookshelfById = async (id: number) => {
   const bookshelf = await prisma.bookshelf.findUnique({
     where: {
@@ -91,19 +77,14 @@ export const updateBookshelf = async (
 };
 
 // update bookshelf by adding a book
-export const addBookToBookshelf = async (Ids: {
-  bookId: number;
-  bookshelfId: number;
-}) => {
-  const { bookId, bookshelfId } = Ids;
+export const addBookToBookshelf = async (
+  bookshelfId: number,
+  bookId: number
+) => {
   const book = await getBookById(bookId);
-  if (!book) {
-    throw new Error("Book not found");
-  }
+  if (!book) throw new Error("Book not found");
   const bookshelf = await getBookshelfById(bookshelfId);
-  if (!bookshelf) {
-    throw new Error("Bookshelf not found");
-  }
+  if (!bookshelf) throw new Error("Bookshelf not found");
   const updatedBookshelf = await prisma.bookshelf.update({
     where: {
       id: bookshelfId,
@@ -125,10 +106,10 @@ export const addBookToBookshelf = async (Ids: {
 };
 
 // delete bookshelf
-export const deleteBookshelf = async (bookshelfId: number) => {
+export const deleteBookshelf = async (id: number) => {
   await prisma.bookshelf.delete({
     where: {
-      id: bookshelfId,
+      id,
     },
   });
 };
