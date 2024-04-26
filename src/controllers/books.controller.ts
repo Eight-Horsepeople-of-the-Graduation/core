@@ -28,8 +28,30 @@ export const createBook = async (req: Request, res: Response) => {
   return res.status(201).send(book);
 };
 
+// update book
+export const updateBook = async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const {updatedData} = req.body
+
+  const updatedBook = await bookService.updateBook(+id, updatedData);
+
+  return res.status(200).send(updatedBook);
+};
+
+// delete book
+export const deleteBook = async (req: Request, res: Response) => {
+  const id = req.query.title;
+
+  const deleted = await bookService.deleteBook(id);
+  if (!deleted) return res.status(404).send("Failed to delete the book");
+
+  return res.status(204).send();
+};
+
 export default {
   getAllBooks,
   getBook,
   createBook,
+  updateBook,
+  deleteBook,
 };
