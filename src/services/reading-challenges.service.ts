@@ -1,6 +1,6 @@
 import prisma from "../utils/prisma";
 
-export const getReadingChallenges = async () => {
+export const getAllReadingChallenges = async () => {
   const readingChallenges = await prisma.readingChallenge.findMany();
 
   return readingChallenges;

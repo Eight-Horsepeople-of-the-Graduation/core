@@ -11,7 +11,7 @@ import {
 
 import asyncWrapper from "../utils/async-wrapper";
 
-const router: Router = Router();
+const router = Router();
 
 router.get("/:id", asyncWrapper(getBookshelfById));
 router.get("/title/:title", asyncWrapper(getBookshelvesByTitle));
