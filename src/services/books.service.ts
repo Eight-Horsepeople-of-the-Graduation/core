@@ -81,3 +81,14 @@ export const createBook = async (bookInfo: {
 
   return book;
 };
+export const getBookById = async (bookId: number) => {
+  try {
+    return await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+    });
+  } catch (error) {
+    console.error("Error finding Book:", error);
+  }
+};
