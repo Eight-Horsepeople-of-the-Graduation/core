@@ -48,7 +48,7 @@ model Bookshelf {
   title       String
   description String
   createdAt   DateTime @default(now())
-  privacy     Privacy
+  privacy     Privacy  @default(PUBLIC)
   books       Book[]
   user        User     @relation(fields: [userId], references: [id])
   userId      Int
