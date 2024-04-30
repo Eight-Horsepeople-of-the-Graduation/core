@@ -1,14 +1,13 @@
 import { Privacy } from "@prisma/client";
 import {
   IsEnum,
-  IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
 } from "class-validator";
 
-export class GetDto {
+export class GetBookshelvesDto {
   @IsNotEmpty()
   id: number;
 
@@ -23,19 +22,19 @@ export class GetDto {
   privacy: Privacy;
 }
 
-export class GetByTitleDto {
+export class GetBookshelvesByTitleDto {
   @IsNotEmpty()
   @IsString()
   title: string;
 }
 
-export class GetByIdDto {
+export class GetBookshelvesByIdDto {
   @IsNotEmpty()
   @IsNumber()
   id: number;
 }
 
-export class CreateDto {
+export class CreateBooshelvesDto {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -53,9 +52,7 @@ export class CreateDto {
   userId: number;
 }
 
-export class UpdateDto {
-  @IsNotEmpty()
-  id: number;
+export class UpdateBookshelvesDto {
   @IsOptional()
   @IsString()
   title: string;
