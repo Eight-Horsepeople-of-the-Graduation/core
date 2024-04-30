@@ -1,22 +1,29 @@
 import prisma from "../utils/prisma";
 import { getBookById } from "../services/books.service";
+import {
+  CreateDto,
+  GetByIdDto,
+  GetByTitleDto,
+  GetDto,
+  UpdateDto,
+} from "../dtos/bookshelves.dto";
 
-//create
-export const createBookshelf = async (bookshelfInfo: {
-  title: string;
-  description: string;
-  privacy: "PUBLIC" | "PRIVATE";
-  userId: number;
-}) => {
-  const { title, userId, description, privacy } = bookshelfInfo;
+// a little uneasy about the userId being optional + in the GetDto
+export const createBookshelf = async (data: CreateDto) => {
+  const { title, userId, description, privacy } = data;
   const bookshelf = await prisma.bookshelf.create({
+    include: {
+      books: true,
+      _count: {
+        select: { books: true },
+      },
+    },
     data: { title, description, privacy, userId },
   });
 
   return bookshelf;
 };
 
-//get all
 export const getAllBookshelves = async () => {
   const bookshelves = await prisma.bookshelf.findMany({
     include: {
@@ -30,8 +37,8 @@ export const getAllBookshelves = async () => {
   return bookshelves;
 };
 
-//get by bookshelfId
-export const getBookshelfById = async (id: number) => {
+export const getBookshelfById = async (data: GetByIdDto) => {
+  const { id } = data;
   const bookshelf = await prisma.bookshelf.findUnique({
     where: {
       id,
@@ -46,8 +53,8 @@ export const getBookshelfById = async (id: number) => {
   return bookshelf;
 };
 
-//get by title
-export const getBookshelvesByTitle = async (title: string) => {
+export const getBookshelvesByTitle = async (data: GetByTitleDto) => {
+  const title = data.title;
   const bookshelves = await prisma.bookshelf.findMany({
     where: {
       title: title,
@@ -62,11 +69,13 @@ export const getBookshelvesByTitle = async (title: string) => {
   return bookshelves;
 };
 
-// update bookshelf details
-export const updateBookshelf = async (
-  id: number,
-  updatedData: { title: string }
-) => {
+export const updateBookshelf = async (data: UpdateDto) => {
+  const { id, title, description, privacy } = data;
+  const updatedData = {
+    title,
+    description,
+    privacy,
+  };
   const updatedBookshelf = await prisma.bookshelf.update({
     where: {
       id,
@@ -76,18 +85,17 @@ export const updateBookshelf = async (
   return updatedBookshelf;
 };
 
-// update bookshelf by adding a book
 export const addBookToBookshelf = async (
-  bookshelfId: number,
-  bookId: number
+  bookId: number, //to be changed into GetByIdDto from books.dto.ts, issue: controller
+  id: GetByIdDto
 ) => {
   const book = await getBookById(bookId);
   if (!book) throw new Error("Book not found");
-  const bookshelf = await getBookshelfById(bookshelfId);
+  const bookshelf = await getBookshelfById(id);
   if (!bookshelf) throw new Error("Bookshelf not found");
   const updatedBookshelf = await prisma.bookshelf.update({
     where: {
-      id: bookshelfId,
+      id: id.id,
     },
     data: {
       books: {
@@ -106,10 +114,10 @@ export const addBookToBookshelf = async (
 };
 
 // delete bookshelf
-export const deleteBookshelf = async (id: number) => {
+export const deleteBookshelf = async (id: GetByIdDto) => {
   await prisma.bookshelf.delete({
     where: {
-      id,
+      id: id.id,
     },
   });
 };
