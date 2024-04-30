@@ -3,15 +3,11 @@ import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
 } from "../dtos/index";
-import prisma from "../utils/prisma";
+import readingChallengesRepository from "../repositories/reading-Challenges.repository";
 
 export const getAllReadingChallenges = async () => {
-  const readingChallenges = await prisma.readingChallenge.findMany({
-    include: {
-      books: true,
-      _count: { select: { books: true } },
-    },
-  });
+  const readingChallenges =
+    await readingChallengesRepository.getAllReadingChallenges();
 
   return readingChallenges;
 };
@@ -20,16 +16,8 @@ export const getReadingChallengeById = async (id: number) => {
   if (!id) {
     throw new Error("Missing required field: id");
   }
-
-  const readingChallenge = await prisma.readingChallenge.findUnique({
-    where: {
-      id: id,
-    },
-    include: {
-      books: true,
-      _count: { select: { books: true } },
-    },
-  });
+  const readingChallenge =
+    await readingChallengesRepository.getReadingChallengeById(id);
 
   return readingChallenge;
 };
@@ -46,54 +34,35 @@ export const addBookToReadingChallenge = async (
   if (!readingChallenge) {
     throw new Error("Reading Challenge not found");
   }
-  const updatedReadingChallenge = await prisma.readingChallenge.update({
-    where: {
-      id: readingChallengeId,
-    },
-    data: {
-      books: {
-        connect: {
-          id: bookId,
-        },
-      },
-    },
-    include: {
-      books: true,
-    },
-  });
+  const updatedReadingChallenge =
+    await readingChallengesRepository.addBookToReadingChallenge(
+      readingChallengeId,
+      bookId
+    );
   return updatedReadingChallenge;
 };
 
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
 ) => {
-  const { title, type, userId, progress } = readingChallengeData;
+  const createdReadingChallenge =
+    await readingChallengesRepository.createReadingChallenge(
+      readingChallengeData
+    );
 
-  const createdReadingChallenge = await prisma.readingChallenge.create({
-    data: {
-      title,
-      type,
-      userId,
-      progress,
-    },
-  });
   return createdReadingChallenge;
 };
 
 export const updateReadingChallenge = async (
   id: number,
-  updatedDataDto: UpdateReadingChallengeDto
+  updatedData: UpdateReadingChallengeDto
 ) => {
   if (!id) {
     throw new Error("Missing required field: id");
   }
 
-  const updatedReadingChallenge = await prisma.readingChallenge.update({
-    where: {
-      id,
-    },
-    data: updatedDataDto,
-  });
+  const updatedReadingChallenge =
+    await readingChallengesRepository.updateReadingChallenge(id, updatedData);
 
   return updatedReadingChallenge;
 };
@@ -102,12 +71,8 @@ export const deleteReadingChallenge = async (id: number) => {
   if (!id) {
     throw new Error("Missing required field: id");
   }
-
-  const deletedReadingChallenge = await prisma.readingChallenge.delete({
-    where: {
-      id,
-    },
-  });
+  const deletedReadingChallenge =
+    await readingChallengesRepository.deleteReadingChallenge(id);
 
   return deletedReadingChallenge;
 };
