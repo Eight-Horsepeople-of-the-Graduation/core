@@ -1,7 +1,5 @@
 import { Author, Genre } from "@prisma/client";
 import prisma from "../utils/prisma";
-import { loadavg } from "os";
-import { setDefaultAutoSelectFamily } from "net";
 
 // view all books
 export const getAllBooks = async () => {
@@ -89,6 +87,8 @@ export const createBook = async (bookInfo: {
       // to-do: make them retrieved if already present
     },
   });
+
+  return book;
 };
 
 // update a book
