@@ -1,10 +1,10 @@
-import express, { Router } from "express";
-import { listUsers, createUser } from "../controllers/users.controller";
+import { Router } from "express";
+import { getAllUsers, createUser } from "../controllers/users.controller";
 import asyncWrapper from "../utils/async-wrapper";
 
-const router: Router = express.Router();
+const router = Router();
 
-router.get("/", asyncWrapper(listUsers));
+router.get("/", asyncWrapper(getAllUsers));
 router.post("/", asyncWrapper(createUser));
 
 export default router;

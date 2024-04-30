@@ -11,11 +11,12 @@ import {
 
 import asyncWrapper from "../utils/async-wrapper";
 
-const router: Router = Router();
+const router = Router();
 
 router.get("/:id", asyncWrapper(getBookshelfById));
 router.get("/title/:title", asyncWrapper(getBookshelvesByTitle));
 router.get("/", asyncWrapper(getAllBookshelves));
+router.get("/:title", asyncWrapper(getBookshelf));
 router.post("/", asyncWrapper(createBookshelf));
 router.put("/add-book/:id", asyncWrapper(addBookToBookshelf));
 router.put("/:id", asyncWrapper(updateBookshelf));

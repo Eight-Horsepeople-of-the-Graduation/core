@@ -2,6 +2,7 @@ import express from "express";
 import loadRouters from "./loaders/express";
 import config from "./config";
 import morgan from "morgan";
+import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
 
 /**
  * Starts the server
@@ -16,6 +17,8 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
 
   loadRouters(app);
+
+  app.use(errorHandlerMiddleware);
 
   app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
