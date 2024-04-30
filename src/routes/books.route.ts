@@ -1,14 +1,10 @@
 import { Router } from "express";
-import {
-  createBook,
-  getBook,
-  getAllBooks,
-} from "../controllers/books.controller";
+import { createBook, getAllBooks } from "../controllers/books.controller";
+import asyncWrapper from "../utils/async-wrapper";
 
 const router = Router();
 
-router.get("/", getAllBooks);
-router.get("/:title", getBook);
-router.post("/", createBook);
+router.get("/", asyncWrapper(getAllBooks));
+router.post("/", asyncWrapper(createBook));
 
 export default router;
