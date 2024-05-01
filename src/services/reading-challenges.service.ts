@@ -3,7 +3,7 @@ import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
 } from "../dtos/index";
-import readingChallengesRepository from "../repositories/reading-Challenges.repository";
+import readingChallengesRepository from "../repositories/reading-challenges.repository";
 
 export const getAllReadingChallenges = async () => {
   const readingChallenges =
