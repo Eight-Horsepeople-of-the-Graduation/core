@@ -6,12 +6,6 @@ import {
   UpdateBookshelvesDto,
 } from "../dtos/bookshelves.dto";
 
-export const createBookshelf = async (req: Request, res: Response) => {
-  const bookshelfData = req.body;
-  const bookshelf = await bookshelfService.createBookshelf(bookshelfData);
-  return res.status(201).send(bookshelf);
-};
-
 export const getAllBookshelves = async (req: Request, res: Response) => {
   // const { sort } = req.query as { sort: string };
 
@@ -22,14 +16,12 @@ export const getAllBookshelves = async (req: Request, res: Response) => {
 
 export const getBookshelfById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!id) {
-    return res.status(400).send("Invalid ID parameter");
-  }
+  if (!id) return res.status(400).send("Invalid ID parameter");
+
   const data: GetBookshelvesByIdDto = { id: +id };
   const bookshelf = await bookshelfService.getBookshelfById(data);
-  if (!bookshelf) {
-    return res.status(400).send("Bookshelf Not Found");
-  }
+  if (!bookshelf) return res.status(400).send("Bookshelf Not Found");
+
   console.log(req);
   return res.send(bookshelf);
 };
@@ -37,14 +29,25 @@ export const getBookshelfById = async (req: Request, res: Response) => {
 export const getBookshelvesByTitle = async (req: Request, res: Response) => {
   const { title } = req.params;
   const data: GetBookshelvesByTitleDto = { title };
-  if (!title) {
-    return res.status(400).send("Invalid title parameter");
-  }
+  if (!title) return res.status(400).send("Invalid title parameter");
+
   const bookshelf = await bookshelfService.getBookshelvesByTitle(data);
-  if (!bookshelf) {
-    return res.status(404).send("Bookshelf not found");
-  }
+  if (!bookshelf) return res.status(404).send("Bookshelf not found");
+
   return res.send(bookshelf);
+};
+
+export const getBookshelvesByUserId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) return res.status(404).send("User Not Found");
+  const bookshelf = await bookshelfService.getBookshelvesByUserId(+id);
+  return res.send(bookshelf);
+};
+
+export const createBookshelf = async (req: Request, res: Response) => {
+  const bookshelfData = req.body;
+  const bookshelf = await bookshelfService.createBookshelf(bookshelfData);
+  return res.status(201).send(bookshelf);
 };
 
 export const updateBookshelf = async (req: Request, res: Response) => {

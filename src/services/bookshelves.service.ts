@@ -6,13 +6,6 @@ import {
 } from "../dtos/bookshelves.dto";
 import * as bookshelfRepository from "../repositories/bookshelves.repository";
 
-// a little uneasy about the userId being optional + in the GetBookshelvesDto
-export const createBookshelf = async (data: CreateBooshelvesDto) => {
-  const bookshelf = await bookshelfRepository.createBookshelf(data);
-
-  return bookshelf;
-};
-
 export const getAllBookshelves = async (sort?: string) => {
   const bookshelves = await bookshelfRepository.getAllBookshelves();
   return bookshelves;
@@ -26,6 +19,17 @@ export const getBookshelfById = async (data: GetBookshelvesByIdDto) => {
 export const getBookshelvesByTitle = async (data: GetBookshelvesByTitleDto) => {
   const bookshelves = await bookshelfRepository.getBookshelvesByTitle(data);
   return bookshelves;
+};
+
+export const getBookshelvesByUserId = async (userId: number) => {
+  const bookshelves = await bookshelfRepository.getBookshelvesByUserId(userId);
+  return bookshelves;
+};
+
+export const createBookshelf = async (data: CreateBooshelvesDto) => {
+  const bookshelf = await bookshelfRepository.createBookshelf(data);
+
+  return bookshelf;
 };
 
 export const updateBookshelf = async (
