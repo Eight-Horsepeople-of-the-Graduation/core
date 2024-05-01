@@ -1,3 +1,4 @@
+import { Format } from "@prisma/client";
 import {
   IsNotEmpty,
   IsString,
@@ -6,15 +7,8 @@ import {
   IsEnum,
   IsOptional,
   IsDate,
-  ValidateNested,
-  isArray,
+  IsPositive,
 } from "class-validator";
-
-export enum Format {
-  PAPERBACK,
-  HARDCOVER,
-  EBOOK,
-}
 
 export class CreateBookDto {
   @IsString()
@@ -22,9 +16,9 @@ export class CreateBookDto {
   title: string;
 
   @IsISBN(10 || 13)
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  isbn: number;
+  isbn: string;
 
   @IsString()
   description: string;
@@ -43,6 +37,7 @@ export class CreateBookDto {
 
   @IsNotEmpty()
   @IsNumber()
+  @IsPositive()
   numOfPages: number;
 
   @IsOptional()
@@ -82,6 +77,7 @@ export class GetBookDto {
   country: string;
 
   @IsNotEmpty()
+  @IsPositive()
   numOfPages: number;
 
   @IsNotEmpty()
@@ -127,6 +123,7 @@ export class UpdateBookDto {
   @IsOptional()
   @IsNotEmpty()
   @IsNumber()
+  @IsPositive()
   numOfPages: number;
 
   @IsOptional()
