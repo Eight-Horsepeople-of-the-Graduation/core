@@ -11,7 +11,7 @@ import asyncWrapper from "../utils/async-wrapper";
 
 const router: Router = Router();
 
-router.get("/", asyncWrapper(getAllReadingChallenges));
+router.get("/", asyncWrapper(getAllReadingChallenges)); 
 router.get("/:id", asyncWrapper(getReadingChallengeById));
 router.post("/", asyncWrapper(createReadingChallenge));
 router.put("/:id", asyncWrapper(updateReadingChallenge));
