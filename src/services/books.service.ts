@@ -36,6 +36,7 @@ export const getBook = async (title: string) => {
   return book;
 };
 
+<<<<<<< HEAD
 export const createBook = async (bookData: CreateBookDto) => {
   const {
     title,
@@ -81,13 +82,24 @@ export const createBook = async (bookData: CreateBookDto) => {
 };
 
 /*
+=======
+export const getBookById = async (id: number) => {
+  const book = await prisma.book.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return book;
+};
+>>>>>>> main
 // add a book
 export const createBook = async (bookInfo: {
   title: any;
   isbn: any;
   description: any;
   language: any;
-  format: any;
+  format: "HARDCOVER" | "PAPERBACK" | "EBOOK";
   country: any;
   numOfPages: any;
   publishDate: any;
@@ -123,9 +135,45 @@ export const createBook = async (bookInfo: {
     include: {
       authors: true,
       genres: true,
-      // to-do: make them retrieved if already present
+      // TO-DO: make them retrieved if already present
     },
   });
 
   return book;
+<<<<<<< HEAD
 };*/
+=======
+};
+
+// update a book
+export const updateBook = async (
+  id: number,
+  updatedData: {
+    title: any;
+    description: any;
+    language: any;
+    format: any;
+    country: any;
+    numOfPages: any;
+    publishDate: any;
+    authors: any;
+    genres: any;
+  }
+) => {
+  const bookId = getBookById(id);
+  if (!bookId) throw new Error("Book Not Found");
+
+  const updateBook = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: updatedData,
+  });
+  return updateBook;
+};
+
+// delete a book
+export const deleteBook = async (id: any) => {
+  return await prisma.book.delete({ where: { id } });
+};
+>>>>>>> main
