@@ -23,6 +23,7 @@ model User {
   favoriteGenres    Genre[]
   readingChallenges ReadingChallenge[]
   reviews           Review[]
+  conversation      Conversation[]
 }
 
 model Book {
@@ -35,12 +36,14 @@ model Book {
   language          String
   country           String
   numOfPages        Int
+  pdfLink           String?
   authors           Author[]
   bookshelves       Bookshelf[]
   genres            Genre[]
   owners            User[]
   readingChallenges ReadingChallenge[]
   reviews           Review[]
+  conversation      Conversation[]
 }
 
 model Bookshelf {
@@ -79,6 +82,28 @@ model ReadingChallenge {
   books     Book[]
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+}
+
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  createdOn DateTime  @default(now())
+  retriever String
+  memory    String
+  llm       String
+  book      Book      @relation(fields: [bookId], references: [id])
+  bookId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  message   Message[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  createdOn      DateTime     @default(now())
+  role           String
+  content        String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId Int
 }
 
 model Genre {
