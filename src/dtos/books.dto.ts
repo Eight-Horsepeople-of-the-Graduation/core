@@ -1,4 +1,3 @@
-import { Format } from "@prisma/client";
 import {
   IsNotEmpty,
   IsString,
@@ -8,18 +7,28 @@ import {
   IsOptional,
   IsDate,
   IsPositive,
+  ValidateNested,
 } from "class-validator";
+import { GetAuthorDto } from "./authors.dto";
+import { GetGenreDto } from "./genres.dto";
+
+export enum Format {
+  PAPERBACK = "PAPERBACK",
+  HARDCOVER = "HARDCOVER",
+  EBOOK = "EBOOK",
+}
 
 export class CreateBookDto {
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   title: string;
 
+  @IsNotEmpty()
   @IsISBN(10 || 13)
   @IsString()
-  @IsNotEmpty()
   isbn: string;
 
+  @IsNotEmpty()
   @IsString()
   description: string;
 
@@ -31,7 +40,7 @@ export class CreateBookDto {
   @IsEnum(Format)
   format: Format;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   country: string;
 
@@ -40,21 +49,29 @@ export class CreateBookDto {
   @IsPositive()
   numOfPages: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsDate()
   publishDate: Date;
 
   @IsNotEmpty()
-  @IsString()
-  authors: string[];
+  @ValidateNested({ each: true })
+  authors: GetAuthorDto[];
 
   @IsNotEmpty()
-  @IsString()
-  genres: string[];
+  @ValidateNested({ each: true })
+  genres: GetGenreDto[];
 }
+
+export class GetBookByIdDto {
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
+} 
 
 export class GetBookDto {
   @IsNotEmpty()
+  @IsPositive()
+  @IsNumber()
   id: number;
 
   @IsNotEmpty()
@@ -62,7 +79,7 @@ export class GetBookDto {
   title: string;
 
   @IsNotEmpty()
-  isbn: number;
+  isbn: string;
 
   @IsNotEmpty()
   description: string;
@@ -84,35 +101,33 @@ export class GetBookDto {
   publishDate: Date;
 
   @IsNotEmpty()
-  authors: string[];
+  @ValidateNested({ each: true })
+  authors: GetAuthorDto[];
 
   @IsNotEmpty()
-  genres: string[];
+  @ValidateNested({ each: true })
+  genres: GetGenreDto[];
 }
 
 export class UpdateBookDto {
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   title: string;
 
   @IsOptional()
   @IsISBN(10 || 13)
   @IsNumber()
-  @IsNotEmpty()
-  isbn: number;
+  isbn: string;
 
   @IsOptional()
   @IsString()
   description: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   language: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsEnum(Format)
   format: Format;
 
@@ -121,7 +136,6 @@ export class UpdateBookDto {
   country: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsNumber()
   @IsPositive()
   numOfPages: number;
@@ -131,12 +145,10 @@ export class UpdateBookDto {
   publishDate: Date;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  authors: string[];
+  @ValidateNested({ each: true })
+  authors: GetAuthorDto[];
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  genres: string[];
+  @ValidateNested({ each: true })
+  genres: GetGenreDto[];
 }

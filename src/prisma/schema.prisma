@@ -35,6 +35,7 @@ model Book {
   language          String
   country           String
   numOfPages        Int
+  cover             String?
   authors           Author[]
   bookshelves       Bookshelf[]
   genres            Genre[]

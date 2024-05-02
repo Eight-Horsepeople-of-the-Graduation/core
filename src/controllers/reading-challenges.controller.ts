@@ -53,7 +53,7 @@ export const createReadingChallenge = async (req: Request, res: Response) => {
     const createdReadingChallenge =
       await readingChallengesService.createReadingChallenge(
         readingChallengeData
-      );  
+      );
 
     return res.status(201).send(createdReadingChallenge);
   } catch (error) {

@@ -1,65 +1,77 @@
 import { Request, Response } from "express";
 import * as bookService from "../services/books.service";
+import { GetBookByIdDto, UpdateBookDto } from "../dtos/books.dto";
 
-// add book
 export const createBook = async (req: Request, res: Response) => {
   const bookData = req.body;
-
   const book = await bookService.createBook(bookData);
-
   return res.status(201).send(book);
 };
 
-// show all books
 export const getAllBooks = async (req: Request, res: Response) => {
   const books = await bookService.getAllBooks();
-
   return res.send(books);
 };
-//TO-DO:
-/*
-// show book by title
-export const getBookByTitle = async (req: Request, res: Response) => {
-  const title = req.query.title as string;
-  if (!title) return res.status(400).send("Invalid title parameter");
-  const book = await bookService.getBookByTitle(title); // TO-DO: create service and route
-  if (!book) return res.status(404).send("Book not found");
-  return res.status(200).send(book);
+
+export const getAllBooksByTitle = async (req: Request, res: Response) => {
+  const { title } = req.query;
+  if (!title) return res.status(400).send("Invalid title query parameter");
+
+  const books = await bookService.getAllBooksByTitle(title as string);
+  return res.send(books);
 };
 
-// add book
-export const createBook = async (req: Request, res: Response) => {
-  const bookData = req.body;
-
-  const book = await bookService.createBook(bookData);
-
-  return res.status(201).send(book);
+export const getBookById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) return res.status(400).send("Invalid ID parameter");
+  const data: GetBookByIdDto = { id: +id };
+  const book = await bookService.getBookById(data.id);
+  if (!book) return res.status(400).send("Book Not Found");
+  return res.send(book);
 };
 
-// update book
 export const updateBook = async (req: Request, res: Response) => {
-  const {id} = req.params;
-  const {updatedData} = req.body
-
-  const updatedBook = await bookService.updateBook(+id, updatedData);
-
-  return res.status(200).send(updatedBook);
+  const { id } = req.params;
+  const {
+    title,
+    isbn,
+    description,
+    language,
+    format,
+    country,
+    numOfPages,
+    publishDate,
+    authors,
+    genres,
+  } = req.body;
+  const data: UpdateBookDto = {
+    title,
+    isbn,
+    description,
+    language,
+    format,
+    country,
+    numOfPages,
+    publishDate,
+    authors,
+    genres,
+  };
+  const updatedBook = await bookService.updateBook(+id, data);
+  return res.send(updatedBook);
 };
 
-// delete book
 export const deleteBook = async (req: Request, res: Response) => {
-  const id = req.query.title;
-
-  const deleted = await bookService.deleteBook(id);
-  if (!deleted) return res.status(404).send("Failed to delete the book");
-
-  return res.status(204).send();
+  const { id } = req.params;
+  const data: GetBookByIdDto = { id: +id };
+  const deletedBook = await bookService.deleteBook(data.id);
+  return res.send(deletedBook);
 };
 
 export default {
-  getAllBooks,
-  getBook,
   createBook,
+  getAllBooks,
+  getAllBooksByTitle,
+  getBookById,
   updateBook,
   deleteBook,
 };

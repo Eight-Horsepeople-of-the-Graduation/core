@@ -1,0 +1,89 @@
+import { CreateBookDto, UpdateBookDto } from "../dtos";
+import prismaClient from "../utils/prisma";
+
+export const createBook = async (bookData: CreateBookDto) => {
+  const { authors, genres } = bookData;
+
+  const book = await prismaClient.book.create({
+    data: {
+      ...bookData,
+      authors: {
+        connect: authors.map((author) => ({ id: author.id })),
+      },
+      genres: {
+        connect: genres.map((genres) => ({ id: genres.id })),
+      },
+    },
+  });
+  return book;
+};
+
+export const getAllBooks = async () => {
+  const books = await prismaClient.book.findMany({
+    include: {
+      authors: true,
+      genres: true,
+    },
+  });
+
+  return books;
+};
+
+export const getAllBooksByTitle = async (title: string) => {
+  const books = await prismaClient.book.findMany({
+    where: {
+      title: {
+        contains: title,
+      },
+    },
+    include: {
+      authors: true,
+      genres: true,
+    },
+  });
+  return books;
+};
+
+export const getBookById = async (id: number) => {
+  const book = await prismaClient.book.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  return book;
+};
+
+export const updateBook = async (id: number, updatedData: UpdateBookDto) => {
+  const { authors, genres } = updatedData;
+  const user = await prismaClient.book.update({
+    where: { id },
+    data: {
+      ...updatedData,
+      authors: {
+        connect: authors.map((author) => ({ id: author.id })),
+      },
+      genres: {
+        connect: genres.map((genres) => ({ id: genres.id })),
+      },
+    },
+  });
+
+  return user;
+};
+
+export const deleteBook = async (id: number) => {
+  const book = await prismaClient.book.delete({
+    where: { id },
+  });
+
+  return book;
+};
+
+export default {
+  createBook,
+  getAllBooks,
+  getAllBooksByTitle,
+  getBookById,
+  updateBook,
+  deleteBook,
+};
