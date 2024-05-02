@@ -23,6 +23,19 @@ export const getReadingChallengeById = async (id: number) => {
   return readingChallenge;
 };
 
+export const getReadingChallengesByUserId = async (userId: number) => {
+  const readingChallenges = await prismaClient.readingChallenge.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      books: true,
+      _count: { select: { books: true } },
+    },
+  });
+  return readingChallenges;
+};
+
 export const addBookToReadingChallenge = async (
   readingChallengeId: number,
   bookId: number
@@ -78,6 +91,7 @@ export const deleteReadingChallenge = async (id: number) => {
 export default {
   getAllReadingChallenges,
   getReadingChallengeById,
+  getReadingChallengesByUserId,
   addBookToReadingChallenge,
   createReadingChallenge,
   updateReadingChallenge,
