@@ -36,12 +36,15 @@ export class CreateReadingChallengeDto {
 }
 
 export class UpdateReadingChallengeDto {
+  @IsNotEmpty()
   @IsString()
   title: string;
 
+  @IsNotEmpty()
   @IsNumber()
   progress: number;
 
+  @IsNotEmpty()
   @IsEnum(Duration)
   type: Duration;
 }
