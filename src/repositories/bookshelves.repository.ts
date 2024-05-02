@@ -13,6 +13,7 @@ export const getAllBookshelves = async () => {
       _count: {
         select: { books: true },
       },
+      user: true,
     },
   });
 
@@ -49,6 +50,23 @@ export const getBookshelfById = async (data: GetBookshelvesByIdDto) => {
     },
   });
   return bookshelf;
+};
+
+export const getBookshelvesByUserId = async (userId: number) => {
+  const bookshelves = prismaClient.bookshelf.findMany({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
+    include: {
+      books: true,
+      _count: {
+        select: { books: true },
+      },
+    },
+  });
+  return bookshelves;
 };
 
 export const createBookshelf = async (data: CreateBooshelvesDto) => {

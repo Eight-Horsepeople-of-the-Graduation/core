@@ -1,4 +1,3 @@
-import { Privacy } from "@prisma/client";
 import {
   IsEnum,
   IsNotEmpty,
@@ -6,6 +5,11 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
+
+export enum Privacy {
+  PUBLIC = "PUBLIC",
+  PRIVATE = "PRIVATE",
+}
 
 export class GetBookshelvesDto {
   @IsNotEmpty()
