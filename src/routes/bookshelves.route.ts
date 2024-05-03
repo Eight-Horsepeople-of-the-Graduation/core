@@ -7,6 +7,8 @@ import {
   getBookshelfById,
   deleteBookshelf,
   updateBookshelf,
+  removeBooksFromBookshelf,
+  getBookshelvesByUserId,
 } from "../controllers/bookshelves.controller";
 
 import asyncWrapper from "../utils/async-wrapper";
@@ -16,8 +18,10 @@ const router = Router();
 router.get("/:id", asyncWrapper(getBookshelfById));
 router.get("/title/:title", asyncWrapper(getBookshelvesByTitle));
 router.get("/", asyncWrapper(getAllBookshelves));
+router.get("/user/:id", asyncWrapper(getBookshelvesByUserId));
 router.post("/", asyncWrapper(createBookshelf));
-router.put("/add-book/:id", asyncWrapper(addBookToBookshelf));
+router.patch("/add-books/:id", asyncWrapper(addBookToBookshelf));
+router.patch("/remove-books/:id", asyncWrapper(removeBooksFromBookshelf));
 router.put("/:id", asyncWrapper(updateBookshelf));
 router.delete("/:id", asyncWrapper(deleteBookshelf));
 

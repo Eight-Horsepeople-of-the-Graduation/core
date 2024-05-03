@@ -7,6 +7,12 @@ export const getAllUsers = async () => {
   return users;
 };
 
+export const getUserById = async (id: number) => {
+  const user = await usersRepository.getUserById(id);
+
+  return user;
+};
+
 export const createUser = async (userData: CreateUserDto) => {
   const user = await usersRepository.createUser(userData);
 
@@ -26,4 +32,12 @@ export const deleteUserById = async (id: number) => {
   const user = await usersRepository.deleteUserById(id);
 
   return user;
+};
+
+export default {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUserById,
+  deleteUserById,
 };
