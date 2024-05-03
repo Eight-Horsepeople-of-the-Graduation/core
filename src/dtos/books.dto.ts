@@ -8,6 +8,7 @@ import {
   IsDate,
   IsPositive,
   ValidateNested,
+  Min,
 } from "class-validator";
 import { GetAuthorDto } from "./authors.dto";
 import { GetGenreDto } from "./genres.dto";
@@ -24,8 +25,8 @@ export class CreateBookDto {
   title: string;
 
   @IsNotEmpty()
-  @IsISBN(10 || 13)
   @IsString()
+  @IsISBN(10 || 13)
   isbn: string;
 
   @IsNotEmpty()
@@ -46,7 +47,7 @@ export class CreateBookDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @IsPositive()
+  @Min(1)
   numOfPages: number;
 
   @IsNotEmpty()
@@ -66,12 +67,12 @@ export class GetBookByIdDto {
   @IsNotEmpty()
   @IsNumber()
   id: number;
-} 
+}
 
 export class GetBookDto {
   @IsNotEmpty()
-  @IsPositive()
   @IsNumber()
+  @IsPositive()
   id: number;
 
   @IsNotEmpty()

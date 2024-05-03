@@ -25,7 +25,6 @@ export class GetAuthorDto {
 
 export class UpdateAuthorDto {
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   name: string;
 }
