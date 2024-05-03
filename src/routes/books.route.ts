@@ -4,8 +4,8 @@ import {
   getAllBooks,
   getAllBooksByTitle,
   getBookById,
-  updateBook,
-  deleteBook,
+  updateBookById,
+  deleteBookById,
 } from "../controllers/books.controller";
 import asyncWrapper from "../utils/async-wrapper";
 
@@ -13,9 +13,9 @@ const router = Router();
 
 router.post("/", asyncWrapper(createBook));
 router.get("/", asyncWrapper(getAllBooks));
-router.get("/search", asyncWrapper(getAllBooksByTitle));
-router.delete("/:id", asyncWrapper(deleteBook));
-router.get("/:id", asyncWrapper(updateBook));
+router.get("/book/:title", asyncWrapper(getAllBooksByTitle));
+router.delete("/:id", asyncWrapper(deleteBookById));
+router.get("/:id", asyncWrapper(updateBookById));
 router.put("/:id,", asyncWrapper(getBookById));
 
 export default router;

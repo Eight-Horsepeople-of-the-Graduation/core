@@ -15,6 +15,7 @@ export const createBook = async (bookData: CreateBookDto) => {
       },
     },
   });
+
   return book;
 };
 
@@ -53,7 +54,10 @@ export const getBookById = async (id: number) => {
   return book;
 };
 
-export const updateBook = async (id: number, updatedData: UpdateBookDto) => {
+export const updateBookById = async (
+  id: number,
+  updatedData: UpdateBookDto
+) => {
   const { authors, genres } = updatedData;
   const user = await prismaClient.book.update({
     where: { id },
@@ -71,7 +75,7 @@ export const updateBook = async (id: number, updatedData: UpdateBookDto) => {
   return user;
 };
 
-export const deleteBook = async (id: number) => {
+export const deleteBookById = async (id: number) => {
   const book = await prismaClient.book.delete({
     where: { id },
   });
@@ -84,6 +88,6 @@ export default {
   getAllBooks,
   getAllBooksByTitle,
   getBookById,
-  updateBook,
-  deleteBook,
+  updateBookById,
+  deleteBookById,
 };
