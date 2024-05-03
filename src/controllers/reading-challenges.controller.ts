@@ -50,12 +50,8 @@ export const addBookToReadingChallenge = async (
 };
 
 export const createReadingChallenge = async (req: Request, res: Response) => {
-  if (!req.body) {
-    return res
-      .status(400)
-      .json({ error: "Creating Reading Challenge Error: Missing Data" });
-  }
   const readingChallengeData = req.body;
+
   const createdReadingChallenge =
     await readingChallengesService.createReadingChallenge(readingChallengeData);
 

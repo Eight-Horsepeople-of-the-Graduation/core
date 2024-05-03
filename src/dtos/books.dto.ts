@@ -6,26 +6,30 @@ import {
   IsEnum,
   IsOptional,
   IsDate,
+  IsPositive,
   ValidateNested,
-  isArray,
+  Min,
 } from "class-validator";
+import { GetAuthorDto } from "./authors.dto";
+import { GetGenreDto } from "./genres.dto";
 
 export enum Format {
-  PAPERBACK,
-  HARDCOVER,
-  EBOOK,
+  PAPERBACK = "PAPERBACK",
+  HARDCOVER = "HARDCOVER",
+  EBOOK = "EBOOK",
 }
 
 export class CreateBookDto {
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   title: string;
 
-  @IsISBN(10 || 13)
-  @IsNumber()
   @IsNotEmpty()
-  isbn: number;
+  @IsString()
+  @IsISBN(10 || 13)
+  isbn: string;
 
+  @IsNotEmpty()
   @IsString()
   description: string;
 
@@ -37,29 +41,38 @@ export class CreateBookDto {
   @IsEnum(Format)
   format: Format;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   country: string;
 
   @IsNotEmpty()
   @IsNumber()
+  @Min(1)
   numOfPages: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsDate()
   publishDate: Date;
 
   @IsNotEmpty()
-  @IsString()
-  authors: string[];
+  @ValidateNested({ each: true })
+  authors: GetAuthorDto[];
 
   @IsNotEmpty()
-  @IsString()
-  genres: string[];
+  @ValidateNested({ each: true })
+  genres: GetGenreDto[];
+}
+
+export class GetBookByIdDto {
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
 }
 
 export class GetBookDto {
   @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
   id: number;
 
   @IsNotEmpty()
@@ -67,7 +80,7 @@ export class GetBookDto {
   title: string;
 
   @IsNotEmpty()
-  isbn: number;
+  isbn: string;
 
   @IsNotEmpty()
   description: string;
@@ -82,41 +95,40 @@ export class GetBookDto {
   country: string;
 
   @IsNotEmpty()
+  @IsPositive()
   numOfPages: number;
 
   @IsNotEmpty()
   publishDate: Date;
 
   @IsNotEmpty()
-  authors: string[];
+  @ValidateNested({ each: true })
+  authors: GetAuthorDto[];
 
   @IsNotEmpty()
-  genres: string[];
+  @ValidateNested({ each: true })
+  genres: GetGenreDto[];
 }
 
 export class UpdateBookDto {
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   title: string;
 
   @IsOptional()
   @IsISBN(10 || 13)
   @IsNumber()
-  @IsNotEmpty()
-  isbn: number;
+  isbn: string;
 
   @IsOptional()
   @IsString()
   description: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   language: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsEnum(Format)
   format: Format;
 
@@ -125,8 +137,8 @@ export class UpdateBookDto {
   country: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsNumber()
+  @IsPositive()
   numOfPages: number;
 
   @IsOptional()
@@ -134,12 +146,10 @@ export class UpdateBookDto {
   publishDate: Date;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  authors: string[];
+  @ValidateNested({ each: true })
+  authors: GetAuthorDto[];
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  genres: string[];
+  @ValidateNested({ each: true })
+  genres: GetGenreDto[];
 }
