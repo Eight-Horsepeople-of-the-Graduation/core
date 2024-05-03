@@ -43,23 +43,12 @@ export const addBookToReadingChallenge = async (
 };
 
 export const createReadingChallenge = async (req: Request, res: Response) => {
-  try {
-    if (!req.body) {
-      return res
-        .status(400)
-        .json({ error: "Creating Reading Challenge Error: Missing Data" });
-    }
-    const readingChallengeData = req.body;
-    const createdReadingChallenge =
-      await readingChallengesService.createReadingChallenge(
-        readingChallengeData
-      );
+  const readingChallengeData = req.body;
 
-    return res.status(201).send(createdReadingChallenge);
-  } catch (error) {
-    console.error("Error creating reading challenge:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
+  const createdReadingChallenge =
+    await readingChallengesService.createReadingChallenge(readingChallengeData);
+
+  return res.status(201).send(createdReadingChallenge);
 };
 
 export const updateReadingChallenge = async (req: Request, res: Response) => {
