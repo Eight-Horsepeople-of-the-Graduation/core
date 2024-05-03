@@ -22,6 +22,15 @@ export const getReadingChallengeById = async (id: number) => {
   return readingChallenge;
 };
 
+export const getReadingChallengesByUserId = async (userId: number) => {
+  //add validation if that user exists or not once user service is here
+
+  const readingChallenges =
+    await readingChallengesRepository.getReadingChallengesByUserId(userId);
+
+  return readingChallenges;
+};
+
 export const addBookToReadingChallenge = async (
   readingChallengeId: number,
   bookId: number
