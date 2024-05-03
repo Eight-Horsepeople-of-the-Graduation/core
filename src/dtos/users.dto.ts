@@ -97,12 +97,12 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   @Length(3, 20)
-  username: string;
+  username?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsOptional()
   @IsNotEmpty()
@@ -115,17 +115,17 @@ export class UpdateUserDto {
     minNumbers: 1,
     minSymbols: 1,
   })
-  password: string;
+  password?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  country: string;
+  country?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsEnum(Gender)
-  gender: Gender;
+  gender?: Gender;
 
   @IsOptional()
   @IsDate()
@@ -137,7 +137,5 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsBoolean()
-  isAdmin: boolean;
+  isAdmin?: boolean;
 }
-
-const s = new Set();
