@@ -10,24 +10,24 @@ export class CreateConversationDto {
   memory: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  userId: number;
-
-  @IsNotEmpty()
   @IsString()
   llm: string;
 
   @IsNotEmpty()
   @IsNumber()
   bookId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  userId: number;
 }
 
 export class CreateMessageDto {
   @IsNotEmpty()
   @IsString()
-  content: string;
+  role: string;
 
   @IsNotEmpty()
   @IsString()
-  role: string;
+  content: string;
 }

@@ -15,8 +15,10 @@ export const getAllConversations = async () => {
       message: true,
     },
   });
+
   return conversations;
 };
+
 export const getConversationById = async (id: number) => {
   const conversation = await prismaClient.conversation.findUnique({
     where: {
@@ -26,14 +28,17 @@ export const getConversationById = async (id: number) => {
       message: true,
     },
   });
+
   return conversation;
 };
+
 export const createConversation = async (
   conversationData: CreateConversationDto
 ) => {
   const createConversation = await prismaClient.conversation.create({
     data: conversationData,
   });
+
   return createConversation;
 };
 
@@ -53,6 +58,7 @@ export const createMessage = async (
       },
     },
   });
+
   return createMessage;
 };
 
