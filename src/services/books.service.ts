@@ -122,3 +122,12 @@ export const updateBook = async (
 export const deleteBook = async (id: any) => {
   return await prisma.book.delete({ where: { id } });
 };
+
+export default {
+  getAllBooks,
+  getBook,
+  getBookById,
+  createBook,
+  updateBook,
+  deleteBook,
+};

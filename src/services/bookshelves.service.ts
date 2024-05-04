@@ -70,3 +70,15 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
   const deletedBookshelf = await bookshelfRepository.deleteBookshelf(id);
   return deletedBookshelf;
 };
+
+export default {
+  getAllBookshelves,
+  getBookshelfById,
+  getBookshelvesByTitle,
+  getBookshelvesByUserId,
+  createBookshelf,
+  updateBookshelf,
+  addBookToBookshelf,
+  removeBooksFromBookshelf,
+  deleteBookshelf,
+};
