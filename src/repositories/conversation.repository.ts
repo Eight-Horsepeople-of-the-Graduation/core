@@ -81,7 +81,7 @@ export const getMessagesByConversationId = async (conversationId: number) => {
 
   const convertedMessages = messages.map((message) => {
     const convertedMessage = asLcMessage(message.role, message.content);
-    
+
     return convertedMessage;
   });
 
