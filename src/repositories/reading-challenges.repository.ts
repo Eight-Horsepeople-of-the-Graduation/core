@@ -8,8 +8,10 @@ export const getAllReadingChallenges = async () => {
       _count: { select: { books: true } },
     },
   });
+
   return readingChallenges;
 };
+
 export const getReadingChallengeById = async (id: number) => {
   const readingChallenge = await prismaClient.readingChallenge.findUnique({
     where: {
@@ -20,6 +22,7 @@ export const getReadingChallengeById = async (id: number) => {
       _count: { select: { books: true } },
     },
   });
+
   return readingChallenge;
 };
 
@@ -33,6 +36,7 @@ export const getReadingChallengesByUserId = async (userId: number) => {
       _count: { select: { books: true } },
     },
   });
+  
   return readingChallenges;
 };
 
@@ -40,7 +44,7 @@ export const addBookToReadingChallenge = async (
   readingChallengeId: number,
   bookId: number
 ) => {
-  const updatedReadingChallenge = await prismaClient.readingChallenge.update({
+  const updateReadingChallenge = await prismaClient.readingChallenge.update({
     where: {
       id: readingChallengeId,
     },
@@ -55,37 +59,42 @@ export const addBookToReadingChallenge = async (
       books: true,
     },
   });
-  return updatedReadingChallenge;
+
+  return updateReadingChallenge;
 };
 
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
 ) => {
-  const createdReadingChallenge = await prismaClient.readingChallenge.create({
+  const createReadingChallenge = await prismaClient.readingChallenge.create({
     data: readingChallengeData,
   });
-  return createdReadingChallenge;
+
+  return createReadingChallenge;
 };
 
 export const updateReadingChallenge = async (
   id: number,
   updatedData: UpdateReadingChallengeDto
 ) => {
-  const updatedReadingChallenge = await prismaClient.readingChallenge.update({
+  const updateReadingChallenge = await prismaClient.readingChallenge.update({
     where: {
       id,
     },
     data: updatedData,
   });
-  return updatedReadingChallenge;
+
+  return updateReadingChallenge;
 };
+
 export const deleteReadingChallenge = async (id: number) => {
-  const deletedReadingChallenge = await prismaClient.readingChallenge.delete({
+  const deleteReadingChallenge = await prismaClient.readingChallenge.delete({
     where: {
       id: id,
     },
   });
-  return deletedReadingChallenge;
+
+  return deleteReadingChallenge;
 };
 
 export default {

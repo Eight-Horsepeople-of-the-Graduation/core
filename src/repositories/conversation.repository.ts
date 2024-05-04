@@ -3,6 +3,11 @@ import {
   CreateConversationDto,
   CreateMessageDto,
 } from "../dtos/conversation.dto";
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage,
+} from "@langchain/core/messages";
 
 export const getAllConversations = async () => {
   const conversations = await prismaClient.conversation.findMany({
@@ -58,7 +63,29 @@ export const getMessagesByConversationId = async (conversationId: number) => {
     },
   });
 
-  return messages;
+  const asLcMessage = (
+    role: string,
+    content: string
+  ): AIMessage | HumanMessage | SystemMessage => {
+    switch (role) {
+      case "human":
+        return new HumanMessage({ content });
+      case "ai":
+        return new AIMessage({ content });
+      case "system":
+        return new SystemMessage({ content });
+      default:
+        throw new Error(`Unknown message role: ${role}`);
+    }
+  };
+
+  const convertedMessages = messages.map((message) => {
+    const convertedMessage = asLcMessage(message.role, message.content);
+    
+    return convertedMessage;
+  });
+
+  return convertedMessages;
 };
 
 export default {

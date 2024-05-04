@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import * as conversationService from "../services/conversation.service";
 
-
 export const getAllConversations = async (req: Request, res: Response) => {
   const conversations = await conversationService.getAllConversations();
   return res.status(200).send(conversations);
@@ -42,13 +41,15 @@ export const createMessage = async (req: Request, res: Response) => {
   );
   return res.status(201).send(createdMessage);
 };
-export const getMessagesByConversationId = async (req: Request, res: Response) => {
+export const getMessagesByConversationId = async (
+  req: Request,
+  res: Response
+) => {
   const { conversationId } = req.params;
   if (!conversationId) {
     throw new Error("Get Messages Error: Missing Conversation ID");
   }
-  const messages = await conversationService.getMessagesByConversationId(
-    +conversationId
-  );
+  const messages =
+    await conversationService.getMessagesByConversationId(+conversationId);
   return res.status(200).send(messages);
 };
