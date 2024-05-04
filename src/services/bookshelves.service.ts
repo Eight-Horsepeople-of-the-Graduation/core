@@ -1,123 +1,72 @@
-import prisma from "../utils/prisma";
-import { getBookById } from "../services/books.service";
 import {
-  CreateDto,
-  GetByIdDto,
-  GetByTitleDto,
-  GetDto,
-  UpdateDto,
+  CreateBooshelvesDto,
+  GetBookshelvesByIdDto,
+  GetBookshelvesByTitleDto,
+  UpdateBookshelvesDto,
 } from "../dtos/bookshelves.dto";
+import * as bookshelfRepository from "../repositories/bookshelves.repository";
 
-// a little uneasy about the userId being optional + in the GetDto
-export const createBookshelf = async (data: CreateDto) => {
-  const { title, userId, description, privacy } = data;
-  const bookshelf = await prisma.bookshelf.create({
-    include: {
-      books: true,
-      _count: {
-        select: { books: true },
-      },
-    },
-    data: { title, description, privacy, userId },
-  });
+export const getAllBookshelves = async (sort?: string) => {
+  const bookshelves = await bookshelfRepository.getAllBookshelves();
+  return bookshelves;
+};
+
+export const getBookshelfById = async (data: GetBookshelvesByIdDto) => {
+  const bookshelf = await bookshelfRepository.getBookshelfById(data);
+  return bookshelf;
+};
+
+export const getBookshelvesByTitle = async (data: GetBookshelvesByTitleDto) => {
+  const bookshelves = await bookshelfRepository.getBookshelvesByTitle(data);
+  return bookshelves;
+};
+
+export const getBookshelvesByUserId = async (userId: number) => {
+  const bookshelves = await bookshelfRepository.getBookshelvesByUserId(userId);
+  return bookshelves;
+};
+
+export const createBookshelf = async (data: CreateBooshelvesDto) => {
+  const bookshelf = await bookshelfRepository.createBookshelf(data);
 
   return bookshelf;
 };
 
-export const getAllBookshelves = async () => {
-  const bookshelves = await prisma.bookshelf.findMany({
-    include: {
-      books: true,
-      _count: {
-        select: { books: true },
-      },
-    },
-  });
-
-  return bookshelves;
-};
-
-export const getBookshelfById = async (data: GetByIdDto) => {
-  const { id } = data;
-  const bookshelf = await prisma.bookshelf.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      books: true,
-      _count: {
-        select: { books: true },
-      },
-    },
-  });
-  return bookshelf;
-};
-
-export const getBookshelvesByTitle = async (data: GetByTitleDto) => {
-  const title = data.title;
-  const bookshelves = await prisma.bookshelf.findMany({
-    where: {
-      title: title,
-    },
-    include: {
-      books: true,
-      _count: {
-        select: { books: true },
-      },
-    },
-  });
-  return bookshelves;
-};
-
-export const updateBookshelf = async (data: UpdateDto) => {
-  const { id, title, description, privacy } = data;
-  const updatedData = {
-    title,
-    description,
-    privacy,
-  };
-  const updatedBookshelf = await prisma.bookshelf.update({
-    where: {
-      id,
-    },
-    data: updatedData,
-  });
+export const updateBookshelf = async (
+  id: GetBookshelvesByIdDto,
+  updatedData: UpdateBookshelvesDto
+) => {
+  const updatedBookshelf = await bookshelfRepository.updateBookshelf(
+    id,
+    updatedData
+  );
   return updatedBookshelf;
 };
 
 export const addBookToBookshelf = async (
-  bookId: number, //to be changed into GetByIdDto from books.dto.ts, issue: controller
-  id: GetByIdDto
+  id: GetBookshelvesByIdDto,
+  bookIds: number[]
 ) => {
-  const book = await getBookById(bookId);
-  if (!book) throw new Error("Book not found");
-  const bookshelf = await getBookshelfById(id);
-  if (!bookshelf) throw new Error("Bookshelf not found");
-  const updatedBookshelf = await prisma.bookshelf.update({
-    where: {
-      id: id.id,
-    },
-    data: {
-      books: {
-        connect: [
-          {
-            id: bookId,
-          },
-        ],
-      },
-    },
-    include: {
-      books: true,
-    },
-  });
+  const updatedBookshelf = await bookshelfRepository.addBooksToBookshelf(
+    id,
+    bookIds
+  );
+  return updatedBookshelf;
+};
+
+export const removeBooksFromBookshelf = async (
+  id: GetBookshelvesByIdDto,
+  bookIds: number[]
+) => {
+  const updatedBookshelf = await bookshelfRepository.removeBooksFromBookshelf(
+    id,
+    bookIds
+  );
   return updatedBookshelf;
 };
 
 // delete bookshelf
-export const deleteBookshelf = async (id: GetByIdDto) => {
-  await prisma.bookshelf.delete({
-    where: {
-      id: id.id,
-    },
-  });
+export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
+  const deletedBookshelf = await bookshelfRepository.deleteBookshelf(id);
+  return deletedBookshelf;
 };
