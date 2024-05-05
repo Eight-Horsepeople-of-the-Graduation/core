@@ -3,6 +3,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsPositive,
   IsString,
 } from "class-validator";
 
@@ -22,19 +23,16 @@ export class GetBookshelvesDto {
   description: string;
 
   @IsNotEmpty()
-  @IsEnum(Privacy)
   privacy: Privacy;
 }
 
 export class GetBookshelvesByTitleDto {
   @IsNotEmpty()
-  @IsString()
   title: string;
 }
 
 export class GetBookshelvesByIdDto {
   @IsNotEmpty()
-  @IsNumber()
   id: number;
 }
 
@@ -52,6 +50,7 @@ export class CreateBooshelvesDto {
   privacy: Privacy;
 
   @IsNumber()
+  @IsPositive()
   @IsNotEmpty()
   userId: number;
 }
