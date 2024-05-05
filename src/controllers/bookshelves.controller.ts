@@ -90,3 +90,15 @@ export const deleteBookshelf = async (req: Request, res: Response) => {
   const deletedBookshelf = await bookshelfService.deleteBookshelf(bookshelfId);
   return res.send(deletedBookshelf);
 };
+
+export default {
+  createBookshelf,
+  getAllBookshelves,
+  getBookshelfById,
+  getBookshelvesByTitle,
+  getBookshelvesByUserId,
+  updateBookshelf,
+  addBookToBookshelf,
+  removeBooksFromBookshelf,
+  deleteBookshelf,
+};
