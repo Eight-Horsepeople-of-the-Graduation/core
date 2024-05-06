@@ -4,6 +4,7 @@ import * as readingChallengesService from "../services/reading-challenges.servic
 export const getAllReadingChallenges = async (req: Request, res: Response) => {
   const readingChallenges =
     await readingChallengesService.getAllReadingChallenges();
+
   return res.send(readingChallenges);
 };
 
@@ -87,4 +88,14 @@ export const deleteReadingChallenge = async (req: Request, res: Response) => {
     await readingChallengesService.deleteReadingChallenge(+id);
 
   return res.status(200).send(deletedReadingChallenge);
+};
+
+export default {
+  getAllReadingChallenges,
+  getReadingChallengeById,
+  getReadingChallengeByUserId,
+  addBookToReadingChallenge,
+  createReadingChallenge,
+  updateReadingChallenge,
+  deleteReadingChallenge,
 };
