@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import * as conversationService from "../services/conversation.service";
-import { HttpException } from "../exceptions/http.exception";
 
 export const getAllConversations = async (req: Request, res: Response) => {
   const conversations = await conversationService.getAllConversations();
