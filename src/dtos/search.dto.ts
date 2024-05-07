@@ -1,15 +1,20 @@
-import { IsInt, IsOptional, IsString, Min } from "class-validator";
+import { Transform, TransformFnParams } from "class-transformer";
+import { IsInt, IsOptional, IsPositive, IsString } from "class-validator";
 
 export class SearchQueryDto {
-  @IsString()
-  term: string;
-
   @IsOptional()
-  @IsString({ each: true })
-  fields?: string[];
+  @IsString()
+  term?: string;
 
   @IsOptional()
   @IsInt()
-  @Min(1)
+  @IsPositive()
+  @Transform((params) => parseInt(params.value, 10))
+  page?: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  @Transform((params) => parseInt(params.value, 10))
   limit?: number;
 }
