@@ -3,7 +3,7 @@ import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
 } from "../dtos/index";
-import readingChallengesRepository from "../repositories/reading-Challenges.repository";
+import readingChallengesRepository from "../repositories/reading-challenges.repository";
 
 export const getAllReadingChallenges = async () => {
   const readingChallenges =
@@ -20,6 +20,15 @@ export const getReadingChallengeById = async (id: number) => {
     await readingChallengesRepository.getReadingChallengeById(id);
 
   return readingChallenge;
+};
+
+export const getReadingChallengesByUserId = async (userId: number) => {
+  //add validation if that user exists or not once user service is here
+
+  const readingChallenges =
+    await readingChallengesRepository.getReadingChallengesByUserId(userId);
+
+  return readingChallenges;
 };
 
 export const addBookToReadingChallenge = async (

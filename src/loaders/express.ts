@@ -4,6 +4,7 @@ import usersRouter from "../routes/users.route";
 import booksRouter from "../routes/books.route";
 import bookshelfRouter from "../routes/bookshelves.route";
 import searchRouter from "../routes/search.route";
+import conversationRouter from "../routes/conversation.route";
 
 /**
  * Registers all routes in the application
@@ -16,4 +17,5 @@ export default (app: Express) => {
   app.use("/reading-challenges", readingChallengesRouter);
   app.use("/search", searchRouter);
   app.use("/users", usersRouter);
+  app.use("/conversations", conversationRouter);
 };

@@ -1,126 +1,55 @@
-import { Author, Genre } from "@prisma/client";
-import prisma from "../utils/prisma";
+import booksRepository from "../repositories/books.repository";
+import { CreateBookDto, UpdateBookDto } from "../dtos";
 
-// view all books
+export const createBook = async (bookData: CreateBookDto) => {
+  const book = await booksRepository.createBook(bookData);
+
+  return book;
+};
+
 export const getAllBooks = async () => {
-  const books = await prisma.book.findMany({
-    include: {
-      authors: {
-        select: {
-          name: true,
-        },
-      },
-      genres: {
-        select: {
-          title: true,
-        },
-      },
-    },
-  });
+  const books = await booksRepository.getAllBooks();
 
   return books;
 };
 
-// view book by title
-// getBookbyId
-export const getBook = async (title: string) => {
-  const book = await prisma.book.findFirst({
-    where: {
-      title: title,
-    },
-  });
+export const getAllBooksByTitle = async (title: string) => {
+  const books = await booksRepository.getAllBooksByTitle(title);
 
-  return book;
+  return books;
 };
 
 export const getBookById = async (id: number) => {
-  const book = await prisma.book.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  return book;
-};
-// add a book
-export const createBook = async (bookInfo: {
-  title: any;
-  isbn: any;
-  description: any;
-  language: any;
-  format: "HARDCOVER" | "PAPERBACK" | "EBOOK";
-  country: any;
-  numOfPages: any;
-  publishDate: any;
-  authors: Author[];
-  genres: Genre[];
-}) => {
-  const {
-    title,
-    isbn,
-    description,
-    language,
-    format,
-    country,
-    numOfPages,
-    publishDate,
-    authors,
-    genres,
-  } = bookInfo;
-
-  const book = await prisma.book.create({
-    data: {
-      title,
-      isbn,
-      description,
-      language,
-      format,
-      country,
-      numOfPages,
-      publishDate,
-      authors: { create: authors },
-      genres: { create: genres },
-    },
-    include: {
-      authors: true,
-      genres: true,
-      // TO-DO: make them retrieved if already present
-    },
-  });
+  const book = await booksRepository.getBookById(id);
 
   return book;
 };
 
-// update a book
-export const updateBook = async (
+export const updateBookById = async (
   id: number,
-  updatedData: {
-    title: any;
-    description: any;
-    language: any;
-    format: any;
-    country: any;
-    numOfPages: any;
-    publishDate: any;
-    authors: any;
-    genres: any;
-  }
+  updatedData: UpdateBookDto
 ) => {
-  const bookId = getBookById(id);
-  if (!bookId) throw new Error("Book Not Found");
+  const book = getBookById(id);
+  if (!book) throw new Error("Book Not Found");
 
-  const updateBook = await prisma.book.update({
-    where: {
-      id,
-    },
-    data: updatedData,
-  });
-  return updateBook;
+  const createdBook = await booksRepository.updateBookById(id, updatedData);
+
+  return createdBook;
 };
 
-// delete a book
-export const deleteBook = async (id: any) => {
-  return await prisma.book.delete({ where: { id } });
+export const deleteBookById = async (id: number) => {
+  const book = await booksRepository.deleteBookById(id);
+
+  return book;
+};
+
+export default {
+  createBook,
+  getAllBooks,
+  getAllBooksByTitle,
+  getBookById,
+  updateBookById,
+  deleteBookById,
 };
 
 export default {
