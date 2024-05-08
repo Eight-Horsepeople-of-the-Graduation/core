@@ -51,3 +51,12 @@ export default {
   updateBookById,
   deleteBookById,
 };
+
+export default {
+  getAllBooks,
+  getBook,
+  getBookById,
+  createBook,
+  updateBook,
+  deleteBook,
+};

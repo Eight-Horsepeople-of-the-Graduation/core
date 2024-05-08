@@ -80,11 +80,11 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
 };
 
 export default {
-  createBookshelf,
   getAllBookshelves,
   getBookshelfById,
   getBookshelvesByTitle,
   getBookshelvesByUserId,
+  createBookshelf,
   updateBookshelf,
   addBookToBookshelf,
   removeBooksFromBookshelf,
