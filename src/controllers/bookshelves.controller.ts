@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as bookshelfService from "../services/bookshelves.service";
+import bookshelfService from "../services/bookshelves.service";
 import {
   GetBookshelvesByIdDto,
   GetBookshelvesByTitleDto,

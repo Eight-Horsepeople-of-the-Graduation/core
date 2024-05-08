@@ -174,3 +174,15 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
   });
   return deletedBookshelf;
 };
+
+export default {
+  createBookshelf,
+  getAllBookshelves,
+  getBookshelfById,
+  getBookshelvesByTitle,
+  getBookshelvesByUserId,
+  updateBookshelf,
+  addBooksToBookshelf,
+  removeBooksFromBookshelf,
+  deleteBookshelf,
+};
