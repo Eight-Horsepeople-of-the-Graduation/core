@@ -2,7 +2,7 @@ import { Router } from "express";
 import bookshelfController from "../controllers/bookshelves.controller";
 import asyncWrapper from "../utils/async-wrapper";
 import { validationMiddleware } from "@middleware/validation.middleware";
-import { CreateBooshelvesDto, UpdateBookshelvesDto } from "../dtos";
+import { CreateBookshelfDto, UpdateBookshelvesDto } from "../dtos";
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.get(
 
 router.post(
   "/",
-  [validationMiddleware(CreateBooshelvesDto)],
+  [validationMiddleware(CreateBookshelfDto)],
   asyncWrapper(bookshelfController.createBookshelf)
 );
 

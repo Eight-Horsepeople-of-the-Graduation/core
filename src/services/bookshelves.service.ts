@@ -1,5 +1,5 @@
 import {
-  CreateBooshelvesDto,
+  CreateBookshelfDto,
   GetBookshelvesByIdDto,
   GetBookshelvesByTitleDto,
   UpdateBookshelvesDto,
@@ -26,7 +26,7 @@ export const getBookshelvesByUserId = async (userId: number) => {
   return bookshelves;
 };
 
-export const createBookshelf = async (data: CreateBooshelvesDto) => {
+export const createBookshelf = async (data: CreateBookshelfDto) => {
   const bookshelf = await bookshelfRepository.createBookshelf(data);
 
   return bookshelf;

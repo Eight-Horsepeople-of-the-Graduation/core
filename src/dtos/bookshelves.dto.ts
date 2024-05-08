@@ -36,35 +36,35 @@ export class GetBookshelvesByIdDto {
   id: number;
 }
 
-export class CreateBooshelvesDto {
+export class CreateBookshelfDto {
   @IsString()
   @IsNotEmpty()
   title: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   description: string;
 
-  @IsEnum(Privacy)
   @IsOptional()
+  @IsEnum(Privacy)
   privacy: Privacy;
 
+  @IsNotEmpty()
   @IsNumber()
   @IsPositive()
-  @IsNotEmpty()
   userId: number;
 }
 
 export class UpdateBookshelvesDto {
   @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 
   @IsOptional()
-  @IsString()
-  privacy: Privacy;
+  @IsEnum(Privacy)
+  privacy?: Privacy;
 }
