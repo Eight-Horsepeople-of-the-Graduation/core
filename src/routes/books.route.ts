@@ -10,6 +10,8 @@ router.get("/", asyncWrapper(booksController.getAllBooks));
 
 router.get("/:id", asyncWrapper(booksController.getBookById));
 
+router.get("/:title", asyncWrapper(booksController.getAllBooksByTitle));
+
 router.post(
   "/",
   [validationMiddleware(CreateBookDto)],
@@ -23,5 +25,7 @@ router.put(
 );
 
 router.delete("/:id", asyncWrapper(booksController.deleteBookById));
+
+router.get("/book-of-user/:id", asyncWrapper(booksController.getBooksByUserId));
 
 export default router;

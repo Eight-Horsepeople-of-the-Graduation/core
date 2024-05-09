@@ -77,3 +77,23 @@ I used it to switch to the main so that I can pull the differences and then appl
 I did that so that I dont lose my changes when I pull and to have a clear view of the conflicts and it was useful
 Note: read more about it as I still dont grasp it completely but it is useful
 It is like a stack that has your changes in it
+
+## USEFUL JS LIBRARY FOR ARRAY
+
+### LODASH
+
+Lodash is a popular JavaScript utility library that provides a wide range of functions to help with common programming tasks. It's designed to work well with arrays, collections, and objects, and it provides functions to simplify and optimize many common operations.
+
+Here are some key features and functions provided by Lodash:
+
+1. **Utility Functions**: Lodash includes many utility functions that are missing in native JavaScript, such as `_.isEmpty()`, `_.isEqual()`, `_.clone()`, and `_.noop()`. These functions help with tasks like checking for empty values, comparing objects, cloning objects, and creating no-operation functions.
+
+2. **Array Manipulation**: Lodash provides functions for manipulating arrays, such as `_.map()`, `_.filter()`, `_.reduce()`, `_.sortBy()`, and `_.uniq()`. These functions make it easier to work with arrays by providing concise and efficient ways to perform common operations like mapping, filtering, reducing, sorting, and finding unique values.
+
+3. **Object Manipulation**: Lodash also includes functions for manipulating objects, such as `_.keys()`, `_.values()`, `_.merge()`, `_.omit()`, and `_.pick()`. These functions allow you to work with objects more easily by providing functions for extracting keys and values, merging objects, and manipulating object properties.
+
+4. **Function Manipulation**: Lodash provides functions for working with functions, such as `_.debounce()`, `_.throttle()`, and `_.bind()`. These functions allow you to manipulate the behavior of functions, such as debouncing and throttling function calls, and binding the context of functions.
+
+5. **String Manipulation**: Lodash includes functions for manipulating strings, such as `_.capitalize()`, `_.trim()`, `_.startsWith()`, and `_.endsWith()`. These functions provide utilities for working with strings, such as capitalizing words, trimming whitespace, and checking for the start or end of a string.
+
+6. **Collection Functions**: Lodash provides functions for working with collections, such as `_.forEach()`, `_.map()`, `_.filter()`, and `_.reduce()`. These functions allow you to iterate over collections like arrays and objects, performing operations on each item.

@@ -1,18 +1,21 @@
 import { Request, Response } from "express";
-import * as userService from "../services/users.service";
-import logger from "../utils/logger";
+import usersService from "../services/users.service";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
+import { SearchQueryDto } from "../dtos/search.dto";
+import { plainToInstance } from "class-transformer";
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  const users = await userService.getAllUsers();
-  logger.log("info", "Users fetched successfully", { users });
+  const filter = plainToInstance(SearchQueryDto, req.query);
+
+  const users = await usersService.getAllUsers(filter);
+
   return res.send(users);
 };
 
 export const getUserById = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
 
-  const user = await userService.getUserById(id);
+  const user = await usersService.getUserById(id);
 
   return res.send(user);
 };
@@ -20,7 +23,7 @@ export const getUserById = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   const userData: CreateUserDto = req.body;
 
-  const user = await userService.createUser(userData);
+  const user = await usersService.createUser(userData);
 
   return res.status(201).send(user);
 };
@@ -29,7 +32,7 @@ export const updateUserById = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const updatedData: UpdateUserDto = req.body;
 
-  const user = await userService.updateUserById(id, updatedData);
+  const user = await usersService.updateUserById(id, updatedData);
 
   return res.send(user);
 };
@@ -37,7 +40,7 @@ export const updateUserById = async (req: Request, res: Response) => {
 export const deleteUserById = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
 
-  const user = await userService.deleteUserById(id);
+  const user = await usersService.deleteUserById(id);
 
   return res.send(user);
 };

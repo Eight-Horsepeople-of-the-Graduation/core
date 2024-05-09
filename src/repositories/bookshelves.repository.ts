@@ -1,6 +1,6 @@
 import prismaClient from "../utils/prisma";
 import {
-  CreateBooshelvesDto,
+  CreateBookshelfDto,
   GetBookshelvesByIdDto,
   GetBookshelvesByTitleDto,
   UpdateBookshelvesDto,
@@ -69,7 +69,7 @@ export const getBookshelvesByUserId = async (userId: number) => {
   return bookshelves;
 };
 
-export const createBookshelf = async (data: CreateBooshelvesDto) => {
+export const createBookshelf = async (data: CreateBookshelfDto) => {
   const { title, description, privacy, userId } = data;
   const bookshelf = prismaClient.bookshelf.create({
     include: {
@@ -122,7 +122,7 @@ export const addBooksToBookshelf = async (
     },
     data: {
       books: {
-        connect: books.map((book) => ({ id: book.id })),
+        connect: books.map((book: { id: any }) => ({ id: book.id })),
       },
     },
     include: {
@@ -155,7 +155,7 @@ export const removeBooksFromBookshelf = async (
     },
     data: {
       books: {
-        disconnect: books.map((book) => ({ id: book.id })),
+        disconnect: books.map((book: { id: any }) => ({ id: book.id })),
       },
     },
     include: {
@@ -173,4 +173,16 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
     where: { id: id.id },
   });
   return deletedBookshelf;
+};
+
+export default {
+  createBookshelf,
+  getAllBookshelves,
+  getBookshelfById,
+  getBookshelvesByTitle,
+  getBookshelvesByUserId,
+  updateBookshelf,
+  addBooksToBookshelf,
+  removeBooksFromBookshelf,
+  deleteBookshelf,
 };
