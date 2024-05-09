@@ -2,7 +2,7 @@ import * as bookService from "../services/books.service";
 import * as bookshelfService from "../services/bookshelves.service";
 import { GetBookByIdDto, UpdateBookDto } from "../dtos/books.dto";
 import { Request, Response } from "express";
-import * as _ from "lodash";
+import { uniqBy } from "lodash";
 
 export const createBook = async (req: Request, res: Response) => {
   const bookData = req.body;
@@ -63,7 +63,7 @@ export const getBooksByUserId = async (req: Request, res: Response) => {
   const books = bookshelves.flatMap(
     (bookshelf: { books: any }) => bookshelf.books
   );
-  const distinctBooks = _.uniqBy(books, "id");
+  const distinctBooks = uniqBy(books, "id");
   return res.send(distinctBooks);
 };
 
