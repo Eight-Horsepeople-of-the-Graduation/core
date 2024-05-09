@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from "class-validator";
 
 export class CreateConversationDto {
   @IsNotEmpty()
@@ -14,11 +20,13 @@ export class CreateConversationDto {
   llm: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   bookId: number;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   userId: number;
 }
 

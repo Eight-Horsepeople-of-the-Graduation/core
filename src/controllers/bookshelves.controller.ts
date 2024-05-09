@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as bookshelfService from "../services/bookshelves.service";
+import bookshelfService from "../services/bookshelves.service";
 import {
   GetBookshelvesByIdDto,
   GetBookshelvesByTitleDto,
@@ -89,4 +89,16 @@ export const deleteBookshelf = async (req: Request, res: Response) => {
   const bookshelfId: GetBookshelvesByIdDto = { id: +id };
   const deletedBookshelf = await bookshelfService.deleteBookshelf(bookshelfId);
   return res.send(deletedBookshelf);
+};
+
+export default {
+  createBookshelf,
+  getAllBookshelves,
+  getBookshelfById,
+  getBookshelvesByTitle,
+  getBookshelvesByUserId,
+  updateBookshelf,
+  addBookToBookshelf,
+  removeBooksFromBookshelf,
+  deleteBookshelf,
 };
