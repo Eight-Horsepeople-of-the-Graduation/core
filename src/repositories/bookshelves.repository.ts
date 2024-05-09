@@ -1,6 +1,6 @@
 import prismaClient from "../utils/prisma";
 import {
-  CreateBooshelvesDto,
+  CreateBookshelfDto,
   GetBookshelvesByIdDto,
   GetBookshelvesByTitleDto,
   UpdateBookshelvesDto,
@@ -69,7 +69,7 @@ export const getBookshelvesByUserId = async (userId: number) => {
   return bookshelves;
 };
 
-export const createBookshelf = async (data: CreateBooshelvesDto) => {
+export const createBookshelf = async (data: CreateBookshelfDto) => {
   const { title, description, privacy, userId } = data;
   const bookshelf = prismaClient.bookshelf.create({
     include: {
@@ -176,11 +176,11 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
 };
 
 export default {
-  getAllBookshelves,
-  getBookshelvesByTitle,
-  getBookshelfById,
-  getBookshelvesByUserId,
   createBookshelf,
+  getAllBookshelves,
+  getBookshelfById,
+  getBookshelvesByTitle,
+  getBookshelvesByUserId,
   updateBookshelf,
   addBooksToBookshelf,
   removeBooksFromBookshelf,

@@ -1,8 +1,9 @@
 import usersRepository from "../repositories/users.repository";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
+import { SearchQueryDto } from "../dtos/search.dto";
 
-export const getAllUsers = async () => {
-  const users = await usersRepository.getAllUsers();
+export const getAllUsers = async (filter: SearchQueryDto) => {
+  const users = await usersRepository.getAllUsers(filter);
 
   return users;
 };

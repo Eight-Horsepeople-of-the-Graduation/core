@@ -1,28 +1,49 @@
 import { Router } from "express";
-import {
-  createBookshelf,
-  getAllBookshelves,
-  addBookToBookshelf,
-  getBookshelvesByTitle,
-  getBookshelfById,
-  deleteBookshelf,
-  updateBookshelf,
-  removeBooksFromBookshelf,
-  getBookshelvesByUserId,
-} from "../controllers/bookshelves.controller";
-
+import bookshelfController from "../controllers/bookshelves.controller";
 import asyncWrapper from "../utils/async-wrapper";
+import { validationMiddleware } from "@middleware/validation.middleware";
+import { CreateBookshelfDto, UpdateBookshelvesDto } from "../dtos";
 
 const router = Router();
 
-router.get("/:id", asyncWrapper(getBookshelfById));
-router.get("/title/:title", asyncWrapper(getBookshelvesByTitle));
-router.get("/", asyncWrapper(getAllBookshelves));
-router.get("/user/:id", asyncWrapper(getBookshelvesByUserId));
-router.post("/", asyncWrapper(createBookshelf));
-router.patch("/add-books/:id", asyncWrapper(addBookToBookshelf));
-router.patch("/remove-books/:id", asyncWrapper(removeBooksFromBookshelf));
-router.put("/:id", asyncWrapper(updateBookshelf));
-router.delete("/:id", asyncWrapper(deleteBookshelf));
+router.get("/:id", asyncWrapper(bookshelfController.getBookshelfById));
+
+router.get(
+  "/title/:title",
+  asyncWrapper(bookshelfController.getBookshelvesByTitle)
+);
+
+router.get("/", asyncWrapper(bookshelfController.getAllBookshelves));
+
+router.get(
+  "/user/:id",
+  asyncWrapper(bookshelfController.getBookshelvesByUserId)
+);
+
+router.post(
+  "/",
+  [validationMiddleware(CreateBookshelfDto)],
+  asyncWrapper(bookshelfController.createBookshelf)
+);
+
+router.patch(
+  "/add-books/:id",
+  [validationMiddleware(UpdateBookshelvesDto)],
+  asyncWrapper(bookshelfController.addBookToBookshelf)
+);
+
+router.patch(
+  "/remove-books/:id",
+  [validationMiddleware(UpdateBookshelvesDto)],
+  asyncWrapper(bookshelfController.removeBooksFromBookshelf)
+);
+
+router.put(
+  "/:id",
+  [validationMiddleware(UpdateBookshelvesDto)],
+  asyncWrapper(bookshelfController.updateBookshelf)
+);
+
+router.delete("/:id", asyncWrapper(bookshelfController.deleteBookshelf));
 
 export default router;
