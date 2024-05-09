@@ -1,29 +1,31 @@
 import { Router } from "express";
-import {
-  createBook,
-  getAllBooks,
-  getAllBooksByTitle,
-  getBookById,
-  updateBookById,
-  deleteBookById,
-  getBooksByUserId,
-} from "../controllers/books.controller";
+import booksController from "../controllers/books.controller";
 import asyncWrapper from "../utils/async-wrapper";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import { CreateBookDto, UpdateBookDto } from "../dtos";
 
 const router = Router();
 
-router.post("/", asyncWrapper(createBook));
+router.get("/", asyncWrapper(booksController.getAllBooks));
 
-router.get("/", asyncWrapper(getAllBooks));
+router.get("/:id", asyncWrapper(booksController.getBookById));
 
-router.get("/:title", asyncWrapper(getAllBooksByTitle));
+router.get("/:title", asyncWrapper(booksController.getAllBooksByTitle));
 
-router.delete("/:id", asyncWrapper(deleteBookById));
+router.post(
+  "/",
+  [validationMiddleware(CreateBookDto)],
+  asyncWrapper(booksController.createBook)
+);
 
-router.put("/:id", asyncWrapper(updateBookById));
+router.put(
+  "/:id",
+  [validationMiddleware(UpdateBookDto)],
+  asyncWrapper(booksController.updateBookById)
+);
 
-router.get("/:id", asyncWrapper(getBookById));
+router.delete("/:id", asyncWrapper(booksController.deleteBookById));
 
-router.get("/book-of-user/:id", asyncWrapper(getBooksByUserId));
+router.get("/book-of-user/:id", asyncWrapper(booksController.getBooksByUserId));
 
 export default router;
