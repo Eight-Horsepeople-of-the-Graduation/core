@@ -4,22 +4,43 @@ import asyncWrapper from "../utils/async-wrapper";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import { CreateReadingChallengeDto, UpdateReadingChallengeDto } from "../dtos";
 
-const router: Router = Router();
+const router = Router();
 
-router.get("/", asyncWrapper(readingChallengesController.getAllReadingChallenges));
-router.get("/:id", asyncWrapper(readingChallengesController.getReadingChallengeById));
-router.get("/user/:userId", asyncWrapper(readingChallengesController.getReadingChallengeByUserId));
+router.get(
+  "/",
+  asyncWrapper(readingChallengesController.getAllReadingChallenges)
+);
+
+router.get(
+  "/:id",
+  asyncWrapper(readingChallengesController.getReadingChallengeById)
+);
+
+router.get(
+  "/user/:userId",
+  asyncWrapper(readingChallengesController.getReadingChallengeByUserId)
+);
+
 router.post(
   "/",
   [validationMiddleware(CreateReadingChallengeDto)],
   asyncWrapper(readingChallengesController.createReadingChallenge)
 );
+
 router.put(
   "/:id",
   [validationMiddleware(UpdateReadingChallengeDto)],
   asyncWrapper(readingChallengesController.updateReadingChallenge)
 );
-router.put("/add-book/:id", asyncWrapper(readingChallengesController.addBookToReadingChallenge));
-router.delete("/:id", asyncWrapper(readingChallengesController.deleteReadingChallenge));
+
+router.put(
+  "/add-book/:id",
+  asyncWrapper(readingChallengesController.addBookToReadingChallenge)
+);
+
+router.delete(
+  "/:id",
+  asyncWrapper(readingChallengesController.deleteReadingChallenge)
+);
 
 export default router;

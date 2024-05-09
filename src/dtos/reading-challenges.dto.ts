@@ -4,6 +4,9 @@ import {
   IsEnum,
   IsNumber,
   IsDate,
+  IsInt,
+  IsPositive,
+  IsOptional,
 } from "class-validator";
 
 export enum Duration {
@@ -22,7 +25,8 @@ export class CreateReadingChallengeDto {
   type: Duration;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   userId: number;
 
   @IsNotEmpty()
@@ -35,41 +39,35 @@ export class CreateReadingChallengeDto {
 }
 
 export class UpdateReadingChallengeDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   title: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   progress: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(Duration)
   type: Duration;
 }
 
-export class GitReadingChallengeDto {
+export class GetReadingChallengeDto {
   @IsNotEmpty()
-  @IsNumber()
   id: number;
 
   @IsNotEmpty()
-  @IsString()
   title: string;
 
   @IsNotEmpty()
-  @IsEnum(Duration)
   type: Duration;
 
   @IsNotEmpty()
-  @IsDate()
   startDate: Date;
 
   @IsNotEmpty()
-  @IsNumber()
   progess: number;
 
   @IsNotEmpty()
-  @IsNumber()
   userId: number;
 }
