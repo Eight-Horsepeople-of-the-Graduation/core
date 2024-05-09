@@ -1,6 +1,8 @@
-import { Request, Response } from "express";
 import * as bookService from "../services/books.service";
+import * as bookshelfService from "../services/bookshelves.service";
 import { GetBookByIdDto, UpdateBookDto } from "../dtos/books.dto";
+import { Request, Response } from "express";
+import { uniqBy } from "lodash";
 
 export const createBook = async (req: Request, res: Response) => {
   const bookData = req.body;
@@ -17,10 +19,10 @@ export const getAllBooks = async (req: Request, res: Response) => {
 };
 
 export const getAllBooksByTitle = async (req: Request, res: Response) => {
-  const { title } = req.query;
-  if (!title) return res.status(400).send("Invalid title query parameter");
+  const { title } = req.params;
+  if (!title) return res.status(400).send("Invalid Title parameter");
 
-  const books = await bookService.getAllBooksByTitle(title as string);
+  const books = await bookService.getAllBooksByTitle(title);
 
   return res.send(books);
 };
@@ -55,6 +57,16 @@ export const deleteBookById = async (req: Request, res: Response) => {
   return res.send(book);
 };
 
+export const getBooksByUserId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const bookshelves = await bookshelfService.getBookshelvesByUserId(+id);
+  const books = bookshelves.flatMap(
+    (bookshelf: { books: any }) => bookshelf.books
+  );
+  const distinctBooks = uniqBy(books, "id");
+  return res.send(distinctBooks);
+};
+
 export default {
   createBook,
   getAllBooks,
@@ -62,4 +74,5 @@ export default {
   getBookById,
   updateBookById,
   deleteBookById,
+  getBooksByUserId,
 };

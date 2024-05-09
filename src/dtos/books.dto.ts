@@ -8,7 +8,8 @@ import {
   IsDate,
   IsPositive,
   ValidateNested,
-  Min,
+  IsUrl,
+  IsInt,
 } from "class-validator";
 import { GetAuthorDto } from "./authors.dto";
 import { GetGenreDto } from "./genres.dto";
@@ -46,13 +47,18 @@ export class CreateBookDto {
   country: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  @Min(1)
+  @IsInt()
+  @IsPositive()
   numOfPages: number;
 
   @IsNotEmpty()
   @IsDate()
   publishDate: Date;
+
+  @IsOptional()
+  @IsString()
+  @IsUrl()
+  pdfLink: string;
 
   @IsNotEmpty()
   @ValidateNested({ each: true })
@@ -71,12 +77,9 @@ export class GetBookByIdDto {
 
 export class GetBookDto {
   @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
   id: number;
 
   @IsNotEmpty()
-  @IsString()
   title: string;
 
   @IsNotEmpty()
@@ -95,11 +98,13 @@ export class GetBookDto {
   country: string;
 
   @IsNotEmpty()
-  @IsPositive()
   numOfPages: number;
 
   @IsNotEmpty()
   publishDate: Date;
+
+  @IsOptional()
+  pdfLink: string;
 
   @IsNotEmpty()
   @ValidateNested({ each: true })
@@ -116,8 +121,8 @@ export class UpdateBookDto {
   title: string;
 
   @IsOptional()
+  @IsString()
   @IsISBN(10 || 13)
-  @IsNumber()
   isbn: string;
 
   @IsOptional()
@@ -137,13 +142,18 @@ export class UpdateBookDto {
   country: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsInt()
   @IsPositive()
   numOfPages: number;
 
   @IsOptional()
   @IsDate()
   publishDate: Date;
+
+  @IsOptional()
+  @IsString()
+  @IsUrl()
+  pdfLink: string;
 
   @IsOptional()
   @ValidateNested({ each: true })
