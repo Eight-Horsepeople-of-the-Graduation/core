@@ -122,7 +122,7 @@ export const addBooksToBookshelf = async (
     },
     data: {
       books: {
-        connect: books.map((book: { id: any; }) => ({ id: book.id })),
+        connect: books.map((book: { id: any }) => ({ id: book.id })),
       },
     },
     include: {
@@ -155,7 +155,7 @@ export const removeBooksFromBookshelf = async (
     },
     data: {
       books: {
-        disconnect: books.map((book: { id: any; }) => ({ id: book.id })),
+        disconnect: books.map((book: { id: any }) => ({ id: book.id })),
       },
     },
     include: {
@@ -173,4 +173,16 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
     where: { id: id.id },
   });
   return deletedBookshelf;
+};
+
+export default {
+  getAllBookshelves,
+  getBookshelvesByTitle,
+  getBookshelfById,
+  getBookshelvesByUserId,
+  createBookshelf,
+  updateBookshelf,
+  addBooksToBookshelf,
+  removeBooksFromBookshelf,
+  deleteBookshelf,
 };
