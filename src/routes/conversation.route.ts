@@ -9,19 +9,24 @@ import {
 
 const router: Router = Router();
 router.get("/", asyncWrapper(conversationController.getAllConversations));
+
 router.get("/:id", asyncWrapper(conversationController.getConversationById));
+
 router.get(
-  "/messages/:conversationId",
+  "/:id/messages",
   asyncWrapper(conversationController.getMessagesByConversationId)
 );
+
 router.post(
   "/",
   [validationMiddleware(CreateConversationDto)],
   asyncWrapper(conversationController.createConversation)
 );
+
 router.post(
-  "/messages/:conversationId",
+  "/:id/messages",
   [validationMiddleware(CreateMessageDto)],
   asyncWrapper(conversationController.createMessage)
 );
+
 export default router;
