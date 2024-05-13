@@ -1,16 +1,14 @@
 import { Router } from "express";
-import booksController from "../controllers/books.controller";
-import asyncWrapper from "../utils/async-wrapper";
-import { validationMiddleware } from "../middleware/validation.middleware";
-import { CreateBookDto, UpdateBookDto } from "../dtos";
+import booksController from "@controllers/books.controller";
+import { CreateBookDto, UpdateBookDto } from "@dtos";
+import { validationMiddleware } from "@middleware/validation.middleware";
+import asyncWrapper from "@utils/async-wrapper";
 
 const router = Router();
 
 router.get("/", asyncWrapper(booksController.getAllBooks));
 
 router.get("/:id", asyncWrapper(booksController.getBookById));
-
-router.get("/:title", asyncWrapper(booksController.getAllBooksByTitle));
 
 router.post(
   "/",
