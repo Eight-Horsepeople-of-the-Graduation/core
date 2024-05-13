@@ -1,5 +1,34 @@
-import { CreateBookDto, UpdateBookDto } from "../dtos";
-import prismaClient from "../utils/prisma";
+import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
+import prismaClient from "@utils/prisma";
+
+export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
+  const { term, page = 1, limit = 10 } = searchQueryDto;
+  const skip = (page - 1) * limit;
+
+  const books = await prismaClient.book.findMany({
+    where: {
+      ...(term && { title: { contains: term } }),
+    },
+    include: {
+      authors: true,
+      genres: true,
+    },
+    skip,
+    take: limit,
+  });
+
+  return books;
+};
+
+export const getBookById = async (id: number) => {
+  const book = await prismaClient.book.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return book;
+};
 
 export const createBook = async (bookData: CreateBookDto) => {
   const { authors, genres } = bookData;
@@ -16,41 +45,6 @@ export const createBook = async (bookData: CreateBookDto) => {
     },
   });
 
-  return book;
-};
-
-export const getAllBooks = async () => {
-  const books = await prismaClient.book.findMany({
-    include: {
-      authors: true,
-      genres: true,
-    },
-  });
-
-  return books;
-};
-
-export const getAllBooksByTitle = async (title: string) => {
-  const books = await prismaClient.book.findMany({
-    where: {
-      title: {
-        contains: title,
-      },
-    },
-    include: {
-      authors: true,
-      genres: true,
-    },
-  });
-  return books;
-};
-
-export const getBookById = async (id: number) => {
-  const book = await prismaClient.book.findUnique({
-    where: {
-      id: id,
-    },
-  });
   return book;
 };
 
@@ -84,10 +78,9 @@ export const deleteBookById = async (id: number) => {
 };
 
 export default {
-  createBook,
   getAllBooks,
-  getAllBooksByTitle,
   getBookById,
+  createBook,
   updateBookById,
   deleteBookById,
 };
