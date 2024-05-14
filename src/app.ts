@@ -1,8 +1,8 @@
 import express from "express";
-import loadRouters from "./loaders/express";
 import config from "./config";
 import morgan from "morgan";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
+import loadRouters from "@loaders/express";
 
 /**
  * Starts the server
