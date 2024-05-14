@@ -10,6 +10,7 @@ import {
   ValidateNested,
   IsUrl,
   IsInt,
+  IsDateString,
 } from "class-validator";
 import { GetAuthorDto } from "./authors.dto";
 import { GetGenreDto } from "./genres.dto";
@@ -52,7 +53,7 @@ export class CreateBookDto {
   numOfPages: number;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   publishDate: Date;
 
   @IsOptional()

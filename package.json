@@ -9,8 +9,8 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "start": "ts-node src/app.ts",
-    "start:dev": "ts-node-dev src/app.ts",
+    "start": "ts-node -r tsconfig-paths/register src/app.ts",
+    "start:dev": "ts-node-dev -r tsconfig-paths/register src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

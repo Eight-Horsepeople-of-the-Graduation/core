@@ -26,12 +26,7 @@ export class GetBookshelvesDto {
   privacy: Privacy;
 }
 
-export class GetBookshelvesByTitleDto {
-  @IsNotEmpty()
-  title: string;
-}
-
-export class GetBookshelvesByIdDto {
+export class GetBookshelfByIdDto {
   @IsNotEmpty()
   id: number;
 }
@@ -55,7 +50,7 @@ export class CreateBookshelfDto {
   userId: number;
 }
 
-export class UpdateBookshelvesDto {
+export class UpdateBookshelfDto {
   @IsOptional()
   @IsString()
   title?: string;

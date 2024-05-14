@@ -1,6 +1,5 @@
-import { CreateUserDto, UpdateUserDto } from "../dtos";
-import { SearchQueryDto } from "../dtos/search.dto";
-import prismaClient from "../utils/prisma";
+import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "@dtos";
+import prismaClient from "@utils/prisma";
 
 export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
@@ -8,7 +7,12 @@ export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
 
   const users = await prismaClient.user.findMany({
     where: {
-      ...(term && { username: { contains: term } }),
+      ...(term && {
+        username: {
+          contains: term,
+          mode: "insensitive",
+        },
+      }),
     },
     skip,
     take: limit,

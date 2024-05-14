@@ -1,58 +1,45 @@
 import {
   CreateBookshelfDto,
-  GetBookshelvesByIdDto,
-  GetBookshelvesByTitleDto,
-  UpdateBookshelvesDto,
-} from "../dtos/bookshelves.dto";
-import bookshelfRepository from "../repositories/bookshelves.repository";
+  GetBookshelfByIdDto,
+  SearchQueryDto,
+  UpdateBookshelfDto,
+} from "@dtos";
+import bookshelvesRepository from "@repositories/bookshelves.repository";
 
-export const getAllBookshelves = async (sort?: string) => {
-  const bookshelves = await bookshelfRepository.getAllBookshelves();
+export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
+  const bookshelves =
+    await bookshelvesRepository.getAllBookshelves(searchQueryDto);
 
   return bookshelves;
 };
 
-export const getBookshelfById = async (data: GetBookshelvesByIdDto) => {
-  const bookshelf = await bookshelfRepository.getBookshelfById(data);
+export const getBookshelfById = async (
+  getBookshelfByIdDto: GetBookshelfByIdDto
+) => {
+  const bookshelf =
+    await bookshelvesRepository.getBookshelfById(getBookshelfByIdDto);
 
   return bookshelf;
 };
 
-export const getBookshelvesByTitle = async (data: GetBookshelvesByTitleDto) => {
-  const bookshelves = await bookshelfRepository.getBookshelvesByTitle(data);
-
-  return bookshelves;
-};
-
 export const getBookshelvesByUserId = async (userId: number) => {
-  const bookshelves = await bookshelfRepository.getBookshelvesByUserId(userId);
+  const bookshelves =
+    await bookshelvesRepository.getBookshelvesByUserId(userId);
 
   return bookshelves;
 };
 
 export const createBookshelf = async (data: CreateBookshelfDto) => {
-  const bookshelf = await bookshelfRepository.createBookshelf(data);
+  const bookshelf = await bookshelvesRepository.createBookshelf(data);
 
   return bookshelf;
 };
 
-export const updateBookshelf = async (
-  id: GetBookshelvesByIdDto,
-  updatedData: UpdateBookshelvesDto
-) => {
-  const updatedBookshelf = await bookshelfRepository.updateBookshelf(
-    id,
-    updatedData
-  );
-
-  return updatedBookshelf;
-};
-
 export const addBookToBookshelf = async (
-  id: GetBookshelvesByIdDto,
+  id: GetBookshelfByIdDto,
   bookIds: number[]
 ) => {
-  const updatedBookshelf = await bookshelfRepository.addBooksToBookshelf(
+  const updatedBookshelf = await bookshelvesRepository.addBooksToBookshelf(
     id,
     bookIds
   );
@@ -61,10 +48,10 @@ export const addBookToBookshelf = async (
 };
 
 export const removeBooksFromBookshelf = async (
-  id: GetBookshelvesByIdDto,
+  id: GetBookshelfByIdDto,
   bookIds: number[]
 ) => {
-  const updatedBookshelf = await bookshelfRepository.removeBooksFromBookshelf(
+  const updatedBookshelf = await bookshelvesRepository.removeBooksFromBookshelf(
     id,
     bookIds
   );
@@ -72,9 +59,20 @@ export const removeBooksFromBookshelf = async (
   return updatedBookshelf;
 };
 
-// delete bookshelf
-export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
-  const deletedBookshelf = await bookshelfRepository.deleteBookshelf(id);
+export const updateBookshelf = async (
+  id: GetBookshelfByIdDto,
+  updateBookshelfDto: UpdateBookshelfDto
+) => {
+  const updatedBookshelf = await bookshelvesRepository.updateBookshelf(
+    id,
+    updateBookshelfDto
+  );
+
+  return updatedBookshelf;
+};
+
+export const deleteBookshelf = async (id: GetBookshelfByIdDto) => {
+  const deletedBookshelf = await bookshelvesRepository.deleteBookshelf(id);
 
   return deletedBookshelf;
 };
@@ -82,11 +80,10 @@ export const deleteBookshelf = async (id: GetBookshelvesByIdDto) => {
 export default {
   getAllBookshelves,
   getBookshelfById,
-  getBookshelvesByTitle,
   getBookshelvesByUserId,
   createBookshelf,
-  updateBookshelf,
   addBookToBookshelf,
   removeBooksFromBookshelf,
+  updateBookshelf,
   deleteBookshelf,
 };
