@@ -7,7 +7,12 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
 
   const books = await prismaClient.book.findMany({
     where: {
-      ...(term && { title: { contains: term } }),
+      ...(term && {
+        title: {
+          contains: term,
+          mode: "insensitive",
+        },
+      }),
     },
     include: {
       authors: true,
