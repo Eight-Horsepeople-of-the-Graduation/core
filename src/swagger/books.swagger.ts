@@ -10,9 +10,10 @@ import {
   SuccessResponse,
   Queries,
   Delete,
+  Tags,
 } from "tsoa";
 import { CreateBookDto, Format, SearchQueryDto, UpdateBookDto } from "../dtos";
-interface IBook {
+export interface IBook {
   id: number;
   title: string;
   isbn: string;
@@ -25,7 +26,8 @@ interface IBook {
   pdfLink: string | null;
 }
 @Route("books")
-export class BooksService extends Controller {
+@Tags("Books")
+export class BooksDocs extends Controller {
   @Get("/")
   public getAllBooks(
     @Queries() searchQueryDto: SearchQueryDto
