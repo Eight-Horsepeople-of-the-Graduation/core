@@ -1,0 +1,12 @@
+{
+    "entryFile": "src/app.ts",
+    "noImplicitAdditionalProperties": "ignore",
+    "controllerPathGlobs": ["src/swagger/*.ts", "src/dtos/*.dto.ts"],
+    "spec": { 
+      "outputDirectory": "src/swagger",
+      "specVersion": 3
+    },
+    "routes": {
+      "routesDir": "src/swagger"
+    }
+}

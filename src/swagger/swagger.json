@@ -1,0 +1,465 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"format": {
+				"enum": [
+					0,
+					1,
+					2
+				],
+				"type": "number"
+			},
+			"IBook": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"format": {
+						"$ref": "#/components/schemas/format"
+					},
+					"language": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"pdfLink": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"isbn",
+					"description",
+					"publishDate",
+					"format",
+					"language",
+					"country",
+					"numOfPages",
+					"pdfLink"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"SearchQueryDto": {
+				"properties": {
+					"term": {
+						"type": "string"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"limit": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": true
+			},
+			"Format": {
+				"enum": [
+					"PAPERBACK",
+					"HARDCOVER",
+					"EBOOK"
+				],
+				"type": "string"
+			},
+			"GetAuthorDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"GetGenreDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"CreateBookDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"format": {
+						"$ref": "#/components/schemas/Format"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"authors": {
+						"items": {
+							"$ref": "#/components/schemas/GetAuthorDto"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/GetGenreDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"title",
+					"isbn",
+					"description",
+					"language",
+					"format",
+					"country",
+					"numOfPages",
+					"publishDate",
+					"pdfLink",
+					"authors",
+					"genres"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"UpdateBookDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"format": {
+						"$ref": "#/components/schemas/Format"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"authors": {
+						"items": {
+							"$ref": "#/components/schemas/GetAuthorDto"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/GetGenreDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"title",
+					"isbn",
+					"description",
+					"language",
+					"format",
+					"country",
+					"numOfPages",
+					"publishDate",
+					"pdfLink",
+					"authors",
+					"genres"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "grad-proj-core",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/books": {
+			"get": {
+				"operationId": "GetAllBooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IBook"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBookDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books/{id}": {
+			"get": {
+				"operationId": "GetBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBookDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
