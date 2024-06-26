@@ -5,26 +5,13 @@ import {
   Path,
   Post,
   Put,
-  Query,
   Route,
-  SuccessResponse,
   Queries,
   Delete,
   Tags,
 } from "tsoa";
-import { CreateBookDto, Format, SearchQueryDto, UpdateBookDto } from "../dtos";
-export interface IBook {
-  id: number;
-  title: string;
-  isbn: string;
-  description: string;
-  publishDate: Date;
-  format: Format;
-  language: string;
-  country: string;
-  numOfPages: number;
-  pdfLink: string | null;
-}
+import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "../dtos";
+import { IBook } from "./interfaces";
 @Route("books")
 @Tags("Books")
 export class BooksDocs extends Controller {

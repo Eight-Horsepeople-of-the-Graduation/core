@@ -23,6 +23,7 @@ const startServer = async () => {
 
   app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
+    console.log(`See Docs at http://localhost:${port}/docs`);
   });
 };
 
