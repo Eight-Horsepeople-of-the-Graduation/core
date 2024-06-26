@@ -7,6 +7,153 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Gender": {
+				"enum": [
+					"MALE",
+					"FEMALE"
+				],
+				"type": "string"
+			},
+			"IUser": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"gender": {
+						"$ref": "#/components/schemas/Gender"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"joinDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"profilePicture": {
+						"type": "string",
+						"nullable": true
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"password",
+					"country",
+					"gender",
+					"birthDate",
+					"joinDate",
+					"profilePicture",
+					"isAdmin"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SearchQueryDto": {
+				"properties": {
+					"term": {
+						"type": "string"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"limit": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUserDto": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"gender": {
+						"$ref": "#/components/schemas/Gender"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"profilePicture": {
+						"type": "string"
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"username",
+					"email",
+					"password",
+					"country",
+					"gender",
+					"isAdmin"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserDto": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"gender": {
+						"$ref": "#/components/schemas/Gender"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"profilePicture": {
+						"type": "string"
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Format": {
 				"enum": [
 					"PAPERBACK",
@@ -65,24 +212,7 @@
 					"pdfLink"
 				],
 				"type": "object",
-				"additionalProperties": true
-			},
-			"SearchQueryDto": {
-				"properties": {
-					"term": {
-						"type": "string"
-					},
-					"page": {
-						"type": "number",
-						"format": "double"
-					},
-					"limit": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"GetAuthorDto": {
 				"properties": {
@@ -99,7 +229,7 @@
 					"name"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"GetGenreDto": {
 				"properties": {
@@ -120,7 +250,7 @@
 					"description"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"CreateBookDto": {
 				"properties": {
@@ -180,7 +310,7 @@
 					"genres"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"UpdateBookDto": {
 				"properties": {
@@ -240,7 +370,7 @@
 					"genres"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"Privacy": {
 				"enum": [
@@ -248,66 +378,6 @@
 					"PRIVATE"
 				],
 				"type": "string"
-			},
-			"Gender": {
-				"enum": [
-					"MALE",
-					"FEMALE"
-				],
-				"type": "string"
-			},
-			"IUser": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"username": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"gender": {
-						"$ref": "#/components/schemas/Gender"
-					},
-					"birthDate": {
-						"type": "string",
-						"format": "date-time",
-						"nullable": true
-					},
-					"joinDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"profilePicture": {
-						"type": "string",
-						"nullable": true
-					},
-					"isAdmin": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"id",
-					"username",
-					"email",
-					"password",
-					"country",
-					"gender",
-					"birthDate",
-					"joinDate",
-					"profilePicture",
-					"isAdmin"
-				],
-				"type": "object",
-				"additionalProperties": true
 			},
 			"IBookshelf": {
 				"properties": {
@@ -366,7 +436,7 @@
 					"_count"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"CreateBookshelfDto": {
 				"properties": {
@@ -391,7 +461,7 @@
 					"userId"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"UpdateBookshelfDto": {
 				"properties": {
@@ -406,7 +476,247 @@
 					}
 				},
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
+			},
+			"Duration": {
+				"enum": [
+					"WEEKLY",
+					"MONTHLY",
+					"ANNUAL"
+				],
+				"type": "string"
+			},
+			"IReadingChallenge": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"type": {
+						"$ref": "#/components/schemas/Duration"
+					},
+					"startDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"progress": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"books": {
+						"items": {
+							"$ref": "#/components/schemas/IBook"
+						},
+						"type": "array"
+					},
+					"_count": {
+						"properties": {
+							"books": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"type",
+					"startDate",
+					"progress",
+					"userId",
+					"books",
+					"_count"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateReadingChallengeDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"type": {
+						"$ref": "#/components/schemas/Duration"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"progress": {
+						"type": "number",
+						"format": "double"
+					},
+					"startDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"title",
+					"type",
+					"userId",
+					"progress",
+					"startDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReadingChallengeDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"progress": {
+						"type": "number",
+						"format": "double"
+					},
+					"type": {
+						"$ref": "#/components/schemas/Duration"
+					}
+				},
+				"required": [
+					"title",
+					"progress",
+					"type"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IMessage": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdOn": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"role": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"conversationId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"createdOn",
+					"role",
+					"content",
+					"conversationId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IConversation": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdOn": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"retriever": {
+						"type": "string"
+					},
+					"memory": {
+						"type": "string"
+					},
+					"llm": {
+						"type": "string"
+					},
+					"bookId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"messages": {
+						"items": {
+							"$ref": "#/components/schemas/IMessage"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"createdOn",
+					"retriever",
+					"memory",
+					"llm",
+					"bookId",
+					"userId",
+					"messages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateConversationDto": {
+				"properties": {
+					"retriever": {
+						"type": "string"
+					},
+					"memory": {
+						"type": "string"
+					},
+					"llm": {
+						"type": "string"
+					},
+					"bookId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"retriever",
+					"memory",
+					"llm",
+					"bookId",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateMessageDto": {
+				"properties": {
+					"role": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"role",
+					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -420,6 +730,215 @@
 		"contact": {}
 	},
 	"paths": {
+		"/users": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IUser"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IUser"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IUser"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IUser"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IUser"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/books": {
 			"get": {
 				"operationId": "GetAllBooks",
@@ -978,6 +1497,463 @@
 						}
 					}
 				}
+			}
+		},
+		"/reading-challenges": {
+			"get": {
+				"operationId": "GetAllReadingChallenges",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IReadingChallenge"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateReadingChallenge",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateReadingChallengeDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reading-challenges/{id}": {
+			"get": {
+				"operationId": "GetReadingChallengeById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateReadingChallenge",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateReadingChallengeDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteReadingChallenge",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/reading-challenges/user/{userId}": {
+			"get": {
+				"operationId": "GetReadingChallengesByUserId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IReadingChallenge"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/reading-challenges/add-book/{readingChallengeId}": {
+			"put": {
+				"operationId": "AddBookToReadingChallenge",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "readingChallengeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "number",
+								"format": "double"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/conversations": {
+			"get": {
+				"operationId": "GetAllConversations",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IConversation"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Conversations"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateConversation",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IConversation"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Conversations"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateConversationDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/conversations/{id}": {
+			"get": {
+				"operationId": "GetConversationById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IConversation"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Conversations"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/conversations/{conversationId}/messages": {
+			"post": {
+				"operationId": "CreateMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IMessage"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Conversations"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "conversationId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateMessageDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetMessagesByConversationId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IMessage"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Conversations"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "conversationId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		}
 	},
