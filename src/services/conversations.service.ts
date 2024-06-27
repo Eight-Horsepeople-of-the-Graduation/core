@@ -1,5 +1,8 @@
-import { CreateConversationDto, CreateMessageDto } from "@dtos";
-import conversationRepository from "@repositories/conversations.repository";
+import conversationRepository from "../repositories/conversations.repository";
+import {
+  CreateConversationDto,
+  CreateMessageDto,
+} from "../dtos/conversation.dto";
 
 export const getAllConversations = async () => {
   const conversations = await conversationRepository.getAllConversations();

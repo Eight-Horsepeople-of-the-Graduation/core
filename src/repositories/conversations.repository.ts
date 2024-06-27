@@ -1,10 +1,13 @@
+import prismaClient from "../utils/prisma";
+import {
+  CreateConversationDto,
+  CreateMessageDto,
+} from "../dtos/conversation.dto";
 import {
   AIMessage,
   HumanMessage,
   SystemMessage,
 } from "@langchain/core/messages";
-import { CreateConversationDto, CreateMessageDto } from "@dtos";
-import prismaClient from "@utils/prisma";
 
 export const getAllConversations = async () => {
   const conversations = await prismaClient.conversation.findMany({
