@@ -1,0 +1,19 @@
+### Create Book
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Atomic Habits",
+  "isbn": "0-545-01022-5",
+  "description": "A book",
+  "language": "English",
+  "country" : "US",
+  "format": "PAPERBACK",
+  "numOfPages": 300,
+  "publishDate": "2024-06-25T03:19:57.728Z",
+  "pdfLink": "https://gemini.google.com/app",
+  "authors" : [{"id" : 1, "name" : "Harper Lee"}],
+  "genres" : [{"id" : 1, "title" : "Social", "description" : "sth"}] 
+
+
+}
