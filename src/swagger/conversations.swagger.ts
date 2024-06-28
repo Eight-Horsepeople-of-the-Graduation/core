@@ -1,8 +1,5 @@
 import { Body, Get, Path, Post, Route, Tags } from "tsoa";
-import {
-  CreateConversationDto,
-  CreateMessageDto,
-} from "../dtos/conversation.dto";
+import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
 import { IConversation, IMessage } from "./interfaces";
 
 @Route("conversations")
@@ -14,6 +11,11 @@ export class ConversationsSwagger {
   @Get("/:id")
   public getConversationById(@Path() id: number): IConversation | any {}
 
+  @Post("/chat/:conversationId")
+  public chat(
+    @Path() conversationId: number,
+    @Body() chatDto: ChatDto
+  ): { answer: string } | any {}
   @Post("/")
   public createConversation(
     @Body() conversationData: CreateConversationDto

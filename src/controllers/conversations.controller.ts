@@ -24,19 +24,15 @@ export const createConversation = async (req: Request, res: Response) => {
 };
 
 export const chat = async (req: Request, res: Response) => {
-  const {conversationId} = req.params;
+  const { conversationId } = req.params;
   const chatDto = req.body;
-  try{
+  try {
     const answer = await conversationsService.chat(+conversationId, chatDto);
-    return res.status(200).send({
-      answer,
-      
-    });
+    return res.status(200).send({ answer });
   } catch {
-    return res.status(500)
+    return res.status(500);
   }
-  
-}
+};
 
 export const createMessage = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
@@ -65,5 +61,5 @@ export default {
   createConversation,
   createMessage,
   getMessagesByConversationId,
-  chat
+  chat,
 };
