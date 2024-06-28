@@ -16,6 +16,11 @@ router.get(
 );
 
 router.post(
+  "/chat/:conversationId",
+  asyncWrapper(conversationsController.chat)
+)
+
+router.post(
   "/",
   [validationMiddleware(CreateConversationDto)],
   asyncWrapper(conversationsController.createConversation)
