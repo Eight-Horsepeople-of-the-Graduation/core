@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsPositive, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, Max, Min } from "class-validator";
 
 export class CreateConversationDto {
   @IsNotEmpty()
@@ -32,4 +32,19 @@ export class CreateMessageDto {
   @IsNotEmpty()
   @IsString()
   content: string;
+}
+
+
+export class ChatDto {
+  @IsNumber()
+  @IsNotEmpty()
+  bookId: number
+
+  @IsBoolean()
+  @IsNotEmpty()
+  streaming : boolean
+
+  @IsString()
+  @IsNotEmpty()
+  question : string
 }
