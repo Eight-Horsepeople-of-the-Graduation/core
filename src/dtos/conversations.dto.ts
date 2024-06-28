@@ -40,10 +40,6 @@ export class ChatDto {
   @IsNotEmpty()
   bookId: number
 
-  @IsBoolean()
-  @IsNotEmpty()
-  streaming : boolean
-
   @IsString()
   @IsNotEmpty()
   question : string
