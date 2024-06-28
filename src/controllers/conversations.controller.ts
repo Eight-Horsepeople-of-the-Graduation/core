@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import conversationsService from "@services/conversations.service";
-import { buildChat, ChatArgs } from "rag-api";
 
 export const getAllConversations = async (req: Request, res: Response) => {
   const conversations = await conversationsService.getAllConversations();
@@ -24,6 +23,21 @@ export const createConversation = async (req: Request, res: Response) => {
   return res.status(201).send(createdConversation);
 };
 
+export const chat = async (req: Request, res: Response) => {
+  const {conversationId} = req.params;
+  const chatDto = req.body;
+  try{
+    const answer = await conversationsService.chat(+conversationId, chatDto);
+    return res.status(200).send({
+      answer,
+      
+    });
+  } catch {
+    return res.status(500)
+  }
+  
+}
+
 export const createMessage = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const messageData = req.body;
@@ -31,19 +45,7 @@ export const createMessage = async (req: Request, res: Response) => {
   const conversation = await conversationsService.getConversationById(id);
   const message = await conversationsService.createMessage(messageData, id);
 
-  const chatArgs: ChatArgs = {
-    conversation_id: id,
-    pdf_id: "fb5513f9-b881-4a0d-80ea-e902f224195c",
-    streaming: false,
-  };
-
-  const chat = await buildChat(chatArgs);
-
-  let question = message.content;
-  let answer = await chat.invoke({ question });
-  console.log(answer);
-
-  return res.status(201).send(answer);
+  return res.status(201).send(message);
 };
 
 export const getMessagesByConversationId = async (
@@ -63,4 +65,5 @@ export default {
   createConversation,
   createMessage,
   getMessagesByConversationId,
+  chat
 };
