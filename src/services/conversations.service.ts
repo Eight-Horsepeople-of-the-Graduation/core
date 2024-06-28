@@ -21,7 +21,7 @@ export const chat = async (
   const chatArgs : ChatArgs = {
     conversationId,
     bookId,
-    llmTemperature : 0.1,
+    llmTemperature : 0,
     streaming,
     databaseUtils: {
       createMessage,
@@ -30,9 +30,9 @@ export const chat = async (
   }
   const chat = buildChat(chatArgs);
 
-  const answer = chat.invoke({question});
+  const answer = await chat.invoke({question});
   
-  return answer;
+  return answer.text;
 
 };
 export const createConversation = async (
