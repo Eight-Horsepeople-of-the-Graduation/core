@@ -1,6 +1,7 @@
 import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
 import conversationRepository from "../repositories/conversations.repository";
 import { ChatArgs, buildChat } from "rag-api";
+import config from "../config"
 
 export const getAllConversations = async () => {
   const conversations = await conversationRepository.getAllConversations();
@@ -21,7 +22,7 @@ export const chat = async (
   const chatArgs : ChatArgs = {
     conversationId,
     bookId,
-    llmTemperature : 0, // Hardcoded, because its counter-intuitive to let the frontend team adjust it
+    llmTemperature : config.llmTemperatureValue, // Hardcoded, because its counter-intuitive to let the frontend team adjust it
     streaming : false,// Hardcoded, because we'll probably need web sockets for streaming to work
     databaseUtils: {
       createMessage,
