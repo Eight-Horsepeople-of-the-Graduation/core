@@ -5,15 +5,16 @@ import {
   IsISBN,
   IsEnum,
   IsOptional,
-  IsDate,
   IsPositive,
   ValidateNested,
   IsUrl,
   IsInt,
   IsDateString,
+  minLength,
+  MinLength,
 } from "class-validator";
-import { GetAuthorDto } from "./authors.dto";
-import { GetGenreDto } from "./genres.dto";
+import { AuthorDto } from "./authors.dto";
+import { GenreDto } from "./genres.dto";
 
 export enum Format {
   PAPERBACK = "PAPERBACK",
@@ -62,12 +63,18 @@ export class CreateBookDto {
   pdfLink: string;
 
   @IsNotEmpty()
-  @ValidateNested({ each: true })
-  authors: GetAuthorDto[];
+  @MinLength(1, {
+    each: true,
+  })
+  @ValidateNested()
+  authors: AuthorDto[];
 
   @IsNotEmpty()
-  @ValidateNested({ each: true })
-  genres: GetGenreDto[];
+  @MinLength(1, {
+    each: true,
+  })
+  @ValidateNested()
+  genres: GenreDto[];
 }
 
 export class GetBookByIdDto {
@@ -108,12 +115,18 @@ export class GetBookDto {
   pdfLink: string;
 
   @IsNotEmpty()
-  @ValidateNested({ each: true })
-  authors: GetAuthorDto[];
+  @MinLength(1, {
+    each: true,
+  })
+  @ValidateNested()
+  authors: AuthorDto[];
 
   @IsNotEmpty()
-  @ValidateNested({ each: true })
-  genres: GetGenreDto[];
+  @MinLength(1, {
+    each: true,
+  })
+  @ValidateNested()
+  genres: GenreDto[];
 }
 
 export class UpdateBookDto {
@@ -148,7 +161,7 @@ export class UpdateBookDto {
   numOfPages: number;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   publishDate: Date;
 
   @IsOptional()
@@ -156,11 +169,17 @@ export class UpdateBookDto {
   @IsUrl()
   pdfLink: string;
 
-  @IsOptional()
-  @ValidateNested({ each: true })
-  authors: GetAuthorDto[];
+  @IsNotEmpty()
+  @MinLength(1, {
+    each: true,
+  })
+  @ValidateNested()
+  authors: AuthorDto[];
 
-  @IsOptional()
-  @ValidateNested({ each: true })
-  genres: GetGenreDto[];
+  @IsNotEmpty()
+  @MinLength(1, {
+    each: true,
+  })
+  @ValidateNested()
+  genres: GenreDto[];
 }

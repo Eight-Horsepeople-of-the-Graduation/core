@@ -14,12 +14,12 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
         },
       }),
     },
+    skip,
+    take: limit,
     include: {
       authors: true,
       genres: true,
     },
-    skip,
-    take: limit,
   });
 
   return books;
@@ -27,8 +27,10 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
 
 export const getBookById = async (id: number) => {
   const book = await prismaClient.book.findUnique({
-    where: {
-      id: id,
+    where: { id },
+    include: {
+      authors: true,
+      genres: true,
     },
   });
 
@@ -37,7 +39,6 @@ export const getBookById = async (id: number) => {
 
 export const createBook = async (bookData: CreateBookDto) => {
   const { authors, genres } = bookData;
-
   const book = await prismaClient.book.create({
     data: {
       ...bookData,
@@ -45,7 +46,7 @@ export const createBook = async (bookData: CreateBookDto) => {
         connect: authors.map((author) => ({ id: author.id })),
       },
       genres: {
-        connect: genres.map((genres) => ({ id: genres.id })),
+        connect: genres.map((genre) => ({ id: genre.id })),
       },
     },
   });
@@ -53,25 +54,22 @@ export const createBook = async (bookData: CreateBookDto) => {
   return book;
 };
 
-export const updateBookById = async (
-  id: number,
-  updatedData: UpdateBookDto
-) => {
-  const { authors, genres } = updatedData;
-  const user = await prismaClient.book.update({
+export const updateBookById = async (id: number, bookData: UpdateBookDto) => {
+  const { authors, genres } = bookData;
+  const book = await prismaClient.book.update({
     where: { id },
     data: {
-      ...updatedData,
+      ...bookData,
       authors: {
-        connect: authors.map((author) => ({ id: author.id })),
+        set: authors.map((author) => ({ id: author.id })),
       },
       genres: {
-        connect: genres.map((genres) => ({ id: genres.id })),
+        set: genres.map((genre) => ({ id: genre.id })),
       },
     },
   });
 
-  return user;
+  return book;
 };
 
 export const deleteBookById = async (id: number) => {

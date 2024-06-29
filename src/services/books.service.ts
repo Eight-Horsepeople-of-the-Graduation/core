@@ -26,9 +26,9 @@ export const updateBookById = async (
   const book = await getBookById(id);
   if (!book) throw new Error("Book Not Found");
 
-  const createdBook = await booksRepository.updateBookById(id, updateBookDto);
+  const updatedBook = await booksRepository.updateBookById(id, updateBookDto);
 
-  return createdBook;
+  return updatedBook;
 };
 
 export const deleteBookById = async (id: number) => {

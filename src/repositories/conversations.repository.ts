@@ -12,7 +12,7 @@ import {
 export const getAllConversations = async () => {
   const conversations = await prismaClient.conversation.findMany({
     include: {
-      messages: true,
+      message: true,
     },
   });
 
@@ -25,7 +25,7 @@ export const getConversationById = async (id: number) => {
       id: id,
     },
     include: {
-      messages: true,
+      message: true,
     },
   });
 
