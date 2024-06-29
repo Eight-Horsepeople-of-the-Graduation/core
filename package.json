@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/app.ts",
   "prisma": {
-    "schema": "src/prisma/schema.prisma"
+    "schema": "src/prisma/schema.prisma",
+    "seed": "ts-node src/prisma/seed/seed.ts"
   },
   "scripts": {
     "build": "tsc",
@@ -12,7 +13,10 @@
     "start": "ts-node -r tsconfig-paths/register src/app.ts",
     "start:dev": "ts-node-dev -r tsconfig-paths/register src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "swagger": "pnpm dlx tsoa spec-and-routes"
+    "swagger": "pnpm dlx tsoa spec-and-routes",
+    "prisma:generate": "pnpm dlx prisma generate",
+    "prisma:migrate": "pnpm dlx prisma migrate dev",
+    "prisma:seed": "pnpm dlx prisma db seed"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +25,7 @@
     "@langchain/core": "^0.1.61",
     "@prisma/client": "^5.13.0",
     "@tsoa/runtime": "^6.3.0",
+    "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
@@ -36,6 +41,8 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/lodash": "^4.17.0",
