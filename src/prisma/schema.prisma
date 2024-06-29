@@ -127,8 +127,8 @@ enum Format {
 }
 
 enum Gender {
-  MALE
-  FEMALE
+  male
+  female
 }
 
 enum Type {
