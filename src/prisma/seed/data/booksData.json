@@ -10,7 +10,7 @@
       "numOfPages": "47",
       "pdfLink": "https://en.wikipedia.org/wiki/Black_hole",
       "coverPicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg/387px-Black_hole_-_Messier_87_crop_max_res.jpg",
-      "genres": ["Science", "Popular Science"],
+      "genres": [],
       "authors": ["Ahmad Tamer"],
       "country": "USA"
     },
@@ -24,7 +24,7 @@
       "numOfPages": "6",
       "pdfLink": "https://en.wikipedia.org/wiki/Spice",
       "coverPicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Indianspicesherbs.jpg/330px-Indianspicesherbs.jpg",
-      "genres": ["History", "Ancient History", "Travel"],
+      "genres": [],
       "authors": ["Ahmad Tamer"],
       "country": "USA"
     },

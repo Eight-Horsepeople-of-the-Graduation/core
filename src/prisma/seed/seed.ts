@@ -23,6 +23,8 @@ async function main() {
   await seedBookshelves(seedConfig.bookshelfCount);
   await seedReadingChallenges(seedConfig.readingChallengeCount);
   await seedReviews(seedConfig.reviewCount);
+  await seedConversations();
+  await seedMessages();
   console.log("Database seeded successfully!");
 }
 main();
