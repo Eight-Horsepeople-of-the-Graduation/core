@@ -8,14 +8,12 @@ export async function seedBookshelves(num: number) {
   console.log(
     "-----------------------------Seeding Bookshelves-----------------------------"
   );
-  prismaClient.bookshelf.deleteMany();
-  console.log("Deleted records in Bookshelves table...");
+  const books = await prismaClient.book.findMany();
 
-  prismaClient.$queryRaw`ALTER SEQUENCE "Bookshelf_id_seq" RESTART WITH 1`;
-  console.log("Reset AUTO_INCREMENT in Bookshelves table...");
-
+  let count = 0;
   // Add bookshelves
   for (const bookshelf of bookshelves.data) {
+    if (count >= num) break;
     const user = await prismaClient.user.findUniqueOrThrow({
       where: {
         id: Math.max(1, Math.floor(Math.random() * (seedConfig.userCount + 1))),
@@ -28,8 +26,14 @@ export async function seedBookshelves(num: number) {
         privacy: faker.helpers.arrayElement([Privacy.PRIVATE, Privacy.PUBLIC]),
         createdAt: faker.date.soon({ days: 365, refDate: user.joinDate }),
         userId: user.id,
+        books: {
+          connect: books
+            .filter((book) => (Math.random() > 0.5 ? true : false))
+            .map((book) => ({ id: book.id })),
+        },
       },
     });
+    count++;
   }
 
   console.log(`Added ${num} bookshelves..`);
