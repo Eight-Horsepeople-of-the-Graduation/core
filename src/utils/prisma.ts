@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 const prismaClient = new PrismaClient({
-  errorFormat: "minimal",
+  errorFormat: "pretty",
 });
 
 export default prismaClient;
