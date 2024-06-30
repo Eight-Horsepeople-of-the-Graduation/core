@@ -2,7 +2,7 @@ import express from "express";
 import config from "./config";
 import morgan from "morgan";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
-import loadRouters from "@loaders/express";
+import loadRouters from "./loaders/express";
 import * as swaggerJson from './swagger/swagger.json';
 import * as swaggerUI from 'swagger-ui-express';
 /**

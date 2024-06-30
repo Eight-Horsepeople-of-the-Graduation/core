@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import conversationsService from "@services/conversations.service";
+import conversationsService from "../services/conversations.service";
 import { buildChat, ChatArgs } from "rag-api";
 
 export const getAllConversations = async (req: Request, res: Response) => {

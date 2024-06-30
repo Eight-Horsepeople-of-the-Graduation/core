@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
 import { uniqBy } from "lodash";
-import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "@dtos";
-import booksService from "@services/books.service";
-import bookshelvesService from "@services/bookshelves.service";
+import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "../dtos";
+import booksService from "../services/books.service";
+import bookshelvesService from "../services/bookshelves.service";
 
 export const getAllBooks = async (req: Request, res: Response) => {
   const filter = plainToInstance(SearchQueryDto, req.query);

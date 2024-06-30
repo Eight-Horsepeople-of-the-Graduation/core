@@ -1,8 +1,8 @@
 import { Router } from "express";
-import booksController from "@controllers/books.controller";
-import { CreateBookDto, UpdateBookDto } from "@dtos";
-import { validationMiddleware } from "@middleware/validation.middleware";
-import asyncWrapper from "@utils/async-wrapper";
+import booksController from "../controllers/books.controller";
+import { CreateBookDto, UpdateBookDto } from "../dtos";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import asyncWrapper from "../utils/async-wrapper";
 
 const router = Router();
 

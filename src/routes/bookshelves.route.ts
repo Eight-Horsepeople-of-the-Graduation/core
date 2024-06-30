@@ -1,8 +1,8 @@
 import { Router } from "express";
-import bookshelvesController from "@controllers/bookshelves.controller";
-import { CreateBookshelfDto, UpdateBookshelfDto } from "@dtos";
-import { validationMiddleware } from "@middleware/validation.middleware";
-import asyncWrapper from "@utils/async-wrapper";
+import bookshelvesController from "../controllers/bookshelves.controller";
+import { CreateBookshelfDto, UpdateBookshelfDto } from "../dtos";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import asyncWrapper from "../utils/async-wrapper";
 
 const router = Router();
 
