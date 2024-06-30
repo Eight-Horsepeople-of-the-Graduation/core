@@ -4,7 +4,7 @@ import readingChallengesController, {
 } from "../../controllers/reading-challenges.controller";
 import * as readingChallengesService from "../../services/reading-challenges.service";
 import { getAllReadingChallenges } from "../../controllers/reading-challenges.controller";
-import { Type } from "@prisma/client";
+import { ReadingChallengeType } from "@prisma/client";
 
 describe("Reading Challenges Controller", () => {
   afterEach(() => {
@@ -42,7 +42,7 @@ describe("Reading Challenges Controller", () => {
           id: 1,
           title: "Challenge 1",
           userId: 1,
-          type: Type.MONTHLY,
+          type: ReadingChallengeType.MONTHLY,
           startDate: new Date(),
           progress: 0,
         },
@@ -52,7 +52,7 @@ describe("Reading Challenges Controller", () => {
           id: 2,
           title: "Challenge 2",
           userId: 1,
-          type: Type.ANNUAL,
+          type: ReadingChallengeType.ANNUAL,
           startDate: new Date(),
           progress: 42,
         },
@@ -113,7 +113,7 @@ describe("Reading Challenges Controller", () => {
         id: 1,
         title: "Challenge 1",
         userId: 1,
-        type: Type.MONTHLY,
+        type: ReadingChallengeType.MONTHLY,
         startDate: new Date(),
         progress: 0,
       };
@@ -167,7 +167,7 @@ describe("Reading Challenges Controller", () => {
           id: 1,
           title: "Challenge 1",
           userId: 1,
-          type: Type.MONTHLY,
+          type: ReadingChallengeType.MONTHLY,
           startDate: new Date(),
           progress: 0,
         },
