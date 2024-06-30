@@ -11,8 +11,8 @@ import {
 } from "class-validator";
 
 export enum Gender {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
+  male = "male",
+  female = "female",
 }
 
 export class GetUserDto {
