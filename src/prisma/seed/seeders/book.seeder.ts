@@ -30,6 +30,7 @@ function getDesc(genre: string) {
 }
 
 export async function seedBooks(num: number) {
+  num = Math.min(num, data.length);
   console.log("-----------------------------Seeding Books, Authors, Genres-----------------------------");
   await prismaClient.book.deleteMany();
   console.log("Deleted records in Books table...");

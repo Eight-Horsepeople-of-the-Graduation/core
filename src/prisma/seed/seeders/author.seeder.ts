@@ -5,7 +5,7 @@ export async function seedAuthors(num: number) {
   const currentAuthorCount = await prismaClient.author.count();
   if (currentAuthorCount >= num) return;
 
-  for (let i = currentAuthorCount; i < num; i++) {
+  for (let i = currentAuthorCount; i < Math.min(num, data.length); i++) {
     await prismaClient.author.create({
       data: data[i],
     });

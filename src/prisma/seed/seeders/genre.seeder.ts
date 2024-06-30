@@ -2,6 +2,7 @@ import prismaClient from "../../../utils/prisma";
 import { data } from "../data/genresData.json";
 
 export async function seedGenres(num: number) {
+  num = Math.min(num, data.length);
   const currentGenreCount = await prismaClient.genre.count();
   if (currentGenreCount >= num) return;
 
