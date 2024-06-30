@@ -1,7 +1,7 @@
-import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
-import conversationRepository from "../repositories/conversations.repository";
+import { ChatDto, CreateConversationDto, CreateMessageDto } from "@dtos";
+import conversationRepository from "@repositories/conversations.repository";
 import { ChatArgs, buildChat } from "rag-api";
-import config from "../config"
+import config from "../config";
 
 export const getAllConversations = async () => {
   const conversations = await conversationRepository.getAllConversations();
@@ -14,28 +14,25 @@ export const getConversationById = async (id: number) => {
   return conversation;
 };
 
-export const chat = async (
-  conversationId : number,
-  chatDto: ChatDto
-) => {
-  const {bookId, question} = chatDto;
-  const chatArgs : ChatArgs = {
+export const chat = async (conversationId: number, chatDto: ChatDto) => {
+  const { bookId, question } = chatDto;
+  const chatArgs: ChatArgs = {
     conversationId,
     bookId,
-    llmTemperature : config.llmTemperatureValue, // Hardcoded, because its counter-intuitive to let the frontend team adjust it
-    streaming : false,// Hardcoded, because we'll probably need web sockets for streaming to work
+    llmTemperature: config.llmTemperatureValue, // Hardcoded, because its counter-intuitive to let the frontend team adjust it
+    streaming: false, // Hardcoded, because we'll probably need web sockets for streaming to work
     databaseUtils: {
       createMessage,
-      getMessagesByConversationId
-    }
-  }
+      getMessagesByConversationId,
+    },
+  };
   const chat = buildChat(chatArgs);
 
-  const answer = await chat.invoke({question});
-  
-  return answer.text;
+  const answer = await chat.invoke({ question });
 
+  return answer.text;
 };
+
 export const createConversation = async (
   conversationData: CreateConversationDto
 ) => {
@@ -70,5 +67,5 @@ export default {
   createConversation,
   createMessage,
   getMessagesByConversationId,
-  chat
+  chat,
 };

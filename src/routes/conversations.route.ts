@@ -8,17 +8,20 @@ const router: Router = Router();
 
 router.get("/", asyncWrapper(conversationsController.getAllConversations));
 
-router.get("/:id", asyncWrapper(conversationsController.getConversationById));
+router.get(
+  "/:conversationId",
+  asyncWrapper(conversationsController.getConversationById)
+);
 
 router.get(
-  "/:id/messages",
+  "/:conversationId/messages",
   asyncWrapper(conversationsController.getMessagesByConversationId)
 );
 
 router.post(
   "/chat/:conversationId",
   asyncWrapper(conversationsController.chat)
-)
+);
 
 router.post(
   "/",
@@ -27,7 +30,7 @@ router.post(
 );
 
 router.post(
-  "/:id/messages",
+  "/:conversationId/messages",
   [validationMiddleware(CreateMessageDto)],
   asyncWrapper(conversationsController.createMessage)
 );
