@@ -1,7 +1,7 @@
-import { SearchQueryDto } from "../dtos";
-import booksService from "../services/books.service";
-import bookshelvesService from "../services/bookshelves.service";
-import usersService from "../services/users.service";
+import { SearchQueryDto } from "@dtos";
+import booksService from "@services/books.service";
+import bookshelvesService from "@services/bookshelves.service";
+import usersService from "@services/users.service";
 
 export const search = async (query: SearchQueryDto) => {
   const [books, bookshelves, users] = await Promise.all([
