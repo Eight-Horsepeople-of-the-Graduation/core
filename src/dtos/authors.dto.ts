@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsPositive,
-  IsNumber,
-  IsOptional,
-} from "class-validator";
+import { IsNotEmpty, IsString, IsPositive, IsInt } from "class-validator";
 
 export class CreateAuthorDto {
   @IsNotEmpty()
@@ -14,8 +8,8 @@ export class CreateAuthorDto {
 
 export class GetAuthorDto {
   @IsNotEmpty()
+  @IsInt()
   @IsPositive()
-  @IsNumber()
   id: number;
 
   @IsNotEmpty()
@@ -24,7 +18,18 @@ export class GetAuthorDto {
 }
 
 export class UpdateAuthorDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   name: string;
+}
+
+export class AuthorDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsInt()
+  @IsPositive()
+  id: number;
 }
