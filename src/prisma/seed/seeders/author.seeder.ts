@@ -1,19 +1,15 @@
 import prismaClient from "../../../utils/prisma";
 import { data } from "../data/authorsData.json";
 
-export async function seedAuthors() {
-  console.log("-----------------------------Seeding Authors");
-  await prismaClient.author.deleteMany();
-  console.log("Deleted records in Authors table...");
+export async function seedAuthors(num: number) {
+  const currentAuthorCount = await prismaClient.author.count();
+  if (currentAuthorCount >= num) return;
 
-  await prismaClient.$queryRaw`ALTER SEQUENCE "Author_id_seq" RESTART WITH 1`;
-  console.log("Reset AUTO_INCREMENT in Authors table...");
-
-  for (const author of data) {
+  for (let i = currentAuthorCount; i < num; i++) {
     await prismaClient.author.create({
-      data: author,
+      data: data[i],
     });
   }
 
-  console.log("Added authors data..");
+  console.log(`Added extra ${num - currentAuthorCount} authors..`);
 }

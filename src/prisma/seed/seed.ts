@@ -10,14 +10,14 @@ import {
   seedReviews,
   seedUsers,
 } from "./seeders";
-
+import {seedConfig} from "./seeders/config"
 faker.seed(123);
 
 async function main() {
-  await seedUsers(20);
-  await seedAuthors();
-  await seedGenres();
-  await seedBooks();
+  await seedUsers(seedConfig.userCount);
+  await seedBooks(seedConfig.bookCount);
+  await seedAuthors(seedConfig.authorCount);
+  await seedGenres(seedConfig.genreCount);
   console.log("Database seeded successfully!");
 }
 main();

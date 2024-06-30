@@ -24,7 +24,7 @@ function createRandomUser() {
 }
 
 export async function seedUsers(num: number) {
-  console.log("-----------------------------Seeding users");
+  console.log("-----------------------------Seeding users-----------------------------");
   await prismaClient.user.deleteMany();
   console.log("Deleted records in Users table...");
 
@@ -37,5 +37,5 @@ export async function seedUsers(num: number) {
     });
   }
 
-  console.log("Added user data..");
+  console.log(`Added ${num} user data..`);
 }

@@ -1,19 +1,15 @@
 import prismaClient from "../../../utils/prisma";
-import {data} from "../data/genresData.json"
+import { data } from "../data/genresData.json";
 
-export async function seedGenres() {
-    console.log("-----------------------------Seeding Genres")
-    await prismaClient.genre.deleteMany();
-    console.log("Deleted records in Genres table...");
-  
-    await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
-    console.log("Reset AUTO_INCREMENT in Genres table...");
-  
-    for(const genre of data){
-        await prismaClient.genre.create({
-            data: genre,
-        });
-    }
-  
-    console.log("Added Genres data..");
+export async function seedGenres(num: number) {
+  const currentGenreCount = await prismaClient.genre.count();
+  if (currentGenreCount >= num) return;
+
+  for (let i = currentGenreCount; i < num; i++) {
+    await prismaClient.genre.create({
+      data: data[i],
+    });
+  }
+
+  console.log(`Added extra ${num - currentGenreCount} genres..`);
 }
