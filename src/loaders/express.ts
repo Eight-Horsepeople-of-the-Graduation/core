@@ -5,6 +5,7 @@ import booksRouter from "@routes/books.route";
 import bookshelfRouter from "@routes/bookshelves.route";
 import searchRouter from "@routes/search.route";
 import conversationsRouter from "@routes/conversations.route";
+import reviewsRouter from "@routes/reviews.route";
 
 /**
  * Registers all routes in the application
@@ -18,6 +19,7 @@ const loadRouters = (app: Express) => {
   app.use("/search", searchRouter);
   app.use("/users", usersRouter);
   app.use("/conversations", conversationsRouter);
+  app.use("/reviews", reviewsRouter);
 };
 
 export default loadRouters;
