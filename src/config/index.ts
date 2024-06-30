@@ -10,5 +10,5 @@ export default {
   db: {
     url: process.env.DB_URL,
   },
-  llmTemperatureValue : 0
+  llmTemperatureValue: 0,
 };

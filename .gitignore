@@ -17,6 +17,8 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .env.production.local
 .env.local
 
+pnpm-lock.yaml
+
 # Runtime data
 pids
 *.pid
