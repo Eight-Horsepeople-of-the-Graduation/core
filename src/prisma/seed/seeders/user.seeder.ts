@@ -24,6 +24,7 @@ function createRandomUser() {
 }
 
 export async function seedUsers(num: number) {
+  console.log("-----------------------------Seeding users");
   await prismaClient.user.deleteMany();
   console.log("Deleted records in Users table...");
 

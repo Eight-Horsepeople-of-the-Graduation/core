@@ -6,3 +6,4 @@ export * from "./conversation.seeder";
 export * from "./genre.seeder";
 export * from "./message.seeder";
 export * from "./review.seeder";
+export * from "./reading-challenge.seeder";
