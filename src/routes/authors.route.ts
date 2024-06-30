@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/", asyncWrapper(authorsController.getAllAuthors));
 
-router.get("/:id", asyncWrapper(authorsController.getAuthorById));
+router.get("/:authorId", asyncWrapper(authorsController.getAuthorById));
 
 router.post(
   "/",
@@ -17,11 +17,11 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:authorId",
   [validationMiddleware(UpdateAuthorDto)],
   asyncWrapper(authorsController.updateAuthorById)
 );
 
-router.delete("/:id", asyncWrapper(authorsController.deleteAuthorById));
+router.delete("/:authorId", asyncWrapper(authorsController.deleteAuthorById));
 
 export default router;

@@ -1,47 +1,50 @@
 import { Request, Response } from "express";
-import { UpdateAuthorDto, getAuthorByIdDto } from "@dtos";
+import { SearchQueryDto } from "@dtos";
 import authorsService from "@services/authors.service";
+import { plainToInstance } from "class-transformer";
 
 export const getAllAuthors = async (req: Request, res: Response) => {
-  const authors = await authorsService.getAllAuthors(req.query);
+  const filter = plainToInstance(SearchQueryDto, req.query);
+
+  const authors = await authorsService.getAllAuthors(filter);
 
   return res.send(authors);
 };
 
 export const getAuthorById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const authorId = parseInt(req.params.authorId, 10);
 
-  const data: getAuthorByIdDto = { id: +id };
-
-  const author = await authorsService.getAuthorById(data.id);
-  if (!author) return res.status(400).send("Author Not Found");
+  const author = await authorsService.getAuthorById(authorId);
 
   return res.send(author);
 };
 
 export const createAuthor = async (req: Request, res: Response) => {
-  const authorData = req.body;
+  const createAuthorDto = req.body;
 
-  const author = await authorsService.createAuthor(authorData);
+  const newAuthor = await authorsService.createAuthor(createAuthorDto);
 
-  return res.status(201).send(author);
+  return res.status(201).send(newAuthor);
 };
 
 export const updateAuthorById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: UpdateAuthorDto = req.body;
+  const authorId = parseInt(req.params.authorId, 10);
+  const updateAuthorDto = req.body;
 
-  const author = await authorsService.updateAuthorById(+id, data);
+  const updatedAuthor = await authorsService.updateAuthorById(
+    authorId,
+    updateAuthorDto
+  );
 
-  return res.send(author);
+  return res.send(updatedAuthor);
 };
 
 export const deleteAuthorById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: getAuthorByIdDto = { id: +id };
-  const author = await authorsService.deleteAuthorById(data.id);
+  const authorId = parseInt(req.params.authorId, 10);
 
-  return res.send(author);
+  const deletedAuthor = await authorsService.deleteAuthorById(authorId);
+
+  return res.send(deletedAuthor);
 };
 
 export default {

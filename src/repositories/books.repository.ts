@@ -25,9 +25,9 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   return books;
 };
 
-export const getBookById = async (id: number) => {
+export const getBookById = async (bookId: number) => {
   const book = await prismaClient.book.findUnique({
-    where: { id },
+    where: { id: bookId },
     include: {
       authors: true,
       genres: true,
@@ -37,11 +37,12 @@ export const getBookById = async (id: number) => {
   return book;
 };
 
-export const createBook = async (bookData: CreateBookDto) => {
-  const { authors, genres } = bookData;
-  const book = await prismaClient.book.create({
+export const createBook = async (createBookDto: CreateBookDto) => {
+  const { authors, genres } = createBookDto;
+
+  const newBook = await prismaClient.book.create({
     data: {
-      ...bookData,
+      ...createBookDto,
       authors: {
         connect: authors.map((author) => ({ id: author.id })),
       },
@@ -51,15 +52,19 @@ export const createBook = async (bookData: CreateBookDto) => {
     },
   });
 
-  return book;
+  return newBook;
 };
 
-export const updateBookById = async (id: number, bookData: UpdateBookDto) => {
-  const { authors, genres } = bookData;
-  const book = await prismaClient.book.update({
-    where: { id },
+export const updateBookById = async (
+  bookId: number,
+  updateBookDto: UpdateBookDto
+) => {
+  const { authors, genres } = updateBookDto;
+
+  const updatedBook = await prismaClient.book.update({
+    where: { id: bookId },
     data: {
-      ...bookData,
+      ...updateBookDto,
       authors: {
         set: authors.map((author) => ({ id: author.id })),
       },
@@ -69,15 +74,15 @@ export const updateBookById = async (id: number, bookData: UpdateBookDto) => {
     },
   });
 
-  return book;
+  return updatedBook;
 };
 
-export const deleteBookById = async (id: number) => {
-  const book = await prismaClient.book.delete({
-    where: { id },
+export const deleteBookById = async (bookId: number) => {
+  const deletedBook = await prismaClient.book.delete({
+    where: { id: bookId },
   });
 
-  return book;
+  return deletedBook;
 };
 
 export default {

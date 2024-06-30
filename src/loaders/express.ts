@@ -5,7 +5,7 @@ import booksRouter from "@routes/books.route";
 import bookshelfRouter from "@routes/bookshelves.route";
 import searchRouter from "@routes/search.route";
 import conversationsRouter from "@routes/conversations.route";
-import authorsRouter from "@routes/authors.route"; 
+import authorsRouter from "@routes/authors.route";
 import genresRouter from "@routes/genres.route";
 
 /**

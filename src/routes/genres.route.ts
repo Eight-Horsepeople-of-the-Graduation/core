@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/", asyncWrapper(genresController.getAllGenres));
 
-router.get("/:id", asyncWrapper(genresController.getGenreById));
+router.get("/:genreId", asyncWrapper(genresController.getGenreById));
 
 router.post(
   "/",
@@ -17,11 +17,11 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:genreId",
   [validationMiddleware(UpdateGenreDto)],
   asyncWrapper(genresController.updateGenreById)
 );
 
-router.delete("/:id", asyncWrapper(genresController.deleteGenreById));
+router.delete("/:genreId", asyncWrapper(genresController.deleteGenreById));
 
 export default router;

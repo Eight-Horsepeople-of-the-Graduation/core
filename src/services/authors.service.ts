@@ -7,36 +7,34 @@ export const getAllAuthors = async (SearchQueryDto: SearchQueryDto) => {
   return authors;
 };
 
-export const getAuthorById = async (id: number) => {
-  const author = await authorsRepository.getAuthorById(id);
+export const getAuthorById = async (authorId: number) => {
+  const author = await authorsRepository.getAuthorById(authorId);
 
   return author;
 };
 
 export const createAuthor = async (createAuthorDto: CreateAuthorDto) => {
-  const author = await authorsRepository.createAuthor(createAuthorDto);
+  const newAuthor = await authorsRepository.createAuthor(createAuthorDto);
 
-  return author;
+  return newAuthor;
 };
 
 export const updateAuthorById = async (
-  id: number,
+  authorId: number,
   updateAuthorDto: UpdateAuthorDto
 ) => {
-  const author = await getAuthorById(id);
-  if (!author) throw new Error("Author Not Found");
-
   const updatededAuthor = await authorsRepository.updateAuthorById(
-    id,
+    authorId,
     updateAuthorDto
   );
+
   return updatededAuthor;
 };
 
-export const deleteAuthorById = async (id: number) => {
-  const author = await authorsRepository.deleteAuthorById(id);
+export const deleteAuthorById = async (authorId: number) => {
+  const deletedAuthor = await authorsRepository.deleteAuthorById(authorId);
 
-  return author;
+  return deletedAuthor;
 };
 
 export default {

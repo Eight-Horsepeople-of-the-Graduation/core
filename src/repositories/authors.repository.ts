@@ -1,5 +1,5 @@
 import prismaClient from "@utils/prisma";
-import { SearchQueryDto } from "@dtos";
+import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "@dtos";
 
 export const getAllAuthors = async (searchQueryDto: SearchQueryDto) => {
   const authors = await prismaClient.author.findMany({
@@ -16,43 +16,46 @@ export const getAllAuthors = async (searchQueryDto: SearchQueryDto) => {
   return authors;
 };
 
-export const getAuthorById = async (id: number) => {
+export const getAuthorById = async (authorId: number) => {
   const author = await prismaClient.author.findUnique({
     where: {
-      id: id,
+      id: authorId,
     },
   });
 
   return author;
 };
 
-export const createAuthor = async (authorData: any) => {
-  const author = await prismaClient.author.create({
-    data: authorData,
+export const createAuthor = async (createAuthorDto: CreateAuthorDto) => {
+  const newAuthor = await prismaClient.author.create({
+    data: createAuthorDto,
   });
 
-  return author;
+  return newAuthor;
 };
 
-export const updateAuthorById = async (id: number, updatedData: any) => {
-  const author = await prismaClient.author.update({
+export const updateAuthorById = async (
+  authorId: number,
+  updateAuthorDto: UpdateAuthorDto
+) => {
+  const updatedAuthor = await prismaClient.author.update({
     where: {
-      id: id,
+      id: authorId,
     },
-    data: updatedData,
+    data: updateAuthorDto,
   });
 
-  return author;
+  return updatedAuthor;
 };
 
-export const deleteAuthorById = async (id: number) => {
-  const author = await prismaClient.author.delete({
+export const deleteAuthorById = async (authorId: number) => {
+  const deletedAuthor = await prismaClient.author.delete({
     where: {
-      id: id,
+      id: authorId,
     },
   });
 
-  return author;
+  return deletedAuthor;
 };
 
 export default {

@@ -10,8 +10,6 @@ import {
   IsUrl,
   IsInt,
   IsDateString,
-  minLength,
-  MinLength,
 } from "class-validator";
 import { AuthorDto } from "./authors.dto";
 import { GenreDto } from "./genres.dto";
@@ -63,16 +61,10 @@ export class CreateBookDto {
   pdfLink: string;
 
   @IsNotEmpty()
-  @MinLength(1, {
-    each: true,
-  })
   @ValidateNested()
   authors: AuthorDto[];
 
   @IsNotEmpty()
-  @MinLength(1, {
-    each: true,
-  })
   @ValidateNested()
   genres: GenreDto[];
 }
@@ -115,16 +107,10 @@ export class GetBookDto {
   pdfLink: string;
 
   @IsNotEmpty()
-  @MinLength(1, {
-    each: true,
-  })
   @ValidateNested()
   authors: AuthorDto[];
 
   @IsNotEmpty()
-  @MinLength(1, {
-    each: true,
-  })
   @ValidateNested()
   genres: GenreDto[];
 }
@@ -169,17 +155,11 @@ export class UpdateBookDto {
   @IsUrl()
   pdfLink: string;
 
-  @IsNotEmpty()
-  @MinLength(1, {
-    each: true,
-  })
+  @IsOptional()
   @ValidateNested()
   authors: AuthorDto[];
 
-  @IsNotEmpty()
-  @MinLength(1, {
-    each: true,
-  })
+  @IsOptional()
   @ValidateNested()
   genres: GenreDto[];
 }

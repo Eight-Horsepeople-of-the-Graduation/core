@@ -7,16 +7,16 @@ export const getAllGenres = async (searchQueryDto: SearchQueryDto) => {
   return genres;
 };
 
-export const getGenreById = async (id: number) => {
-  const genre = await genresRepository.getGenreById(id);
+export const getGenreById = async (genreId: number) => {
+  const genre = await genresRepository.getGenreById(genreId);
 
   return genre;
 };
 
 export const createGenre = async (createGenreDto: CreateGenreDto) => {
-  const genre = await genresRepository.createGenre(createGenreDto);
+  const newGenre = await genresRepository.createGenre(createGenreDto);
 
-  return genre;
+  return newGenre;
 };
 
 export const getGenresByBookId = async (bookId: number) => {
@@ -26,23 +26,21 @@ export const getGenresByBookId = async (bookId: number) => {
 };
 
 export const updateGenreById = async (
-  id: number,
-  UpdateGenreDto: UpdateGenreDto
+  genreId: number,
+  updateGnereDto: UpdateGenreDto
 ) => {
-  const genre = await getGenreById(id);
-  if (!genre) throw new Error("Genre Not Found");
-  const createdGenre = await genresRepository.updateGenreById(
-    id,
-    UpdateGenreDto
+  const updatedGenre = await genresRepository.updateGenreById(
+    genreId,
+    updateGnereDto
   );
 
-  return createdGenre;
+  return updatedGenre;
 };
 
-export const deleteGenreById = async (id: number) => {
-  const genre = await genresRepository.deleteGenreById(id);
+export const deleteGenreById = async (genreId: number) => {
+  const deletedGenre = await genresRepository.deleteGenreById(genreId);
 
-  return genre;
+  return deletedGenre;
 };
 
 export default {

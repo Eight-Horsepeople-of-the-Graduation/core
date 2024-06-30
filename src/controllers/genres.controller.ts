@@ -1,57 +1,50 @@
 import genresService from "@services/genres.service";
-import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
+import { plainToInstance } from "class-transformer";
 import { SearchQueryDto } from "../dtos/search.dto";
-import { GetGenreByIdDto, UpdateGenreDto } from "../dtos/genres.dto";
 
 export const getAllGenres = async (req: Request, res: Response) => {
-  const genres = await genresService.getAllGenres(req.query);
+  const filter = plainToInstance(SearchQueryDto, req.query);
+
+  const genres = await genresService.getAllGenres(filter);
 
   return res.send(genres);
 };
 
 export const getGenreById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const genreId = parseInt(req.params.genreId, 10);
 
-  const data: GetGenreByIdDto = { id: +id };
-
-  const genre = await genresService.getGenreById(data.id);
-  if (!genre) return res.status(400).send("genre Not Found");
+  const genre = await genresService.getGenreById(genreId);
 
   return res.send(genre);
 };
 
 export const createGenre = async (req: Request, res: Response) => {
-  const genreData = req.body;
+  const createGenreDto = req.body;
 
-  const genre = await genresService.createGenre(genreData);
+  const newGenre = await genresService.createGenre(createGenreDto);
 
-  return res.status(201).send(genre);
+  return res.status(201).send(newGenre);
 };
 
 export const updateGenreById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: UpdateGenreDto = req.body;
+  const genreId = parseInt(req.params.genreId, 10);
+  const updateGenreDto = req.body;
 
-  const genre = await genresService.updateGenreById(+id, data);
+  const updatedGenre = await genresService.updateGenreById(
+    genreId,
+    updateGenreDto
+  );
 
-  return res.send(genre);
+  return res.send(updatedGenre);
 };
 
 export const deleteGenreById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const genreId = parseInt(req.params.genreId, 10);
 
-  const genre = await genresService.deleteGenreById(+id);
+  const deletedGenre = await genresService.deleteGenreById(+genreId);
 
-  return res.send(genre);
-};
-
-export const getGenresByBookId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: GetGenreByIdDto = { id: +id };
-  const genre = await genresService.deleteGenreById(data.id);
-
-  return res.send(genre);
+  return res.send(deletedGenre);
 };
 
 export default {
@@ -60,5 +53,4 @@ export default {
   createGenre,
   updateGenreById,
   deleteGenreById,
-  getGenresByBookId,
 };

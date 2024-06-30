@@ -9,7 +9,7 @@ import {
 export class CreateGenreDto {
   @IsNotEmpty()
   @IsString()
-  title: String;
+  title: string;
 
   @IsNotEmpty()
   @IsString()
@@ -31,7 +31,7 @@ export class GetGenreDto {
 
   @IsNotEmpty()
   @IsString()
-  title: String;
+  title: string;
 
   @IsNotEmpty()
   @IsString()
@@ -41,7 +41,7 @@ export class GetGenreDto {
 export class UpdateGenreDto {
   @IsOptional()
   @IsString()
-  title: String;
+  title: string;
 
   @IsOptional()
   @IsString()
@@ -56,7 +56,7 @@ export class GenreDto {
 
   @IsNotEmpty()
   @IsString()
-  title: String;
+  title: string;
 
   @IsNotEmpty()
   @IsString()

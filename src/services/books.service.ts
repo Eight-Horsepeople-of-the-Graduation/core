@@ -7,34 +7,34 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   return books;
 };
 
-export const getBookById = async (id: number) => {
-  const book = await booksRepository.getBookById(id);
+export const getBookById = async (genreId: number) => {
+  const book = await booksRepository.getBookById(genreId);
 
   return book;
 };
 
 export const createBook = async (createBookDto: CreateBookDto) => {
-  const book = await booksRepository.createBook(createBookDto);
+  const newBook = await booksRepository.createBook(createBookDto);
 
-  return book;
+  return newBook;
 };
 
 export const updateBookById = async (
-  id: number,
+  bookId: number,
   updateBookDto: UpdateBookDto
 ) => {
-  const book = await getBookById(id);
-  if (!book) throw new Error("Book Not Found");
-
-  const updatedBook = await booksRepository.updateBookById(id, updateBookDto);
+  const updatedBook = await booksRepository.updateBookById(
+    bookId,
+    updateBookDto
+  );
 
   return updatedBook;
 };
 
-export const deleteBookById = async (id: number) => {
-  const book = await booksRepository.deleteBookById(id);
+export const deleteBookById = async (bookId: number) => {
+  const deletedBook = await booksRepository.deleteBookById(bookId);
 
-  return book;
+  return deletedBook;
 };
 
 export default {

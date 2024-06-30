@@ -6,17 +6,10 @@ export class CreateAuthorDto {
   name: string;
 }
 
-export class getAuthorByIdDto {
-  @IsNotEmpty()
-  @IsPositive()
-  @IsInt()
-  id: number;
-}
-
 export class GetAuthorDto {
   @IsNotEmpty()
-  @IsPositive()
   @IsInt()
+  @IsPositive()
   id: number;
 
   @IsNotEmpty()
@@ -36,7 +29,7 @@ export class AuthorDto {
   name: string;
 
   @IsNotEmpty()
-  @IsPositive()
   @IsInt()
+  @IsPositive()
   id: number;
 }
