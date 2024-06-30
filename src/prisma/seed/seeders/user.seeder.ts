@@ -17,7 +17,7 @@ function createRandomUser() {
     country: faker.location.country(),
     gender,
     birthDate: faker.date.birthdate(),
-    joinDate: faker.date.recent(),
+    joinDate: faker.date.recent({ days: 365, refDate: new Date()}),
     profilePicture: faker.image.avatar(),
     isAdmin: faker.helpers.arrayElement([true, false]),
   };
