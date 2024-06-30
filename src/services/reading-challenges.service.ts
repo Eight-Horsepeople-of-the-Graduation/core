@@ -23,8 +23,9 @@ export const getReadingChallengeById = async (id: number) => {
 };
 
 export const getReadingChallengesByUserId = async (userId: number) => {
-  //add validation if that user exists or not once user service is here
-
+  if (!userId) {
+    throw new Error("Missing required field: userId");
+  }
   const readingChallenges =
     await readingChallengesRepository.getReadingChallengesByUserId(userId);
 

@@ -14,7 +14,7 @@ export const getReadingChallengeById = async (req: Request, res: Response) => {
     await readingChallengesService.getReadingChallengeById(+id);
 
   if (!readingChallenges) {
-    return res.status(404).send({ error: "Reading challenges not found" });
+    return res.send({ error: "Reading challenges not found" });
   }
 
   return res.send(readingChallenges);
@@ -27,7 +27,6 @@ export const getReadingChallengeByUserId = async (
   const { userId } = req.params;
   const readingChallenge =
     await readingChallengesService.getReadingChallengesByUserId(+userId);
-
   if (!readingChallenge) {
     return res
       .status(404)
