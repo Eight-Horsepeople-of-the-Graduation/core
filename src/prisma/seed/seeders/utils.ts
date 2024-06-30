@@ -8,6 +8,13 @@ export async function resetDatabase() {
   await prismaClient.$queryRaw`ALTER SEQUENCE "Bookshelf_id_seq" RESTART WITH 1`;
   console.log("Reset AUTO_INCREMENT in Bookshelves table...");
 
+  // Clear all records in the ReadingChallenges table
+  await prismaClient.readingChallenge.deleteMany();
+  console.log("Deleted records in Reading Challenges table...");
+
+  await prismaClient.$queryRaw`ALTER SEQUENCE "ReadingChallenge_id_seq" RESTART WITH 1`;
+  console.log("Reset AUTO_INCREMENT in Reading Challenges table...");
+
   // Clear all records in the Books table
   await prismaClient.book.deleteMany();
   console.log("Deleted records in Books table...");

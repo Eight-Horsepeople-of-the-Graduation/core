@@ -1,7 +1,9 @@
+
 export const seedConfig = {
   userCount: 10,
-  bookshelfCount: 10,
-  bookCount: 1,
-  genreCount: 100,
-  authorCount: 100,
+  bookshelfCount: 30,
+  bookCount: 12,
+  genreCount: 200,
+  authorCount: 200,
+  readingChallengeCount: 10,
 };

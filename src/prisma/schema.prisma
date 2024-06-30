@@ -77,7 +77,7 @@ model Review {
 model ReadingChallenge {
   id        Int      @id @default(autoincrement())
   title     String
-  type      Type
+  type      ReadingChallengeType
   startDate DateTime @default(now())
   progress  Int
   books     Book[]
@@ -132,7 +132,7 @@ enum Gender {
   female
 }
 
-enum Type {
+enum ReadingChallengeType {
   WEEKLY
   MONTHLY
   ANNUAL

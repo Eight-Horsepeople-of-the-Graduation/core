@@ -21,6 +21,7 @@ async function main() {
   await seedAuthors(seedConfig.authorCount);
   await seedGenres(seedConfig.genreCount);
   await seedBookshelves(seedConfig.bookshelfCount);
+  await seedReadingChallenges(seedConfig.readingChallengeCount);
   console.log("Database seeded successfully!");
 }
 main();
