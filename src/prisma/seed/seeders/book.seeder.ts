@@ -9,7 +9,7 @@ import { range } from "lodash";
 
 export async function seedBooks(num: number) {
   num = Math.min(num, data.length);
-  console.log("-----------------------------Seeding Books, Authors, Genres-----------------------------");
+  console.log("-----------------------------Seeding Books, Authors, Genres------------");
   
   // Add genres and authors of the desired books
   let count = 0;

@@ -5,7 +5,7 @@ import {hashSync, genSaltSync} from "bcrypt";
 
 
 export async function seedUsers(num: number) {
-  console.log("-----------------------------Seeding users-----------------------------");
+  console.log("-----------------------------Seeding Users-----------------------------");
 
   for (let i = 0; i < num; i++) {
     await prismaClient.user.create({

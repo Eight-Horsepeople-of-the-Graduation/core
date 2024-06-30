@@ -6,7 +6,7 @@ import { seedConfig } from "./config";
 export async function seedBookshelves(num: number) {
   num = Math.min(num, bookshelves.data.length);
   console.log(
-    "-----------------------------Seeding Bookshelves-----------------------------"
+    "-----------------------------Seeding Bookshelves-----------------------"
   );
   const books = await prismaClient.book.findMany();
 
