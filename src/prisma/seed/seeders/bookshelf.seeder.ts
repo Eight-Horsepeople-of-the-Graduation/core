@@ -4,6 +4,7 @@ import bookshelves from "../data/bookshelvesData.json";
 import { Privacy } from "@prisma/client";
 import { seedConfig } from "./config";
 export async function seedBookshelves(num: number) {
+  num = Math.min(num, bookshelves.data.length);
   console.log(
     "-----------------------------Seeding Bookshelves-----------------------------"
   );
@@ -16,9 +17,11 @@ export async function seedBookshelves(num: number) {
   // Add bookshelves
   for (const bookshelf of bookshelves.data) {
     const user = await prismaClient.user.findUniqueOrThrow({
-      where: { id: Math.floor(Math.random() * (seedConfig.userCount + 1)) },
+      where: {
+        id: Math.max(1, Math.floor(Math.random() * (seedConfig.userCount + 1))),
+      },
     });
-    prismaClient.bookshelf.create({
+    await prismaClient.bookshelf.create({
       data: {
         title: bookshelf.title,
         description: bookshelf.description,
@@ -29,5 +32,5 @@ export async function seedBookshelves(num: number) {
     });
   }
 
-  console.log(`Added ${num} bookshelf data..`);
+  console.log(`Added ${num} bookshelves..`);
 }
