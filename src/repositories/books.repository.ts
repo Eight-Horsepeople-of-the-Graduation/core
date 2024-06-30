@@ -14,72 +14,75 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
         },
       }),
     },
+    skip,
+    take: limit,
     include: {
       authors: true,
       genres: true,
     },
-    skip,
-    take: limit,
   });
 
   return books;
 };
 
-export const getBookById = async (id: number) => {
+export const getBookById = async (bookId: number) => {
   const book = await prismaClient.book.findUnique({
-    where: {
-      id: id,
+    where: { id: bookId },
+    include: {
+      authors: true,
+      genres: true,
     },
   });
 
   return book;
 };
 
-export const createBook = async (bookData: CreateBookDto) => {
-  const { authors, genres } = bookData;
+export const createBook = async (createBookDto: CreateBookDto) => {
+  const { authors, genres } = createBookDto;
 
-  const book = await prismaClient.book.create({
+  const newBook = await prismaClient.book.create({
     data: {
-      ...bookData,
+      ...createBookDto,
       authors: {
         connect: authors.map((author) => ({ id: author.id })),
       },
       genres: {
-        connect: genres.map((genres) => ({ id: genres.id })),
+        connect: genres.map((genre) => ({ id: genre.id })),
       },
     },
   });
 
-  return book;
+  return newBook;
 };
 
 export const updateBookById = async (
-  id: number,
-  updatedData: UpdateBookDto
+  bookId: number,
+  updateBookDto: UpdateBookDto
 ) => {
-  const { authors, genres } = updatedData;
-  const user = await prismaClient.book.update({
-    where: { id },
+  const { authors, genres } = updateBookDto;
+
+  const updatedBook = await prismaClient.book.update({
+    where: { id: bookId },
     data: {
-      ...updatedData,
+      ...updateBookDto,
       authors: {
-        connect: authors.map((author) => ({ id: author.id })),
+        set: authors.map((author) => ({ id: author.id })),
       },
       genres: {
-        connect: genres.map((genres) => ({ id: genres.id })),
+        set: genres.map((genre) => ({ id: genre.id })),
       },
     },
   });
 
-  return user;
+  return updatedBook;
 };
 
-export const deleteBookById = async (id: number) => {
-  const book = await prismaClient.book.delete({
-    where: { id },
+export const deleteBookById = async (bookId: number) => {
+  const deletedBook = await prismaClient.book.delete({
+    where: { id: bookId },
   });
 
-  return book;
+  return deletedBook;
 };
 
 export default {
