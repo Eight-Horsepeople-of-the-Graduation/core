@@ -10,10 +10,12 @@ import {
   seedReviews,
   seedUsers,
 } from "./seeders";
+import {resetDatabase} from "./seeders/utils";
 import {seedConfig} from "./seeders/config"
 faker.seed(123);
 
 async function main() {
+  await resetDatabase();
   await seedUsers(seedConfig.userCount);
   await seedBooks(seedConfig.bookCount);
   await seedAuthors(seedConfig.authorCount);

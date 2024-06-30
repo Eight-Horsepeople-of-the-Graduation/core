@@ -6,51 +6,11 @@ import { readFileSync } from "fs";
 import { seedConfig } from "./config";
 import { range } from "lodash";
 
-function generateISBN13() {
-  let isbn = "978"; // ISBN-13 prefix for books
-  for (let i = 0; i < 9; i++) {
-    isbn += Math.floor(Math.random() * 10);
-  }
-  let checksum = 0;
-  for (let i = 0; i < 12; i++) {
-    checksum += parseInt(isbn.charAt(i)) * (i % 2 === 0 ? 1 : 3);
-  }
-  checksum = (10 - (checksum % 10)) % 10;
-  isbn += checksum;
-  return isbn;
-}
-
-function getDesc(genre: string) {
-  const genresData = readFileSync(
-    "src/prisma/seed/data/genresData.json",
-    "utf-8"
-  );
-  const genres = JSON.parse(genresData);
-  return genres.data.filter((g: any) => g.title === genre)[0].description;
-}
 
 export async function seedBooks(num: number) {
   num = Math.min(num, data.length);
   console.log("-----------------------------Seeding Books, Authors, Genres-----------------------------");
-  await prismaClient.book.deleteMany();
-  console.log("Deleted records in Books table...");
-
-  await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
-  console.log("Reset AUTO_INCREMENT in Books table...");
-
-  await prismaClient.author.deleteMany();
-  console.log("Deleted records in Authors table...");
-
-  await prismaClient.$queryRaw`ALTER SEQUENCE "Author_id_seq" RESTART WITH 1`;
-  console.log("Reset AUTO_INCREMENT in Authors table...");
-
-  await prismaClient.genre.deleteMany();
-  console.log("Deleted records in Genres table...");
-
-  await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
-  console.log("Reset AUTO_INCREMENT in Genres table...");
-
-
+  
   // Add genres and authors of the desired books
   let count = 0;
   for (const book of data) {
@@ -151,4 +111,32 @@ export async function seedBooks(num: number) {
   }
 
   console.log(`Added ${num} Books along with their respective genres and authors..`);
+}
+
+
+
+
+
+
+function generateISBN13() {
+  let isbn = "978"; // ISBN-13 prefix for books
+  for (let i = 0; i < 9; i++) {
+    isbn += Math.floor(Math.random() * 10);
+  }
+  let checksum = 0;
+  for (let i = 0; i < 12; i++) {
+    checksum += parseInt(isbn.charAt(i)) * (i % 2 === 0 ? 1 : 3);
+  }
+  checksum = (10 - (checksum % 10)) % 10;
+  isbn += checksum;
+  return isbn;
+}
+
+function getDesc(genre: string) {
+  const genresData = readFileSync(
+    "src/prisma/seed/data/genresData.json",
+    "utf-8"
+  );
+  const genres = JSON.parse(genresData);
+  return genres.data.filter((g: any) => g.title === genre)[0].description;
 }
