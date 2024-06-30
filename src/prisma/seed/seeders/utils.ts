@@ -1,6 +1,14 @@
 import prismaClient from "../../../utils/prisma";
 
 export async function resetDatabase() {
+
+  // Clear all records in the Reviews table
+  await prismaClient.review.deleteMany();
+  console.log("Deleted records in Reviews table...");
+
+  await prismaClient.$queryRaw`ALTER SEQUENCE "Review_id_seq" RESTART WITH 1`;
+  console.log("Reset AUTO_INCREMENT in Reviews table...");
+  
   // Clear all records in the Bookshelves table
   await prismaClient.bookshelf.deleteMany();
   console.log("Deleted records in Bookshelves table...");

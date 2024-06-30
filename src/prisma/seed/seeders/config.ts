@@ -6,4 +6,5 @@ export const seedConfig = {
   genreCount: 200,
   authorCount: 200,
   readingChallengeCount: 10,
+  reviewCount: 20,
 };

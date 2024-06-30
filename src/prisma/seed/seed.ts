@@ -22,6 +22,7 @@ async function main() {
   await seedGenres(seedConfig.genreCount);
   await seedBookshelves(seedConfig.bookshelfCount);
   await seedReadingChallenges(seedConfig.readingChallengeCount);
+  await seedReviews(seedConfig.reviewCount);
   console.log("Database seeded successfully!");
 }
 main();
