@@ -154,6 +154,14 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Duration": {
+				"enum": [
+					"WEEKLY",
+					"MONTHLY",
+					"ANNUAL"
+				],
+				"type": "string"
+			},
 			"Format": {
 				"enum": [
 					"PAPERBACK",
@@ -213,278 +221,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"GetAuthorDto": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"GetGenreDto": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"title",
-					"description"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateBookDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"isbn": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"language": {
-						"type": "string"
-					},
-					"format": {
-						"$ref": "#/components/schemas/Format"
-					},
-					"country": {
-						"type": "string"
-					},
-					"numOfPages": {
-						"type": "number",
-						"format": "double"
-					},
-					"publishDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"pdfLink": {
-						"type": "string"
-					},
-					"authors": {
-						"items": {
-							"$ref": "#/components/schemas/GetAuthorDto"
-						},
-						"type": "array"
-					},
-					"genres": {
-						"items": {
-							"$ref": "#/components/schemas/GetGenreDto"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"title",
-					"isbn",
-					"description",
-					"language",
-					"format",
-					"country",
-					"numOfPages",
-					"publishDate",
-					"pdfLink",
-					"authors",
-					"genres"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateBookDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"isbn": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"language": {
-						"type": "string"
-					},
-					"format": {
-						"$ref": "#/components/schemas/Format"
-					},
-					"country": {
-						"type": "string"
-					},
-					"numOfPages": {
-						"type": "number",
-						"format": "double"
-					},
-					"publishDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"pdfLink": {
-						"type": "string"
-					},
-					"authors": {
-						"items": {
-							"$ref": "#/components/schemas/GetAuthorDto"
-						},
-						"type": "array"
-					},
-					"genres": {
-						"items": {
-							"$ref": "#/components/schemas/GetGenreDto"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"title",
-					"isbn",
-					"description",
-					"language",
-					"format",
-					"country",
-					"numOfPages",
-					"publishDate",
-					"pdfLink",
-					"authors",
-					"genres"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Privacy": {
-				"enum": [
-					"PUBLIC",
-					"PRIVATE"
-				],
-				"type": "string"
-			},
-			"IBookshelf": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
-					"books": {
-						"items": {
-							"$ref": "#/components/schemas/IBook"
-						},
-						"type": "array"
-					},
-					"user": {
-						"$ref": "#/components/schemas/IUser"
-					},
-					"_count": {
-						"properties": {
-							"books": {
-								"type": "number",
-								"format": "double"
-							}
-						},
-						"required": [
-							"books"
-						],
-						"type": "object"
-					}
-				},
-				"required": [
-					"id",
-					"title",
-					"description",
-					"createdAt",
-					"privacy",
-					"userId",
-					"books",
-					"user",
-					"_count"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateBookshelfDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"title",
-					"description",
-					"privacy",
-					"userId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateBookshelfDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Duration": {
-				"enum": [
-					"WEEKLY",
-					"MONTHLY",
-					"ANNUAL"
-				],
-				"type": "string"
 			},
 			"IReadingChallenge": {
 				"properties": {
@@ -672,6 +408,23 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ChatDto": {
+				"properties": {
+					"bookId": {
+						"type": "number",
+						"format": "double"
+					},
+					"question": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"bookId",
+					"question"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CreateConversationDto": {
 				"properties": {
 					"retriever": {
@@ -714,6 +467,270 @@
 				"required": [
 					"role",
 					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Privacy": {
+				"enum": [
+					"PUBLIC",
+					"PRIVATE"
+				],
+				"type": "string"
+			},
+			"IBookshelf": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"books": {
+						"items": {
+							"$ref": "#/components/schemas/IBook"
+						},
+						"type": "array"
+					},
+					"user": {
+						"$ref": "#/components/schemas/IUser"
+					},
+					"_count": {
+						"properties": {
+							"books": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"createdAt",
+					"privacy",
+					"userId",
+					"books",
+					"user",
+					"_count"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateBookshelfDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"privacy",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBookshelfDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetAuthorDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetGenreDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateBookDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"format": {
+						"$ref": "#/components/schemas/Format"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"authors": {
+						"items": {
+							"$ref": "#/components/schemas/GetAuthorDto"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/GetGenreDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"title",
+					"isbn",
+					"description",
+					"language",
+					"format",
+					"country",
+					"numOfPages",
+					"publishDate",
+					"pdfLink",
+					"authors",
+					"genres"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBookDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"format": {
+						"$ref": "#/components/schemas/Format"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"authors": {
+						"items": {
+							"$ref": "#/components/schemas/GetAuthorDto"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/GetGenreDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"title",
+					"isbn",
+					"description",
+					"language",
+					"format",
+					"country",
+					"numOfPages",
+					"publishDate",
+					"pdfLink",
+					"authors",
+					"genres"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -937,566 +954,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/books": {
-			"get": {
-				"operationId": "GetAllBooks",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IBook"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Books"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "term",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "CreateBook",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBook"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Books"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateBookDto"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/books/{id}": {
-			"get": {
-				"operationId": "GetBookById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBook"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Books"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "UpdateBookById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBook"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Books"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateBookDto"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteBookById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBook"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Books"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/bookshelves": {
-			"get": {
-				"operationId": "GetAllBookshelves",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IBookshelf"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "term",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "CreateBookshelf",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBookshelf"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateBookshelfDto"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/bookshelves/{id}": {
-			"get": {
-				"operationId": "GetBookshelfById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBookshelf"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "UpdateBookshelf",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBookshelf"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateBookshelfDto"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteBookshelf",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBookshelf"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/bookshelves/user/{id}": {
-			"get": {
-				"operationId": "GetBookshelvesByUserId",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IBookshelf"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/bookshelves/add-books/{id}": {
-			"patch": {
-				"operationId": "AddBookToBookshelf",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBookshelf"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"items": {
-									"type": "number",
-									"format": "double"
-								},
-								"type": "array"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/bookshelves/remove-books/{id}": {
-			"patch": {
-				"operationId": "RemoveBooksFromBookshelf",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IBookshelf"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Bookshelves"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"items": {
-									"type": "number",
-									"format": "double"
-								},
-								"type": "array"
-							}
-						}
-					}
-				}
 			}
 		},
 		"/reading-challenges": {
@@ -1871,6 +1328,61 @@
 				]
 			}
 		},
+		"/conversations/chat/{conversationId}": {
+			"post": {
+				"operationId": "Chat",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"answer": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"answer"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Conversations"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "conversationId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChatDto"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/conversations/{conversationId}/messages": {
 			"post": {
 				"operationId": "CreateMessage",
@@ -1947,6 +1459,566 @@
 					{
 						"in": "path",
 						"name": "conversationId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/bookshelves": {
+			"get": {
+				"operationId": "GetAllBookshelves",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IBookshelf"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateBookshelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBookshelf"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBookshelfDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/bookshelves/{id}": {
+			"get": {
+				"operationId": "GetBookshelfById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBookshelf"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateBookshelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBookshelf"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBookshelfDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteBookshelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBookshelf"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/bookshelves/user/{id}": {
+			"get": {
+				"operationId": "GetBookshelvesByUserId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IBookshelf"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/bookshelves/add-books/{id}": {
+			"patch": {
+				"operationId": "AddBookToBookshelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBookshelf"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"items": {
+									"type": "number",
+									"format": "double"
+								},
+								"type": "array"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/bookshelves/remove-books/{id}": {
+			"patch": {
+				"operationId": "RemoveBooksFromBookshelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBookshelf"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bookshelves"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"items": {
+									"type": "number",
+									"format": "double"
+								},
+								"type": "array"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books": {
+			"get": {
+				"operationId": "GetAllBooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IBook"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBookDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books/{id}": {
+			"get": {
+				"operationId": "GetBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBookDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
 						"required": true,
 						"schema": {
 							"format": "double",

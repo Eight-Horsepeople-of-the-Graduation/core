@@ -1,0 +1,2704 @@
+{
+    "data": [
+        {
+            "name": "Suzanne Collins"
+        },
+        {
+            "name": "Harper Lee"
+        },
+        {
+            "name": "Stephenie Meyer"
+        },
+        {
+            "name": "J.R.R. Tolkien"
+        },
+        {
+            "name": "Victor Hugo"
+        },
+        {
+            "name": "Lee Fahnestock"
+        },
+        {
+            "name": "Norman MacAfee"
+        },
+        {
+            "name": "Veronica Roth"
+        },
+        {
+            "name": "William Golding"
+        },
+        {
+            "name": "F. Scott Fitzgerald"
+        },
+        {
+            "name": "Francis Scott Fitzgerald"
+        },
+        {
+            "name": "L.M. Montgomery"
+        },
+        {
+            "name": "E.B. White"
+        },
+        {
+            "name": "Garth Williams"
+        },
+        {
+            "name": "Rosemary Wells"
+        },
+        {
+            "name": "Aldous Huxley"
+        },
+        {
+            "name": "Gabriel García Márquez"
+        },
+        {
+            "name": "Gregory Rabassa"
+        },
+        {
+            "name": "William Goldman"
+        },
+        {
+            "name": "Mark Twain"
+        },
+        {
+            "name": "Guy Cardwell"
+        },
+        {
+            "name": "John Seelye"
+        },
+        {
+            "name": "Walter Trier"
+        },
+        {
+            "name": "Maurice Sendak"
+        },
+        {
+            "name": "Kurt Vonnegut Jr."
+        },
+        {
+            "name": "Stephen King"
+        },
+        {
+            "name": "Bernie Wrightson"
+        },
+        {
+            "name": "Arthur Conan Doyle"
+        },
+        {
+            "name": "J.K. Rowling"
+        },
+        {
+            "name": "Richelle Mead"
+        },
+        {
+            "name": "Philip Pullman"
+        },
+        {
+            "name": "Miguel de Cervantes Saavedra"
+        },
+        {
+            "name": "John Rutherford"
+        },
+        {
+            "name": "Roberto González Echevarría"
+        },
+        {
+            "name": "A.A. Milne"
+        },
+        {
+            "name": "Ernest H. Shepard"
+        },
+        {
+            "name": "Herman Melville"
+        },
+        {
+            "name": "Andrew Delbanco"
+        },
+        {
+            "name": "Tom Quirk"
+        },
+        {
+            "name": "Rockwell Kent"
+        },
+        {
+            "name": "Christopher Paolini"
+        },
+        {
+            "name": "Jack Kerouac"
+        },
+        {
+            "name": "Eric Carle"
+        },
+        {
+            "name": "Mary GrandPré"
+        },
+        {
+            "name": "Dr. Seuss"
+        },
+        {
+            "name": "Alexandre Dumas"
+        },
+        {
+            "name": "Robin Buss"
+        },
+        {
+            "name": "Louis Sachar"
+        },
+        {
+            "name": "Alan Moore"
+        },
+        {
+            "name": "Dave Gibbons"
+        },
+        {
+            "name": "John Higgins"
+        },
+        {
+            "name": "Laura Ingalls Wilder"
+        },
+        {
+            "name": "L. Frank Baum"
+        },
+        {
+            "name": "W.W. Denslow"
+        },
+        {
+            "name": "Margaret Wise Brown"
+        },
+        {
+            "name": "Clement Hurd"
+        },
+        {
+            "name": "Thomas Hardy"
+        },
+        {
+            "name": "Margaret R. Higonnet"
+        },
+        {
+            "name": "Maria Grazia Griffini"
+        },
+        {
+            "name": "Tim Dolin"
+        },
+        {
+            "name": "Pearl S. Buck"
+        },
+        {
+            "name": "Joseph Conrad"
+        },
+        {
+            "name": "Aníbal Fernandes"
+        },
+        {
+            "name": "Rick Riordan"
+        },
+        {
+            "name": "Marion Zimmer Bradley"
+        },
+        {
+            "name": "Jane Carruth"
+        },
+        {
+            "name": "Lewis Carroll"
+        },
+        {
+            "name": "Rene Cloke"
+        },
+        {
+            "name": "Jack London"
+        },
+        {
+            "name": "Avi"
+        },
+        {
+            "name": "Norton Juster"
+        },
+        {
+            "name": "Jules Feiffer"
+        },
+        {
+            "name": "Guillaume Fournier"
+        },
+        {
+            "name": "Pilar Ramírez Tello"
+        },
+        {
+            "name": "Hanna Hörl"
+        },
+        {
+            "name": "Sylke Hachmeister"
+        },
+        {
+            "name": "Peter Klöss"
+        },
+        {
+            "name": "Charles Dickens"
+        },
+        {
+            "name": "Philip Horne"
+        },
+        {
+            "name": "Gerald Dickens"
+        },
+        {
+            "name": "查尔斯·狄更斯"
+        },
+        {
+            "name": "吴倩卓"
+        },
+        {
+            "name": "Jeremy Tambling"
+        },
+        {
+            "name": "Jay Asher"
+        },
+        {
+            "name": "Knut Krüger"
+        },
+        {
+            "name": "Michael Crichton"
+        },
+        {
+            "name": "Christopher Tolkien"
+        },
+        {
+            "name": "Ted Nasmith"
+        },
+        {
+            "name": "John Kennedy Toole"
+        },
+        {
+            "name": "Walker Percy"
+        },
+        {
+            "name": "Ernest Hemingway"
+        },
+        {
+            "name": "Margery Williams Bianco"
+        },
+        {
+            "name": "William Nicholson"
+        },
+        {
+            "name": "Kenneth Grahame"
+        },
+        {
+            "name": "Gillian Avery"
+        },
+        {
+            "name": "Thomas Harris"
+        },
+        {
+            "name": "Isabel Allende"
+        },
+        {
+            "name": "Magda Bogin"
+        },
+        {
+            "name": "Bill Watterson"
+        },
+        {
+            "name": "William Shakespeare"
+        },
+        {
+            "name": "Ki Longfellow"
+        },
+        {
+            "name": "John Green"
+        },
+        {
+            "name": "Voltaire"
+        },
+        {
+            "name": "Sara Gioacchino Corcos"
+        },
+        {
+            "name": "Ralph Ellison"
+        },
+        {
+            "name": "James Herriot"
+        },
+        {
+            "name": "Haruki Murakami"
+        },
+        {
+            "name": "Jay Rubin"
+        },
+        {
+            "name": "H.G. Wells"
+        },
+        {
+            "name": "Greg Bear"
+        },
+        {
+            "name": "Carlo Pagetti"
+        },
+        {
+            "name": "Philip Gabriel"
+        },
+        {
+            "name": "Johanna Spyri"
+        },
+        {
+            "name": "Beverly Cleary"
+        },
+        {
+            "name": "Angelo Rinaldi"
+        },
+        {
+            "name": "سید مرتضی مصطفوی"
+        },
+        {
+            "name": "Charlaine Harris"
+        },
+        {
+            "name": "George Eliot"
+        },
+        {
+            "name": "Michel Faber"
+        },
+        {
+            "name": "Jon Stone"
+        },
+        {
+            "name": "Michael J. Smollin"
+        },
+        {
+            "name": "Philip K. Dick"
+        },
+        {
+            "name": "Bill Bryson"
+        },
+        {
+            "name": "Gayle Forman"
+        },
+        {
+            "name": "Marie Lu"
+        },
+        {
+            "name": "Bret Easton Ellis"
+        },
+        {
+            "name": "Neil Gaiman"
+        },
+        {
+            "name": "Dave McKean"
+        },
+        {
+            "name": "Jane Austen"
+        },
+        {
+            "name": "Charles Frazier"
+        },
+        {
+            "name": "R.J. Palacio"
+        },
+        {
+            "name": "Unknown"
+        },
+        {
+            "name": "Seamus Heaney"
+        },
+        {
+            "name": "Natalie Babbitt"
+        },
+        {
+            "name": "أحمد جمال الدين رمضان"
+        },
+        {
+            "name": "Kathryn Sutherland"
+        },
+        {
+            "name": "Jennifer L. Armentrout"
+        },
+        {
+            "name": "Ray Bradbury"
+        },
+        {
+            "name": "David Mitchell"
+        },
+        {
+            "name": "Tahereh Mafi"
+        },
+        {
+            "name": "Roald Dahl"
+        },
+        {
+            "name": "Quentin Blake"
+        },
+        {
+            "name": "Arthur Miller"
+        },
+        {
+            "name": "Albert Camus"
+        },
+        {
+            "name": "Stuart Gilbert"
+        },
+        {
+            "name": "Tennessee Williams"
+        },
+        {
+            "name": "David Foster Wallace"
+        },
+        {
+            "name": "Harold Bloom"
+        },
+        {
+            "name": "Rex Gibson"
+        },
+        {
+            "name": "Cormac McCarthy"
+        },
+        {
+            "name": "Erik Larson"
+        },
+        {
+            "name": "Edith Wharton"
+        },
+        {
+            "name": "Maureen Howard"
+        },
+        {
+            "name": "John Steinbeck"
+        },
+        {
+            "name": "T.S. Eliot"
+        },
+        {
+            "name": "Michael North"
+        },
+        {
+            "name": "P.C. Cast"
+        },
+        {
+            "name": "Kristin Cast"
+        },
+        {
+            "name": "Upton Sinclair"
+        },
+        {
+            "name": "Earl Lee"
+        },
+        {
+            "name": "Kathleen DeGrave"
+        },
+        {
+            "name": "David Sedaris"
+        },
+        {
+            "name": "Plato"
+        },
+        {
+            "name": "Desmond Lee"
+        },
+        {
+            "name": "Maria Helena da Rocha Pereira"
+        },
+        {
+            "name": "Benjamin Jowett"
+        },
+        {
+            "name": "Anonymous"
+        },
+        {
+            "name": "Richard Francis Burton"
+        },
+        {
+            "name": "A.S. Byatt"
+        },
+        {
+            "name": "W. Somerset Maugham"
+        },
+        {
+            "name": "Benjamin DeMott"
+        },
+        {
+            "name": "Maeve Binchy"
+        },
+        {
+            "name": "Libba Bray"
+        },
+        {
+            "name": "Kelley Armstrong"
+        },
+        {
+            "name": "Dalton Trumbo"
+        },
+        {
+            "name": "Irvine Welsh"
+        },
+        {
+            "name": "P.D. Eastman"
+        },
+        {
+            "name": "Barbara A. Mowat"
+        },
+        {
+            "name": "Paul Werstine"
+        },
+        {
+            "name": "Robert Jackson"
+        },
+        {
+            "name": "Gail Kern Paster"
+        },
+        {
+            "name": "Marcel Proust"
+        },
+        {
+            "name": "Lydia Davis"
+        },
+        {
+            "name": "Jon Krakauer"
+        },
+        {
+            "name": "Rosemarie Morgan"
+        },
+        {
+            "name": "Shannon Russell"
+        },
+        {
+            "name": "Pittacus Lore"
+        },
+        {
+            "name": "Garth Nix"
+        },
+        {
+            "name": "Robert Bray"
+        },
+        {
+            "name": "Alexandra Bracken"
+        },
+        {
+            "name": "Melissa Marr"
+        },
+        {
+            "name": "Peter S. Beagle"
+        },
+        {
+            "name": "Lemony Snicket"
+        },
+        {
+            "name": "Brett Helquist"
+        },
+        {
+            "name": "Edmond Rostand"
+        },
+        {
+            "name": "Eteel Lawson"
+        },
+        {
+            "name": "Lowell Bair"
+        },
+        {
+            "name": "Orson Scott Card"
+        },
+        {
+            "name": "Roma Gill"
+        },
+        {
+            "name": "Patrick Ness"
+        },
+        {
+            "name": "Lauren Oliver"
+        },
+        {
+            "name": "Peter Straub"
+        },
+        {
+            "name": "Michael Grant"
+        },
+        {
+            "name": "James Dashner"
+        },
+        {
+            "name": "Robert Ludlum"
+        },
+        {
+            "name": "Howard Zinn"
+        },
+        {
+            "name": "Stephen Hawking"
+        },
+        {
+            "name": "Marissa Meyer"
+        },
+        {
+            "name": "Tamora Pierce"
+        },
+        {
+            "name": "Dean Koontz"
+        },
+        {
+            "name": "David McCullough"
+        },
+        {
+            "name": "John Fowles"
+        },
+        {
+            "name": "Tom Robbins"
+        },
+        {
+            "name": "Henri Charrière"
+        },
+        {
+            "name": "Kyle Keyes"
+        },
+        {
+            "name": "Raymond Chandler"
+        },
+        {
+            "name": "Dee Brown"
+        },
+        {
+            "name": "Rachel Caine"
+        },
+        {
+            "name": "Shannon Hale"
+        },
+        {
+            "name": "Virgil"
+        },
+        {
+            "name": "Robert Fitzgerald"
+        },
+        {
+            "name": "Jorge Luis Borges"
+        },
+        {
+            "name": "Andrew Hurley"
+        },
+        {
+            "name": "Kerstin Gier"
+        },
+        {
+            "name": "Neal Stephenson"
+        },
+        {
+            "name": "Alfred Birnbaum"
+        },
+        {
+            "name": "Patricia Ingham"
+        },
+        {
+            "name": "Dennis Taylor"
+        },
+        {
+            "name": "Jenny Sterlin"
+        },
+        {
+            "name": "Mark Oxford"
+        },
+        {
+            "name": "James Oliver Smith Jr."
+        },
+        {
+            "name": "Agatha Christie"
+        },
+        {
+            "name": "Robert A. Heinlein"
+        },
+        {
+            "name": "Koushun Takami"
+        },
+        {
+            "name": "Yuji Oniki"
+        },
+        {
+            "name": "Sophocles"
+        },
+        {
+            "name": "J.E. Thomas"
+        },
+        {
+            "name": "Brian Selznick"
+        },
+        {
+            "name": "Jean-Paul Sartre"
+        },
+        {
+            "name": "Lloyd Alexander"
+        },
+        {
+            "name": "H.P. van den Aardweg"
+        },
+        {
+            "name": "Hayden Carruth"
+        },
+        {
+            "name": "Justin Cronin"
+        },
+        {
+            "name": "Dominique Haas"
+        },
+        {
+            "name": "Douglas Adams"
+        },
+        {
+            "name": "Winston Groom"
+        },
+        {
+            "name": "Jules Verne"
+        },
+        {
+            "name": "Michael Glencross (Translator"
+        },
+        {
+            "name": ""
+        },
+        {
+            "name": "Brian W. Aldiss"
+        },
+        {
+            "name": "Jeffrey Archer"
+        },
+        {
+            "name": "Scott Westerfeld"
+        },
+        {
+            "name": "Terry Pratchett"
+        },
+        {
+            "name": "Laurell K. Hamilton"
+        },
+        {
+            "name": "Jonathan Stroud"
+        },
+        {
+            "name": "Leigh Bardugo"
+        },
+        {
+            "name": "Irving Stone"
+        },
+        {
+            "name": "Nina Bawden"
+        },
+        {
+            "name": "Nevil Shute"
+        },
+        {
+            "name": "Brandon Mull"
+        },
+        {
+            "name": "Ken Kesey"
+        },
+        {
+            "name": "L.J. Smith"
+        },
+        {
+            "name": "Ayn Rand"
+        },
+        {
+            "name": "Leonard Peikoff"
+        },
+        {
+            "name": "Dashiell Hammett"
+        },
+        {
+            "name": "Colleen Houck"
+        },
+        {
+            "name": "Erin Hunter"
+        },
+        {
+            "name": "John Flanagan"
+        },
+        {
+            "name": "Don DeLillo"
+        },
+        {
+            "name": "Kim Harrison"
+        },
+        {
+            "name": "David Lindley"
+        },
+        {
+            "name": "Israel Gollancz"
+        },
+        {
+            "name": "Ursula K. Le Guin"
+        },
+        {
+            "name": "John Grisham"
+        },
+        {
+            "name": "Gary Paulsen"
+        },
+        {
+            "name": "Douglas R. Hofstadter"
+        },
+        {
+            "name": "Jim Butcher"
+        },
+        {
+            "name": "Claudia Gray"
+        },
+        {
+            "name": "Ruta Sepetys"
+        },
+        {
+            "name": "George Orwell"
+        },
+        {
+            "name": "Christopher Hitchens"
+        },
+        {
+            "name": "Robert R. McCammon"
+        },
+        {
+            "name": "Trenton Lee Stewart"
+        },
+        {
+            "name": "Pablo Neruda"
+        },
+        {
+            "name": "W.S. Merwin"
+        },
+        {
+            "name": "Cristina García"
+        },
+        {
+            "name": "James Patterson"
+        },
+        {
+            "name": "Alyson Noel"
+        },
+        {
+            "name": "Rebecca Skloot"
+        },
+        {
+            "name": "Sergio Cobo"
+        },
+        {
+            "name": "Malcolm Gladwell"
+        },
+        {
+            "name": "Virginia Woolf"
+        },
+        {
+            "name": "Kate DiCamillo"
+        },
+        {
+            "name": "Timothy Basil Ering"
+        },
+        {
+            "name": "Murasaki Shikibu"
+        },
+        {
+            "name": "Royall Tyler"
+        },
+        {
+            "name": "Vera Jane Cook"
+        },
+        {
+            "name": "Louise Fitzhugh"
+        },
+        {
+            "name": "Kenneth Jarrett Singleton"
+        },
+        {
+            "name": "John Wyndham"
+        },
+        {
+            "name": "Michelle Hodkin"
+        },
+        {
+            "name": "Frank Miller"
+        },
+        {
+            "name": "Klaus Janson"
+        },
+        {
+            "name": "Lynn Varley"
+        },
+        {
+            "name": "Julio Cortázar"
+        },
+        {
+            "name": "Zofia Chądzyńska"
+        },
+        {
+            "name": "Stendhal"
+        },
+        {
+            "name": "Roger Gard"
+        },
+        {
+            "name": "John Williams"
+        },
+        {
+            "name": "John McGahern"
+        },
+        {
+            "name": "James Clavell"
+        },
+        {
+            "name": "John le Carré"
+        },
+        {
+            "name": "Naguib Mahfouz"
+        },
+        {
+            "name": "نجيب محفوظ"
+        },
+        {
+            "name": "Maria Nhambu"
+        },
+        {
+            "name": "Ovid"
+        },
+        {
+            "name": "David Raeburn"
+        },
+        {
+            "name": "Denis Feeney"
+        },
+        {
+            "name": "Judith Viorst"
+        },
+        {
+            "name": "Ray Cruz"
+        },
+        {
+            "name": "Rudyard Kipling"
+        },
+        {
+            "name": "Fred Gipson"
+        },
+        {
+            "name": "China Miéville"
+        },
+        {
+            "name": "Pedro Jorge Romero"
+        },
+        {
+            "name": "Dave Eggers"
+        },
+        {
+            "name": "Amie Kaufman"
+        },
+        {
+            "name": "Jay Kristoff"
+        },
+        {
+            "name": "John Howard Griffin"
+        },
+        {
+            "name": "Deborah Leblanc"
+        },
+        {
+            "name": "Laura Joffe Numeroff"
+        },
+        {
+            "name": "Felicia Bond"
+        },
+        {
+            "name": "Jeff Kinney"
+        },
+        {
+            "name": "Clive Barker"
+        },
+        {
+            "name": "Muriel Spark"
+        },
+        {
+            "name": "John Scalzi"
+        },
+        {
+            "name": "Mary Stewart"
+        },
+        {
+            "name": "Maggie Stiefvater"
+        },
+        {
+            "name": "Carina Jansson"
+        },
+        {
+            "name": "Susan Beth Pfeffer"
+        },
+        {
+            "name": "Alan Lee"
+        },
+        {
+            "name": "Lee Child"
+        },
+        {
+            "name": "Julie Kagawa"
+        },
+        {
+            "name": "James A. Michener"
+        },
+        {
+            "name": "D.S. Smith"
+        },
+        {
+            "name": "Derek Landy"
+        },
+        {
+            "name": "Tom Percival"
+        },
+        {
+            "name": "Frederick Forsyth"
+        },
+        {
+            "name": "Misty Mount"
+        },
+        {
+            "name": "Paul Auster"
+        },
+        {
+            "name": "Art Spiegelman"
+        },
+        {
+            "name": "Luc Sante"
+        },
+        {
+            "name": "Hilary Mantel"
+        },
+        {
+            "name": "Jennifer A. Nielsen"
+        },
+        {
+            "name": "Napoleon Hill"
+        },
+        {
+            "name": "Ben Holden-Crowther"
+        },
+        {
+            "name": "John Marsden"
+        },
+        {
+            "name": "Deborah Harkness"
+        },
+        {
+            "name": "Patricia Briggs"
+        },
+        {
+            "name": "John Tiffany"
+        },
+        {
+            "name": "Jack Thorne"
+        },
+        {
+            "name": "Charles Bukowski"
+        },
+        {
+            "name": "Michel Guyon"
+        },
+        {
+            "name": "Zina Kostich"
+        },
+        {
+            "name": "Robert C. O'Brien"
+        },
+        {
+            "name": "Yuehai Xiao"
+        },
+        {
+            "name": "Roger Zelazny"
+        },
+        {
+            "name": "Tim White"
+        },
+        {
+            "name": "Victoria Aveyard"
+        },
+        {
+            "name": "Alex Garland"
+        },
+        {
+            "name": "Sidney Sheldon"
+        },
+        {
+            "name": "Carl Sagan"
+        },
+        {
+            "name": "William Olivier Desmond"
+        },
+        {
+            "name": "Simon Okill"
+        },
+        {
+            "name": "Amanda Hocking"
+        },
+        {
+            "name": "Chris Colfer"
+        },
+        {
+            "name": "Brandon Dorman"
+        },
+        {
+            "name": "Katherine Neville"
+        },
+        {
+            "name": "Кэтрин Нэвилл"
+        },
+        {
+            "name": "Tom Clancy"
+        },
+        {
+            "name": "Stephanie Garber"
+        },
+        {
+            "name": "Shel Silverstein"
+        },
+        {
+            "name": "Richard Matheson"
+        },
+        {
+            "name": "Jeffery Deaver"
+        },
+        {
+            "name": "Robert Shea"
+        },
+        {
+            "name": "Robert Anton Wilson"
+        },
+        {
+            "name": "Mark Ford"
+        },
+        {
+            "name": "Dudley Fitts"
+        },
+        {
+            "name": "Anya Seton"
+        },
+        {
+            "name": "Philippa Gregory"
+        },
+        {
+            "name": "Kirsten Fullmer"
+        },
+        {
+            "name": "Walter Isaacson"
+        },
+        {
+            "name": "Gail Carriger"
+        },
+        {
+            "name": "Eric Schlosser"
+        },
+        {
+            "name": "Zoltan Andrejkovics"
+        },
+        {
+            "name": "Lois Lowry"
+        },
+        {
+            "name": "Andy Szpuk"
+        },
+        {
+            "name": "Paul Kalanithi"
+        },
+        {
+            "name": "John Jowett"
+        },
+        {
+            "name": "Robin Cook"
+        },
+        {
+            "name": "Carrie Ryan"
+        },
+        {
+            "name": "John Gray"
+        },
+        {
+            "name": "Noah Gordon"
+        },
+        {
+            "name": "James Noel Smith"
+        },
+        {
+            "name": "Tsugumi Ohba"
+        },
+        {
+            "name": "Takeshi Obata"
+        },
+        {
+            "name": "Pookie Rolf"
+        },
+        {
+            "name": "Roberta Pearce"
+        },
+        {
+            "name": "Heath Sommer"
+        },
+        {
+            "name": "Michelle Magorian"
+        },
+        {
+            "name": "Willa Cather"
+        },
+        {
+            "name": "Richard Wright"
+        },
+        {
+            "name": "Jerry W. Ward Jr."
+        },
+        {
+            "name": "C.K. Scott Moncrieff"
+        },
+        {
+            "name": "Andreas Mayor"
+        },
+        {
+            "name": "Terence Kilmartin"
+        },
+        {
+            "name": "D.J. Enright"
+        },
+        {
+            "name": "Richard Howard"
+        },
+        {
+            "name": "Mary E. Pearson"
+        },
+        {
+            "name": "Josephine Tey"
+        },
+        {
+            "name": "A.G. Howard"
+        },
+        {
+            "name": "J.K. Franko"
+        },
+        {
+            "name": "Madeleine L'Engle"
+        },
+        {
+            "name": "Ken Follett"
+        },
+        {
+            "name": "Marie Rutkoski"
+        },
+        {
+            "name": "Melina Marchetta"
+        },
+        {
+            "name": "Connie Willis"
+        },
+        {
+            "name": "Megan Whalen Turner"
+        },
+        {
+            "name": "Dan Simmons"
+        },
+        {
+            "name": "Stephen J. Wall"
+        },
+        {
+            "name": "Helen Small"
+        },
+        {
+            "name": "Jean Webster"
+        },
+        {
+            "name": "David Clement-Davies"
+        },
+        {
+            "name": "Michael G. Kramer"
+        },
+        {
+            "name": "Rom LcO'Feer"
+        },
+        {
+            "name": "Ally Condie"
+        },
+        {
+            "name": "T.H. White"
+        },
+        {
+            "name": "Lindsay Anne Kendal"
+        },
+        {
+            "name": "Ernesto Sabato"
+        },
+        {
+            "name": "Nino Pipia"
+        },
+        {
+            "name": "Tom Wolfe"
+        },
+        {
+            "name": "John Rocco"
+        },
+        {
+            "name": "Pat Frank"
+        },
+        {
+            "name": "Anne Rice"
+        },
+        {
+            "name": "Dorothy L. Sayers"
+        },
+        {
+            "name": "Norman Mailer"
+        },
+        {
+            "name": "Patricia Highsmith"
+        },
+        {
+            "name": "Irvin D. Yalom"
+        },
+        {
+            "name": "Stella Gibbons"
+        },
+        {
+            "name": "Lynne Truss"
+        },
+        {
+            "name": "Roz Chast"
+        },
+        {
+            "name": "Holly Black"
+        },
+        {
+            "name": "Catherine Fisher"
+        },
+        {
+            "name": "Rachael Lippincott"
+        },
+        {
+            "name": "Mikki Daughtry"
+        },
+        {
+            "name": "Tobias Iaconis"
+        },
+        {
+            "name": "فاطمه صبحی"
+        },
+        {
+            "name": "Adam Carpenter Welles"
+        },
+        {
+            "name": "أحمد مراد"
+        },
+        {
+            "name": "Darren Shan"
+        },
+        {
+            "name": "Anthony Horowitz"
+        },
+        {
+            "name": "William Graney"
+        },
+        {
+            "name": "Dennis Sharpe"
+        },
+        {
+            "name": "Matthew Bracey"
+        },
+        {
+            "name": "Raymond Carver"
+        },
+        {
+            "name": "Eoin Colfer"
+        },
+        {
+            "name": "Gena Showalter"
+        },
+        {
+            "name": "Patrick O'Brian"
+        },
+        {
+            "name": "Kendare Blake"
+        },
+        {
+            "name": "Everett H. Emerson"
+        },
+        {
+            "name": "Beth Revis"
+        },
+        {
+            "name": "Theodore Dreiser"
+        },
+        {
+            "name": "Lynessa Layne"
+        },
+        {
+            "name": "Robin Hobb"
+        },
+        {
+            "name": "Lian Hearn"
+        },
+        {
+            "name": "Caleb Carr"
+        },
+        {
+            "name": "Jordan Stump"
+        },
+        {
+            "name": "Jan Raymond"
+        },
+        {
+            "name": "John Fante"
+        },
+        {
+            "name": "John Hemingway"
+        },
+        {
+            "name": "Patrick Hemingway"
+        },
+        {
+            "name": "Gregory H. Hemingway"
+        },
+        {
+            "name": "Charles Scribner Jr."
+        },
+        {
+            "name": "Dorothy Dunnett"
+        },
+        {
+            "name": "Lissa Price"
+        },
+        {
+            "name": "Hunter S. Thompson"
+        },
+        {
+            "name": "Sylvie Durastanti"
+        },
+        {
+            "name": "Iain M. Banks"
+        },
+        {
+            "name": "Larry Niven"
+        },
+        {
+            "name": "Jerry Pournelle"
+        },
+        {
+            "name": "Lynne Reid Banks"
+        },
+        {
+            "name": "ShelFoote"
+        },
+        {
+            "name": "Henry Fielding"
+        },
+        {
+            "name": "Thomas Keymer"
+        },
+        {
+            "name": "Alice Wakely"
+        },
+        {
+            "name": "Thomas Wolfe"
+        },
+        {
+            "name": "Juliet Marillier"
+        },
+        {
+            "name": "Rebecca Stead"
+        },
+        {
+            "name": "Jennifer Brown"
+        },
+        {
+            "name": "Thomas Pynchon"
+        },
+        {
+            "name": "Carlos Martín Ramírez"
+        },
+        {
+            "name": "Kevin Moccia"
+        },
+        {
+            "name": "Jared Diamond"
+        },
+        {
+            "name": "Dave Barry"
+        },
+        {
+            "name": "Ridley Pearson"
+        },
+        {
+            "name": "Greg Call"
+        },
+        {
+            "name": "Pseudonymous Bosch"
+        },
+        {
+            "name": "Gilbert Ford"
+        },
+        {
+            "name": "Danielle Paige"
+        },
+        {
+            "name": "Leslie Garland"
+        },
+        {
+            "name": "M.S. Matassa"
+        },
+        {
+            "name": "Tomi Adeyemi"
+        },
+        {
+            "name": "George S. Clason"
+        },
+        {
+            "name": "Frank Herbert"
+        },
+        {
+            "name": "Penelope Lively"
+        },
+        {
+            "name": "Gabrielle Zevin"
+        },
+        {
+            "name": "Aimee Carter"
+        },
+        {
+            "name": "Kendra Elliot"
+        },
+        {
+            "name": "Maria Teresa Marenco"
+        },
+        {
+            "name": "Forrest Carter"
+        },
+        {
+            "name": "Christine M. Knight"
+        },
+        {
+            "name": "Theodore Taylor"
+        },
+        {
+            "name": "Mira Grant"
+        },
+        {
+            "name": "Bernard Cornwell"
+        },
+        {
+            "name": "Heather Brewer"
+        },
+        {
+            "name": "Z Brewer"
+        },
+        {
+            "name": "Sam McBratney"
+        },
+        {
+            "name": "Anita Jeram"
+        },
+        {
+            "name": "Leslye Walton"
+        },
+        {
+            "name": "Jakub Lasak"
+        },
+        {
+            "name": "Sian Melangell Dafydd"
+        },
+        {
+            "name": "Eiji Yoshikawa"
+        },
+        {
+            "name": "Charles Terry"
+        },
+        {
+            "name": "Edwin O. Reischauer"
+        },
+        {
+            "name": "Ransom Riggs"
+        },
+        {
+            "name": "Gore Vidal"
+        },
+        {
+            "name": "Ryū Murakami"
+        },
+        {
+            "name": "Ralph McCarthy"
+        },
+        {
+            "name": "Keri Hulme"
+        },
+        {
+            "name": "Kathy Reichs"
+        },
+        {
+            "name": "Brendan Reichs"
+        },
+        {
+            "name": "Michael Connelly"
+        },
+        {
+            "name": "Maureen Johnson"
+        },
+        {
+            "name": "Lauren Myracle"
+        },
+        {
+            "name": "Tricia Copeland"
+        },
+        {
+            "name": "Ann Druyan"
+        },
+        {
+            "name": "Natsuo Kirino"
+        },
+        {
+            "name": "Stephen Snyder"
+        },
+        {
+            "name": "Richard Sprout"
+        },
+        {
+            "name": "Shannon Messenger"
+        },
+        {
+            "name": "Mark M. Bello"
+        },
+        {
+            "name": "Martin Amis"
+        },
+        {
+            "name": "Michel de Montaigne"
+        },
+        {
+            "name": "M.A. Screech"
+        },
+        {
+            "name": "Rick Yancey"
+        },
+        {
+            "name": "Simon W. Clark"
+        },
+        {
+            "name": "Dan Wells"
+        },
+        {
+            "name": "Melinda Leigh"
+        },
+        {
+            "name": "Seth Grahame-Smith"
+        },
+        {
+            "name": "Robert Fulghum"
+        },
+        {
+            "name": "Jessica Verday"
+        },
+        {
+            "name": "Josephine Angelini"
+        },
+        {
+            "name": "Del Roy"
+        },
+        {
+            "name": "Isaac Asimov"
+        },
+        {
+            "name": "Mike Dringenberg"
+        },
+        {
+            "name": "Chris Bachalo"
+        },
+        {
+            "name": "Michael Zulli"
+        },
+        {
+            "name": "Kelly Jones"
+        },
+        {
+            "name": "Charles Vess"
+        },
+        {
+            "name": "Colleen Doran"
+        },
+        {
+            "name": "Malcolm Jones III"
+        },
+        {
+            "name": "more…"
+        },
+        {
+            "name": "Denis Johnson"
+        },
+        {
+            "name": "Ahlam Mosteghanemi"
+        },
+        {
+            "name": "أحلام مستغانمي"
+        },
+        {
+            "name": "Michael Morpurgo"
+        },
+        {
+            "name": "Teri Terry"
+        },
+        {
+            "name": "Naomi Novik"
+        },
+        {
+            "name": "Alan Lightman"
+        },
+        {
+            "name": "P.G. Wodehouse"
+        },
+        {
+            "name": "Joe Abercrombie"
+        },
+        {
+            "name": "Darin C. Brown"
+        },
+        {
+            "name": "Snehlata Agarwala"
+        },
+        {
+            "name": "Bev Stout"
+        },
+        {
+            "name": "Raina Telgemeier"
+        },
+        {
+            "name": "Adam Smith"
+        },
+        {
+            "name": "Malcolm X"
+        },
+        {
+            "name": "Alex Haley"
+        },
+        {
+            "name": "رضوى عاشور"
+        },
+        {
+            "name": "Radwa Ashour"
+        },
+        {
+            "name": "J.G. Ballard"
+        },
+        {
+            "name": "Andrea Cremer"
+        },
+        {
+            "name": "Susan Cooper"
+        },
+        {
+            "name": "Michelle Paver"
+        },
+        {
+            "name": "Geoff Taylor"
+        },
+        {
+            "name": "Ashlee Vance"
+        },
+        {
+            "name": "Michael Scott"
+        },
+        {
+            "name": "Katherine Applegate"
+        },
+        {
+            "name": "Patricia Castelao"
+        },
+        {
+            "name": "Miquel Reina"
+        },
+        {
+            "name": "Catherine E. Nelson"
+        },
+        {
+            "name": "Christian Warren Freed"
+        },
+        {
+            "name": "أحمد خالد توفيق"
+        },
+        {
+            "name": "Barbara W. Tuchman"
+        },
+        {
+            "name": "Guillermo del Toro"
+        },
+        {
+            "name": "Chuck Hogan"
+        },
+        {
+            "name": "Justin O'Brien"
+        },
+        {
+            "name": "Christopher McDougall"
+        },
+        {
+            "name": "Lee Matthew Goldberg"
+        },
+        {
+            "name": "Beatrix Potter"
+        },
+        {
+            "name": "Johann David Wyss"
+        },
+        {
+            "name": "Scott McKowen"
+        },
+        {
+            "name": "Arthur Pober"
+        },
+        {
+            "name": "Robert Bloch"
+        },
+        {
+            "name": "Ian Fleming"
+        },
+        {
+            "name": "J.K. Accinni"
+        },
+        {
+            "name": "Martin Cruz Smith"
+        },
+        {
+            "name": "Anne McCaffrey"
+        },
+        {
+            "name": "Grahame Shannon"
+        },
+        {
+            "name": "Beth Fantaskey"
+        },
+        {
+            "name": "Aram Saroyan"
+        },
+        {
+            "name": "Tom Parker"
+        },
+        {
+            "name": "Grover Gardner"
+        },
+        {
+            "name": "Douglas Preston"
+        },
+        {
+            "name": "Lincoln Child"
+        },
+        {
+            "name": "Anne Michaud"
+        },
+        {
+            "name": "Edward P. Jones"
+        },
+        {
+            "name": "Carolyn M. Bowen"
+        },
+        {
+            "name": "Stephen R. Donaldson"
+        },
+        {
+            "name": "Gemma Malley"
+        },
+        {
+            "name": "Robert Harris"
+        },
+        {
+            "name": "Kerri Maniscalco"
+        },
+        {
+            "name": "David Mazzucchelli"
+        },
+        {
+            "name": "Richmond Lewis"
+        },
+        {
+            "name": "Todd Klein"
+        },
+        {
+            "name": "Dennis O'Neil"
+        },
+        {
+            "name": "أنيس منصور"
+        },
+        {
+            "name": "صلاح جاهين"
+        },
+        {
+            "name": "يحيى حقي"
+        },
+        {
+            "name": "G.D. Falksen"
+        },
+        {
+            "name": "G.B. Trudeau"
+        },
+        {
+            "name": "Jim Thompson"
+        },
+        {
+            "name": "Robert Kirkman"
+        },
+        {
+            "name": "Tony Moore"
+        },
+        {
+            "name": "Andreas Mergenthaler"
+        },
+        {
+            "name": "Frank Darabont"
+        },
+        {
+            "name": "Charles Adlard"
+        },
+        {
+            "name": "Sina Grace"
+        },
+        {
+            "name": "Hardy Hellstern"
+        },
+        {
+            "name": "Charlie Adlard"
+        },
+        {
+            "name": "Judith Guest"
+        },
+        {
+            "name": "Lionel Trilling"
+        },
+        {
+            "name": "Ildefonso Falcones"
+        },
+        {
+            "name": "Jennifer Donnelly"
+        },
+        {
+            "name": "Colleen McCullough"
+        },
+        {
+            "name": "Daniel Suarez"
+        },
+        {
+            "name": "Edgar Rice Burroughs"
+        },
+        {
+            "name": "Gertrude Chandler Warner"
+        },
+        {
+            "name": "L. Kate Deal"
+        },
+        {
+            "name": "Karen Hesse"
+        },
+        {
+            "name": "Benito Taibo"
+        },
+        {
+            "name": "Barack Obama"
+        },
+        {
+            "name": "Margot Paronis"
+        },
+        {
+            "name": "S.E. Hinton"
+        },
+        {
+            "name": "Ian McEwan"
+        },
+        {
+            "name": "Cinda Williams Chima"
+        },
+        {
+            "name": "Tad Williams"
+        },
+        {
+            "name": "Ernesto Che Guevara"
+        },
+        {
+            "name": "Aleida Guevara March"
+        },
+        {
+            "name": "Nick Cave"
+        },
+        {
+            "name": "Jennifer Estep"
+        },
+        {
+            "name": "Gabrielle Charbonnet"
+        },
+        {
+            "name": "Emily Raymond"
+        },
+        {
+            "name": "Anne Bishop"
+        },
+        {
+            "name": "Retta Bono"
+        },
+        {
+            "name": "Oscar Wilde"
+        },
+        {
+            "name": "William Boyd"
+        },
+        {
+            "name": "Suzanne Young"
+        },
+        {
+            "name": "Éric-Emmanuel Schmitt"
+        },
+        {
+            "name": "Mark Helprin"
+        },
+        {
+            "name": "Banana Yoshimoto"
+        },
+        {
+            "name": "Megan Backus"
+        },
+        {
+            "name": "Louisa May Alcott"
+        },
+        {
+            "name": "Курт Воннегут"
+        },
+        {
+            "name": "Laurie Faria Stolarz"
+        },
+        {
+            "name": "Haley Riordan"
+        },
+        {
+            "name": "Antonio Caparo"
+        },
+        {
+            "name": "Steve James"
+        },
+        {
+            "name": "Joann Hill"
+        },
+        {
+            "name": "Francesca Zappia"
+        },
+        {
+            "name": "Jerry Spinelli"
+        },
+        {
+            "name": "Jonathan Lethem"
+        },
+        {
+            "name": "Daniel James Brown"
+        },
+        {
+            "name": "Ellen Schreiber"
+        },
+        {
+            "name": "Karl Marlantes"
+        },
+        {
+            "name": "Timothy Miller"
+        },
+        {
+            "name": "Patricia C. Wrede"
+        },
+        {
+            "name": "Peter de Sève"
+        },
+        {
+            "name": "Shaun Tan"
+        },
+        {
+            "name": "C.M. Meridian"
+        },
+        {
+            "name": "Jesse Andrews"
+        },
+        {
+            "name": "Jonathan Maberry"
+        },
+        {
+            "name": "Gleb Tsipursky"
+        },
+        {
+            "name": "Henry James"
+        },
+        {
+            "name": "Patricia Crick"
+        },
+        {
+            "name": "Trudi Canavan"
+        },
+        {
+            "name": "Lauren Klever"
+        },
+        {
+            "name": "Lorraine Hansberry"
+        },
+        {
+            "name": "Gerald Durrell"
+        },
+        {
+            "name": "Margaret Sayers Peden"
+        },
+        {
+            "name": "Michael Buckley"
+        },
+        {
+            "name": "Peter Ferguson"
+        },
+        {
+            "name": "Rodman Philbrick"
+        },
+        {
+            "name": "Vincent van Gogh"
+        },
+        {
+            "name": "Leo Jansen"
+        },
+        {
+            "name": "Hans Luijten"
+        },
+        {
+            "name": "Nienke Bakker"
+        },
+        {
+            "name": "Edith Pattou"
+        },
+        {
+            "name": "Nelson DeMille"
+        },
+        {
+            "name": "N.H. Kleinbaum"
+        },
+        {
+            "name": "Tom Schulman"
+        },
+        {
+            "name": "Suzan Cenani Alioğlu"
+        },
+        {
+            "name": "Nuten Hatırnaz"
+        },
+        {
+            "name": "Masashi Kishimoto"
+        },
+        {
+            "name": "Katy Bridges"
+        },
+        {
+            "name": "Ingrid Law"
+        },
+        {
+            "name": "Victoria Schwab"
+        },
+        {
+            "name": "Aaron-Michael Hall"
+        },
+        {
+            "name": "Jeff Smith"
+        },
+        {
+            "name": "Joss Stirling"
+        },
+        {
+            "name": "M.G. Wells"
+        },
+        {
+            "name": "Eran Gadot"
+        },
+        {
+            "name": "Georges Perec"
+        },
+        {
+            "name": "David Bellos"
+        },
+        {
+            "name": "Brian Jacques"
+        },
+        {
+            "name": "Carol Wyer"
+        },
+        {
+            "name": "David McRaney"
+        },
+        {
+            "name": "H.P. Lovecraft"
+        },
+        {
+            "name": "S.T. Joshi"
+        },
+        {
+            "name": "Douglas Coupland"
+        },
+        {
+            "name": "Joan Didion"
+        },
+        {
+            "name": "Christina Mercer"
+        },
+        {
+            "name": "Vincent Panettiere"
+        },
+        {
+            "name": "Jennifer Lynn Barnes"
+        },
+        {
+            "name": "Piers Anthony"
+        },
+        {
+            "name": "Tamara Ireland Stone"
+        },
+        {
+            "name": "Laura Gallego García"
+        },
+        {
+            "name": "Viet Thanh Nguyen"
+        },
+        {
+            "name": "Tanya Thompson"
+        },
+        {
+            "name": "Pam Muñoz Ryan"
+        },
+        {
+            "name": "Edward Abbey"
+        },
+        {
+            "name": "Karl Wiggins"
+        },
+        {
+            "name": "John M. Cooper"
+        },
+        {
+            "name": "Dorothea Frede"
+        },
+        {
+            "name": "Alexander Nehamas"
+        },
+        {
+            "name": "Paul Woodruff"
+        },
+        {
+            "name": "Anthony Kenny"
+        },
+        {
+            "name": "Rosamond Kent Sprague"
+        },
+        {
+            "name": "Adolf Hitler"
+        },
+        {
+            "name": "Ralph Manheim"
+        },
+        {
+            "name": "Serpil Yener"
+        },
+        {
+            "name": "James Ellroy"
+        },
+        {
+            "name": "Don Winslow"
+        },
+        {
+            "name": "Robyn Schneider"
+        },
+        {
+            "name": "Kingsley Amis"
+        },
+        {
+            "name": "David Lodge"
+        },
+        {
+            "name": "TK"
+        },
+        {
+            "name": "Matthew Walker"
+        },
+        {
+            "name": "Christopher Marlowe"
+        },
+        {
+            "name": "Gene Wolfe"
+        },
+        {
+            "name": "Justine Eyre"
+        },
+        {
+            "name": "Hector Malot"
+        },
+        {
+            "name": "Florence Crewe-Jones"
+        },
+        {
+            "name": "افسون مهدویان"
+        },
+        {
+            "name": "حسین بکائی"
+        },
+        {
+            "name": "Arthur C. Clarke"
+        },
+        {
+            "name": "William Gibson"
+        },
+        {
+            "name": "Steven Erikson"
+        },
+        {
+            "name": "Sabaa Tahir"
+        },
+        {
+            "name": "Iain Banks"
+        },
+        {
+            "name": "Angelo Tsanatelis"
+        },
+        {
+            "name": "Don Phelan"
+        },
+        {
+            "name": "Lord Byron"
+        },
+        {
+            "name": "Truman Guy Steffan"
+        },
+        {
+            "name": "Peter J. Manning"
+        },
+        {
+            "name": "Susan J. Wolfson"
+        },
+        {
+            "name": "Ben Aaronovitch"
+        },
+        {
+            "name": "Diana Wynne Jones"
+        },
+        {
+            "name": "Tite Kubo"
+        },
+        {
+            "name": "John D. Simons"
+        },
+        {
+            "name": "Monarch Notes"
+        },
+        {
+            "name": "Kimberly Brubaker Bradley"
+        },
+        {
+            "name": "Mark Carwardine"
+        },
+        {
+            "name": "Bob Atkinson"
+        },
+        {
+            "name": "Richard Bachman"
+        },
+        {
+            "name": "Mary Norton"
+        },
+        {
+            "name": "Beth Krush"
+        },
+        {
+            "name": "Joe Krush"
+        },
+        {
+            "name": "John Connolly"
+        },
+        {
+            "name": "Robert P. Murphy"
+        },
+        {
+            "name": "رحاب صلاح الدين"
+        },
+        {
+            "name": "Yukio Mishima"
+        },
+        {
+            "name": "John Nathan"
+        },
+        {
+            "name": "Loung Ung"
+        },
+        {
+            "name": "Alfred Bester"
+        },
+        {
+            "name": "Chuck Klosterman"
+        },
+        {
+            "name": "Robert B. Cialdini"
+        },
+        {
+            "name": "Tui T. Sutherland"
+        },
+        {
+            "name": "Edward Eager"
+        },
+        {
+            "name": "N.M. Bodecker"
+        },
+        {
+            "name": "Betty MacDonald"
+        },
+        {
+            "name": "Alexandra Boiger"
+        },
+        {
+            "name": "Françoise Sagan"
+        },
+        {
+            "name": "Amy Plum"
+        },
+        {
+            "name": "William Blake"
+        },
+        {
+            "name": "David V. Erdman"
+        },
+        {
+            "name": "John Irving"
+        },
+        {
+            "name": "Simon Jones"
+        },
+        {
+            "name": "Tim Powers"
+        },
+        {
+            "name": "Glen Orbik"
+        },
+        {
+            "name": "Amin Maalouf"
+        },
+        {
+            "name": "أمين معلوف"
+        },
+        {
+            "name": "نهلة بيضون"
+        },
+        {
+            "name": "Cecilia Bernard"
+        },
+        {
+            "name": "Elizabeth Moon"
+        },
+        {
+            "name": "Ronald de Leeuw"
+        },
+        {
+            "name": "Arnold J. Pomerans"
+        },
+        {
+            "name": "Wendy Mass"
+        },
+        {
+            "name": "Nick Harkaway"
+        },
+        {
+            "name": "Cate Tiernan"
+        },
+        {
+            "name": "Adolfo Bioy Casares"
+        },
+        {
+            "name": "Ruth L.C. Simms"
+        },
+        {
+            "name": "Suzanne Jill Levine"
+        },
+        {
+            "name": "Norah Borges de Torre"
+        },
+        {
+            "name": "Robert Jordan"
+        },
+        {
+            "name": "Enid Blyton"
+        },
+        {
+            "name": "Lisa McMann"
+        },
+        {
+            "name": "Alwyn Hamilton"
+        },
+        {
+            "name": "Yuval Noah Harari"
+        },
+        {
+            "name": "Svetlana Alexievich"
+        },
+        {
+            "name": "Keith Gessen"
+        },
+        {
+            "name": "Alma Lapinskienė"
+        },
+        {
+            "name": "Jessica Day George"
+        },
+        {
+            "name": "Arwen Elys Dayton"
+        },
+        {
+            "name": "Cynthia Voigt"
+        },
+        {
+            "name": "Katie Kacvinsky"
+        },
+        {
+            "name": "Katie Ray"
+        },
+        {
+            "name": "Barbara Demick"
+        },
+        {
+            "name": "Cassandra Clare"
+        },
+        {
+            "name": "Scott Fischer"
+        },
+        {
+            "name": "Jessica Warman"
+        },
+        {
+            "name": "J.D. Robb"
+        },
+        {
+            "name": "Tobias Wolff"
+        },
+        {
+            "name": "Jude Watson"
+        },
+        {
+            "name": "Richard Brautigan"
+        },
+        {
+            "name": "Pedro Calderón de la Barca"
+        },
+        {
+            "name": "Ciriaco Morón Arroyo"
+        },
+        {
+            "name": "Amy Bloom"
+        },
+        {
+            "name": "Pierre A. Walker"
+        },
+        {
+            "name": "Susan Dennard"
+        },
+        {
+            "name": "Bryan Stevenson"
+        },
+        {
+            "name": "Catherine Anderson"
+        },
+        {
+            "name": "Colin Meloy"
+        },
+        {
+            "name": "Carson Ellis"
+        },
+        {
+            "name": "Neal Shusterman"
+        },
+        {
+            "name": "Tim O'Brien"
+        },
+        {
+            "name": "Michel Houellebecq"
+        },
+        {
+            "name": "Nassim Nicholas Taleb"
+        },
+        {
+            "name": "H. Rider Haggard"
+        },
+        {
+            "name": "Demi Lovato"
+        },
+        {
+            "name": "Kiera Cass"
+        },
+        {
+            "name": "Edward Albee"
+        },
+        {
+            "name": "Janne Teller"
+        },
+        {
+            "name": "Martin Aitken"
+        },
+        {
+            "name": "Mario Puzo"
+        },
+        {
+            "name": "Ford Madox Ford"
+        },
+        {
+            "name": "Kenneth Womack"
+        },
+        {
+            "name": "William Baker"
+        },
+        {
+            "name": "Rachel Renée Russell"
+        },
+        {
+            "name": "Melissa Albert"
+        },
+        {
+            "name": "Craig Silvey"
+        },
+        {
+            "name": "Linda Masemore Pirrung"
+        },
+        {
+            "name": "Antoine de Saint-Exupéry"
+        },
+        {
+            "name": "Lewis Galantière"
+        },
+        {
+            "name": "CLAMP"
+        },
+        {
+            "name": "Anthony Gerard"
+        },
+        {
+            "name": "J.J. Sorel"
+        },
+        {
+            "name": "E.L. Konigsburg"
+        },
+        {
+            "name": "Philip José Farmer"
+        },
+        {
+            "name": "Betty Edwards"
+        },
+        {
+            "name": "Marc Hempel"
+        },
+        {
+            "name": "Richard Case"
+        },
+        {
+            "name": "D'Israeli"
+        },
+        {
+            "name": "Teddy Kristiansen"
+        },
+        {
+            "name": "Glyn Dillon"
+        },
+        {
+            "name": "Dean Ormston"
+        },
+        {
+            "name": "C.C. Hunter"
+        },
+        {
+            "name": "Elizabeth Goudge"
+        },
+        {
+            "name": "Michael Lewis"
+        },
+        {
+            "name": "Margaret Weis"
+        },
+        {
+            "name": "Tracy Hickman"
+        }
+    ]
+}
