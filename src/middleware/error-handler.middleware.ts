@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import logger from "../utils/logger";
+// import logger from "../utils/logger";
 import { HttpException } from "../exceptions/http.exception";
 
 export const errorHandlerMiddleware = (
@@ -12,7 +12,7 @@ export const errorHandlerMiddleware = (
     const status = error.status || 500;
     const message = error.response || "Something went wrong";
 
-    logger.error(
+    console.error(
       `${status} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
 
