@@ -1,5 +1,5 @@
-import genresRepository from "@repositories/genres.repository";
-import { CreateGenreDto, SearchQueryDto, UpdateGenreDto } from "@dtos";
+import genresRepository from "../repositories/genres.repository";
+import { CreateGenreDto, SearchQueryDto, UpdateGenreDto } from "../dtos";
 
 export const getAllGenres = async (searchQueryDto: SearchQueryDto) => {
   const genres = await genresRepository.getAllGenres(searchQueryDto);

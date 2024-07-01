@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import conversationsService from "@services/conversations.service";
+import conversationsService from "../services/conversations.service";
 
 export const getAllConversations = async (req: Request, res: Response) => {
   const conversations = await conversationsService.getAllConversations();

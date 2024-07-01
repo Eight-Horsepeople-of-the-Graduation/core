@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { SearchQueryDto } from "@dtos";
-import authorsService from "@services/authors.service";
+import { SearchQueryDto } from "../dtos";
+import authorsService from "../services/authors.service";
 import { plainToInstance } from "class-transformer";
 
 export const getAllAuthors = async (req: Request, res: Response) => {

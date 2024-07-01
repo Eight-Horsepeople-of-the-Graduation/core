@@ -1,5 +1,5 @@
-import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "@dtos";
-import authorsRepository from "@repositories/authors.repository";
+import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "../dtos";
+import authorsRepository from "../repositories/authors.repository";
 
 export const getAllAuthors = async (SearchQueryDto: SearchQueryDto) => {
   const authors = await authorsRepository.getAllAuthors(SearchQueryDto);

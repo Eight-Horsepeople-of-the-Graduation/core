@@ -1,5 +1,5 @@
-import prismaClient from "@utils/prisma";
-import { CreateGenreDto, SearchQueryDto, UpdateGenreDto } from "@dtos";
+import prismaClient from "../utils/prisma";
+import { CreateGenreDto, SearchQueryDto, UpdateGenreDto } from "../dtos";
 
 export const getAllGenres = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;

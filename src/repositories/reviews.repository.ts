@@ -1,4 +1,4 @@
-import prismaClient from "@utils/prisma";
+import prismaClient from "../utils/prisma";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
 
 export const getReviewById = async (reviewId: number) => {

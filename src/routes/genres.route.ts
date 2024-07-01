@@ -1,7 +1,7 @@
 import { Router } from "express";
-import genresController from "@controllers/genres.controller";
-import { validationMiddleware } from "@middleware/validation.middleware";
-import asyncWrapper from "@utils/async-wrapper";
+import genresController from "../controllers/genres.controller";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import asyncWrapper from "../utils/async-wrapper";
 import { CreateGenreDto, UpdateGenreDto } from "../dtos/genres.dto";
 
 const router = Router();

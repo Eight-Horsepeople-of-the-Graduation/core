@@ -1,13 +1,13 @@
 import { Express } from "express";
-import readingChallengesRouter from "@routes/reading-challenges.route";
-import usersRouter from "@routes/users.route";
-import booksRouter from "@routes/books.route";
-import bookshelfRouter from "@routes/bookshelves.route";
-import searchRouter from "@routes/search.route";
-import conversationsRouter from "@routes/conversations.route";
-import authorsRouter from "@routes/authors.route";
-import genresRouter from "@routes/genres.route";
-import reviewsRouter from "@routes/reviews.route";
+import readingChallengesRouter from "../routes/reading-challenges.route";
+import usersRouter from "../routes/users.route";
+import booksRouter from "../routes/books.route";
+import bookshelfRouter from "../routes/bookshelves.route";
+import searchRouter from "../routes/search.route";
+import conversationsRouter from "../routes/conversations.route";
+import authorsRouter from "../routes/authors.route";
+import genresRouter from "../routes/genres.route";
+import reviewsRouter from "../routes/reviews.route";
 
 /**
  * Registers all routes in the application

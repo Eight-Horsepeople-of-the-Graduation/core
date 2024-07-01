@@ -1,5 +1,5 @@
-import prismaClient from "@utils/prisma";
-import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "@dtos";
+import prismaClient from "../utils/prisma";
+import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "../dtos";
 
 export const getAllAuthors = async (searchQueryDto: SearchQueryDto) => {
   const authors = await prismaClient.author.findMany({

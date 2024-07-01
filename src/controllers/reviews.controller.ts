@@ -1,4 +1,4 @@
-import reviewsService from "@services/reviews.service";
+import reviewsService from "../services/reviews.service";
 import { Request, Response } from "express";
 
 export const getReviewById = async (req: Request, res: Response) => {

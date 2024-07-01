@@ -1,6 +1,6 @@
-import reviewsController from "@controllers/reviews.controller";
-import { validationMiddleware } from "@middleware/validation.middleware";
-import asyncWrapper from "@utils/async-wrapper";
+import reviewsController from "../controllers/reviews.controller";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import asyncWrapper from "../utils/async-wrapper";
 import { Router } from "express";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
 

@@ -1,4 +1,4 @@
-import genresService from "@services/genres.service";
+import genresService from "../services/genres.service";
 import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
 import { SearchQueryDto } from "../dtos/search.dto";

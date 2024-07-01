@@ -1,5 +1,5 @@
-import { ChatDto, CreateConversationDto, CreateMessageDto } from "@dtos";
-import conversationRepository from "@repositories/conversations.repository";
+import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
+import conversationRepository from "../repositories/conversations.repository";
 import { ChatArgs, buildChat } from "rag-api";
 import config from "../config";
 

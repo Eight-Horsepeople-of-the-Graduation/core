@@ -1,8 +1,8 @@
 import { Router } from "express";
-import conversationsController from "@controllers/conversations.controller";
-import { CreateConversationDto, CreateMessageDto } from "@dtos";
-import { validationMiddleware } from "@middleware/validation.middleware";
-import asyncWrapper from "@utils/async-wrapper";
+import conversationsController from "../controllers/conversations.controller";
+import { CreateConversationDto, CreateMessageDto } from "../dtos";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import asyncWrapper from "../utils/async-wrapper";
 
 const router: Router = Router();
 

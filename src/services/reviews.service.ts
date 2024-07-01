@@ -1,4 +1,4 @@
-import reviewsRepository from "@repositories/reviews.repository";
+import reviewsRepository from "../repositories/reviews.repository";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
 
 export const getReviewById = async (reviewId: number) => {
