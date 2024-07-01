@@ -17,7 +17,7 @@
       "@utils/*": ["./src/utils/*"]
     },
     "resolveJsonModule": true,
-    "outDir": "./public",
+    "outDir": "./build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

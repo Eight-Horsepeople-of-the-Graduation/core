@@ -150,4 +150,4 @@ dist
 # Swagger
 swagger-generated-routes.ts
 .vercel
-public
+build
