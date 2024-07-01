@@ -128,8 +128,8 @@ enum Format {
 }
 
 enum Gender {
-  male
-  female
+  MALE
+  FEMALE
 }
 
 enum ReadingChallengeType {
