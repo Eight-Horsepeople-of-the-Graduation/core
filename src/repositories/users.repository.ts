@@ -1,5 +1,5 @@
-import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "../dtos";
-import prismaClient from "../utils/prisma";
+import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "@dtos";
+import prismaClient from "@utils/prisma";
 
 export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;

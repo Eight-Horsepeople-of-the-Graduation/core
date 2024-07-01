@@ -1,5 +1,5 @@
-import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "../dtos";
-import booksRepository from "../repositories/books.repository";
+import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
+import booksRepository from "@repositories/books.repository";
 
 export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   const books = await booksRepository.getAllBooks(searchQueryDto);

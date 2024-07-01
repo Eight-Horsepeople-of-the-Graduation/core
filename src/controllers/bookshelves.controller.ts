@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
-import { GetBookshelfByIdDto, SearchQueryDto } from "../dtos";
-import bookshelvesService from "../services/bookshelves.service";
+import { GetBookshelfByIdDto, SearchQueryDto } from "@dtos";
+import bookshelvesService from "@services/bookshelves.service";
 
 export const getAllBookshelves = async (req: Request, res: Response) => {
   const filter = plainToInstance(SearchQueryDto, req.query);
