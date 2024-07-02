@@ -8,6 +8,9 @@ export const getAllReadingChallenges = async () => {
       _count: { select: { books: true } },
     },
   });
+  if (!readingChallenges) {
+    throw new Error("No reading challenges found");
+  }
   return readingChallenges;
 };
 export const getReadingChallengeById = async (id: number) => {
@@ -79,6 +82,27 @@ export const updateReadingChallenge = async (
   });
   return updatedReadingChallenge;
 };
+export const deleteBookFromReadingChallenge = async (
+  readingChallengeId: number,
+  bookId: number
+) => {
+  const updatedReadingChallenge = await prismaClient.readingChallenge.update({
+    where: {
+      id: readingChallengeId,
+    },
+    data: {
+      books: {
+        disconnect: {
+          id: bookId,
+        },
+      },
+    },
+    include: {
+      books: true,
+    },
+  });
+  return updatedReadingChallenge;
+};
 export const deleteReadingChallenge = async (id: number) => {
   const deletedReadingChallenge = await prismaClient.readingChallenge.delete({
     where: {
@@ -95,5 +119,6 @@ export default {
   addBookToReadingChallenge,
   createReadingChallenge,
   updateReadingChallenge,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
 };

@@ -6,6 +6,9 @@ import {
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
 
 export const getAllReadingChallenges = async () => {
+  if (!readingChallengesRepository) {
+    throw new Error("Reading Challenges Repository not found");
+  }
   const readingChallenges =
     await readingChallengesRepository.getAllReadingChallenges();
 
@@ -73,6 +76,27 @@ export const updateReadingChallenge = async (
 
   const updatedReadingChallenge =
     await readingChallengesRepository.updateReadingChallenge(id, updatedData);
+
+  return updatedReadingChallenge;
+};
+
+export const deleteBookFromReadingChallenge = async (
+  readingChallengeId: number,
+  bookId: number
+) => {
+  const book = await getBookById(bookId);
+  if (!book) {
+    throw new Error("Book not found");
+  }
+  const readingChallenge = await getReadingChallengeById(readingChallengeId);
+  if (!readingChallenge) {
+    throw new Error("Reading Challenge not found");
+  }
+  const updatedReadingChallenge =
+    await readingChallengesRepository.deleteBookFromReadingChallenge(
+      readingChallengeId,
+      bookId
+    );
 
   return updatedReadingChallenge;
 };
