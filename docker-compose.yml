@@ -1,13 +1,28 @@
 version: "3.8"
 services:
+  app:
+    container_name: backend
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - backend_node-modules:/app/node_modules
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
   db:
+    container_name: database
     image: postgres:latest
-    restart: always # Makes sure the container will always restarts, if it stops for any unexpected reason
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=apassword
-      - POSTGRES_DB=postgres
+    restart: always # Makes sure the container always restarts, if it stops for any unexpected reason
     ports:
       - "5432:5432"
+    env_file:
+      - ./.env
+
 volumes:
   db:
+  backend_node-modules:

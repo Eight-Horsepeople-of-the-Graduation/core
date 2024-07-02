@@ -149,3 +149,5 @@ dist
 
 # Swagger
 swagger-generated-routes.ts
+
+build
