@@ -23,37 +23,39 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
-// export const createReview = async (createReviewDto: CreateReviewDto) => {
-//   const newReview = await reviewsRepository.createReview(createReviewDto);
-
-//   return newReview;
-// };
-
 export function createReviewAndRating(createReviewDto: CreateReviewDto) {
   return prismaClient.$transaction(async (prisma) => {
-    const createReview = async () => {
-      const newReview = await reviewsRepository.createReview(createReviewDto);
+    const newReview = await reviewsRepository.createReview(createReviewDto);
 
-      const updateBookRating = async (bookId: number) => {
-        await booksRepository.updateBookRating(bookId, createReviewDto.rating);
-      };
+    await booksRepository.updateBookRating(
+      createReviewDto.bookId,
+      createReviewDto.rating
+    );
 
-      return newReview;
-    };
+    return newReview;
   });
 }
 
-export const updateReview = async (
+export function updateReviewAndRating(
   updatedReviewDto: UpdateReviewDto,
   reviewId: number
-) => {
-  const updatedReview = await reviewsRepository.updateReview(
-    updatedReviewDto,
-    reviewId
-  );
+) {
+  return prismaClient.$transaction(async (prisma) => {
+    const updatedReview = await reviewsRepository.updateReview(
+      updatedReviewDto,
+      reviewId
+    );
+    if (updatedReviewDto.rating === undefined) return updatedReview;
+    else {
+      await booksRepository.updateBookRating(
+        updatedReviewDto.bookId,
+        updatedReviewDto.rating
+      );
+    }
 
-  return updatedReview;
-};
+    return updatedReview;
+  });
+}
 
 export const deleteReview = async (reviewId: number) => {
   const deletedReview = await reviewsRepository.deleteReview(reviewId);
@@ -65,7 +67,7 @@ export default {
   getReviewById,
   getReviewsByUserId,
   getReviewsByBookId,
-  updateReview,
   deleteReview,
   createReviewAndRating,
+  updateReviewAndRating,
 };

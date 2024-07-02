@@ -23,6 +23,7 @@ export const getReviewsByBookId = async (bookId: number) => {
     },
     include: {
       user: true,
+      book: true,
     },
   });
 
@@ -55,6 +56,7 @@ export const getReviewsByUserId = async (userId: number) => {
     },
     include: {
       book: true,
+      user: true,
     },
   });
 
