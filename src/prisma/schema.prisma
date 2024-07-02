@@ -36,7 +36,7 @@ model Book {
   language          String
   country           String
   numOfPages        Int
-  rating            Float
+  rating            Float?
   pdfLink           String?
   coverPicture      String?
   authors           Author[]
