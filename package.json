@@ -12,11 +12,14 @@
     "build:watch": "tsc -w",
     "start": "ts-node -r tsconfig-paths/register src/app.ts",
     "start:dev": "ts-node-dev -r tsconfig-paths/register src/app.ts",
+    "start:prod": "pnpm build && node build/app.js",
     "test": "jest",
     "swagger": "pnpm dlx tsoa spec-and-routes",
     "prisma:generate": "pnpm dlx prisma generate",
-    "prisma:migrate": "pnpm dlx prisma migrate dev",
-    "prisma:seed": "pnpm dlx prisma db seed"
+    "prisma:migrate:dev": "pnpm dlx prisma migrate dev",
+    "prisma:migrate:deploy": "pnpm dlx prisma migrate deploy",
+    "prisma:seed": "pnpm dlx prisma db seed",
+    "postinstall": "pnpm dlx prisma generate"
   },
   "keywords": [],
   "author": "",
