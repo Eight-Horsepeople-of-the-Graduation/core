@@ -2,6 +2,7 @@ import { ReadingChallengeType } from "@prisma/client";
 import {
   addBookToReadingChallenge,
   createReadingChallenge,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
   getAllReadingChallenges,
   getReadingChallengeById,
@@ -269,6 +270,62 @@ describe("ReadingChallengesRepository", () => {
       );
 
       mockUpdate.mockRestore();
+    });
+  });
+
+  describe("deleteBookFromReadingChallenge", () => {
+    it("should remove a book from the reading challenge when valid IDs are provided", async () => {
+      const readingChallengeId = 1;
+      const bookId = 1;
+
+      const mockUpdatedReadingChallenge = {
+        id: readingChallengeId,
+        books: [],
+      };
+
+      prismaClient.readingChallenge.update = jest
+        .fn()
+        .mockResolvedValue(mockUpdatedReadingChallenge);
+
+      const result = await deleteBookFromReadingChallenge(
+        readingChallengeId,
+        bookId
+      );
+
+      expect(prismaClient.readingChallenge.update).toHaveBeenCalledWith({
+        where: { id: readingChallengeId },
+        data: { books: { disconnect: { id: bookId } } },
+        include: { books: true },
+      });
+
+      expect(result).toEqual(mockUpdatedReadingChallenge);
+    });
+    // Book ID does not exist in the reading challenge
+    it("should not remove a book when the book ID does not exist in the reading challenge", async () => {
+      const readingChallengeId = 1;
+      const bookId = 2;
+
+      const mockUpdatedReadingChallenge = {
+        id: readingChallengeId,
+        books: [],
+      };
+
+      prismaClient.readingChallenge.update = jest
+        .fn()
+        .mockResolvedValue(mockUpdatedReadingChallenge);
+
+      const result = await deleteBookFromReadingChallenge(
+        readingChallengeId,
+        bookId
+      );
+
+      expect(prismaClient.readingChallenge.update).toHaveBeenCalledWith({
+        where: { id: readingChallengeId },
+        data: { books: { disconnect: { id: bookId } } },
+        include: { books: true },
+      });
+
+      expect(result).toEqual(mockUpdatedReadingChallenge);
     });
   });
   describe("deleteReadingChallenge", () => {

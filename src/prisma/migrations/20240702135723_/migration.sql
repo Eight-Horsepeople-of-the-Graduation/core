@@ -2,10 +2,10 @@
 CREATE TYPE "Format" AS ENUM ('PAPERBACK', 'HARDCOVER', 'EBOOK');
 
 -- CreateEnum
-CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
+CREATE TYPE "Gender" AS ENUM ('male', 'female');
 
 -- CreateEnum
-CREATE TYPE "Type" AS ENUM ('WEEKLY', 'MONTHLY', 'ANNUAL');
+CREATE TYPE "ReadingChallengeType" AS ENUM ('WEEKLY', 'MONTHLY', 'ANNUAL');
 
 -- CreateEnum
 CREATE TYPE "Privacy" AS ENUM ('PUBLIC', 'PRIVATE');
@@ -38,6 +38,7 @@ CREATE TABLE "Book" (
     "country" TEXT NOT NULL,
     "numOfPages" INTEGER NOT NULL,
     "pdfLink" TEXT,
+    "coverPicture" TEXT,
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
 );
@@ -71,7 +72,7 @@ CREATE TABLE "Review" (
 CREATE TABLE "ReadingChallenge" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "type" "Type" NOT NULL,
+    "type" "ReadingChallengeType" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "progress" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,

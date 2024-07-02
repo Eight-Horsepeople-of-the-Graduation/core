@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   addBookToReadingChallenge,
   createReadingChallenge,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
   getReadingChallengeById,
   getReadingChallengeByUserId,
@@ -350,6 +351,61 @@ describe("Reading Challenges Controller", () => {
       expect(res.json).toHaveBeenCalledWith({
         error: "Updating Reading Callenge Error : Missing Id",
       });
+    });
+  });
+
+  describe("deleteBookFromReadingChallenge", () => {
+    it("should delete a book from an existing reading challenge when valid IDs are provided", async () => {
+      const req = {
+        params: { id: "1" },
+        body: { bookId: 1 },
+      } as unknown as Request;
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      } as unknown as Response;
+
+      const mockDeleteBookFromReadingChallenge = jest
+        .spyOn(readingChallengesService, "deleteBookFromReadingChallenge")
+        .mockResolvedValue({
+          books: [],
+          id: 1,
+          title: "Challenge 1",
+          userId: 1,
+          type: ReadingChallengeType.MONTHLY,
+          startDate: new Date("2023-01-01"),
+          progress: 0,
+        });
+
+      await deleteBookFromReadingChallenge(req, res);
+
+      expect(mockDeleteBookFromReadingChallenge).toHaveBeenCalledWith(1, 1);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith({
+        books: [],
+        id: 1,
+        title: "Challenge 1",
+        userId: 1,
+        type: ReadingChallengeType.MONTHLY,
+        startDate: new Date("2023-01-01"),
+        progress: 0,
+      });
+    });
+    // Book ID is missing or invalid
+    it("should return status 400 with error message when book ID is missing", async () => {
+      const req = {
+        params: { id: "1" },
+        body: {},
+      } as unknown as Request;
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      } as unknown as Response;
+
+      await deleteBookFromReadingChallenge(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.send).toHaveBeenCalledWith({ error: "Book ID is required" });
     });
   });
   describe("deleteReadingChallenge", () => {

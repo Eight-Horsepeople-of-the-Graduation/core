@@ -37,6 +37,10 @@ router.put(
   "/add-book/:id",
   asyncWrapper(readingChallengesController.addBookToReadingChallenge)
 );
+router.put(
+  "/remove-book/:id",
+  asyncWrapper(readingChallengesController.deleteBookFromReadingChallenge)
+);
 
 router.delete(
   "/:id",
