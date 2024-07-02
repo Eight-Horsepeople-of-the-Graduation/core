@@ -10,6 +10,7 @@ import {
 import * as readingChallengesService from "../../services/reading-challenges.service";
 import { getAllReadingChallenges } from "../../controllers/reading-challenges.controller";
 import { ReadingChallengeType } from "@prisma/client";
+import { Format } from "@prisma/client";
 
 describe("Reading Challenges Controller", () => {
   afterEach(() => {
@@ -215,11 +216,12 @@ describe("Reading Challenges Controller", () => {
             country: "United States",
             numOfPages: 200,
             pdfLink: null,
+            coverPicture: null,
           },
         ],
         title: "Challenge 1",
         userId: 1,
-        type: Type.MONTHLY,
+        type: ReadingChallengeType.MONTHLY,
         startDate: new Date(),
         progress: 0,
       };
@@ -255,7 +257,7 @@ describe("Reading Challenges Controller", () => {
           title: "New Challenge",
           description: "Read 10 books in 2023",
           userId: 1,
-          type: Type.MONTHLY,
+          type: ReadingChallengeType.MONTHLY,
           startDate: new Date(),
           progress: 0,
         },
@@ -271,7 +273,7 @@ describe("Reading Challenges Controller", () => {
         title: "New Challenge",
         description: "Read 10 books in 2023",
         userId: 1,
-        type: Type.MONTHLY,
+        type: ReadingChallengeType.MONTHLY,
         startDate: new Date(),
         progress: 0,
       };
@@ -318,7 +320,7 @@ describe("Reading Challenges Controller", () => {
         title: "New Challenge",
         description: "Read 10 books in 2023",
         userId: 1,
-        type: Type.MONTHLY,
+        type: ReadingChallengeType.MONTHLY,
         startDate: new Date(),
         progress: 0,
       };
@@ -351,7 +353,6 @@ describe("Reading Challenges Controller", () => {
     });
   });
   describe("deleteReadingChallenge", () => {
-    // Successfully deletes a reading challenge with a valid id
     it("should delete a reading challenge when a valid id is provided", async () => {
       const req = { params: { id: "1" } } as unknown as Request;
       const res = {
@@ -363,7 +364,7 @@ describe("Reading Challenges Controller", () => {
         title: "New Challenge",
         description: "Read 10 books in 2023",
         userId: 1,
-        type: Type.MONTHLY,
+        type: ReadingChallengeType.MONTHLY,
         startDate: new Date(),
         progress: 0,
       };

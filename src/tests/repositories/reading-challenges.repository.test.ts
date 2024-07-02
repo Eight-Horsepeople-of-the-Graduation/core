@@ -1,4 +1,4 @@
-import { Type } from "@prisma/client";
+import { ReadingChallengeType } from "@prisma/client";
 import {
   addBookToReadingChallenge,
   createReadingChallenge,
@@ -27,7 +27,7 @@ describe("ReadingChallengesRepository", () => {
           title: "Reading Challenge 2",
           startDate: new Date("2021-01-01"),
           progress: 0,
-          type: Type.ANNUAL,
+          type: ReadingChallengeType.ANNUAL,
           userId: 1,
         },
       ];
