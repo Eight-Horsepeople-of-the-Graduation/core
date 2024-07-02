@@ -28,7 +28,7 @@ model User {
 
 model Book {
   id                Int                @id @default(autoincrement())
-  title             String 
+  title             String
   isbn              String             @unique
   description       String
   publishDate       DateTime
@@ -36,6 +36,7 @@ model Book {
   language          String
   country           String
   numOfPages        Int
+  rating            Float
   pdfLink           String?
   coverPicture      String?
   authors           Author[]
@@ -75,13 +76,13 @@ model Review {
 }
 
 model ReadingChallenge {
-  id        Int      @id @default(autoincrement())
+  id        Int                  @id @default(autoincrement())
   title     String
   type      ReadingChallengeType
-  startDate DateTime @default(now())
+  startDate DateTime             @default(now())
   progress  Int
   books     Book[]
-  user      User     @relation(fields: [userId], references: [id])
+  user      User                 @relation(fields: [userId], references: [id])
   userId    Int
 }
 

@@ -6,11 +6,12 @@ import { readFileSync } from "fs";
 import { seedConfig } from "./config";
 import { range } from "lodash";
 
-
 export async function seedBooks(num: number) {
   num = Math.min(num, data.length);
-  console.log("-----------------------------Seeding Books, Authors, Genres------------");
-  
+  console.log(
+    "-----------------------------Seeding Books, Authors, Genres------------"
+  );
+
   // Add genres and authors of the desired books
   let count = 0;
   for (const book of data) {
@@ -42,12 +43,10 @@ export async function seedBooks(num: number) {
     count++;
   }
 
-
   // Add books
   count = 0;
   for (const book of data) {
     if (count >= num) break;
-
 
     const bookFormat =
       book.format == "PAPERBACK"
@@ -55,7 +54,7 @@ export async function seedBooks(num: number) {
         : book.format == "HARDCOVER"
           ? Format.HARDCOVER
           : Format.EBOOK;
-    
+
     // Get random users as owners
     const bookOwners = await prismaClient.user.findMany({
       where: {
@@ -81,7 +80,6 @@ export async function seedBooks(num: number) {
       },
     });
 
-
     // Add book
     await prismaClient.book.create({
       data: {
@@ -93,6 +91,7 @@ export async function seedBooks(num: number) {
         language: book.language,
         country: book.country,
         numOfPages: book.numOfPages == "" ? -1 : parseInt(book.numOfPages),
+        rating: 4.2,
         pdfLink: book.pdfLink,
         coverPicture: book.coverPicture,
         authors: {
@@ -110,13 +109,10 @@ export async function seedBooks(num: number) {
     count++;
   }
 
-  console.log(`Added ${num} Books along with their respective genres and authors..`);
+  console.log(
+    `Added ${num} Books along with their respective genres and authors..`
+  );
 }
-
-
-
-
-
 
 function generateISBN13() {
   let isbn = "978"; // ISBN-13 prefix for books

@@ -37,6 +37,7 @@ CREATE TABLE "Book" (
     "language" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "numOfPages" INTEGER NOT NULL,
+    "rating" DOUBLE PRECISION NOT NULL,
     "pdfLink" TEXT,
     "coverPicture" TEXT,
 
