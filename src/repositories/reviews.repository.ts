@@ -29,6 +29,24 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
+export const aggregateRatingsByBookId = async (bookId: number) => {
+  const currentRatings = await prismaClient.review.aggregate({
+    where: {
+      bookId,
+    },
+    _sum: {
+      rating: true,
+    },
+    _count: {
+      rating: true,
+    },
+  });
+  return {
+    count: currentRatings._count,
+    sum: currentRatings._sum,
+  };
+};
+
 // missing: add service, controller, route in users
 export const getReviewsByUserId = async (userId: number) => {
   const reviews = await prismaClient.review.findMany({
@@ -111,4 +129,5 @@ export default {
   createReview,
   updateReview,
   deleteReview,
+  aggregateRatingsByBookId,
 };

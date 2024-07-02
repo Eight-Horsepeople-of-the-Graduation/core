@@ -1,5 +1,7 @@
 import reviewsRepository from "@repositories/reviews.repository";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
+import prismaClient from "@utils/prisma";
+import booksRepository from "@repositories/books.repository";
 
 export const getReviewById = async (reviewId: number) => {
   const review = await reviewsRepository.getReviewById(reviewId);
@@ -21,11 +23,25 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
-export const createReview = async (createReviewDto: CreateReviewDto) => {
-  const newReview = await reviewsRepository.createReview(createReviewDto);
+// export const createReview = async (createReviewDto: CreateReviewDto) => {
+//   const newReview = await reviewsRepository.createReview(createReviewDto);
 
-  return newReview;
-};
+//   return newReview;
+// };
+
+export function createReviewAndRating(createReviewDto: CreateReviewDto) {
+  return prismaClient.$transaction(async (prisma) => {
+    const createReview = async () => {
+      const newReview = await reviewsRepository.createReview(createReviewDto);
+
+      const updateBookRating = async (bookId: number) => {
+        await booksRepository.updateBookRating(bookId, createReviewDto.rating);
+      };
+
+      return newReview;
+    };
+  });
+}
 
 export const updateReview = async (
   updatedReviewDto: UpdateReviewDto,
@@ -49,7 +65,7 @@ export default {
   getReviewById,
   getReviewsByUserId,
   getReviewsByBookId,
-  createReview,
   updateReview,
   deleteReview,
+  createReviewAndRating,
 };
