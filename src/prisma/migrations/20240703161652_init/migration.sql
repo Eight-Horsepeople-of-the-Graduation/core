@@ -2,7 +2,7 @@
 CREATE TYPE "Format" AS ENUM ('PAPERBACK', 'HARDCOVER', 'EBOOK');
 
 -- CreateEnum
-CREATE TYPE "Gender" AS ENUM ('male', 'female');
+CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
 
 -- CreateEnum
 CREATE TYPE "ReadingChallengeType" AS ENUM ('WEEKLY', 'MONTHLY', 'ANNUAL');

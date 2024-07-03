@@ -2,7 +2,6 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import * as swaggerUI from "swagger-ui-express";
-import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
 import loadRouters from "./loaders/express";
 import * as swaggerJson from "./swagger/swagger.json";
 import path from "path";
@@ -32,7 +31,7 @@ app.use("/",(req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 })
 
-app.use(errorHandlerMiddleware);
+// app.use(errorHandlerMiddleware);
 
 export default app;
 

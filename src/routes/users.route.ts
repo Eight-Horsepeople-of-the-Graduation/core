@@ -1,7 +1,6 @@
 import { Router } from "express";
 import usersController from "../controllers/users.controller";
 import asyncWrapper from "../utils/async-wrapper";
-import { validationMiddleware } from "../middleware/validation.middleware";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 
 const router = Router();
@@ -13,13 +12,13 @@ router.get("/username/:username", asyncWrapper(usersController.getUserByUsername
 
 router.post(
   "/",
-  [validationMiddleware(CreateUserDto)],
+  // [validationMiddleware(CreateUserDto)],
   asyncWrapper(usersController.createUser)
 );
 
 router.put(
   "/:id",
-  validationMiddleware(UpdateUserDto),
+  // validationMiddleware(UpdateUserDto),
   asyncWrapper(usersController.updateUserById)
 );
 
