@@ -26,7 +26,7 @@ export const getReviewsByBookId = async (req: Request, res: Response) => {
 
 export const createReview = async (req: Request, res: Response) => {
   const createReviewDto = req.body;
-  const newReview = await reviewsService.createReview(createReviewDto);
+  const newReview = await reviewsService.createReviewAndRating(createReviewDto);
 
   return res.status(201).send(newReview);
 };
@@ -34,7 +34,7 @@ export const createReview = async (req: Request, res: Response) => {
 export const updateReview = async (req: Request, res: Response) => {
   const reviewId = parseInt(req.params.id, 10);
   const updateReviewDto = req.body;
-  const updatedReview = await reviewsService.updateReview(
+  const updatedReview = await reviewsService.updateReviewAndRating(
     updateReviewDto,
     reviewId
   );
