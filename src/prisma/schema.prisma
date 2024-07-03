@@ -13,6 +13,7 @@ datasource db {
 }
 model User {
   id                Int                @id @default(autoincrement())
+  name              String
   username          String             @unique
   email             String             @unique
   password          String
@@ -32,7 +33,7 @@ model User {
 
 model Book {
   id                Int                @id @default(autoincrement())
-  title             String 
+  title             String
   isbn              String             @unique
   description       String
   publishDate       DateTime
@@ -40,6 +41,7 @@ model Book {
   language          String
   country           String
   numOfPages        Int
+  rating            Float?
   pdfLink           String?
   coverPicture      String?
   authors           Author[]
@@ -58,7 +60,7 @@ model Bookshelf {
   createdAt   DateTime @default(now())
   privacy     Privacy  @default(PUBLIC)
   books       Book[]
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
 
   @@unique([userId, title])
@@ -70,22 +72,22 @@ model Review {
   description String
   rating      Float
   createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  book        Book     @relation(fields: [bookId], references: [id])
+  book        Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
   bookId      Int
 
   @@unique([userId, bookId])
 }
 
 model ReadingChallenge {
-  id        Int      @id @default(autoincrement())
+  id        Int                  @id @default(autoincrement())
   title     String
   type      ReadingChallengeType
-  startDate DateTime @default(now())
+  startDate DateTime             @default(now())
   progress  Int
   books     Book[]
-  user      User     @relation(fields: [userId], references: [id])
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
 }
 
@@ -95,9 +97,9 @@ model Conversation {
   retriever String
   memory    String
   llm       String
-  book      Book      @relation(fields: [bookId], references: [id])
+  book      Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
   bookId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   messages  Message[]
 }
@@ -107,7 +109,7 @@ model Message {
   createdOn      DateTime     @default(now())
   role           String
   content        String
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId Int
 }
 
@@ -132,8 +134,8 @@ enum Format {
 }
 
 enum Gender {
-  male
-  female
+  MALE
+  FEMALE
 }
 
 enum ReadingChallengeType {

@@ -8,7 +8,8 @@ const router = Router();
 
 router.get("/", asyncWrapper(usersController.getAllUsers));
 
-router.get("/:id", asyncWrapper(usersController.getUserById));
+router.get("/id/:id", asyncWrapper(usersController.getUserById));
+router.get("/username/:username", asyncWrapper(usersController.getUserByUsername));
 
 router.post(
   "/",

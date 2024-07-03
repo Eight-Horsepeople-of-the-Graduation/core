@@ -1,5 +1,7 @@
 import reviewsRepository from "../repositories/reviews.repository";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
+import prismaClient from "@utils/prisma";
+import booksRepository from "@repositories/books.repository";
 
 export const getReviewById = async (reviewId: number) => {
   const review = await reviewsRepository.getReviewById(reviewId);
@@ -21,35 +23,52 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
-export const createReview = async (createReviewDto: CreateReviewDto) => {
-  const newReview = await reviewsRepository.createReview(createReviewDto);
+export function createReviewAndRating(createReviewDto: CreateReviewDto) {
+  return prismaClient.$transaction(async (prisma) => {
+    const newReview = await reviewsRepository.createReview(createReviewDto);
 
-  return newReview;
-};
+    await booksRepository.updateBookRating(createReviewDto);
 
-export const updateReview = async (
+    return newReview;
+  });
+}
+
+export function updateReviewAndRating(
   updatedReviewDto: UpdateReviewDto,
   reviewId: number
-) => {
-  const updatedReview = await reviewsRepository.updateReview(
-    updatedReviewDto,
-    reviewId
-  );
+) {
+  return prismaClient.$transaction(async (prisma) => {
+    const updatedReview = await reviewsRepository.updateReview(
+      updatedReviewDto,
+      reviewId
+    );
 
-  return updatedReview;
-};
+    await booksRepository.updateBookRating(updatedReviewDto);
 
-export const deleteReview = async (reviewId: number) => {
-  const deletedReview = await reviewsRepository.deleteReview(reviewId);
+    return updatedReview;
+  });
+}
 
-  return deletedReview;
-};
+export function deleteReviewAndRating(
+  updatedReviewDto: UpdateReviewDto,
+  reviewId: number
+) {
+  return prismaClient.$transaction(async (prisma) => {
+    const deletedReview = await reviewsRepository.deleteReview(reviewId);
+
+    await booksRepository.removeBookRating(updatedReviewDto);
+
+    return deletedReview;
+  });
+}
+
+export const deleteReview = async (reviewId: number) => {};
 
 export default {
   getReviewById,
   getReviewsByUserId,
   getReviewsByBookId,
-  createReview,
-  updateReview,
   deleteReview,
+  createReviewAndRating,
+  updateReviewAndRating,
 };
