@@ -42,8 +42,8 @@ export const updateBookById = async (req: Request, res: Response) => {
 };
 
 export const deleteBookById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: GetBookByIdDto = { id: +id };
+  const { bookId } = req.params;
+  const data: GetBookByIdDto = { id: +bookId };
 
   const book = await booksService.deleteBookById(data.id);
 
