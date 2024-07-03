@@ -26,6 +26,7 @@ function createRandomUser() {
   const username = faker.internet.userName({ firstName, lastName });
 
   return {
+    name: `${firstName} ${lastName}`,
     username,
     email,
     password: hashSync("password", genSaltSync(10)),
