@@ -1,6 +1,6 @@
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
 import prismaClient from "@utils/prisma";
-import { CreateReviewDto } from "../dtos/reviews.dto";
+import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
 import { aggregateRatingsByBookId } from "./reviews.repository";
 
 export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
@@ -79,18 +79,32 @@ export const updateBookById = async (
   return updatedBook;
 };
 
-export const updateBookRating = async (
-  bookId: CreateReviewDto["bookId"],
-  rating: CreateReviewDto["rating"]
-) => {
+export const updateBookRating = async (updatedReviewDto: UpdateReviewDto) => {
   const { count: currentRatingsCount, sum: currentRatingsSum } =
-    await aggregateRatingsByBookId(bookId);
+    await aggregateRatingsByBookId(updatedReviewDto.bookId);
 
-  const newRatingsSum = currentRatingsSum.rating || 0 + rating;
+  if (updatedReviewDto.rating === undefined) return;
+  const newRatingsSum = currentRatingsSum.rating || 0 + updatedReviewDto.rating;
   const newRatingsCount = currentRatingsCount.rating || 0 + 1;
 
   await prismaClient.book.update({
-    where: { id: bookId },
+    where: { id: updatedReviewDto.bookId },
+    data: {
+      rating: newRatingsSum / newRatingsCount,
+    },
+  });
+};
+
+export const removeBookRating = async (updatedReviewDto: UpdateReviewDto) => {
+  const { count: currentRatingsCount, sum: currentRatingsSum } =
+    await aggregateRatingsByBookId(updatedReviewDto.bookId);
+
+  if (updatedReviewDto.rating === undefined) return;
+  const newRatingsSum = currentRatingsSum.rating || 0 - updatedReviewDto.rating;
+  const newRatingsCount = currentRatingsCount.rating || 0 - 1;
+
+  await prismaClient.book.update({
+    where: { id: updatedReviewDto.bookId },
     data: {
       rating: newRatingsSum / newRatingsCount,
     },
@@ -114,4 +128,5 @@ export default {
   updateBookById,
   deleteBookById,
   updateBookRating,
+  removeBookRating,
 };
