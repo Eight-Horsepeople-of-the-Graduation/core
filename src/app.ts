@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 import * as swaggerUI from "swagger-ui-express";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
 import loadRouters from "./loaders/express";
@@ -10,7 +11,7 @@ const CSS_URL =
 
 const app = express();
 
-
+app.use(cors())
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
