@@ -16,7 +16,7 @@ import {
   UpdateBookshelfDto,
 } from "../dtos";
 
-import { IBookshelf } from "./interfaces";
+import { IBookshelf } from "../interfaces/bookshelves.interface";
 
 @Route("bookshelves")
 @Tags("Bookshelves")

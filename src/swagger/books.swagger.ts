@@ -11,7 +11,7 @@ import {
   Tags,
 } from "tsoa";
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "../dtos";
-import { IBook } from "./interfaces";
+import { IBook } from "../interfaces/books.interface";
 @Route("books")
 @Tags("Books")
 export class BooksDocs extends Controller {

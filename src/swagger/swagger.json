@@ -26,6 +26,9 @@
 					"email": {
 						"type": "string"
 					},
+					"password": {
+						"type": "string"
+					},
 					"country": {
 						"type": "string"
 					},
@@ -53,6 +56,7 @@
 					"id",
 					"username",
 					"email",
+					"password",
 					"country",
 					"gender",
 					"birthDate",

@@ -1,7 +1,7 @@
 import { Body, Get, Path, Post, Put, Route, Queries, Delete, Tags } from "tsoa";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
-import { IUser } from "./interfaces";
+import { IUser } from "../interfaces/users.interface";
 
 @Route("users")
 @Tags("Users")
