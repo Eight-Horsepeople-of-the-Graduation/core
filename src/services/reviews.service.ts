@@ -1,7 +1,7 @@
 import reviewsRepository from "../repositories/reviews.repository";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
-import prismaClient from "@utils/prisma";
-import booksRepository from "@repositories/books.repository";
+import prismaClient from "../utils/prisma";
+import booksRepository from "../repositories/books.repository";
 
 export const getReviewById = async (reviewId: number) => {
   const review = await reviewsRepository.getReviewById(reviewId);
