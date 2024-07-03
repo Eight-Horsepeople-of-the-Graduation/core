@@ -20,6 +20,14 @@ export const getUserById = async (req: Request, res: Response) => {
   return res.send({...user, password: undefined});
 };
 
+export const getUserByUsername = async (req: Request, res: Response) => {
+  const username = req.params.username;
+
+  const user = await usersService.getUserByUsername(username.toLowerCase());
+
+  return res.send({...user, password: undefined});
+}
+
 export const createUser = async (req: Request, res: Response) => {
   const userData: CreateUserDto = req.body;
 
@@ -48,6 +56,7 @@ export const deleteUserById = async (req: Request, res: Response) => {
 export default {
   getAllUsers,
   getUserById,
+  getUserByUsername,
   createUser,
   updateUserById,
   deleteUserById,
