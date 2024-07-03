@@ -1,14 +1,4 @@
-import {
-  Body,
-  Get,
-  Path,
-  Post,
-  Put,
-  Route,
-  Queries,
-  Delete,
-  Tags,
-} from "tsoa";
+import { Body, Get, Path, Post, Put, Route, Queries, Delete, Tags } from "tsoa";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
 import { IUser } from "./interfaces";
@@ -19,8 +9,11 @@ export class UsersDocs {
   @Get("/")
   public getAllUsers(@Queries() filter: SearchQueryDto): IUser[] | any {}
 
-  @Get("/:id")
+  @Get("/id/:id")
   public getUserById(@Path() id: number): IUser | any {}
+
+  @Get("/username/:username")
+  public getUserByUsername(@Path() username: string): IUser | any {}
 
   @Post("/")
   public createUser(@Body() userData: CreateUserDto): IUser | any {}
