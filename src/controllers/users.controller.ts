@@ -17,7 +17,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
   const user = await usersService.getUserById(id);
 
-  return res.send(user);
+  return res.send({...user, password: undefined});
 };
 
 export const createUser = async (req: Request, res: Response) => {
@@ -25,7 +25,7 @@ export const createUser = async (req: Request, res: Response) => {
 
   const user = await usersService.createUser(userData);
 
-  return res.status(201).send(user);
+  return res.status(201).send({...user, password: undefined});
 };
 
 export const updateUserById = async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ export const updateUserById = async (req: Request, res: Response) => {
 
   const user = await usersService.updateUserById(id, updatedData);
 
-  return res.send(user);
+  return res.send({...user, password: undefined});
 };
 
 export const deleteUserById = async (req: Request, res: Response) => {
@@ -42,7 +42,7 @@ export const deleteUserById = async (req: Request, res: Response) => {
 
   const user = await usersService.deleteUserById(id);
 
-  return res.send(user);
+  return res.send({...user, password: undefined});
 };
 
 export default {

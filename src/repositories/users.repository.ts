@@ -15,10 +15,11 @@ export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
       }),
     },
     skip,
+    
     take: limit,
   });
 
-  return users;
+  return users.map((user) => ({...user, password: undefined}));
 };
 
 export const getUserById = async (id: number) => {
