@@ -1,12 +1,16 @@
-import { Gender } from "../dtos";
 export interface IUser {
   id: number;
+  name: string;
   username: string;
   email: string;
   country: string;
-  gender: Gender;
+  gender: "MALE" | "FEMALE";
   birthDate: Date | null;
   joinDate: Date;
   profilePicture: string | null;
   isAdmin: boolean;
 }
+
+
+export type OptionalUser = IUser | null;
+export type UserWithoutPassword = Omit<IUser, "password">;

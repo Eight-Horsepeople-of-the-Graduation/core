@@ -1,4 +1,3 @@
-import { Format } from "../dtos";
 import { IAuthor } from "./authors.interface";
 import { IGenre } from "./genres.interface";
 export interface IBook {
