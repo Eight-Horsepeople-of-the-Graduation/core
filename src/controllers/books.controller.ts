@@ -25,9 +25,9 @@ export const getBookById = async (
   req: Request,
   res: Response
 ): Promise<Response<OptionalBook>> => {
-  const { id } = req.params;
+  const { bookId } = req.params;
 
-  const data: GetBookByIdDto = { id: +id };
+  const data: GetBookByIdDto = { id: +bookId };
 
   const book: OptionalBook = await booksService.getBookById(data.id);
   if (!book) return res.status(404).send("Book Not Found");
@@ -51,11 +51,11 @@ export const updateBookById = async (
   req: Request,
   res: Response
 ): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
-  const { id } = req.params;
+  const { bookId } = req.params;
   const data: UpdateBookDto = req.body;
 
   const book: IBookWithoutAuthorsAndGenres = await booksService.updateBookById(
-    +id,
+    +bookId,
     data
   );
 
@@ -77,8 +77,8 @@ export const deleteBookById = async (
 };
 
 export const getBooksByUserId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const bookshelves = await bookshelvesService.getBookshelvesByUserId(+id);
+  const { bookId } = req.params;
+  const bookshelves = await bookshelvesService.getBookshelvesByUserId(+bookId);
   const books = bookshelves.flatMap(
     (bookshelf: { books: any }) => bookshelf.books
   );
