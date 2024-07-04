@@ -7,12 +7,16 @@ export interface IBook {
   isbn: string;
   description: string;
   publishDate: Date;
-  format: Format;
+  format: "PAPERBACK" | "HARDCOVER" | "EBOOK";
   language: string;
   country: string;
+  rating: number | null;
   numOfPages: number;
   pdfLink: string | null;
   coverPicture: string | null;
   authors: IAuthor[];
   genres: IGenre[];
 }
+
+export type IBookWithoutAuthorsAndGenres = Omit<IBook, "authors" | "genres">;
+export type OptionalBook = IBook | null;
