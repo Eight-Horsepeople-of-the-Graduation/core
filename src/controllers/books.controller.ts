@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
 import { uniqBy } from "lodash";
-import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "@dtos";
-import booksService from "@services/books.service";
-import bookshelvesService from "@services/bookshelves.service";
+import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "../dtos";
+import booksService from "../services/books.service";
+import bookshelvesService from "../services/bookshelves.service";
 
 export const getAllBooks = async (req: Request, res: Response) => {
   const filter = plainToInstance(SearchQueryDto, req.query);
@@ -16,6 +16,10 @@ export const getAllBooks = async (req: Request, res: Response) => {
 export const getBookById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  if (!id) {
+    return res.status(400).send("ID parameter is missing");
+  }
+
   const data: GetBookByIdDto = { id: +id };
 
   const book = await booksService.getBookById(data.id);
@@ -23,18 +27,30 @@ export const getBookById = async (req: Request, res: Response) => {
 
   return res.send(book);
 };
-
 export const createBook = async (req: Request, res: Response) => {
-  const bookData = req.body;
+  try {
+    const bookData = req.body;
 
-  const book = await booksService.createBook(bookData);
+    if (!bookData) {
+      return res.status(400).send("Bad Request: Empty request body");
+    }
 
-  return res.status(201).send(book);
+    const book = await booksService.createBook(bookData);
+
+    return res.status(201).send(book);
+  } catch (error) {
+    console.error("Error creating book:", error);
+    return res.status(500).send("Internal Server Error");
+  }
 };
 
 export const updateBookById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const data: UpdateBookDto = req.body;
+
+  if (!id) {
+    return res.status(400).send("ID parameter is missing");
+  }
 
   const book = await booksService.updateBookById(+id, data);
 
@@ -42,8 +58,13 @@ export const updateBookById = async (req: Request, res: Response) => {
 };
 
 export const deleteBookById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: GetBookByIdDto = { id: +id };
+  const { bookId } = req.params;
+
+  if (!bookId) {
+    return res.status(400).send("ID parameter is missing");
+  }
+
+  const data: GetBookByIdDto = { id: +bookId };
 
   const book = await booksService.deleteBookById(data.id);
 

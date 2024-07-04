@@ -1,5 +1,5 @@
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
-import prismaClient from "@utils/prisma";
+import prismaClient from "../utils/prisma";
 
 export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
@@ -26,6 +26,10 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
 };
 
 export const getBookById = async (bookId: number) => {
+  if (bookId < 0) {
+    throw new Error("Invalid book ID");
+  }
+
   const book = await prismaClient.book.findUnique({
     where: { id: bookId },
     include: {
@@ -44,10 +48,10 @@ export const createBook = async (createBookDto: CreateBookDto) => {
     data: {
       ...createBookDto,
       authors: {
-        connect: authors.map((author) => ({ id: author.id })),
+        connect: authors.map((id) => ({ id })),
       },
       genres: {
-        connect: genres.map((genre) => ({ id: genre.id })),
+        connect: genres.map((id) => ({ id })),
       },
     },
   });
@@ -85,9 +89,31 @@ export const deleteBookById = async (bookId: number) => {
   return deletedBook;
 };
 
+export const getBooksByUserId = async (userId: number) => {
+  const bookshelves = await prismaClient.bookshelf.findMany({
+    where: { userId },
+    include: {
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
+    },
+  });
+
+  const books = bookshelves.flatMap((bookshelf) => bookshelf.books);
+  const distinctBooks = [...new Set(books.map((book) => book.id))].map((id) =>
+    books.find((book) => book.id === id)
+  );
+
+  return distinctBooks;
+};
+
 export default {
   getAllBooks,
   getBookById,
+  getBooksByUserId,
   createBook,
   updateBookById,
   deleteBookById,

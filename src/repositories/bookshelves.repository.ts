@@ -4,7 +4,7 @@ import {
   SearchQueryDto,
   UpdateBookshelfDto,
 } from "@dtos";
-import prismaClient from "@utils/prisma";
+import prismaClient from "../utils/prisma";
 
 export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;

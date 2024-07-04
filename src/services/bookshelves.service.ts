@@ -4,7 +4,7 @@ import {
   SearchQueryDto,
   UpdateBookshelfDto,
 } from "@dtos";
-import bookshelvesRepository from "@repositories/bookshelves.repository";
+import bookshelvesRepository from "../repositories/bookshelves.repository";
 
 export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
   const bookshelves =
