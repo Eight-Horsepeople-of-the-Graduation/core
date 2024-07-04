@@ -61,6 +61,8 @@ export const addBookToReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
+//update the craete reading challenge function to take the title name form another function that calculalte the week number and year and month
+
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
 ) => {

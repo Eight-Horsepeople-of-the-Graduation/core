@@ -9,8 +9,8 @@
 		"schemas": {
 			"Gender": {
 				"enum": [
-					"MALE",
-					"FEMALE"
+					"male",
+					"female"
 				],
 				"type": "string"
 			},
@@ -577,24 +577,24 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"GetAuthorDto": {
+			"AuthorDto": {
 				"properties": {
+					"name": {
+						"type": "string"
+					},
 					"id": {
 						"type": "number",
 						"format": "double"
-					},
-					"name": {
-						"type": "string"
 					}
 				},
 				"required": [
-					"id",
-					"name"
+					"name",
+					"id"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"GetGenreDto": {
+			"GenreDto": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -648,13 +648,13 @@
 					},
 					"authors": {
 						"items": {
-							"$ref": "#/components/schemas/GetAuthorDto"
+							"$ref": "#/components/schemas/AuthorDto"
 						},
 						"type": "array"
 					},
 					"genres": {
 						"items": {
-							"$ref": "#/components/schemas/GetGenreDto"
+							"$ref": "#/components/schemas/GenreDto"
 						},
 						"type": "array"
 					}
@@ -708,13 +708,13 @@
 					},
 					"authors": {
 						"items": {
-							"$ref": "#/components/schemas/GetAuthorDto"
+							"$ref": "#/components/schemas/AuthorDto"
 						},
 						"type": "array"
 					},
 					"genres": {
 						"items": {
-							"$ref": "#/components/schemas/GetGenreDto"
+							"$ref": "#/components/schemas/GenreDto"
 						},
 						"type": "array"
 					}
@@ -1181,6 +1181,54 @@
 		"/reading-challenges/add-book/{readingChallengeId}": {
 			"put": {
 				"operationId": "AddBookToReadingChallenge",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "readingChallengeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "number",
+								"format": "double"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reading-challenges/remove-book/{readingChallengeId}": {
+			"put": {
+				"operationId": "DeleteBookFromReadingChallenge",
 				"responses": {
 					"200": {
 						"description": "Ok",
