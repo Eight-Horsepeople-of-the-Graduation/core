@@ -1,6 +1,7 @@
 import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "@dtos";
 import prismaClient from "@utils/prisma";
 import { IUser, OptionalUser } from "../interfaces/users.interface";
+import { prismaWrapper } from "@utils/prisma-wrapper";
 
 export const getAllUsers = async (
   searchQueryDto: SearchQueryDto
@@ -8,7 +9,7 @@ export const getAllUsers = async (
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip: number = (page - 1) * limit;
 
-  const users: IUser[] = await prismaClient.user.findMany({
+  const users: IUser[] = await prismaWrapper(prismaClient.user.findMany,{
     where: {
       ...(term && {
         username: {
@@ -26,7 +27,7 @@ export const getAllUsers = async (
 };
 
 export const getUserById = async (id: number): Promise<OptionalUser> => {
-  const user: OptionalUser = await prismaClient.user.findUnique({
+  const user: OptionalUser = await prismaWrapper(prismaClient.user.findUnique,{
     where: { id },
   });
 
@@ -36,7 +37,7 @@ export const getUserById = async (id: number): Promise<OptionalUser> => {
 export const getUserByUsername = async (
   username: string
 ): Promise<OptionalUser> => {
-  const user: OptionalUser = await prismaClient.user.findUnique({
+  const user: OptionalUser = await prismaWrapper(prismaClient.user.findUnique,{
     where: { username },
   });
 
@@ -44,7 +45,7 @@ export const getUserByUsername = async (
 };
 
 export const createUser = async (userData: CreateUserDto): Promise<IUser> => {
-  const user: IUser = await prismaClient.user.create({
+  const user: IUser = await prismaWrapper(prismaClient.user.create,{
     data: userData,
   });
 
@@ -55,16 +56,20 @@ export const updateUserById = async (
   id: number,
   updatedData: UpdateUserDto
 ): Promise<IUser> => {
-  const user: IUser = await prismaClient.user.update({
+  const user = await prismaWrapper(prismaClient.user.update, {
     where: { id },
     data: updatedData,
   });
+  // const user: IUser = await prismaClient.user.update({
+  //   where: { id },
+  //   data: updatedData,
+  // });
 
   return user;
 };
 
 export const deleteUserById = async (id: number): Promise<IUser> => {
-  const user:IUser = await prismaClient.user.delete({
+  const user: IUser = await prismaWrapper(prismaClient.user.delete, {
     where: { id },
   });
 
