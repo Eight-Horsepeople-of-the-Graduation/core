@@ -26,9 +26,6 @@
 					"email": {
 						"type": "string"
 					},
-					"password": {
-						"type": "string"
-					},
 					"country": {
 						"type": "string"
 					},
@@ -56,7 +53,6 @@
 					"id",
 					"username",
 					"email",
-					"password",
 					"country",
 					"gender",
 					"birthDate",
@@ -166,13 +162,43 @@
 				],
 				"type": "string"
 			},
-			"Format": {
-				"enum": [
-					"PAPERBACK",
-					"HARDCOVER",
-					"EBOOK"
+			"IAuthor": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
 				],
-				"type": "string"
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IGenre": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"IBook": {
 				"properties": {
@@ -194,13 +220,23 @@
 						"format": "date-time"
 					},
 					"format": {
-						"$ref": "#/components/schemas/Format"
+						"type": "string",
+						"enum": [
+							"PAPERBACK",
+							"HARDCOVER",
+							"EBOOK"
+						]
 					},
 					"language": {
 						"type": "string"
 					},
 					"country": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
 					},
 					"numOfPages": {
 						"type": "number",
@@ -209,6 +245,22 @@
 					"pdfLink": {
 						"type": "string",
 						"nullable": true
+					},
+					"coverPicture": {
+						"type": "string",
+						"nullable": true
+					},
+					"authors": {
+						"items": {
+							"$ref": "#/components/schemas/IAuthor"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/IGenre"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -220,8 +272,12 @@
 					"format",
 					"language",
 					"country",
+					"rating",
 					"numOfPages",
-					"pdfLink"
+					"pdfLink",
+					"coverPicture",
+					"authors",
+					"genres"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -580,6 +636,94 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"OptionalBook": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBook"
+					}
+				],
+				"nullable": true
+			},
+			"Pick_IBook.Exclude_keyofIBook.authors-or-genres__": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"format": {
+						"type": "string",
+						"enum": [
+							"PAPERBACK",
+							"HARDCOVER",
+							"EBOOK"
+						]
+					},
+					"language": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"coverPicture": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"isbn",
+					"description",
+					"publishDate",
+					"format",
+					"language",
+					"country",
+					"rating",
+					"numOfPages",
+					"pdfLink",
+					"coverPicture"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IBook.authors-or-genres_": {
+				"$ref": "#/components/schemas/Pick_IBook.Exclude_keyofIBook.authors-or-genres__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"IBookWithoutAuthorsAndGenres": {
+				"$ref": "#/components/schemas/Omit_IBook.authors-or-genres_"
+			},
+			"Format": {
+				"enum": [
+					"PAPERBACK",
+					"HARDCOVER",
+					"EBOOK"
+				],
+				"type": "string"
 			},
 			"AuthorDto": {
 				"properties": {
@@ -1927,7 +2071,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBook"
+											"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
 										},
 										{}
 									]
@@ -1964,7 +2108,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBook"
+											"$ref": "#/components/schemas/OptionalBook"
 										},
 										{}
 									]
@@ -1999,7 +2143,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBook"
+											"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
 										},
 										{}
 									]
@@ -2044,7 +2188,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBook"
+											"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
 										},
 										{}
 									]

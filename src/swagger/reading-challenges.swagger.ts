@@ -11,7 +11,7 @@ import {
 import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
-} from "../dtos/index";
+} from "../dtos";
 import { IReadingChallenge } from "../interfaces/reading-challenges.interface";
 
 @Route("reading-challenges")
