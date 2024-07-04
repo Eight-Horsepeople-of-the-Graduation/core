@@ -7,18 +7,14 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Gender": {
-				"enum": [
-					"MALE",
-					"FEMALE"
-				],
-				"type": "string"
-			},
-			"IUser": {
+			"Pick_IUser.Exclude_keyofIUser.password__": {
 				"properties": {
 					"id": {
 						"type": "number",
 						"format": "double"
+					},
+					"name": {
+						"type": "string"
 					},
 					"username": {
 						"type": "string"
@@ -30,20 +26,22 @@
 						"type": "string"
 					},
 					"gender": {
-						"$ref": "#/components/schemas/Gender"
+						"type": "string",
+						"enum": [
+							"MALE",
+							"FEMALE"
+						]
 					},
 					"birthDate": {
 						"type": "string",
-						"format": "date-time",
-						"nullable": true
+						"format": "date-time"
 					},
 					"joinDate": {
 						"type": "string",
 						"format": "date-time"
 					},
 					"profilePicture": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					},
 					"isAdmin": {
 						"type": "boolean"
@@ -51,6 +49,7 @@
 				},
 				"required": [
 					"id",
+					"name",
 					"username",
 					"email",
 					"country",
@@ -61,7 +60,14 @@
 					"isAdmin"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IUser.password_": {
+				"$ref": "#/components/schemas/Pick_IUser.Exclude_keyofIUser.password__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UserWithoutPassword": {
+				"$ref": "#/components/schemas/Omit_IUser.password_"
 			},
 			"SearchQueryDto": {
 				"properties": {
@@ -79,6 +85,13 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Gender": {
+				"enum": [
+					"MALE",
+					"FEMALE"
+				],
+				"type": "string"
 			},
 			"CreateUserDto": {
 				"properties": {
@@ -538,6 +551,67 @@
 				],
 				"type": "string"
 			},
+			"IUser": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"gender": {
+						"type": "string",
+						"enum": [
+							"MALE",
+							"FEMALE"
+						]
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"joinDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"profilePicture": {
+						"type": "string",
+						"nullable": true
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"username",
+					"password",
+					"email",
+					"country",
+					"gender",
+					"birthDate",
+					"joinDate",
+					"profilePicture",
+					"isAdmin"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IBookshelf": {
 				"properties": {
 					"id": {
@@ -651,6 +725,9 @@
 						"type": "number",
 						"format": "double"
 					},
+					"country": {
+						"type": "string"
+					},
 					"title": {
 						"type": "string"
 					},
@@ -675,9 +752,6 @@
 					"language": {
 						"type": "string"
 					},
-					"country": {
-						"type": "string"
-					},
 					"rating": {
 						"type": "number",
 						"format": "double"
@@ -695,13 +769,13 @@
 				},
 				"required": [
 					"id",
+					"country",
 					"title",
 					"isbn",
 					"description",
 					"publishDate",
 					"format",
 					"language",
-					"country",
 					"rating",
 					"numOfPages",
 					"pdfLink",
@@ -907,7 +981,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/IUser"
+												"$ref": "#/components/schemas/UserWithoutPassword"
 											},
 											"type": "array"
 										},
@@ -961,7 +1035,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/UserWithoutPassword"
 										},
 										{}
 									]
@@ -998,7 +1072,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/UserWithoutPassword"
 										},
 										{}
 									]
@@ -1035,7 +1109,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/UserWithoutPassword"
 										},
 										{}
 									]
@@ -1061,7 +1135,7 @@
 			}
 		},
 		"/users/{id}": {
-			"put": {
+			"patch": {
 				"operationId": "UpdateUserById",
 				"responses": {
 					"200": {
@@ -1071,7 +1145,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/UserWithoutPassword"
 										},
 										{}
 									]
@@ -1116,7 +1190,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/UserWithoutPassword"
 										},
 										{}
 									]
