@@ -21,11 +21,11 @@ export const prismaErrorHandlerMiddleware = (
 
       logger.error(
         `${name} - ${clientVersion} : ${code}\n` +
-        `Message : ${message}\n` +
-        `Meta: ${JSON.stringify(meta)}\n` + 
-        `Origin: ${req.originalUrl} - ${req.method} - ${req.ip}\n` +
-        `Request Body: ${JSON.stringify(req.body)}\n` + 
-        `${error.stack}`
+          `Message : ${message}\n` +
+          `Meta: ${JSON.stringify(meta)}\n` +
+          `Origin: ${req.originalUrl} - ${req.method} - ${req.ip}\n` +
+          `Request Body: ${JSON.stringify(req.body)}\n` +
+          `${error.stack}`
       );
 
       return handlePrismaError(code, meta, res);
@@ -36,7 +36,10 @@ export const prismaErrorHandlerMiddleware = (
       error instanceof PrismaClientValidationError
     ) {
       logger.error(
-        `${error.name} - ${error.clientVersion}: ${error.message}\nOrigin: ${req.originalUrl} - ${req.method} - ${req.ip}\n${error.stack}`
+        `${error.name} - ${error.clientVersion}: ${error.message}\n` +
+          `Origin: ${req.originalUrl} - ${req.method} - ${req.ip}\n` +
+          `Request Body: ${JSON.stringify(req.body)}\n` +
+          `${error.stack}`
       );
       return res.status(500).send({
         status: 500,
