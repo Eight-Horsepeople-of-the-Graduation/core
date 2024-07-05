@@ -6,7 +6,6 @@ import booksService from "@services/books.service";
 import bookshelvesService from "@services/bookshelves.service";
 import {
   IBook,
-  IBookWithoutAuthorsAndGenres,
   OptionalBook,
 } from "../interfaces/books.interface";
 
@@ -38,10 +37,10 @@ export const getBookById = async (
 export const createBook = async (
   req: Request,
   res: Response
-): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
+): Promise<Response<IBook>> => {
   const bookData = req.body;
 
-  const book: IBookWithoutAuthorsAndGenres =
+  const book: IBook =
     await booksService.createBook(bookData);
 
   return res.status(201).send(book);
@@ -50,11 +49,11 @@ export const createBook = async (
 export const updateBookById = async (
   req: Request,
   res: Response
-): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
+): Promise<Response<IBook>> => {
   const { bookId } = req.params;
   const data: UpdateBookDto = req.body;
 
-  const book: IBookWithoutAuthorsAndGenres = await booksService.updateBookById(
+  const book: IBook = await booksService.updateBookById(
     +bookId,
     data
   );
@@ -65,11 +64,11 @@ export const updateBookById = async (
 export const deleteBookById = async (
   req: Request,
   res: Response
-): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
+): Promise<Response<IBook>> => {
   const { bookId } = req.params;
   const data: GetBookByIdDto = { id: +bookId };
 
-  const book: IBookWithoutAuthorsAndGenres = await booksService.deleteBookById(
+  const book: IBook = await booksService.deleteBookById(
     data.id
   );
 

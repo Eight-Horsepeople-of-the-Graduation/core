@@ -2,7 +2,6 @@ import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
 import booksRepository from "@repositories/books.repository";
 import {
   IBook,
-  IBookWithoutAuthorsAndGenres,
   OptionalBook,
 } from "../interfaces/books.interface";
 
@@ -22,7 +21,7 @@ export const getBookById = async (genreId: number): Promise<OptionalBook> => {
 
 export const createBook = async (
   createBookDto: CreateBookDto
-): Promise<IBookWithoutAuthorsAndGenres> => {
+): Promise<IBook> => {
   const newBook = await booksRepository.createBook(createBookDto);
 
   return newBook;
@@ -31,7 +30,7 @@ export const createBook = async (
 export const updateBookById = async (
   bookId: number,
   updateBookDto: UpdateBookDto
-): Promise<IBookWithoutAuthorsAndGenres> => {
+): Promise<IBook> => {
   const updatedBook = await booksRepository.updateBookById(
     bookId,
     updateBookDto
@@ -42,7 +41,7 @@ export const updateBookById = async (
 
 export const deleteBookById = async (
   bookId: number
-): Promise<IBookWithoutAuthorsAndGenres> => {
+): Promise<IBook> => {
   const deletedBook = await booksRepository.deleteBookById(bookId);
 
   return deletedBook;
