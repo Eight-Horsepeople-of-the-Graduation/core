@@ -77,10 +77,10 @@ export const updateBookById = async (
     data: {
       ...updateBookDto,
       authors: {
-        set: authors.map((author) => ({ id: author.id })),
+        set: authors?.map((author) => ({ id: author.id })),
       },
       genres: {
-        set: genres.map((genre) => ({ id: genre.id })),
+        set: genres?.map((genre) => ({ id: genre.id })),
       },
     },
   });
