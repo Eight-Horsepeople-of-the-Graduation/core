@@ -5,7 +5,7 @@ import {
   PrismaClientUnknownRequestError,
   PrismaClientInitializationError,
   PrismaClientRustPanicError,
-  PrismaClientValidationError
+  PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
 
 export async function prismaWrapper<T>(
@@ -16,12 +16,6 @@ export async function prismaWrapper<T>(
     const result = await handler(args);
     return result;
   } catch (error: any) {
-    console.log("Prisma Error:", JSON.stringify(error));
-    switch (error.code) {
-      case "P2025":
-        throw new HttpException("Record not found.", HttpStatus.NOT_FOUND);
-      default:
-        throw new HttpException("An error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    throw error;
   }
 }

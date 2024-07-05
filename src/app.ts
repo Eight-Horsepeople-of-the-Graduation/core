@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import * as swaggerUI from "swagger-ui-express";
 import config from "./config";
+import { prismaErrorHandlerMiddleware } from "./middleware/prisma-error-handler.middleware";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
 import loadRouters from "@loaders/express";
 import * as swaggerJson from "./swagger/swagger.json";
@@ -23,6 +24,7 @@ const startServer = async () => {
 
   app.use(["/docs", "/swagger"], swaggerUI.serve, swaggerUI.setup(swaggerJson));
 
+  app.use(prismaErrorHandlerMiddleware);
   app.use(errorHandlerMiddleware);
 
   app.listen(port, () => {
