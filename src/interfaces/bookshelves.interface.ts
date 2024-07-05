@@ -1,5 +1,5 @@
-import { IBook } from "./books.interface";
-import { IUser } from "./users.interface";
+import { IBook, IBookWithoutAuthorsAndGenres } from "./books.interface";
+import { BookshelfUser, IUser } from "./users.interface";
 import { Privacy } from "../dtos";
 
 export interface IBookshelf {
@@ -7,11 +7,14 @@ export interface IBookshelf {
   title: string;
   description: string;
   createdAt: Date;
-  privacy: Privacy;
+  privacy: "PRIVATE" | "PUBLIC";
   userId: number;
-  books: IBook[];
-  user: IUser;
+  books: IBookWithoutAuthorsAndGenres[];
   _count: {
     books: number;
   };
 }
+
+export type IBookshelfWithUser = IBookshelf & { user: BookshelfUser };
+export type OptionalBookshelf = IBookshelf | null;
+export type IBookshelfWithoutBooks = Omit<IBookshelf, "books" | "_count">;
