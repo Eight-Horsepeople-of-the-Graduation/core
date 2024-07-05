@@ -16,3 +16,4 @@ export interface IUser {
 export type OptionalUser = IUser | null;
 export type UserWithoutPassword = Omit<IUser, "password">;
 export type BookshelfUser = Pick<IUser, "name" | "username" | "profilePicture">;
+export type ReviewUser = Pick<IUser, "name" | "username" | "profilePicture">;
