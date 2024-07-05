@@ -5,12 +5,12 @@ import {
   UpdateBookshelfDto,
 } from "@dtos";
 import prismaClient from "@utils/prisma";
-
+import { prismaWrapper } from "@utils/prisma-wrapper";
 export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
 
-  const bookshelves = await prismaClient.bookshelf.findMany({
+  const bookshelves = await prismaWrapper(prismaClient.bookshelf.findMany, {
     where: {
       ...(term && {
         title: {
@@ -35,7 +35,7 @@ export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
 
 export const getBookshelfById = async (data: GetBookshelfByIdDto) => {
   const id = data.id;
-  const bookshelf = await prismaClient.bookshelf.findUnique({
+  const bookshelf = await prismaWrapper(prismaClient.bookshelf.findUnique, {
     where: {
       id,
     },
@@ -51,7 +51,7 @@ export const getBookshelfById = async (data: GetBookshelfByIdDto) => {
 };
 
 export const getBookshelvesByUserId = async (userId: number) => {
-  const bookshelves = await prismaClient.bookshelf.findMany({
+  const bookshelves = await prismaWrapper(prismaClient.bookshelf.findMany, {
     where: {
       user: {
         id: userId,
@@ -69,7 +69,7 @@ export const getBookshelvesByUserId = async (userId: number) => {
 };
 
 export const createBookshelf = async (data: CreateBookshelfDto) => {
-  const bookshelf = await prismaClient.bookshelf.create({
+  const bookshelf = await prismaWrapper(prismaClient.bookshelf.create, {
     include: {
       books: true,
       _count: {
@@ -89,13 +89,13 @@ export const addBooksToBookshelf = async (
   const bookshelf = await getBookshelfById(id);
   if (!bookshelf) throw new Error("Bookshelf Not Found");
 
-  const books = await prismaClient.book.findMany({
+  const books = await prismaWrapper(prismaClient.book.findMany, {
     where: {
       id: { in: booksIds },
     },
   });
 
-  const updatedBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf = await prismaWrapper(prismaClient.bookshelf.update, {
     where: { id: id.id },
     data: {
       books: {
@@ -120,13 +120,13 @@ export const removeBooksFromBookshelf = async (
   const bookshelf = await getBookshelfById(id);
   if (!bookshelf) throw new Error("Bookshelf Not Found");
 
-  const books = await prismaClient.book.findMany({
+  const books = await prismaWrapper(prismaClient.book.findMany, {
     where: {
       id: { in: booksIds },
     },
   });
 
-  const updatedBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf = await prismaWrapper(prismaClient.bookshelf.update, {
     where: { id: id.id },
     data: {
       books: {
@@ -148,7 +148,7 @@ export const updateBookshelf = async (
   id: GetBookshelfByIdDto,
   updatedData: UpdateBookshelfDto
 ) => {
-  const bookshelf = await prismaClient.bookshelf.update({
+  const bookshelf = await prismaWrapper(prismaClient.bookshelf.update, {
     where: {
       id: id.id,
     },
@@ -165,7 +165,7 @@ export const updateBookshelf = async (
 };
 
 export const deleteBookshelf = async (id: GetBookshelfByIdDto) => {
-  const deletedBookshelf = await prismaClient.bookshelf.delete({
+  const deletedBookshelf = await prismaWrapper(prismaClient.bookshelf.delete, {
     where: { id: id.id },
   });
 

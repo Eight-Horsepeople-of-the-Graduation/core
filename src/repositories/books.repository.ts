@@ -2,19 +2,16 @@ import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
 import prismaClient from "@utils/prisma";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
 import { aggregateRatingsByBookId } from "./reviews.repository";
-import {
-  IBook,
-  IBookWithoutAuthorsAndGenres,
-  OptionalBook,
-} from "../interfaces/books.interface";
+import { IBook, OptionalBook } from "../interfaces/books.interface";
+import { prismaWrapper } from "@utils/prisma-wrapper";
 
 export const getAllBooks = async (
   searchQueryDto: SearchQueryDto
 ): Promise<IBook[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
-  const skip = (page - 1) * limit;
+  const skip: number = (page - 1) * limit;
 
-  const books = await prismaClient.book.findMany({
+  const books: IBook[] = await prismaWrapper(prismaClient.book.findMany, {
     where: {
       ...(term && {
         title: {
@@ -35,7 +32,7 @@ export const getAllBooks = async (
 };
 
 export const getBookById = async (bookId: number): Promise<OptionalBook> => {
-  const book = await prismaClient.book.findUnique({
+  const book: OptionalBook = await prismaWrapper(prismaClient.book.findUnique, {
     where: { id: bookId },
     include: {
       authors: true,
@@ -48,10 +45,10 @@ export const getBookById = async (bookId: number): Promise<OptionalBook> => {
 
 export const createBook = async (
   createBookDto: CreateBookDto
-): Promise<IBookWithoutAuthorsAndGenres> => {
+): Promise<IBook> => {
   const { authors, genres } = createBookDto;
 
-  const newBook = await prismaClient.book.create({
+  const newBook = await prismaWrapper(prismaClient.book.create, {
     data: {
       ...createBookDto,
       authors: {
@@ -69,10 +66,10 @@ export const createBook = async (
 export const updateBookById = async (
   bookId: number,
   updateBookDto: UpdateBookDto
-): Promise<IBookWithoutAuthorsAndGenres> => {
+): Promise<IBook> => {
   const { authors, genres } = updateBookDto;
 
-  const updatedBook = await prismaClient.book.update({
+  const updatedBook: IBook = await prismaWrapper(prismaClient.book.update, {
     where: { id: bookId },
     data: {
       ...updateBookDto,
@@ -95,10 +92,11 @@ export const updateBookRating = async (
     await aggregateRatingsByBookId(updatedReviewDto.bookId);
 
   if (updatedReviewDto.rating === undefined) return;
-  const newRatingsSum = currentRatingsSum.rating || 0 + updatedReviewDto.rating;
-  const newRatingsCount = currentRatingsCount.rating || 0 + 1;
+  const newRatingsSum =
+    currentRatingsSum?.rating || 0 + updatedReviewDto.rating;
+  const newRatingsCount = currentRatingsCount?.rating || 0 + 1;
 
-  await prismaClient.book.update({
+  await prismaWrapper(prismaClient.book.update, {
     where: { id: updatedReviewDto.bookId },
     data: {
       rating: newRatingsSum / newRatingsCount,
@@ -116,7 +114,7 @@ export const removeBookRating = async (
   const newRatingsSum = currentRatingsSum.rating || 0 - updatedReviewDto.rating;
   const newRatingsCount = currentRatingsCount.rating || 0 - 1;
 
-  await prismaClient.book.update({
+  await prismaWrapper(prismaClient.book.update, {
     where: { id: updatedReviewDto.bookId },
     data: {
       rating: newRatingsSum / newRatingsCount,
@@ -124,10 +122,8 @@ export const removeBookRating = async (
   });
 };
 
-export const deleteBookById = async (
-  bookId: number
-): Promise<IBookWithoutAuthorsAndGenres> => {
-  const deletedBook = await prismaClient.book.delete({
+export const deleteBookById = async (bookId: number): Promise<IBook> => {
+  const deletedBook : IBook = await prismaWrapper(prismaClient.book.delete, {
     where: {
       id: bookId,
     },

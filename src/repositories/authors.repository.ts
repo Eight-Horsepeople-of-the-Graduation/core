@@ -1,8 +1,9 @@
 import prismaClient from "@utils/prisma";
+import { prismaWrapper } from "@utils/prisma-wrapper";
 import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "@dtos";
 
 export const getAllAuthors = async (searchQueryDto: SearchQueryDto) => {
-  const authors = await prismaClient.author.findMany({
+  const authors = await prismaWrapper(prismaClient.author.findMany, {
     where: {
       ...(searchQueryDto.term && {
         name: {
@@ -17,7 +18,7 @@ export const getAllAuthors = async (searchQueryDto: SearchQueryDto) => {
 };
 
 export const getAuthorById = async (authorId: number) => {
-  const author = await prismaClient.author.findUnique({
+  const author = await prismaWrapper(prismaClient.author.findUnique, {
     where: {
       id: authorId,
     },
@@ -27,7 +28,7 @@ export const getAuthorById = async (authorId: number) => {
 };
 
 export const createAuthor = async (createAuthorDto: CreateAuthorDto) => {
-  const newAuthor = await prismaClient.author.create({
+  const newAuthor = await prismaWrapper(prismaClient.author.create, {
     data: createAuthorDto,
   });
 
@@ -38,7 +39,7 @@ export const updateAuthorById = async (
   authorId: number,
   updateAuthorDto: UpdateAuthorDto
 ) => {
-  const updatedAuthor = await prismaClient.author.update({
+  const updatedAuthor = await prismaWrapper(prismaClient.author.update, {
     where: {
       id: authorId,
     },
@@ -49,7 +50,7 @@ export const updateAuthorById = async (
 };
 
 export const deleteAuthorById = async (authorId: number) => {
-  const deletedAuthor = await prismaClient.author.delete({
+  const deletedAuthor = await prismaWrapper(prismaClient.author.delete, {
     where: {
       id: authorId,
     },

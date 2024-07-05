@@ -1,8 +1,9 @@
 import prismaClient from "@utils/prisma";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
+import { prismaWrapper } from "@utils/prisma-wrapper";
 
 export const getReviewById = async (reviewId: number) => {
-  const review = await prismaClient.review.findUnique({
+  const review = await prismaWrapper(prismaClient.review.findUnique, {
     where: {
       id: reviewId,
     },
@@ -17,7 +18,7 @@ export const getReviewById = async (reviewId: number) => {
 
 // missing: add service, controller, route in books
 export const getReviewsByBookId = async (bookId: number) => {
-  const reviews = await prismaClient.review.findMany({
+  const reviews = await prismaWrapper(prismaClient.review.findMany, {
     where: {
       bookId,
     },
@@ -31,7 +32,7 @@ export const getReviewsByBookId = async (bookId: number) => {
 };
 
 export const aggregateRatingsByBookId = async (bookId: number) => {
-  const currentRatings = await prismaClient.review.aggregate({
+  const currentRatings = await prismaWrapper(prismaClient.review.aggregate, {
     where: {
       bookId,
     },
@@ -42,15 +43,16 @@ export const aggregateRatingsByBookId = async (bookId: number) => {
       rating: true,
     },
   });
+
   return {
-    count: currentRatings._count,
-    sum: currentRatings._sum,
+    count: currentRatings._count as { rating: number },
+    sum: currentRatings._sum as { rating: number },
   };
 };
 
 // missing: add service, controller, route in users
 export const getReviewsByUserId = async (userId: number) => {
-  const reviews = await prismaClient.review.findMany({
+  const reviews = await prismaWrapper(prismaClient.review.findMany, {
     where: {
       userId,
     },
@@ -65,7 +67,7 @@ export const getReviewsByUserId = async (userId: number) => {
 
 export const createReview = async (createReviewDto: CreateReviewDto) => {
   const { title, description, rating, bookId, userId } = createReviewDto;
-  const newReview = await prismaClient.review.create({
+  const newReview = await prismaWrapper(prismaClient.review.create, {
     data: {
       title,
       description,
@@ -91,7 +93,7 @@ export const updateReview = async (
   reviewId: number
 ) => {
   const { title, description, rating } = updateReviewDto;
-  const updatedReview = await prismaClient.review.update({
+  const updatedReview = await prismaWrapper(prismaClient.review.update, {
     where: {
       id: reviewId,
     },
@@ -111,7 +113,7 @@ export const updateReview = async (
 
 export const deleteReview = async (reviewId: number) => {
   const id = reviewId;
-  const review = await prismaClient.review.delete({
+  const review = await prismaWrapper(prismaClient.review.delete, {
     where: {
       id,
     },

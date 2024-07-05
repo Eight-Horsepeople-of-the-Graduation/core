@@ -4,10 +4,11 @@ import {
   SystemMessage,
 } from "@langchain/core/messages";
 import { CreateConversationDto, CreateMessageDto } from "@dtos";
+import { prismaWrapper } from "@utils/prisma-wrapper";
 import prismaClient from "@utils/prisma";
 
 export const getAllConversations = async () => {
-  const conversations = await prismaClient.conversation.findMany({
+  const conversations = await prismaWrapper(prismaClient.conversation.findMany,{
     include: {
       messages: true,
     },
@@ -17,7 +18,7 @@ export const getAllConversations = async () => {
 };
 
 export const getConversationById = async (id: number) => {
-  const conversation = await prismaClient.conversation.findUnique({
+  const conversation = await prismaWrapper(prismaClient.conversation.findUnique,{
     where: {
       id: id,
     },
@@ -32,7 +33,7 @@ export const getConversationById = async (id: number) => {
 export const createConversation = async (
   conversationData: CreateConversationDto
 ) => {
-  const conversation = await prismaClient.conversation.create({
+  const conversation = await prismaWrapper(prismaClient.conversation.create,{
     data: conversationData,
   });
 
@@ -45,7 +46,7 @@ export const createMessage = async (
   messageData: CreateMessageDto,
   coversationid: number
 ) => {
-  const message = await prismaClient.message.create({
+  const message = await prismaWrapper(prismaClient.message.create,{
     data: {
       ...messageData,
       conversation: {
@@ -60,7 +61,7 @@ export const createMessage = async (
 };
 
 export const getMessagesByConversationId = async (conversationId: number) => {
-  const messages = await prismaClient.message.findMany({
+  const messages = await prismaWrapper(prismaClient.message.findMany,{
     where: {
       conversationId,
     },
