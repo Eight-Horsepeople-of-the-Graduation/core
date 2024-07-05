@@ -675,6 +675,55 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Pick_IUser.name-or-username-or-profilePicture_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"profilePicture": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"username",
+					"profilePicture"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"BookshelfUser": {
+				"$ref": "#/components/schemas/Pick_IUser.name-or-username-or-profilePicture_"
+			},
+			"IBookshelfWithUser": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBookshelf"
+					},
+					{
+						"properties": {
+							"user": {
+								"$ref": "#/components/schemas/BookshelfUser"
+							}
+						},
+						"required": [
+							"user"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OptionalBookshelf": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBookshelf"
+					}
+				],
+				"nullable": true
+			},
 			"Privacy": {
 				"enum": [
 					"PUBLIC",
@@ -721,6 +770,52 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Pick_IBookshelf.Exclude_keyofIBookshelf.books-or-_count__": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"privacy": {
+						"type": "string",
+						"enum": [
+							"PRIVATE",
+							"PUBLIC"
+						]
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"createdAt",
+					"privacy",
+					"userId"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IBookshelf.books-or-_count_": {
+				"$ref": "#/components/schemas/Pick_IBookshelf.Exclude_keyofIBookshelf.books-or-_count__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"IBookshelfWithoutBooks": {
+				"$ref": "#/components/schemas/Omit_IBookshelf.books-or-_count_"
 			},
 			"OptionalBook": {
 				"allOf": [
@@ -1772,7 +1867,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/IBookshelf"
+												"$ref": "#/components/schemas/IBookshelfWithUser"
 											},
 											"type": "array"
 										},
@@ -1863,7 +1958,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBookshelf"
+											"$ref": "#/components/schemas/OptionalBookshelf"
 										},
 										{}
 									]
@@ -1943,7 +2038,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBookshelf"
+											"$ref": "#/components/schemas/IBookshelfWithoutBooks"
 										},
 										{}
 									]
@@ -2049,11 +2144,19 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"items": {
-									"type": "number",
-									"format": "double"
+								"properties": {
+									"bookIds": {
+										"items": {
+											"type": "number",
+											"format": "double"
+										},
+										"type": "array"
+									}
 								},
-								"type": "array"
+								"required": [
+									"bookIds"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -2100,11 +2203,19 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"items": {
-									"type": "number",
-									"format": "double"
+								"properties": {
+									"bookIds": {
+										"items": {
+											"type": "number",
+											"format": "double"
+										},
+										"type": "array"
+									}
 								},
-								"type": "array"
+								"required": [
+									"bookIds"
+								],
+								"type": "object"
 							}
 						}
 					}
