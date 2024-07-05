@@ -79,7 +79,7 @@ export const getBooksByUserId = async (req: Request, res: Response) => {
   const { bookId } = req.params;
   const bookshelves = await bookshelvesService.getBookshelvesByUserId(+bookId);
   const books = bookshelves.flatMap(
-    (bookshelf: { books: any }) => bookshelf.books
+    (bookshelf: any) => bookshelf.books
   );
   const distinctBooks = uniqBy(books, "id");
   return res.send(distinctBooks);
