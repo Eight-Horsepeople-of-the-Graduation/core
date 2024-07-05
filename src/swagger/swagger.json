@@ -544,181 +544,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Privacy": {
-				"enum": [
-					"PUBLIC",
-					"PRIVATE"
-				],
-				"type": "string"
-			},
-			"IUser": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"gender": {
-						"type": "string",
-						"enum": [
-							"MALE",
-							"FEMALE"
-						]
-					},
-					"birthDate": {
-						"type": "string",
-						"format": "date-time",
-						"nullable": true
-					},
-					"joinDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"profilePicture": {
-						"type": "string",
-						"nullable": true
-					},
-					"isAdmin": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"id",
-					"name",
-					"username",
-					"password",
-					"email",
-					"country",
-					"gender",
-					"birthDate",
-					"joinDate",
-					"profilePicture",
-					"isAdmin"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IBookshelf": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
-					"books": {
-						"items": {
-							"$ref": "#/components/schemas/IBook"
-						},
-						"type": "array"
-					},
-					"user": {
-						"$ref": "#/components/schemas/IUser"
-					},
-					"_count": {
-						"properties": {
-							"books": {
-								"type": "number",
-								"format": "double"
-							}
-						},
-						"required": [
-							"books"
-						],
-						"type": "object"
-					}
-				},
-				"required": [
-					"id",
-					"title",
-					"description",
-					"createdAt",
-					"privacy",
-					"userId",
-					"books",
-					"user",
-					"_count"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateBookshelfDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"title",
-					"description",
-					"privacy",
-					"userId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateBookshelfDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"OptionalBook": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/IBook"
-					}
-				],
-				"nullable": true
-			},
 			"Pick_IBook.Exclude_keyofIBook.authors-or-genres__": {
 				"properties": {
 					"id": {
@@ -790,6 +615,120 @@
 			},
 			"IBookWithoutAuthorsAndGenres": {
 				"$ref": "#/components/schemas/Omit_IBook.authors-or-genres_"
+			},
+			"IBookshelf": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"privacy": {
+						"type": "string",
+						"enum": [
+							"PRIVATE",
+							"PUBLIC"
+						]
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"books": {
+						"items": {
+							"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
+						},
+						"type": "array"
+					},
+					"_count": {
+						"properties": {
+							"books": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"createdAt",
+					"privacy",
+					"userId",
+					"books",
+					"_count"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Privacy": {
+				"enum": [
+					"PUBLIC",
+					"PRIVATE"
+				],
+				"type": "string"
+			},
+			"CreateBookshelfDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"privacy",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBookshelfDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OptionalBook": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBook"
+					}
+				],
+				"nullable": true
 			},
 			"Format": {
 				"enum": [
@@ -953,6 +892,99 @@
 					"pdfLink",
 					"authors",
 					"genres"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OptionalAuthor": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IAuthor"
+					}
+				],
+				"nullable": true
+			},
+			"CreateAuthorDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateAuthorDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IGenreWithBooks": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IGenre"
+					},
+					{
+						"properties": {
+							"books": {
+								"items": {
+									"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OptionalGenre": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IGenre"
+					}
+				],
+				"nullable": true
+			},
+			"CreateGenreDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateGenreDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -2279,6 +2311,424 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/authors": {
+			"get": {
+				"operationId": "GetAllAuthors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IAuthor"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateAuthorDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/authors/{authorId}": {
+			"get": {
+				"operationId": "GetAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OptionalAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateAuthorDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/genres": {
+			"get": {
+				"operationId": "GetAllGenres",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IGenreWithBooks"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateGenre",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateGenreDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/genres/{genreId}": {
+			"get": {
+				"operationId": "GetGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OptionalGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateGenreDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
 						"required": true,
 						"schema": {
 							"format": "double",
