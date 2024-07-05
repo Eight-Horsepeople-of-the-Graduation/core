@@ -13,9 +13,8 @@ export interface IBook {
   numOfPages: number;
   pdfLink: string | null;
   coverPicture: string | null;
-  authors: IAuthor[];
-  genres: IGenre[];
+  authors?: IAuthor[];
+  genres?: IGenre[];
 }
 
-export type IBookWithoutAuthorsAndGenres = Omit<IBook, "authors" | "genres">;
 export type OptionalBook = IBook | null;
