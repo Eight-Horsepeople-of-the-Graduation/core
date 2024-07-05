@@ -3,54 +3,91 @@ import usersService from "../services/users.service";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
 import { plainToInstance } from "class-transformer";
+import {
+  IUser,
+  OptionalUser,
+  UserWithoutPassword,
+} from "../interfaces/users.interface";
+import { HttpStatus } from "@enums/http-status.enum";
 
-export const getAllUsers = async (req: Request, res: Response) => {
-  const filter = plainToInstance(SearchQueryDto, req.query);
+export const getAllUsers = async (
+  req: Request,
+  res: Response
+): Promise<Response<UserWithoutPassword[]>> => {
+  const filter: SearchQueryDto = plainToInstance(SearchQueryDto, req.query);
 
-  const users = await usersService.getAllUsers(filter);
+  const users: UserWithoutPassword[] = await usersService.getAllUsers(filter);
 
-  return res.send(users);
+  return res.status(HttpStatus.OK).send(users);
 };
 
-export const getUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+export const getUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<UserWithoutPassword>> => {
+  const id: number = parseInt(req.params.id, 10);
 
-  const user = await usersService.getUserById(id);
+  const user: OptionalUser = await usersService.getUserById(id);
+  if (!user)
+    return res.status(HttpStatus.NOT_FOUND).send({ message: "User not found" });
 
-  return res.send({...user, password: undefined});
+  const { password, ...userWithoutPassword }: IUser = user; // Destructure to remove password
+
+  return res.status(HttpStatus.OK).send(userWithoutPassword);
 };
 
-export const getUserByUsername = async (req: Request, res: Response) => {
-  const username = req.params.username;
+export const getUserByUsername = async (
+  req: Request,
+  res: Response
+): Promise<Response<UserWithoutPassword>> => {
+  const username: string = req.params.username;
 
-  const user = await usersService.getUserByUsername(username.toLowerCase());
+  const user: OptionalUser = await usersService.getUserByUsername(
+    username.toLowerCase()
+  );
+  if (!user)
+    return res.status(HttpStatus.NOT_FOUND).send({ message: "User not found" });
 
-  return res.send({...user, password: undefined});
-}
+  const { password, ...userWithoutPassword }: IUser = user; // Destructure to remove password
 
-export const createUser = async (req: Request, res: Response) => {
+  return res.status(HttpStatus.OK).send(userWithoutPassword);
+};
+
+export const createUser = async (
+  req: Request,
+  res: Response
+): Promise<Response<UserWithoutPassword>> => {
   const userData: CreateUserDto = req.body;
 
-  const user = await usersService.createUser(userData);
+  const user: UserWithoutPassword = await usersService.createUser(userData);
 
-  return res.status(201).send({...user, password: undefined});
+  return res.status(HttpStatus.CREATED).send(user);
 };
 
-export const updateUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+export const updateUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<UserWithoutPassword>> => {
+  const id: number = parseInt(req.params.id, 10);
   const updatedData: UpdateUserDto = req.body;
 
-  const user = await usersService.updateUserById(id, updatedData);
+  const user: UserWithoutPassword = await usersService.updateUserById(
+    id,
+    updatedData
+  );
 
-  return res.send({...user, password: undefined});
+  return res.status(HttpStatus.OK).send(user);
 };
 
-export const deleteUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+export const deleteUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<UserWithoutPassword>> => {
+  const id: number = parseInt(req.params.id, 10);
 
-  const user = await usersService.deleteUserById(id);
+  const user: UserWithoutPassword = await usersService.deleteUserById(id);
 
-  return res.send({...user, password: undefined});
+  return res.status(HttpStatus.OK).send(user);
 };
 
 export default {

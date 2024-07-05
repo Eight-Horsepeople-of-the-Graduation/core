@@ -2,16 +2,28 @@ import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
 import { GetBookshelfByIdDto, SearchQueryDto } from "@dtos";
 import bookshelvesService from "@services/bookshelves.service";
+import {
+  IBookshelf,
+  IBookshelfWithoutBooks,
+  IBookshelfWithUser,
+} from "../interfaces/bookshelves.interface";
 
-export const getAllBookshelves = async (req: Request, res: Response) => {
+export const getAllBookshelves = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelfWithUser[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
-  const bookshelves = await bookshelvesService.getAllBookshelves(filter);
+  const bookshelves: IBookshelfWithUser[] =
+    await bookshelvesService.getAllBookshelves(filter);
 
   return res.send(bookshelves);
 };
 
-export const getBookshelfById = async (req: Request, res: Response) => {
+export const getBookshelfById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
   const { id } = req.params;
   if (!id) return res.status(400).send("Invalid ID parameter");
 
@@ -19,11 +31,13 @@ export const getBookshelfById = async (req: Request, res: Response) => {
   const bookshelf = await bookshelvesService.getBookshelfById(data);
   if (!bookshelf) return res.status(400).send("Bookshelf Not Found");
 
-  console.log(req);
   return res.send(bookshelf);
 };
 
-export const getBookshelvesByUserId = async (req: Request, res: Response) => {
+export const getBookshelvesByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf[]>> => {
   const { id } = req.params;
   if (!id) return res.status(404).send("User Not Found");
 
@@ -32,7 +46,10 @@ export const getBookshelvesByUserId = async (req: Request, res: Response) => {
   return res.send(bookshelf);
 };
 
-export const createBookshelf = async (req: Request, res: Response) => {
+export const createBookshelf = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
   const bookshelfData = req.body;
 
   const bookshelf = await bookshelvesService.createBookshelf(bookshelfData);
@@ -40,7 +57,10 @@ export const createBookshelf = async (req: Request, res: Response) => {
   return res.status(201).send(bookshelf);
 };
 
-export const addBookToBookshelf = async (req: Request, res: Response) => {
+export const addBookToBookshelf = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
   const { id } = req.params;
   const { bookIds } = req.body;
   const bookshelfId: GetBookshelfByIdDto = { id: +id };
@@ -53,7 +73,10 @@ export const addBookToBookshelf = async (req: Request, res: Response) => {
   return res.send(updatedBookshelf);
 };
 
-export const removeBooksFromBookshelf = async (req: Request, res: Response) => {
+export const removeBooksFromBookshelf = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
   const { id } = req.params;
   const { bookIds } = req.body;
   const bookshelfId: GetBookshelfByIdDto = { id: +id };
@@ -64,7 +87,10 @@ export const removeBooksFromBookshelf = async (req: Request, res: Response) => {
   return res.send(updatedBookshelf);
 };
 
-export const updateBookshelf = async (req: Request, res: Response) => {
+export const updateBookshelf = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
   const { id } = req.params;
   const updatedData = req.body;
   const bookshelfId: GetBookshelfByIdDto = { id: +id };
@@ -77,7 +103,10 @@ export const updateBookshelf = async (req: Request, res: Response) => {
   return res.send(updatedBookshelf);
 };
 
-export const deleteBookshelf = async (req: Request, res: Response) => {
+export const deleteBookshelf = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelfWithoutBooks>> => {
   const { id } = req.params;
   const bookshelfId: GetBookshelfByIdDto = { id: +id };
   const deletedBookshelf =
