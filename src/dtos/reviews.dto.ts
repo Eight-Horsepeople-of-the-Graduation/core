@@ -22,7 +22,7 @@ export class CreateReviewDto {
   userId: number;
 }
 
-export class UpdateReviewDto {
+export class UpdateReviewDetailsDto {
   @IsOptional()
   @IsString()
   title?: string;
@@ -30,10 +30,11 @@ export class UpdateReviewDto {
   @IsOptional()
   @IsString()
   description?: string;
+}
 
-  @IsOptional()
+export class UpdateReviewRatingDto {
   @IsNumber()
-  rating?: number;
+  rating: number;
 
   @IsNumber()
   bookId: number;
