@@ -7,6 +7,7 @@ import * as swaggerJson from "./swagger/swagger.json";
 import path from "path";
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+import { prismaErrorHandlerMiddleware } from "@middleware/prisma-error-handler.middleware";
 
 const app = express();
 
@@ -35,3 +36,15 @@ app.use("/",(req, res) => {
 
 export default app;
 
+  app.use(["/docs", "/swagger"], swaggerUI.serve, swaggerUI.setup(swaggerJson));
+
+  app.use(prismaErrorHandlerMiddleware)
+  app.use(errorHandlerMiddleware);
+
+  app.listen(port, () => {
+    logger.info(`Server listening at http://localhost:${port}`);
+    logger.info(`See Docs at http://localhost:${port}/docs`);
+  });
+};
+
+startServer();

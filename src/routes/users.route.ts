@@ -16,7 +16,7 @@ router.post(
   asyncWrapper(usersController.createUser)
 );
 
-router.put(
+router.patch(
   "/:id",
   // validationMiddleware(UpdateUserDto),
   asyncWrapper(usersController.updateUserById)

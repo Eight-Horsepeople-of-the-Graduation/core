@@ -102,6 +102,8 @@ model Conversation {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   messages  Message[]
+
+  @@unique([bookId, userId])
 }
 
 model Message {

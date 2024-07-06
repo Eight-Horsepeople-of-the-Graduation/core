@@ -1,28 +1,52 @@
 import prismaClient from "../utils/prisma";
 import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
+import {
+  IReview,
+  IReviewWithUserAndBook,
+  OptionalReview,
+  IReviewRatingAggregate,
+  OptionalReviewWithUserAndBook,
+} from "../interfaces/reviews.interface";
 
-export const getReviewById = async (reviewId: number) => {
-  const review = await prismaClient.review.findUnique({
-    where: {
-      id: reviewId,
-    },
-    include: {
-      user: true,
-      book: true,
-    },
-  });
+export const getReviewById = async (
+  reviewId: number
+): Promise<OptionalReviewWithUserAndBook> => {
+  const review: OptionalReviewWithUserAndBook =
+    await prismaClient.review.findUnique({
+      where: {
+        id: reviewId,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+        book: true,
+      },
+    });
 
   return review;
 };
 
 // missing: add service, controller, route in books
-export const getReviewsByBookId = async (bookId: number) => {
-  const reviews = await prismaClient.review.findMany({
+export const getReviewsByBookId = async (
+  bookId: number
+): Promise<IReviewWithUserAndBook[]> => {
+  const reviews: IReviewWithUserAndBook[] = await prismaClient.review.findMany({
     where: {
       bookId,
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
       book: true,
     },
   });
@@ -30,7 +54,9 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
-export const aggregateRatingsByBookId = async (bookId: number) => {
+export const aggregateRatingsByBookId = async (
+  bookId: number
+): Promise<IReviewRatingAggregate> => {
   const currentRatings = await prismaClient.review.aggregate({
     where: {
       bookId,
@@ -49,23 +75,33 @@ export const aggregateRatingsByBookId = async (bookId: number) => {
 };
 
 // missing: add service, controller, route in users
-export const getReviewsByUserId = async (userId: number) => {
-  const reviews = await prismaClient.review.findMany({
+export const getReviewsByUserId = async (
+  userId: number
+): Promise<IReviewWithUserAndBook[]> => {
+  const reviews: IReviewWithUserAndBook[] = await prismaClient.review.findMany({
     where: {
       userId,
     },
     include: {
       book: true,
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
     },
   });
 
   return reviews;
 };
 
-export const createReview = async (createReviewDto: CreateReviewDto) => {
+export const createReview = async (
+  createReviewDto: CreateReviewDto
+): Promise<IReview> => {
   const { title, description, rating, bookId, userId } = createReviewDto;
-  const newReview = await prismaClient.review.create({
+  const newReview: IReview = await prismaClient.review.create({
     data: {
       title,
       description,
@@ -89,34 +125,49 @@ export const createReview = async (createReviewDto: CreateReviewDto) => {
 export const updateReview = async (
   updateReviewDto: UpdateReviewDto,
   reviewId: number
-) => {
+): Promise<IReviewWithUserAndBook> => {
   const { title, description, rating } = updateReviewDto;
-  const updatedReview = await prismaClient.review.update({
-    where: {
-      id: reviewId,
-    },
-    data: {
-      title,
-      description,
-      rating,
-    },
-    include: {
-      user: true,
-      book: true,
-    },
-  });
+  const updatedReview: IReviewWithUserAndBook =
+    await prismaClient.review.update({
+      where: {
+        id: reviewId,
+      },
+      data: {
+        title,
+        description,
+        rating,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+        book: true,
+      },
+    });
 
   return updatedReview;
 };
 
-export const deleteReview = async (reviewId: number) => {
+export const deleteReview = async (
+  reviewId: number
+): Promise<IReviewWithUserAndBook> => {
   const id = reviewId;
-  const review = await prismaClient.review.delete({
+  const review: IReviewWithUserAndBook = await prismaClient.review.delete({
     where: {
       id,
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
       book: true,
     },
   });

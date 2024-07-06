@@ -1,11 +1,14 @@
 import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "../dtos";
 import prismaClient from "../utils/prisma";
+import { IUser, OptionalUser } from "../interfaces/users.interface";
 
-export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
+export const getAllUsers = async (
+  searchQueryDto: SearchQueryDto
+): Promise<IUser[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
-  const skip = (page - 1) * limit;
+  const skip: number = (page - 1) * limit;
 
-  const users = await prismaClient.user.findMany({
+  const users: IUser[] = await prismaClient.user.findMany({
     where: {
       ...(term && {
         username: {
@@ -15,32 +18,33 @@ export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
       }),
     },
     skip,
-    
+
     take: limit,
   });
 
-  return users.map((user) => ({...user, password: undefined}));
+  return users;
 };
 
-export const getUserById = async (id: number) => {
-  const user = await prismaClient.user.findUnique({
+export const getUserById = async (id: number): Promise<OptionalUser> => {
+  const user: OptionalUser = await prismaClient.user.findUnique({
     where: { id },
   });
 
   return user;
 };
 
-export const getUserByUsername = async (username: string) => {
-  const user = await prismaClient.user.findUnique({
+export const getUserByUsername = async (
+  username: string
+): Promise<OptionalUser> => {
+  const user: OptionalUser = await prismaClient.user.findUnique({
     where: { username },
   });
 
   return user;
-}
+};
 
-
-export const createUser = async (userData: CreateUserDto) => {
-  const user = await prismaClient.user.create({
+export const createUser = async (userData: CreateUserDto): Promise<IUser> => {
+  const user: IUser = await prismaClient.user.create({
     data: userData,
   });
 
@@ -50,8 +54,8 @@ export const createUser = async (userData: CreateUserDto) => {
 export const updateUserById = async (
   id: number,
   updatedData: UpdateUserDto
-) => {
-  const user = await prismaClient.user.update({
+): Promise<IUser> => {
+  const user: IUser = await prismaClient.user.update({
     where: { id },
     data: updatedData,
   });
@@ -59,8 +63,8 @@ export const updateUserById = async (
   return user;
 };
 
-export const deleteUserById = async (id: number) => {
-  const user = await prismaClient.user.delete({
+export const deleteUserById = async (id: number): Promise<IUser> => {
+  const user:IUser = await prismaClient.user.delete({
     where: { id },
   });
 

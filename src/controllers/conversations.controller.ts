@@ -1,73 +1,74 @@
 import { Request, Response } from "express";
 import conversationsService from "../services/conversations.service";
+import { HttpException } from "../exceptions/http.exception";
+import { HttpStatus } from "../enums/http-status.enum";
+import {
+  IConversation,
+  OptionalConversation,
+} from "../interfaces/conversations.interface";
 
-export const getAllConversations = async (req: Request, res: Response) => {
-  const conversations = await conversationsService.getAllConversations();
+export const getConversationByUserAndBook = async (
+  req: Request,
+  res: Response
+): Promise<Response<IConversation>> => {
+  const userId = parseInt(req.params.userId, 10);
+  const bookId = parseInt(req.params.bookId, 10);
+  if (isNaN(userId) || isNaN(bookId)) {
+    throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
+  }
+  await conversationsService.checkUserAndBook(userId, bookId);
 
-  return res.send(conversations);
-};
-
-export const getConversationById = async (req: Request, res: Response) => {
-  const conversationId = parseInt(req.params.genreId, 10);
-
-  const conversation =
-    await conversationsService.getConversationById(conversationId);
+  const conversation = await conversationsService.getConversationByUserAndBook(
+    userId,
+    bookId
+  );
 
   return res.send(conversation);
 };
 
-export const createConversation = async (req: Request, res: Response) => {
-  const createConversationDto = req.body;
-
-  const newConversation = await conversationsService.createConversation(
-    createConversationDto
-  );
-
-  return res.status(201).send(newConversation);
-};
-
-export const chat = async (req: Request, res: Response) => {
-  const conversationId = parseInt(req.params.conversationId, 10);
-  const chatDto = req.body;
-
-  try {
-    const answer = await conversationsService.chat(conversationId, chatDto);
-
-    return res.status(200).send({ answer });
-  } catch {
-    return res.status(500);
-  }
-};
-
-export const createMessage = async (req: Request, res: Response) => {
-  const conversationId = parseInt(req.params.id, 10);
-  const createMessageDto = req.body;
-
-  const message = await conversationsService.createMessage(
-    createMessageDto,
-    conversationId
-  );
-
-  return res.status(201).send(message);
-};
-
-export const getMessagesByConversationId = async (
+export const chat = async (
   req: Request,
   res: Response
-) => {
-  const conversationId = parseInt(req.params.genreId, 10);
+): Promise<Response<{ answer: string }>> => {
+  const bookId = parseInt(req.params.bookId, 10);
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(bookId) || isNaN(userId)) {
+    throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
+  }
+  await conversationsService.checkUserAndBook(userId, bookId);
 
-  const messages =
-    await conversationsService.getMessagesByConversationId(conversationId);
+  const chatDto = req.body;
 
-  return res.send(messages);
+  const answer = await conversationsService.chat(bookId, userId, chatDto);
+
+  return res.status(HttpStatus.OK).send({ answer });
+};
+
+export const deleteConversation = async (
+  req: Request,
+  res: Response
+): Promise<Response<OptionalConversation>> => {
+  const bookId = parseInt(req.params.bookId, 10);
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(bookId) || isNaN(userId)) {
+    throw new HttpException("Invalid user or book Id", HttpStatus.BAD_REQUEST);
+  }
+  await conversationsService.checkUserAndBook(userId, bookId);
+  const conversation = await conversationsService.deleteConversation(
+    bookId,
+    userId
+  );
+  if (!conversation) {
+    throw new HttpException(
+      "No conversation started between the provided user and the provided book",
+      HttpStatus.NOT_FOUND
+    );
+  }
+  return res.status(HttpStatus.OK).send(conversation);
 };
 
 export default {
-  getAllConversations,
-  getConversationById,
-  createConversation,
-  createMessage,
-  getMessagesByConversationId,
+  getConversationByUserAndBook,
+  deleteConversation,
   chat,
 };

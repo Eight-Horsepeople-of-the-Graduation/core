@@ -2,8 +2,17 @@ import genresService from "../services/genres.service";
 import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
 import { SearchQueryDto } from "../dtos/search.dto";
+import {
+  IGenre,
+  IGenreWithBooks,
+  OptionalGenre,
+} from "../interfaces/genres.interface";
+import { CreateGenreDto, UpdateGenreDto } from "@dtos";
 
-export const getAllGenres = async (req: Request, res: Response) => {
+export const getAllGenres = async (
+  req: Request,
+  res: Response
+): Promise<Response<IGenreWithBooks[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
   const genres = await genresService.getAllGenres(filter);
@@ -11,7 +20,10 @@ export const getAllGenres = async (req: Request, res: Response) => {
   return res.send(genres);
 };
 
-export const getGenreById = async (req: Request, res: Response) => {
+export const getGenreById = async (
+  req: Request,
+  res: Response
+): Promise<Response<OptionalGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
 
   const genre = await genresService.getGenreById(genreId);
@@ -19,17 +31,23 @@ export const getGenreById = async (req: Request, res: Response) => {
   return res.send(genre);
 };
 
-export const createGenre = async (req: Request, res: Response) => {
-  const createGenreDto = req.body;
+export const createGenre = async (
+  req: Request,
+  res: Response
+): Promise<Response<IGenre>> => {
+  const createGenreDto = plainToInstance(CreateGenreDto, req.body);
 
   const newGenre = await genresService.createGenre(createGenreDto);
 
   return res.status(201).send(newGenre);
 };
 
-export const updateGenreById = async (req: Request, res: Response) => {
+export const updateGenreById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
-  const updateGenreDto = req.body;
+  const updateGenreDto = plainToInstance(UpdateGenreDto, req.body);
 
   const updatedGenre = await genresService.updateGenreById(
     genreId,
@@ -39,7 +57,10 @@ export const updateGenreById = async (req: Request, res: Response) => {
   return res.send(updatedGenre);
 };
 
-export const deleteGenreById = async (req: Request, res: Response) => {
+export const deleteGenreById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
 
   const deletedGenre = await genresService.deleteGenreById(+genreId);
