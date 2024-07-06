@@ -5,6 +5,10 @@ import {
 } from "@langchain/core/messages";
 import { CreateConversationDto, CreateMessageDto } from "@dtos";
 import prismaClient from "@utils/prisma";
+import {
+  IConversation,
+  OptionalConversation,
+} from "../interfaces/conversations.interface";
 
 export const getAllConversations = async () => {
   const conversations = await prismaClient.conversation.findMany({
@@ -31,15 +35,36 @@ export const getConversationById = async (id: number) => {
 
 export const createConversation = async (
   conversationData: CreateConversationDto
-) => {
-  const conversation = await prismaClient.conversation.create({
+): Promise<IConversation> => {
+  const conversation: IConversation = await prismaClient.conversation.create({
     data: conversationData,
+    include: {
+      messages: true,
+    },
   });
 
   return conversation;
 };
 
-//message logic here
+export const getConversationByUserAndBook = async (
+  bookId: number,
+  userId: number
+): Promise<OptionalConversation> => {
+  const conversation: OptionalConversation =
+    await prismaClient.conversation.findUnique({
+      where: {
+        bookId_userId: {
+          bookId,
+          userId,
+        },
+      },
+      include: {
+        messages: true,
+      },
+    });
+
+  return conversation;
+};
 
 export const createMessage = async (
   messageData: CreateMessageDto,
@@ -97,4 +122,5 @@ export default {
   createConversation,
   createMessage,
   getMessagesByConversationId,
+  getConversationByUserAndBook,
 };
