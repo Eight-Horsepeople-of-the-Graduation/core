@@ -403,6 +403,18 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ChatDto": {
+				"properties": {
+					"question": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"question"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IMessage": {
 				"properties": {
 					"id": {
@@ -477,69 +489,6 @@
 					"bookId",
 					"userId",
 					"messages"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ChatDto": {
-				"properties": {
-					"bookId": {
-						"type": "number",
-						"format": "double"
-					},
-					"question": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"bookId",
-					"question"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateConversationDto": {
-				"properties": {
-					"retriever": {
-						"type": "string"
-					},
-					"memory": {
-						"type": "string"
-					},
-					"llm": {
-						"type": "string"
-					},
-					"bookId": {
-						"type": "number",
-						"format": "double"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"retriever",
-					"memory",
-					"llm",
-					"bookId",
-					"userId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateMessageDto": {
-				"properties": {
-					"role": {
-						"type": "string"
-					},
-					"content": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"role",
-					"content"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1613,109 +1562,7 @@
 				}
 			}
 		},
-		"/conversations": {
-			"get": {
-				"operationId": "GetAllConversations",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IConversation"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Conversations"
-				],
-				"security": [],
-				"parameters": []
-			},
-			"post": {
-				"operationId": "CreateConversation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IConversation"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Conversations"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateConversationDto"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/conversations/{id}": {
-			"get": {
-				"operationId": "GetConversationById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IConversation"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Conversations"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/conversations/chat/{conversationId}": {
+		"/conversations/chat/user/{userId}/book/{bookId}": {
 			"post": {
 				"operationId": "Chat",
 				"responses": {
@@ -1750,7 +1597,16 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "conversationId",
+						"name": "bookId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -1770,9 +1626,9 @@
 				}
 			}
 		},
-		"/conversations/{conversationId}/messages": {
-			"post": {
-				"operationId": "CreateMessage",
+		"/conversations/user/{userId}/book/{bookId}": {
+			"get": {
+				"operationId": "GetConversationByUserAndBook",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1781,7 +1637,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IMessage"
+											"$ref": "#/components/schemas/IConversation"
 										},
 										{}
 									]
@@ -1797,55 +1653,16 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "conversationId",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"format": "double",
 							"type": "number"
 						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateMessageDto"
-							}
-						}
-					}
-				}
-			},
-			"get": {
-				"operationId": "GetMessagesByConversationId",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IMessage"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Conversations"
-				],
-				"security": [],
-				"parameters": [
+					},
 					{
 						"in": "path",
-						"name": "conversationId",
+						"name": "bookId",
 						"required": true,
 						"schema": {
 							"format": "double",
