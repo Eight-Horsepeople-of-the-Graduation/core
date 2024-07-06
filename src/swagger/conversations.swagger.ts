@@ -6,30 +6,16 @@ import { IMessage } from "../interfaces/messages.interface";
 @Route("conversations")
 @Tags("Conversations")
 export class ConversationsSwagger {
-  @Get("/")
-  public getAllConversations(): IConversation[] | any {}
-
-  @Get("/:id")
-  public getConversationById(@Path() id: number): IConversation | any {}
-
-  @Post("/chat/:conversationId")
+  @Post("/chat/user/:userId/book/:bookId")
   public chat(
-    @Path() conversationId: number,
+    @Path() bookId: number,
+    @Path() userId: number,
     @Body() chatDto: ChatDto
   ): { answer: string } | any {}
-  @Post("/")
-  public createConversation(
-    @Body() conversationData: CreateConversationDto
+
+  @Get("/user/:userId/book/:bookId")
+  public getConversationByUserAndBook(
+    @Path() userId: number,
+    @Path() bookId: number
   ): IConversation | any {}
-
-  @Post("/:conversationId/messages")
-  public createMessage(
-    @Body() messageData: CreateMessageDto,
-    @Path() conversationId: number
-  ): IMessage | any {}
-
-  @Get("/:conversationId/messages")
-  public getMessagesByConversationId(
-    @Path() conversationId: number
-  ): IMessage[] | any {}
 }
