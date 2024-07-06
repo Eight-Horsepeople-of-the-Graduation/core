@@ -15,10 +15,12 @@ model User {
   password          String
   country           String
   gender            Gender
-  birthDate         DateTime?
-  joinDate          DateTime           @default(now())
+  refreshToken      String?
   profilePicture    String?
   isAdmin           Boolean            @default(false)
+  birthDate         DateTime?
+  joinDate          DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   books             Book[]
   bookshelves       Bookshelf[]
   favoriteGenres    Genre[]

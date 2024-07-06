@@ -1,68 +1,54 @@
 import usersRepository from "../repositories/users.repository";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
-import {
-  IUser,
-  OptionalUser,
-  UserWithoutPassword,
-} from "../interfaces/users.interface";
 
-export const getAllUsers = async (
-  filter: SearchQueryDto
-): Promise<UserWithoutPassword[]> => {
-  const users: IUser[] = await usersRepository.getAllUsers(filter);
+export const getAllUsers = async (filter: SearchQueryDto) => {
+  const users = await usersRepository.getAllUsers(filter);
 
-  return users.map(({ password: undefined, ...user }) => user);
+  return users;
 };
 
-export const getUserById = async (id: number): Promise<OptionalUser> => {
-  const user: OptionalUser = await usersRepository.getUserById(id);
+export const getUserById = async (userId: number) => {
+  const user = await usersRepository.getUserById(userId);
 
   return user;
 };
 
-export const getUserByUsername = async (
-  username: string
-): Promise<OptionalUser> => {
-  const user: OptionalUser = await usersRepository.getUserByUsername(username);
+export const createUser = async (createUserDto: CreateUserDto) => {
+  const newUser = await usersRepository.createUser(createUserDto);
 
-  return user;
-};
-
-export const createUser = async (
-  userData: CreateUserDto
-): Promise<UserWithoutPassword> => {
-  const user: IUser = await usersRepository.createUser(userData);
-  const { password, ...userWithoutPassword }: IUser = user;
-
-  return userWithoutPassword;
+  return newUser;
 };
 
 export const updateUserById = async (
-  id: number,
-  updatedData: UpdateUserDto
-): Promise<UserWithoutPassword> => {
-  const user: IUser = await usersRepository.updateUserById(id, updatedData);
+  userId: number,
+  updateUserDto: UpdateUserDto
+) => {
+  const updatedUser = await usersRepository.updateUserById(
+    userId,
+    updateUserDto
+  );
 
-  const { password, ...userWithoutPassword }: IUser = user;
-
-  return userWithoutPassword;
+  return updatedUser;
 };
 
-export const deleteUserById = async (
-  id: number
-): Promise<UserWithoutPassword> => {
-  const user: IUser = await usersRepository.deleteUserById(id);
-  const { password, ...userWithoutPassword }: IUser = user;
+export const deleteUserById = async (userId: number) => {
+  const deletedUser = await usersRepository.deleteUserById(userId);
 
-  return userWithoutPassword;
+  return deletedUser;
+};
+
+export const validateCredentials = async (email: string, password: string) => {
+  const user = await usersRepository.validateCredentials(email, password);
+
+  return user;
 };
 
 export default {
   getAllUsers,
   getUserById,
-  getUserByUsername,
   createUser,
   updateUserById,
   deleteUserById,
+  validateCredentials,
 };
