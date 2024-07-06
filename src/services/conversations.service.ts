@@ -7,11 +7,16 @@ import {
   IConversation,
   OptionalConversation,
 } from "../interfaces/conversations.interface";
+import usersRepository from "@repositories/users.repository";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
+import booksRepository from "@repositories/books.repository";
 
 export const getConversationByUserAndBook = async (
   userId: number,
   bookId: number
 ): Promise<IConversation> => {
+
   let conversation = await conversationRepository.getConversationByUserAndBook(
     userId,
     bookId
@@ -63,6 +68,7 @@ export const deleteConversation = async (
   bookId: number,
   userId: number
 ): Promise<OptionalConversation> => {
+
   const conversation = conversationRepository.deleteConversation(
     bookId,
     userId
@@ -98,7 +104,20 @@ export const getMessagesByConversationId = async (conversationId: number) => {
   return messages;
 };
 
+export const checkUserAndBook = async (userId: number, bookId: number) => {
+  const user = await usersRepository.getUserById(userId);
+  if (!user) {
+    throw new HttpException("User does not exist", HttpStatus.NOT_FOUND);
+  }
+
+  const book = await booksRepository.getBookById(bookId);
+  if (!book) {
+    throw new HttpException("Book does not exist", HttpStatus.NOT_FOUND);
+  }
+};
+
 export default {
+  checkUserAndBook,
   createConversation,
   createMessage,
   getMessagesByConversationId,

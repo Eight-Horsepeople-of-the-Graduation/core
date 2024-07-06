@@ -16,6 +16,7 @@ export const getConversationByUserAndBook = async (
   if (isNaN(userId) || isNaN(bookId)) {
     throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
   }
+  await conversationsService.checkUserAndBook(userId, bookId);
 
   const conversation = await conversationsService.getConversationByUserAndBook(
     userId,
@@ -34,6 +35,7 @@ export const chat = async (
   if (isNaN(bookId) || isNaN(userId)) {
     throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
   }
+  await conversationsService.checkUserAndBook(userId, bookId);
 
   const chatDto = req.body;
 
@@ -51,6 +53,7 @@ export const deleteConversation = async (
   if (isNaN(bookId) || isNaN(userId)) {
     throw new HttpException("Invalid user or book Id", HttpStatus.BAD_REQUEST);
   }
+  await conversationsService.checkUserAndBook(userId, bookId);
   const conversation = await conversationsService.deleteConversation(
     bookId,
     userId
