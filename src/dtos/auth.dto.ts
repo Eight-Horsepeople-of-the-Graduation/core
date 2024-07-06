@@ -1,6 +1,6 @@
 import {
   IsBoolean,
-  IsDate,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -48,7 +48,7 @@ export class SignUpDto {
   gender: Gender;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthDate?: Date;
 
   @IsOptional()
