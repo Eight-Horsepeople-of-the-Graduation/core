@@ -16,7 +16,12 @@ import {
   UpdateBookshelfDto,
 } from "../dtos";
 
-import { IBookshelf } from "./interfaces";
+import {
+  IBookshelf,
+  IBookshelfWithoutBooks,
+  IBookshelfWithUser,
+  OptionalBookshelf,
+} from "../interfaces/bookshelves.interface";
 
 @Route("bookshelves")
 @Tags("Bookshelves")
@@ -24,10 +29,10 @@ export class BookshelvesDocs {
   @Get("/")
   public getAllBookshelves(
     @Queries() searchQueryDto: SearchQueryDto
-  ): IBookshelf[] | any {}
+  ): IBookshelfWithUser[] | any {}
 
   @Get("/:id")
-  public getBookshelfById(@Path() id: number): IBookshelf | any {}
+  public getBookshelfById(@Path() id: number): OptionalBookshelf | any {}
 
   @Get("/user/:id")
   public getBookshelvesByUserId(@Path() id: number): IBookshelf[] | any {}
@@ -38,13 +43,13 @@ export class BookshelvesDocs {
   @Patch("/add-books/:id")
   public addBookToBookshelf(
     @Path() id: number,
-    @Body() bookIds: number[]
+    @Body() bookIds: { bookIds: number[] }
   ): IBookshelf | any {}
 
   @Patch("/remove-books/:id")
   public removeBooksFromBookshelf(
     @Path() id: number,
-    @Body() bookIds: number[]
+    @Body() bookIds: { bookIds: number[] }
   ): IBookshelf | any {}
 
   @Put("/:id")
@@ -54,5 +59,5 @@ export class BookshelvesDocs {
   ): IBookshelf | any {}
 
   @Delete("/:id")
-  public deleteBookshelf(@Path() id: number): IBookshelf | any {}
+  public deleteBookshelf(@Path() id: number): IBookshelfWithoutBooks | any {}
 }

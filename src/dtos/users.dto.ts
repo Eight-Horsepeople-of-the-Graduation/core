@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsDate,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -11,13 +12,16 @@ import {
 } from "class-validator";
 
 export enum Gender {
-  male = "male",
-  female = "female",
+  MALE = "MALE",
+  FEMALE = "FEMALE",
 }
 
 export class GetUserDto {
   @IsNotEmpty()
   id: number;
+
+  @IsNotEmpty()
+  name: string;
 
   @IsNotEmpty()
   username: string;
@@ -50,6 +54,12 @@ export class GetUserDto {
 }
 
 export class CreateUserDto {
+
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 255)
+  name: string;
+
   @IsNotEmpty()
   @IsString()
   @Length(6, 64)
@@ -86,7 +96,7 @@ export class CreateUserDto {
   gender: Gender;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthDate?: Date;
 
   @IsOptional()
