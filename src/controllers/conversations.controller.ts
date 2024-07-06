@@ -2,26 +2,15 @@ import { Request, Response } from "express";
 import conversationsService from "@services/conversations.service";
 import { HttpException } from "@exceptions/http.exception";
 import { HttpStatus } from "@enums/http-status.enum";
-
-export const getAllConversations = async (req: Request, res: Response) => {
-  const conversations = await conversationsService.getAllConversations();
-
-  return res.send(conversations);
-};
-
-export const getConversationById = async (req: Request, res: Response) => {
-  const conversationId = parseInt(req.params.genreId, 10);
-
-  const conversation =
-    await conversationsService.getConversationById(conversationId);
-
-  return res.send(conversation);
-};
+import {
+  IConversation,
+  OptionalConversation,
+} from "../interfaces/conversations.interface";
 
 export const getConversationByUserAndBook = async (
   req: Request,
   res: Response
-) => {
+): Promise<Response<IConversation>> => {
   const userId = parseInt(req.params.userId, 10);
   const bookId = parseInt(req.params.bookId, 10);
   if (isNaN(userId) || isNaN(bookId)) {
@@ -36,17 +25,10 @@ export const getConversationByUserAndBook = async (
   return res.send(conversation);
 };
 
-export const createConversation = async (req: Request, res: Response) => {
-  const createConversationDto = req.body;
-
-  const newConversation = await conversationsService.createConversation(
-    createConversationDto
-  );
-
-  return res.status(201).send(newConversation);
-};
-
-export const chat = async (req: Request, res: Response) => {
+export const chat = async (
+  req: Request,
+  res: Response
+): Promise<Response<{ answer: string }>> => {
   const bookId = parseInt(req.params.bookId, 10);
   const userId = parseInt(req.params.userId, 10);
   if (isNaN(bookId) || isNaN(userId)) {
@@ -60,36 +42,30 @@ export const chat = async (req: Request, res: Response) => {
   return res.status(HttpStatus.OK).send({ answer });
 };
 
-export const createMessage = async (req: Request, res: Response) => {
-  const conversationId = parseInt(req.params.id, 10);
-  const createMessageDto = req.body;
-
-  const message = await conversationsService.createMessage(
-    createMessageDto,
-    conversationId
-  );
-
-  return res.status(201).send(message);
-};
-
-export const getMessagesByConversationId = async (
+export const deleteConversation = async (
   req: Request,
   res: Response
-) => {
-  const conversationId = parseInt(req.params.genreId, 10);
-
-  const messages =
-    await conversationsService.getMessagesByConversationId(conversationId);
-
-  return res.send(messages);
+): Promise<Response<OptionalConversation>> => {
+  const bookId = parseInt(req.params.bookId, 10);
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(bookId) || isNaN(userId)) {
+    throw new HttpException("Invalid user or book Id", HttpStatus.BAD_REQUEST);
+  }
+  const conversation = await conversationsService.deleteConversation(
+    bookId,
+    userId
+  );
+  if (!conversation) {
+    throw new HttpException(
+      "No conversation started between the provided user and the provided book",
+      HttpStatus.NOT_FOUND
+    );
+  }
+  return res.status(HttpStatus.OK).send(conversation);
 };
 
 export default {
-  getAllConversations,
   getConversationByUserAndBook,
-  getConversationById,
-  createConversation,
-  createMessage,
-  getMessagesByConversationId,
+  deleteConversation,
   chat,
 };
