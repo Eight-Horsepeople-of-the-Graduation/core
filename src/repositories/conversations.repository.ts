@@ -9,15 +9,108 @@ import {
   IConversation,
   OptionalConversation,
 } from "../interfaces/conversations.interface";
+import { IMessage } from "../interfaces/messages.interface";
 
-export const getAllConversations = async () => {
-  const conversations = await prismaClient.conversation.findMany({
-    include: {
-      messages: true,
+export const createConversation = async (
+  conversationData: CreateConversationDto
+): Promise<IConversation> => {
+  const conversation: IConversation = await prismaClient.conversation.create({
+    data: conversationData,
+    select: {
+      id: true,
+      messages: {
+        select: {
+          id: true,
+          createdOn: true,
+          role: true,
+          content: true,
+          conversationId: false,
+        },
+      },
+      createdOn: true,
+      bookId: true,
+      userId: true,
+      retriever: false,
+      llm: false,
+      memory: false,
     },
   });
 
-  return conversations;
+  return conversation;
+};
+
+export const getConversationByUserAndBook = async (
+  bookId: number,
+  userId: number
+): Promise<OptionalConversation> => {
+  const conversation = await prismaClient.conversation.findUnique({
+    where: {
+      bookId_userId: {
+        bookId,
+        userId,
+      },
+    },
+    select: {
+      id: true,
+      messages: {
+        select: {
+          id: true,
+          createdOn: true,
+          role: true,
+          content: true,
+          conversationId: false,
+        },
+      },
+      createdOn: true,
+      bookId: true,
+      userId: true,
+      retriever: false,
+      llm: false,
+      memory: false,
+    },
+  });
+
+  return conversation;
+};
+
+export const deleteConversation = async (
+  bookId: number,
+  userId: number
+): Promise<OptionalConversation> => {
+  const conversation = await prismaClient.conversation.findUnique({
+    where: {
+      bookId_userId: {
+        bookId,
+        userId,
+      },
+    },
+    select: {
+      id: true,
+      messages: {
+        select: {
+          id: true,
+          createdOn: true,
+          role: true,
+          content: true,
+          conversationId: false,
+        },
+      },
+      createdOn: true,
+      bookId: true,
+      userId: true,
+      retriever: false,
+      llm: false,
+      memory: false,
+    },
+  });
+
+  await prismaClient.message.deleteMany({
+    where: {
+      conversationId: conversation?.id,
+    },
+  });
+
+  return conversation;
 };
 
 export const getConversationById = async (id: number) => {
@@ -29,39 +122,6 @@ export const getConversationById = async (id: number) => {
       messages: true,
     },
   });
-
-  return conversation;
-};
-
-export const createConversation = async (
-  conversationData: CreateConversationDto
-): Promise<IConversation> => {
-  const conversation: IConversation = await prismaClient.conversation.create({
-    data: conversationData,
-    include: {
-      messages: true,
-    },
-  });
-
-  return conversation;
-};
-
-export const getConversationByUserAndBook = async (
-  bookId: number,
-  userId: number
-): Promise<OptionalConversation> => {
-  const conversation: OptionalConversation =
-    await prismaClient.conversation.findUnique({
-      where: {
-        bookId_userId: {
-          bookId,
-          userId,
-        },
-      },
-      include: {
-        messages: true,
-      },
-    });
 
   return conversation;
 };
@@ -117,10 +177,10 @@ export const getMessagesByConversationId = async (conversationId: number) => {
 };
 
 export default {
-  getAllConversations,
   getConversationById,
   createConversation,
   createMessage,
   getMessagesByConversationId,
   getConversationByUserAndBook,
+  deleteConversation,
 };
