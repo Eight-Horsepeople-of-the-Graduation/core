@@ -13,18 +13,15 @@ CREATE TYPE "Privacy" AS ENUM ('PUBLIC', 'PRIVATE');
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "gender" "Gender" NOT NULL,
-    "refreshToken" TEXT,
-    "profilePicture" TEXT,
-    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "birthDate" TIMESTAMP(3),
     "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "profilePicture" TEXT,
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
