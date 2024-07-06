@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import conversationsService from "@services/conversations.service";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
 
 export const getAllConversations = async (req: Request, res: Response) => {
   const conversations = await conversationsService.getAllConversations();
@@ -16,6 +18,24 @@ export const getConversationById = async (req: Request, res: Response) => {
   return res.send(conversation);
 };
 
+export const getConversationByUserAndBook = async (
+  req: Request,
+  res: Response
+) => {
+  const userId = parseInt(req.params.userId, 10);
+  const bookId = parseInt(req.params.bookId, 10);
+  if (isNaN(userId) || isNaN(bookId)) {
+    throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
+  }
+
+  const conversation = await conversationsService.getConversationByUserAndBook(
+    userId,
+    bookId
+  );
+
+  return res.send(conversation);
+};
+
 export const createConversation = async (req: Request, res: Response) => {
   const createConversationDto = req.body;
 
@@ -27,16 +47,17 @@ export const createConversation = async (req: Request, res: Response) => {
 };
 
 export const chat = async (req: Request, res: Response) => {
-  const conversationId = parseInt(req.params.conversationId, 10);
+  const bookId = parseInt(req.params.bookId, 10);
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(bookId) || isNaN(userId)) {
+    throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
+  }
+
   const chatDto = req.body;
 
-  try {
-    const answer = await conversationsService.chat(conversationId, chatDto);
+  const answer = await conversationsService.chat(bookId, userId, chatDto);
 
-    return res.status(200).send({ answer });
-  } catch {
-    return res.status(500);
-  }
+  return res.status(HttpStatus.OK).send({ answer });
 };
 
 export const createMessage = async (req: Request, res: Response) => {
@@ -65,6 +86,7 @@ export const getMessagesByConversationId = async (
 
 export default {
   getAllConversations,
+  getConversationByUserAndBook,
   getConversationById,
   createConversation,
   createMessage,

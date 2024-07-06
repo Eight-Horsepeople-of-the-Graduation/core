@@ -2,6 +2,8 @@ import { ChatDto, CreateConversationDto, CreateMessageDto } from "@dtos";
 import conversationRepository from "@repositories/conversations.repository";
 import { ChatArgs, buildChat } from "rag-api";
 import config from "../config";
+import { plainToInstance } from "class-transformer";
+import { IConversation } from "../interfaces/conversations.interface";
 
 export const getAllConversations = async () => {
   const conversations = await conversationRepository.getAllConversations();
@@ -14,10 +16,54 @@ export const getConversationById = async (id: number) => {
   return conversation;
 };
 
-export const chat = async (conversationId: number, chatDto: ChatDto) => {
-  const { bookId, question } = chatDto;
+export const getConversationByUserAndBook = async (
+  userId: number,
+  bookId: number
+): Promise<IConversation> => {
+  let conversation = await conversationRepository.getConversationByUserAndBook(
+    userId,
+    bookId
+  );
+
+  if (!conversation) {
+    const conversationData = plainToInstance(CreateConversationDto, {
+      retriever: "Pinecone",
+      memory: "Buffer Memory",
+      llm: "OpenAI",
+      bookId,
+      userId,
+    });
+    conversation =
+      await conversationRepository.createConversation(conversationData);
+  }
+
+  
+  return conversation;
+};
+
+export const chat = async (
+  bookId: number,
+  userId: number,
+  chatDto: ChatDto
+) => {
+  let conversation = await conversationRepository.getConversationByUserAndBook(
+    bookId,
+    userId
+  );
+  if (!conversation) {
+    const conversationData = plainToInstance(CreateConversationDto, {
+      retriever: "Pinecone",
+      memory: "Buffer Memory",
+      llm: "OpenAI",
+      bookId,
+      userId,
+    });
+    conversation =
+      await conversationRepository.createConversation(conversationData);
+  }
+  const { question } = chatDto;
   const chatArgs: ChatArgs = {
-    conversationId,
+    conversationId: conversation.id,
     bookId,
     llmTemperature: config.llmTemperatureValue, // Hardcoded, because its counter-intuitive to let the frontend team adjust it
     streaming: false, // Hardcoded, because we'll probably need web sockets for streaming to work
@@ -68,4 +114,5 @@ export default {
   createMessage,
   getMessagesByConversationId,
   chat,
+  getConversationByUserAndBook,
 };
