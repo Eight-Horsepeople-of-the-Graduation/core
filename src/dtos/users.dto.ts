@@ -53,6 +53,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @Length(6, 64)
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Length(6, 64)
   username: string;
 
   @IsNotEmpty()
@@ -96,26 +101,8 @@ export class CreateUserDto {
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  @Length(3, 20)
-  username?: string;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsEmail()
-  email?: string;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  @Length(8, 24)
-  @IsStrongPassword({
-    minLength: 8,
-    minUppercase: 1,
-    minLowercase: 1,
-    minNumbers: 1,
-    minSymbols: 1,
-  })
-  password?: string;
+  @Length(6, 64)
+  name?: string;
 
   @IsOptional()
   @IsNotEmpty()
@@ -126,6 +113,10 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @IsEnum(Gender)
   gender?: Gender;
+
+  @IsOptional()
+  @IsString()
+  refreshToken?: string;
 
   @IsOptional()
   @IsDate()
