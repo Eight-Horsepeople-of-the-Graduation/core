@@ -13,34 +13,26 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+  const userId = parseInt(req.params.userId, 10);
 
-  const user = await usersService.getUserById(id);
+  const user = await usersService.getUserById(userId);
 
   return res.send(user);
 };
 
-export const createUser = async (req: Request, res: Response) => {
-  const userData: CreateUserDto = req.body;
-
-  const user = await usersService.createUser(userData);
-
-  return res.status(201).send(user);
-};
-
 export const updateUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+  const userId = parseInt(req.params.userId, 10);
   const updatedData: UpdateUserDto = req.body;
 
-  const user = await usersService.updateUserById(id, updatedData);
+  const user = await usersService.updateUserById(userId, updatedData);
 
   return res.send(user);
 };
 
 export const deleteUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+  const userId = parseInt(req.params.userId, 10);
 
-  const user = await usersService.deleteUserById(id);
+  const user = await usersService.deleteUserById(userId);
 
   return res.send(user);
 };
@@ -48,7 +40,6 @@ export const deleteUserById = async (req: Request, res: Response) => {
 export default {
   getAllUsers,
   getUserById,
-  createUser,
   updateUserById,
   deleteUserById,
 };

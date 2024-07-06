@@ -1,4 +1,5 @@
 import { Express } from "express";
+import authRouter from "@routes/auth.route";
 import readingChallengesRouter from "@routes/reading-challenges.route";
 import usersRouter from "@routes/users.route";
 import booksRouter from "@routes/books.route";
@@ -15,6 +16,7 @@ import reviewsRouter from "@routes/reviews.route";
  * @returns void
  */
 const loadRouters = (app: Express) => {
+  app.use("/auth", authRouter);
   app.use("/books", booksRouter);
   app.use("/bookshelves", bookshelfRouter);
   app.use("/reading-challenges", readingChallengesRouter);

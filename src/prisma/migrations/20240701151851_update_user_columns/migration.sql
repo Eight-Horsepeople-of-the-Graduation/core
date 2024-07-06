@@ -2,7 +2,7 @@
 CREATE TYPE "Format" AS ENUM ('PAPERBACK', 'HARDCOVER', 'EBOOK');
 
 -- CreateEnum
-CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
+CREATE TYPE "Gender" AS ENUM ('male', 'female');
 
 -- CreateEnum
 CREATE TYPE "ReadingChallengeType" AS ENUM ('WEEKLY', 'MONTHLY', 'ANNUAL');
@@ -13,15 +13,18 @@ CREATE TYPE "Privacy" AS ENUM ('PUBLIC', 'PRIVATE');
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "gender" "Gender" NOT NULL,
-    "birthDate" TIMESTAMP(3),
-    "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "refreshToken" TEXT,
     "profilePicture" TEXT,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
+    "birthDate" TIMESTAMP(3),
+    "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

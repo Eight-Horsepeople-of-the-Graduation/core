@@ -4,6 +4,10 @@ import { uniqBy } from "lodash";
 import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "../dtos";
 import booksService from "../services/books.service";
 import bookshelvesService from "../services/bookshelves.service";
+import {
+  IBookWithoutAuthorsAndGenres,
+  OptionalBook,
+} from "../interfaces/books.interface";
 
 export const getAllBooks = async (req: Request, res: Response) => {
   const filter = plainToInstance(SearchQueryDto, req.query);
@@ -13,7 +17,10 @@ export const getAllBooks = async (req: Request, res: Response) => {
   return res.send(books);
 };
 
-export const getBookById = async (req: Request, res: Response) => {
+export const getBookById = async (
+  req: Request,
+  res: Response
+): Promise<Response<OptionalBook>> => {
   const { id } = req.params;
 
   if (!id) {
@@ -22,7 +29,7 @@ export const getBookById = async (req: Request, res: Response) => {
 
   const data: GetBookByIdDto = { id: +id };
 
-  const book = await booksService.getBookById(data.id);
+  const book: OptionalBook = await booksService.getBookById(data.id);
   if (!book) return res.status(400).send("Book Not Found");
 
   return res.send(book);
@@ -35,7 +42,8 @@ export const createBook = async (req: Request, res: Response) => {
       return res.status(400).send("Bad Request: Empty request body");
     }
 
-    const book = await booksService.createBook(bookData);
+    const book: IBookWithoutAuthorsAndGenres =
+      await booksService.createBook(bookData);
 
     return res.status(201).send(book);
   } catch (error) {
@@ -57,7 +65,10 @@ export const updateBookById = async (req: Request, res: Response) => {
   return res.send(book);
 };
 
-export const deleteBookById = async (req: Request, res: Response) => {
+export const deleteBookById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
   const { bookId } = req.params;
 
   if (!bookId) {
