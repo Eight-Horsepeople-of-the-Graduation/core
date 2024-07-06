@@ -5,8 +5,14 @@ import { HttpException } from "@exceptions/http.exception";
 import { JwtPayload } from "../types/jwt-payload.interface";
 import * as jwt from "jsonwebtoken";
 import config from "../config";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
 
-export const signUp = async (signUpDto: SignUpDto) => {
+export const signUp = async (
+  signUpDto: SignUpDto
+): Promise<{
+  user: IUserWithoutPassword;
+  tokens: { accessToken: string; refreshToken: string };
+}> => {
   const user = await usersService.createUser(signUpDto);
 
   const tokens = await getTokens(user.id, user.email);
@@ -15,7 +21,12 @@ export const signUp = async (signUpDto: SignUpDto) => {
   return { user, tokens };
 };
 
-export const logIn = async (logInDto: LogInDto) => {
+export const logIn = async (
+  logInDto: LogInDto
+): Promise<{
+  user: IUserWithoutPassword;
+  tokens: { accessToken: string; refreshToken: string };
+}> => {
   const user = await usersService.validateCredentials(
     logInDto.email,
     logInDto.password
@@ -27,11 +38,14 @@ export const logIn = async (logInDto: LogInDto) => {
   return { user, tokens };
 };
 
-export const logOut = async (userId: number) => {
+export const logOut = async (userId: number): Promise<void> => {
   await usersService.updateUserById(userId, { refreshToken: null });
 };
 
-export const refreshTokens = async (userId: number, refreshToken: string) => {
+export const refreshTokens = async (
+  userId: number,
+  refreshToken: string
+): Promise<{ accessToken: string; refreshToken: string }> => {
   const user = await usersService.getUserById(userId);
   if (!user.refreshToken) throw new HttpException("Unauthorized", 401);
 
@@ -47,7 +61,10 @@ export const refreshTokens = async (userId: number, refreshToken: string) => {
   return tokens;
 };
 
-export const getTokens = async (userId: number, email: string) => {
+export const getTokens = async (
+  userId: number,
+  email: string
+): Promise<{ accessToken: string; refreshToken: string }> => {
   const payload: JwtPayload = { sub: userId, email };
 
   const accessToken = jwt.sign(payload, config.accessToken.secret, {
@@ -63,7 +80,7 @@ export const getTokens = async (userId: number, email: string) => {
 export const updateRefreshToken = async (
   userId: number,
   refreshToken: string
-) => {
+): Promise<void> => {
   const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
 
   await usersService.updateUserById(userId, {
