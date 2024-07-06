@@ -1,5 +1,7 @@
+import * as bcrypt from "bcrypt";
 import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "@dtos";
 import prismaClient from "@utils/prisma";
+import { HttpException } from "@exceptions/http.exception";
 
 export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
@@ -21,38 +23,89 @@ export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
   return users;
 };
 
-export const getUserById = async (id: number) => {
-  const user = await prismaClient.user.findUnique({
-    where: { id },
-  });
+export const getUserById = async (userId: number) => {
+  let user;
+
+  try {
+    user = await prismaClient.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        country: true,
+        gender: true,
+        refreshToken: true,
+        profilePicture: true,
+        isAdmin: true,
+        birthDate: true,
+        joinDate: true,
+        updatedAt: true,
+      },
+    });
+  } catch (error: any) {
+    if (error.code === "P2025") throw new HttpException("User not found", 404);
+    else throw new HttpException(error.message, 500);
+  }
 
   return user;
 };
 
-export const createUser = async (userData: CreateUserDto) => {
-  const user = await prismaClient.user.create({
-    data: userData,
+export const createUser = async (createUserDto: CreateUserDto) => {
+  const hashedPassword = await hashPassword(createUserDto.password);
+
+  const newUser = await prismaClient.user.create({
+    data: {
+      ...createUserDto,
+      password: hashedPassword,
+    },
   });
 
-  return user;
+  return newUser;
 };
 
 export const updateUserById = async (
-  id: number,
-  updatedData: UpdateUserDto
+  userId: number,
+  updateUserDto: UpdateUserDto
 ) => {
-  const user = await prismaClient.user.update({
-    where: { id },
-    data: updatedData,
+  const updatedUser = await prismaClient.user.update({
+    where: { id: userId },
+    data: updateUserDto,
   });
 
-  return user;
+  return updatedUser;
 };
 
-export const deleteUserById = async (id: number) => {
-  const user = await prismaClient.user.delete({
-    where: { id },
+export const deleteUserById = async (userId: number) => {
+  const deletedUser = await prismaClient.user.delete({
+    where: { id: userId },
   });
+
+  return deletedUser;
+};
+
+export const hashPassword = async (password: string) => {
+  const salt = await bcrypt.genSalt(10);
+
+  return await bcrypt.hash(password, salt);
+};
+
+export const validateCredentials = async (email: string, password: string) => {
+  let user: any;
+
+  try {
+    user = await prismaClient.user.findUnique({
+      where: { email },
+    });
+  } catch (error: any) {
+    if (error.code === "P2025")
+      throw new HttpException("Invalid credentials", 401);
+  }
+
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) throw new HttpException("Invalid credentials", 403);
+
+  user.password = undefined;
 
   return user;
 };
@@ -63,4 +116,6 @@ export default {
   createUser,
   updateUserById,
   deleteUserById,
+  hashPassword,
+  validateCredentials,
 };

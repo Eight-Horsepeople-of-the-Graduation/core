@@ -19,15 +19,16 @@ export async function seedUsers(num: number) {
 
 
 function createRandomUser() {
-  const gender = faker.helpers.arrayElement([Gender.male, Gender.female]);
-  const firstName = faker.person.firstName(gender);
+  const gender = faker.helpers.arrayElement([Gender.MALE, Gender.FEMALE]);
+  const firstName = faker.person.firstName(gender.toLowerCase() as "male" | "female");
   const lastName = faker.person.lastName();
   const email = faker.internet.email({ firstName, lastName });
   const username = faker.internet.userName({ firstName, lastName });
 
   return {
-    username,
-    email,
+    name: `${firstName.toLowerCase()} ${lastName.toLowerCase()}`,
+    username : username.toLowerCase(),
+    email: email.toLowerCase(),
     password: hashSync("password", genSaltSync(10)),
     country: faker.location.country(),
     gender,

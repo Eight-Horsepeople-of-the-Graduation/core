@@ -2,8 +2,8 @@ import { Body, Get, Path, Post, Put, Route, Delete, Tags } from "tsoa";
 import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
-} from "../dtos/index";
-import { IReadingChallenge } from "./interfaces";
+} from "../dtos";
+import { IReadingChallenge } from "../interfaces/reading-challenges.interface";
 
 @Route("reading-challenges")
 @Tags("Reading Challenges")

@@ -8,29 +8,38 @@ export const getAllUsers = async (filter: SearchQueryDto) => {
   return users;
 };
 
-export const getUserById = async (id: number) => {
-  const user = await usersRepository.getUserById(id);
+export const getUserById = async (userId: number) => {
+  const user = await usersRepository.getUserById(userId);
 
   return user;
 };
 
-export const createUser = async (userData: CreateUserDto) => {
-  const user = await usersRepository.createUser(userData);
+export const createUser = async (createUserDto: CreateUserDto) => {
+  const newUser = await usersRepository.createUser(createUserDto);
 
-  return user;
+  return newUser;
 };
 
 export const updateUserById = async (
-  id: number,
-  updatedData: UpdateUserDto
+  userId: number,
+  updateUserDto: UpdateUserDto
 ) => {
-  const user = await usersRepository.updateUserById(id, updatedData);
+  const updatedUser = await usersRepository.updateUserById(
+    userId,
+    updateUserDto
+  );
 
-  return user;
+  return updatedUser;
 };
 
-export const deleteUserById = async (id: number) => {
-  const user = await usersRepository.deleteUserById(id);
+export const deleteUserById = async (userId: number) => {
+  const deletedUser = await usersRepository.deleteUserById(userId);
+
+  return deletedUser;
+};
+
+export const validateCredentials = async (email: string, password: string) => {
+  const user = await usersRepository.validateCredentials(email, password);
 
   return user;
 };
@@ -41,4 +50,5 @@ export default {
   createUser,
   updateUserById,
   deleteUserById,
+  validateCredentials,
 };

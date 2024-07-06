@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/", asyncWrapper(booksController.getAllBooks));
 
-router.get("/:id", asyncWrapper(booksController.getBookById));
+router.get("/:bookId", asyncWrapper(booksController.getBookById));
 
 router.post(
   "/",
@@ -17,13 +17,13 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:bookId",
   [validationMiddleware(UpdateBookDto)],
   asyncWrapper(booksController.updateBookById)
 );
 
-router.delete("/:id", asyncWrapper(booksController.deleteBookById));
+router.delete("/:bookId", asyncWrapper(booksController.deleteBookById));
 
-router.get("/book-of-user/:id", asyncWrapper(booksController.getBooksByUserId));
+router.get("/book-of-user/:bookId", asyncWrapper(booksController.getBooksByUserId));
 
 export default router;
