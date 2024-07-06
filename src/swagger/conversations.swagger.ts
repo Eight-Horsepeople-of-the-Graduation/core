@@ -1,6 +1,7 @@
 import { Body, Get, Path, Post, Route, Tags } from "tsoa";
 import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
-import { IConversation, IMessage } from "./interfaces";
+import { IConversation } from "../interfaces/conversations.interface";
+import { IMessage } from "../interfaces/messages.interface";
 
 @Route("conversations")
 @Tags("Conversations")

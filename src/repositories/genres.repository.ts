@@ -1,11 +1,18 @@
 import prismaClient from "@utils/prisma";
 import { CreateGenreDto, SearchQueryDto, UpdateGenreDto } from "@dtos";
+import {
+  IGenre,
+  IGenreWithBooks,
+  OptionalGenre,
+} from "../interfaces/genres.interface";
 
-export const getAllGenres = async (searchQueryDto: SearchQueryDto) => {
+export const getAllGenres = async (
+  searchQueryDto: SearchQueryDto
+): Promise<IGenreWithBooks[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
 
-  const genres = await prismaClient.genre.findMany({
+  const genres: IGenreWithBooks[] = await prismaClient.genre.findMany({
     where: {
       ...(term && {
         title: {
@@ -24,8 +31,8 @@ export const getAllGenres = async (searchQueryDto: SearchQueryDto) => {
   return genres;
 };
 
-export const getGenreById = async (genreId: number) => {
-  const genre = await prismaClient.genre.findUnique({
+export const getGenreById = async (genreId: number): Promise<OptionalGenre> => {
+  const genre: OptionalGenre = await prismaClient.genre.findUnique({
     where: {
       id: genreId,
     },
@@ -34,16 +41,18 @@ export const getGenreById = async (genreId: number) => {
   return genre;
 };
 
-export const createGenre = async (createGenreDto: CreateGenreDto) => {
-  const newGenre = await prismaClient.genre.create({
+export const createGenre = async (
+  createGenreDto: CreateGenreDto
+): Promise<IGenre> => {
+  const newGenre: IGenre = await prismaClient.genre.create({
     data: createGenreDto,
   });
 
   return newGenre;
 };
 
-export const getGenresByBookId = async (bookId: number) => {
-  const genres = await prismaClient.genre.findMany({
+export const getGenresByBookId = async (bookId: number): Promise<IGenre[]> => {
+  const genres: IGenre[] = await prismaClient.genre.findMany({
     where: {
       books: {
         some: {
@@ -59,8 +68,8 @@ export const getGenresByBookId = async (bookId: number) => {
 export const updateGenreById = async (
   genreId: number,
   updateGenreDto: UpdateGenreDto
-) => {
-  const updatedGenre = await prismaClient.genre.update({
+): Promise<IGenre> => {
+  const updatedGenre: IGenre = await prismaClient.genre.update({
     where: { id: genreId },
     data: updateGenreDto,
   });
@@ -68,8 +77,8 @@ export const updateGenreById = async (
   return updatedGenre;
 };
 
-export const deleteGenreById = async (genreId: number) => {
-  const deletedGenre = await prismaClient.genre.delete({
+export const deleteGenreById = async (genreId: number): Promise<IGenre> => {
+  const deletedGenre: IGenre = await prismaClient.genre.delete({
     where: { id: genreId },
   });
 

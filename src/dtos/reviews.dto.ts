@@ -34,4 +34,7 @@ export class UpdateReviewDto {
   @IsOptional()
   @IsNumber()
   rating?: number;
+
+  @IsNumber()
+  bookId: number;
 }

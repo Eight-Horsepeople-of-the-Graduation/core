@@ -1,16 +1,13 @@
-version: '3.8'
+version: "3.8"
 services:
-  
   db:
-    image: postgres:16
-    restart: always # Makes sure the container will always restarts, if it stops for any unexpected reason 
+    image: postgres:latest
+    restart: always # Makes sure the container will always restarts, if it stops for any unexpected reason
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=user
-    volumes:
-      - db:/var/lib/postgresql/data
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=apassword
+      - POSTGRES_DB=postgres
     ports:
-      - '5420:5432'
-
+      - "5432:5432"
 volumes:
   db:
