@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../utils/logger";
 import { HttpException } from "../exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
 
 export const errorHandlerMiddleware = (
   error: HttpException,
@@ -9,21 +10,25 @@ export const errorHandlerMiddleware = (
   next: NextFunction
 ) => {
   try {
-    const status = error.status || 500;
-    const message = error.response || "Something went wrong";
+    if (error instanceof HttpException) {
+      const status = error.status || 500;
+      const message = error.response || "Something went wrong";
+      logger.error(
+        `${status} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+      );
 
-    logger.error(
-      `${status} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
-
-    const sanitizedError = new Error(message) as any;
-    sanitizedError.status = status;
-
-    return res.status(status).send({
-      status,
-      message,
-    });
-
+      return res.status(status).send({
+        status,
+        message, 
+      });
+    } else {
+      logger.error(`Unhandled Error : ${error}`);
+      
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "Something went wrong",
+      });
+    }
   } catch (err: any) {
     next(err);
   }
