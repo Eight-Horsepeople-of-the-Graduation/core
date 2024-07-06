@@ -1,7 +1,7 @@
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
+import { PrismaClient } from "@prisma/client";
 import prismaClient from "@utils/prisma";
-import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
-import { aggregateRatingsByBookId } from "./reviews.repository";
+import { Transaction } from "../types/prismaClient-transaction.type";
 
 export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
@@ -79,36 +79,21 @@ export const updateBookById = async (
   return updatedBook;
 };
 
-export const updateBookRating = async (updatedReviewDto: UpdateReviewDto) => {
-  const { count: currentRatingsCount, sum: currentRatingsSum } =
-    await aggregateRatingsByBookId(updatedReviewDto.bookId);
-
-  if (updatedReviewDto.rating === undefined) return;
-  const newRatingsSum = currentRatingsSum.rating || 0 + updatedReviewDto.rating;
-  const newRatingsCount = currentRatingsCount.rating || 0 + 1;
-
-  await prismaClient.book.update({
-    where: { id: updatedReviewDto.bookId },
+export const updateBookRating = async (
+  rating: number,
+  bookId: number,
+  tx?: Transaction
+) => {
+  const prisma = tx || prismaClient;
+  const updatedBook = await prisma.book.update({
+    where: {
+      id: bookId,
+    },
     data: {
-      rating: newRatingsSum / newRatingsCount,
+      rating,
     },
   });
-};
-
-export const removeBookRating = async (updatedReviewDto: UpdateReviewDto) => {
-  const { count: currentRatingsCount, sum: currentRatingsSum } =
-    await aggregateRatingsByBookId(updatedReviewDto.bookId);
-
-  if (updatedReviewDto.rating === undefined) return;
-  const newRatingsSum = currentRatingsSum.rating || 0 - updatedReviewDto.rating;
-  const newRatingsCount = currentRatingsCount.rating || 0 - 1;
-
-  await prismaClient.book.update({
-    where: { id: updatedReviewDto.bookId },
-    data: {
-      rating: newRatingsSum / newRatingsCount,
-    },
-  });
+  return updatedBook;
 };
 
 export const deleteBookById = async (bookId: number) => {
@@ -128,5 +113,4 @@ export default {
   updateBookById,
   deleteBookById,
   updateBookRating,
-  removeBookRating,
 };
