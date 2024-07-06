@@ -80,6 +80,27 @@ export const updateReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
+export const deleteBookFromReadingChallenge = async (
+  readingChallengeId: number,
+  bookId: number
+) => {
+  const book = await getBookById(bookId);
+  if (!book) {
+    throw new Error("Book not found");
+  }
+  const readingChallenge = await getReadingChallengeById(readingChallengeId);
+  if (!readingChallenge) {
+    throw new Error("Reading Challenge not found");
+  }
+  const updatedReadingChallenge =
+    await readingChallengesRepository.deleteBookFromReadingChallenge(
+      readingChallengeId,
+      bookId
+    );
+
+  return updatedReadingChallenge;
+};
+
 export const deleteReadingChallenge = async (id: number) => {
   if (!id) {
     throw new Error("Missing required field: id");

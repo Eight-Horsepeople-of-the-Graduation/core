@@ -87,6 +87,22 @@ export const updateReadingChallenge = async (req: Request, res: Response) => {
   return res.status(200).send(updatedReadingChallenge);
 };
 
+export const deleteBookFromReadingChallenge = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const { bookId } = req.body;
+
+  if (!bookId) {
+    return res.status(400).send({ error: "Book ID is required" });
+  }
+  const updatedReadingChallenge =
+    await readingChallengesService.deleteBookFromReadingChallenge(+id, bookId);
+
+  return res.status(200).send(updatedReadingChallenge);
+};
+
 export const deleteReadingChallenge = async (req: Request, res: Response) => {
   const { id } = req.params;
   if (!id) {
@@ -107,5 +123,6 @@ export default {
   addBookToReadingChallenge,
   createReadingChallenge,
   updateReadingChallenge,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
 };

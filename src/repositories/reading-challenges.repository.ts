@@ -61,6 +61,8 @@ export const addBookToReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
+//update the craete reading challenge function to take the title name form another function that calculalte the week number and year and month
+
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
 ) => {
@@ -82,6 +84,27 @@ export const updateReadingChallenge = async (
   });
   return updatedReadingChallenge;
 };
+export const deleteBookFromReadingChallenge = async (
+  readingChallengeId: number,
+  bookId: number
+) => {
+  const updatedReadingChallenge = await prismaClient.readingChallenge.update({
+    where: {
+      id: readingChallengeId,
+    },
+    data: {
+      books: {
+        disconnect: {
+          id: bookId,
+        },
+      },
+    },
+    include: {
+      books: true,
+    },
+  });
+  return updatedReadingChallenge;
+};
 export const deleteReadingChallenge = async (id: number) => {
   const deletedReadingChallenge = await prismaClient.readingChallenge.delete({
     where: {
@@ -98,5 +121,6 @@ export default {
   addBookToReadingChallenge,
   createReadingChallenge,
   updateReadingChallenge,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
 };
