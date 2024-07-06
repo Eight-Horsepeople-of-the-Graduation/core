@@ -9,8 +9,8 @@ import { deleteConversation } from "@repositories/conversations.repository";
 export class ConversationsSwagger {
   @Post("/chat/user/:userId/book/:bookId")
   public chat(
-    @Path() bookId: number,
     @Path() userId: number,
+    @Path() bookId: number,
     @Body() chatDto: ChatDto
   ): { answer: string } | any {}
 

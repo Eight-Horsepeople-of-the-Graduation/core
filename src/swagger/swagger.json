@@ -1587,7 +1587,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "bookId",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -1596,7 +1596,7 @@
 					},
 					{
 						"in": "path",
-						"name": "userId",
+						"name": "bookId",
 						"required": true,
 						"schema": {
 							"format": "double",
