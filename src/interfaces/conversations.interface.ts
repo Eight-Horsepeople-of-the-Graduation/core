@@ -10,3 +10,5 @@ export interface IConversation {
   userId: number;
   messages: IMessage[];
 }
+
+export type OptionalConversation = IConversation | null;
