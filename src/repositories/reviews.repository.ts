@@ -1,5 +1,11 @@
 import prismaClient from "@utils/prisma";
-import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
+import {
+  CreateReviewDto,
+  UpdateReviewDetailsDto,
+  UpdateReviewRatingDto,
+} from "../dtos/reviews.dto";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { Transaction } from "../types/prismaClient-transaction.type";
 
 export const getReviewById = async (reviewId: number) => {
   const review = await prismaClient.review.findUnique({
@@ -15,7 +21,6 @@ export const getReviewById = async (reviewId: number) => {
   return review;
 };
 
-// missing: add service, controller, route in books
 export const getReviewsByBookId = async (bookId: number) => {
   const reviews = await prismaClient.review.findMany({
     where: {
@@ -30,25 +35,6 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
-export const aggregateRatingsByBookId = async (bookId: number) => {
-  const currentRatings = await prismaClient.review.aggregate({
-    where: {
-      bookId,
-    },
-    _sum: {
-      rating: true,
-    },
-    _count: {
-      rating: true,
-    },
-  });
-  return {
-    count: currentRatings._count,
-    sum: currentRatings._sum,
-  };
-};
-
-// missing: add service, controller, route in users
 export const getReviewsByUserId = async (userId: number) => {
   const reviews = await prismaClient.review.findMany({
     where: {
@@ -63,34 +49,27 @@ export const getReviewsByUserId = async (userId: number) => {
   return reviews;
 };
 
-export const createReview = async (createReviewDto: CreateReviewDto) => {
-  const { title, description, rating, bookId, userId } = createReviewDto;
-  const newReview = await prismaClient.review.create({
-    data: {
-      title,
-      description,
-      rating,
-      book: {
-        connect: {
-          id: bookId,
-        },
-      },
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
+export const createReview = async (
+  createReviewDto: CreateReviewDto,
+  tx?: Transaction
+) => {
+  const prisma = tx || prismaClient;
+  const newReview = await prisma.review.create({
+    data: createReviewDto,
+    include: {
+      user: true,
+      book: true,
     },
   });
 
   return newReview;
 };
 
-export const updateReview = async (
-  updateReviewDto: UpdateReviewDto,
+export const updateReviewDetails = async (
+  updateReviewDto: UpdateReviewDetailsDto,
   reviewId: number
 ) => {
-  const { title, description, rating } = updateReviewDto;
+  const { title, description } = updateReviewDto;
   const updatedReview = await prismaClient.review.update({
     where: {
       id: reviewId,
@@ -98,7 +77,6 @@ export const updateReview = async (
     data: {
       title,
       description,
-      rating,
     },
     include: {
       user: true,
@@ -109,19 +87,56 @@ export const updateReview = async (
   return updatedReview;
 };
 
-export const deleteReview = async (reviewId: number) => {
-  const id = reviewId;
-  const review = await prismaClient.review.delete({
+export const updateReviewRating = async (
+  updatedReviewDto: UpdateReviewRatingDto,
+  reviewId: number,
+  tx?: Transaction
+) => {
+  const prisma = tx || prismaClient;
+  const updatedReview = await prisma.review.update({
     where: {
-      id,
+      id: reviewId,
     },
-    include: {
-      user: true,
-      book: true,
+    data: {
+      rating: updatedReviewDto.rating,
     },
   });
 
-  return review;
+  return updatedReview;
+};
+
+export const deleteReview = async (reviewId: number, tx?: Transaction) => {
+  const prisma = tx || prismaClient;
+  const deletedReview = await prisma.review.delete({
+    where: {
+      id: reviewId,
+    },
+  });
+
+  return deletedReview;
+};
+
+export const aggregateRatingsByBookId = async (
+  bookId: number,
+  tx?: Transaction
+) => {
+  const prisma = tx || prismaClient;
+  const currentRatings = await prisma.review.aggregate({
+    where: {
+      bookId,
+    },
+    _sum: {
+      rating: true,
+    },
+    _count: {
+      rating: true,
+    },
+  });
+
+  return {
+    count: currentRatings._count.rating ?? 0,
+    sum: currentRatings._sum.rating ?? 0,
+  };
 };
 
 export default {
@@ -129,7 +144,8 @@ export default {
   getReviewsByUserId,
   getReviewById,
   createReview,
-  updateReview,
+  updateReviewDetails,
+  updateReviewRating,
   deleteReview,
   aggregateRatingsByBookId,
 };
