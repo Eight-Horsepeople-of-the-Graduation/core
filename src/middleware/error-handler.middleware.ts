@@ -19,12 +19,11 @@ export const errorHandlerMiddleware = (
     const sanitizedError = new Error(message) as any;
     sanitizedError.status = status;
 
-    res.status(status).send({
+    return res.status(status).send({
       status,
       message,
     });
 
-    next(error);
   } catch (err: any) {
     next(err);
   }
