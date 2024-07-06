@@ -1,5 +1,10 @@
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
+import { PrismaClient } from "@prisma/client";
 import booksRepository from "@repositories/books.repository";
+import genresRepository from "@repositories/genres.repository";
+import reviewsRepository from "@repositories/reviews.repository";
+import prismaClient from "@utils/prisma";
+import { Transaction } from "../types/prismaClient-transaction.type";
 
 export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   const books = await booksRepository.getAllBooks(searchQueryDto);
@@ -37,10 +42,49 @@ export const deleteBookById = async (bookId: number) => {
   return deletedBook;
 };
 
+export const getReviewsByBookId = async (bookId: number) => {
+  const reviews = await reviewsRepository.getReviewsByBookId(bookId);
+
+  return reviews;
+};
+
+export const getGenresByBookId = async (bookId: number) => {
+  const genres = await genresRepository.getGenresByBookId(bookId);
+
+  return genres;
+};
+export const updateBookRating = async (
+  rating: number,
+  bookId: number,
+  isNewRating: boolean,
+  tx?: Transaction
+) => {
+  const prisma = tx || prismaClient;
+  const currentRatings = await reviewsRepository.aggregateRatingsByBookId(
+    bookId,
+    prisma
+  );
+  const newRatingsSum = isNewRating
+    ? currentRatings.sum + rating
+    : currentRatings.sum - rating;
+  const newRatingsCount = isNewRating
+    ? currentRatings.count + 1
+    : currentRatings.count - 1;
+
+  const newRating = newRatingsSum / newRatingsCount;
+
+  await booksRepository.updateBookRating(newRating, bookId, prisma);
+
+  return newRating;
+};
+
 export default {
   getAllBooks,
   getBookById,
   createBook,
   updateBookById,
   deleteBookById,
+  getReviewsByBookId,
+  getGenresByBookId,
+  updateBookRating,
 };
