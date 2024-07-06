@@ -3,8 +3,12 @@ import usersService from "../services/users.service";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
 import { plainToInstance } from "class-transformer";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
   const users = await usersService.getAllUsers(filter);
@@ -12,7 +16,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
   return res.send(users);
 };
 
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const user = await usersService.getUserById(userId);
@@ -20,7 +27,10 @@ export const getUserById = async (req: Request, res: Response) => {
   return res.send(user);
 };
 
-export const updateUserById = async (req: Request, res: Response) => {
+export const updateUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
   const userId = parseInt(req.params.userId, 10);
   const updatedData: UpdateUserDto = req.body;
 
@@ -29,7 +39,10 @@ export const updateUserById = async (req: Request, res: Response) => {
   return res.send(user);
 };
 
-export const deleteUserById = async (req: Request, res: Response) => {
+export const deleteUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const user = await usersService.deleteUserById(userId);
