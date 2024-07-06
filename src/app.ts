@@ -7,11 +7,11 @@ import * as swaggerJson from "./swagger/swagger.json";
 import path from "path";
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
-import { prismaErrorHandlerMiddleware } from "@middleware/prisma-error-handler.middleware";
-
+import { prismaErrorHandlerMiddleware } from "./middleware/prisma-error-handler.middleware";
+import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
 const app = express();
 
-app.use(cors())
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,23 +28,11 @@ app.use(
   })
 );
 
-app.use("/",(req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-})
+app.use("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
 
-// app.use(errorHandlerMiddleware);
+app.use(prismaErrorHandlerMiddleware);
+app.use(errorHandlerMiddleware);
 
 export default app;
-
-  app.use(["/docs", "/swagger"], swaggerUI.serve, swaggerUI.setup(swaggerJson));
-
-  app.use(prismaErrorHandlerMiddleware)
-  app.use(errorHandlerMiddleware);
-
-  app.listen(port, () => {
-    logger.info(`Server listening at http://localhost:${port}`);
-    logger.info(`See Docs at http://localhost:${port}/docs`);
-  });
-};
-
-startServer();
