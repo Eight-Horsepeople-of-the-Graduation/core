@@ -2,12 +2,19 @@ import * as bcrypt from "bcrypt";
 import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "@dtos";
 import prismaClient from "@utils/prisma";
 import { HttpException } from "@exceptions/http.exception";
+import {
+  IUser,
+  IUserWithoutPassword,
+  SelectUserWithoutPassword,
+} from "../interfaces/users.interface";
 
-export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
+export const getAllUsers = async (
+  searchQueryDto: SearchQueryDto
+): Promise<IUserWithoutPassword[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
 
-  const users = await prismaClient.user.findMany({
+  const users: IUserWithoutPassword[] = await prismaClient.user.findMany({
     where: {
       ...(term && {
         username: {
@@ -17,48 +24,40 @@ export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
       }),
     },
     skip,
+    select: SelectUserWithoutPassword,
     take: limit,
   });
 
   return users;
 };
 
-export const getUserById = async (userId: number) => {
-  let user;
-
+export const getUserById = async (
+  userId: number
+): Promise<IUserWithoutPassword> => {
+  let user: IUserWithoutPassword;
   try {
     user = await prismaClient.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        country: true,
-        gender: true,
-        refreshToken: true,
-        profilePicture: true,
-        isAdmin: true,
-        birthDate: true,
-        joinDate: true,
-        updatedAt: true,
-      },
+      select: SelectUserWithoutPassword,
     });
   } catch (error: any) {
     if (error.code === "P2025") throw new HttpException("User not found", 404);
     else throw new HttpException(error.message, 500);
   }
-
   return user;
 };
 
-export const createUser = async (createUserDto: CreateUserDto) => {
+export const createUser = async (
+  createUserDto: CreateUserDto
+): Promise<IUserWithoutPassword> => {
   const hashedPassword = await hashPassword(createUserDto.password);
 
-  const newUser = await prismaClient.user.create({
+  const newUser: IUserWithoutPassword = await prismaClient.user.create({
     data: {
       ...createUserDto,
       password: hashedPassword,
     },
+    select: SelectUserWithoutPassword,
   });
 
   return newUser;
@@ -67,31 +66,38 @@ export const createUser = async (createUserDto: CreateUserDto) => {
 export const updateUserById = async (
   userId: number,
   updateUserDto: UpdateUserDto
-) => {
-  const updatedUser = await prismaClient.user.update({
+): Promise<IUserWithoutPassword> => {
+  const updatedUser: IUserWithoutPassword = await prismaClient.user.update({
     where: { id: userId },
     data: updateUserDto,
+    select: SelectUserWithoutPassword,
   });
 
   return updatedUser;
 };
 
-export const deleteUserById = async (userId: number) => {
-  const deletedUser = await prismaClient.user.delete({
+export const deleteUserById = async (
+  userId: number
+): Promise<IUserWithoutPassword> => {
+  const deletedUser: IUserWithoutPassword = await prismaClient.user.delete({
     where: { id: userId },
+    select: SelectUserWithoutPassword,
   });
 
   return deletedUser;
 };
 
-export const hashPassword = async (password: string) => {
+export const hashPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(10);
 
   return await bcrypt.hash(password, salt);
 };
 
-export const validateCredentials = async (email: string, password: string) => {
-  let user: any;
+export const validateCredentials = async (
+  email: string,
+  password: string
+): Promise<IUserWithoutPassword> => {
+  let user: IUser;
 
   try {
     user = await prismaClient.user.findUnique({
