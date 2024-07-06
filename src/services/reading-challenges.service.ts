@@ -6,6 +6,9 @@ import {
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
 
 export const getAllReadingChallenges = async () => {
+  if (!readingChallengesRepository) {
+    throw new Error("Reading Challenges Repository not found");
+  }
   const readingChallenges =
     await readingChallengesRepository.getAllReadingChallenges();
 

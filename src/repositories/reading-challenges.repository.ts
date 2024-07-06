@@ -8,6 +8,9 @@ export const getAllReadingChallenges = async () => {
       _count: { select: { books: true } },
     },
   });
+  if (!readingChallenges) {
+    throw new Error("No reading challenges found");
+  }
   return readingChallenges;
 };
 export const getReadingChallengeById = async (id: number) => {
