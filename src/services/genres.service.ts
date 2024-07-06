@@ -19,12 +19,6 @@ export const createGenre = async (createGenreDto: CreateGenreDto) => {
   return newGenre;
 };
 
-export const getGenresByBookId = async (bookId: number) => {
-  const genres = await genresRepository.getGenresByBookId(bookId);
-
-  return genres;
-};
-
 export const updateGenreById = async (
   genreId: number,
   updateGnereDto: UpdateGenreDto
@@ -47,7 +41,6 @@ export default {
   getAllGenres,
   getGenreById,
   createGenre,
-  getGenresByBookId,
   updateGenreById,
   deleteGenreById,
 };

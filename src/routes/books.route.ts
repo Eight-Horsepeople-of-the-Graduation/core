@@ -8,7 +8,14 @@ const router = Router();
 
 router.get("/", asyncWrapper(booksController.getAllBooks));
 
-router.get("/:id", asyncWrapper(booksController.getBookById));
+router.get("/:bookId", asyncWrapper(booksController.getBookById));
+
+router.get(
+  "/:bookId/reviews",
+  asyncWrapper(booksController.getReviewsByBookId)
+);
+
+router.get("/:bookId/genres", asyncWrapper(booksController.getGenresByBookId));
 
 router.post(
   "/",
@@ -17,7 +24,7 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:bookId",
   [validationMiddleware(UpdateBookDto)],
   asyncWrapper(booksController.updateBookById)
 );
