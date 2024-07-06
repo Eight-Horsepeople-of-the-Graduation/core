@@ -8,7 +8,7 @@ import {
   OptionalUser,
   UserWithoutPassword,
 } from "../interfaces/users.interface";
-import { HttpStatus } from "@enums/http-status.enum";
+import { HttpStatus } from "../enums/http-status.enum";
 
 export const getAllUsers = async (
   req: Request,

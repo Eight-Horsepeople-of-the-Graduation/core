@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { HttpStatus } from "@enums/http-status.enum";
+import { HttpStatus } from "../enums/http-status.enum";
 export default function handlePrismaError(
   code: string,
   meta: Record<string, any> | undefined,

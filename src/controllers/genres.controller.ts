@@ -7,7 +7,7 @@ import {
   IGenreWithBooks,
   OptionalGenre,
 } from "../interfaces/genres.interface";
-import { CreateGenreDto, UpdateGenreDto } from "@dtos";
+import { CreateGenreDto, UpdateGenreDto } from "../dtos";
 
 export const getAllGenres = async (
   req: Request,

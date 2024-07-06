@@ -1,8 +1,7 @@
 import { Body, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
 import { IConversation } from "../interfaces/conversations.interface";
-import { IMessage } from "../interfaces/messages.interface";
-import { deleteConversation } from "@repositories/conversations.repository";
+
 
 @Route("conversations")
 @Tags("Conversations")

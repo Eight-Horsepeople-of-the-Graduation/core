@@ -7,10 +7,10 @@ import {
   IConversation,
   OptionalConversation,
 } from "../interfaces/conversations.interface";
-import usersRepository from "@repositories/users.repository";
-import { HttpException } from "@exceptions/http.exception";
-import { HttpStatus } from "@enums/http-status.enum";
-import booksRepository from "@repositories/books.repository";
+import usersRepository from "../repositories/users.repository";
+import { HttpException } from "../exceptions/http.exception";
+import { HttpStatus } from "../enums/http-status.enum";
+import booksRepository from "../repositories/books.repository";
 
 export const getConversationByUserAndBook = async (
   userId: number,
