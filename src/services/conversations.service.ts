@@ -3,18 +3,10 @@ import conversationRepository from "@repositories/conversations.repository";
 import { ChatArgs, buildChat } from "rag-api";
 import config from "../config";
 import { plainToInstance } from "class-transformer";
-import { IConversation } from "../interfaces/conversations.interface";
-
-export const getAllConversations = async () => {
-  const conversations = await conversationRepository.getAllConversations();
-
-  return conversations;
-};
-export const getConversationById = async (id: number) => {
-  const conversation = await conversationRepository.getConversationById(id);
-
-  return conversation;
-};
+import {
+  IConversation,
+  OptionalConversation,
+} from "../interfaces/conversations.interface";
 
 export const getConversationByUserAndBook = async (
   userId: number,
@@ -33,11 +25,9 @@ export const getConversationByUserAndBook = async (
       bookId,
       userId,
     });
-    conversation =
-      await conversationRepository.createConversation(conversationData);
+    conversation = await createConversation(conversationData);
   }
 
-  
   return conversation;
 };
 
@@ -46,21 +36,11 @@ export const chat = async (
   userId: number,
   chatDto: ChatDto
 ) => {
-  let conversation = await conversationRepository.getConversationByUserAndBook(
+  let conversation: IConversation = await getConversationByUserAndBook(
     bookId,
     userId
   );
-  if (!conversation) {
-    const conversationData = plainToInstance(CreateConversationDto, {
-      retriever: "Pinecone",
-      memory: "Buffer Memory",
-      llm: "OpenAI",
-      bookId,
-      userId,
-    });
-    conversation =
-      await conversationRepository.createConversation(conversationData);
-  }
+
   const { question } = chatDto;
   const chatArgs: ChatArgs = {
     conversationId: conversation.id,
@@ -79,9 +59,20 @@ export const chat = async (
   return answer.text;
 };
 
+export const deleteConversation = async (
+  bookId: number,
+  userId: number
+): Promise<OptionalConversation> => {
+  const conversation = conversationRepository.deleteConversation(
+    bookId,
+    userId
+  );
+  return conversation;
+};
+
 export const createConversation = async (
   conversationData: CreateConversationDto
-) => {
+): Promise<IConversation> => {
   const conversation =
     await conversationRepository.createConversation(conversationData);
 
@@ -108,11 +99,10 @@ export const getMessagesByConversationId = async (conversationId: number) => {
 };
 
 export default {
-  getAllConversations,
-  getConversationById,
   createConversation,
   createMessage,
   getMessagesByConversationId,
   chat,
   getConversationByUserAndBook,
+  deleteConversation,
 };
