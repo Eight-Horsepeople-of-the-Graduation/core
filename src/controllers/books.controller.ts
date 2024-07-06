@@ -14,11 +14,11 @@ export const getAllBooks = async (req: Request, res: Response) => {
 };
 
 export const getBookById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { bookId } = req.params;
 
-  const data: GetBookByIdDto = { id: +id };
+  const data: GetBookByIdDto = { bookId: +bookId };
 
-  const book = await booksService.getBookById(data.id);
+  const book = await booksService.getBookById(data.bookId);
   if (!book) return res.status(400).send("Book Not Found");
 
   return res.send(book);
@@ -33,19 +33,19 @@ export const createBook = async (req: Request, res: Response) => {
 };
 
 export const updateBookById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { bookId } = req.params;
   const data: UpdateBookDto = req.body;
 
-  const book = await booksService.updateBookById(+id, data);
+  const book = await booksService.updateBookById(+bookId, data);
 
   return res.send(book);
 };
 
 export const deleteBookById = async (req: Request, res: Response) => {
   const { bookId } = req.params;
-  const data: GetBookByIdDto = { id: +bookId };
+  const data: GetBookByIdDto = { bookId: +bookId };
 
-  const book = await booksService.deleteBookById(data.id);
+  const book = await booksService.deleteBookById(data.bookId);
 
   return res.send(book);
 };
@@ -60,6 +60,20 @@ export const getBooksByUserId = async (req: Request, res: Response) => {
   return res.send(distinctBooks);
 };
 
+export const getReviewsByBookId = async (req: Request, res: Response) => {
+  const { bookId } = req.params;
+  const reviews = await booksService.getReviewsByBookId(+bookId);
+
+  return res.send(reviews);
+};
+
+export const getGenresByBookId = async (req: Request, res: Response) => {
+  const bookId = parseInt(req.params.bookId);
+  const genres = await booksService.getGenresByBookId(bookId);
+
+  return res.send(genres);
+};
+
 export default {
   getAllBooks,
   getBookById,
@@ -67,4 +81,6 @@ export default {
   createBook,
   updateBookById,
   deleteBookById,
+  getReviewsByBookId,
+  getGenresByBookId,
 };

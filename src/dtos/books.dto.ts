@@ -72,12 +72,12 @@ export class CreateBookDto {
 export class GetBookByIdDto {
   @IsNotEmpty()
   @IsNumber()
-  id: number;
+  bookId: number;
 }
 
 export class GetBookDto {
   @IsNotEmpty()
-  id: number;
+  bookId: number;
 
   @IsNotEmpty()
   title: string;
