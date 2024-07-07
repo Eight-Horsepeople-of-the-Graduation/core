@@ -5,3 +5,5 @@ export interface IMessage {
   content: string;
   conversationId: number;
 }
+
+export type IMessageWithoutConversationId = Omit<IMessage, "conversationId">;

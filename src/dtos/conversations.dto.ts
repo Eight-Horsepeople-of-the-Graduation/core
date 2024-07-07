@@ -46,10 +46,6 @@ export class CreateMessageDto {
 
 export class ChatDto {
   @IsNotEmpty()
-  @IsNumber()
-  bookId: number;
-
-  @IsNotEmpty()
   @IsString()
   question: string;
 }
