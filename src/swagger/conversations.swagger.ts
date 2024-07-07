@@ -1,35 +1,28 @@
-import { Body, Get, Path, Post, Route, Tags } from "tsoa";
+import { Body, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
 import { IConversation } from "../interfaces/conversations.interface";
 import { IMessage } from "../interfaces/messages.interface";
+import { deleteConversation } from "@repositories/conversations.repository";
 
 @Route("conversations")
 @Tags("Conversations")
 export class ConversationsSwagger {
-  @Get("/")
-  public getAllConversations(): IConversation[] | any {}
-
-  @Get("/:id")
-  public getConversationById(@Path() id: number): IConversation | any {}
-
-  @Post("/chat/:conversationId")
+  @Post("/chat/user/:userId/book/:bookId")
   public chat(
-    @Path() conversationId: number,
+    @Path() userId: number,
+    @Path() bookId: number,
     @Body() chatDto: ChatDto
   ): { answer: string } | any {}
-  @Post("/")
-  public createConversation(
-    @Body() conversationData: CreateConversationDto
+
+  @Get("/user/:userId/book/:bookId")
+  public getConversationByUserAndBook(
+    @Path() userId: number,
+    @Path() bookId: number
   ): IConversation | any {}
 
-  @Post("/:conversationId/messages")
-  public createMessage(
-    @Body() messageData: CreateMessageDto,
-    @Path() conversationId: number
-  ): IMessage | any {}
-
-  @Get("/:conversationId/messages")
-  public getMessagesByConversationId(
-    @Path() conversationId: number
-  ): IMessage[] | any {}
+  @Delete("/user/:userId/book/:bookId")
+  public deleteConversation(
+    @Path() userId: number,
+    @Path() bookId: number
+  ): IConversation | any {}
 }

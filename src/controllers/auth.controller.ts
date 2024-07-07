@@ -1,12 +1,16 @@
 import authService from "@services/auth.service";
 import { Request, Response } from "express";
 import config from "../config";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
   const signUpDto = req.body;
 
   const { user, tokens } = await authService.signUp(signUpDto);
-
+  
   res.cookie("refreshToken", tokens.refreshToken, {
     maxAge: config.refreshToken.expiresIn,
     httpOnly: true,
@@ -21,7 +25,10 @@ export const signUp = async (req: Request, res: Response) => {
   return res.send(user);
 };
 
-export const logIn = async (req: Request, res: Response) => {
+export const logIn = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
   const logInDto = req.body;
 
   const { user, tokens } = await authService.logIn(logInDto);
@@ -40,7 +47,10 @@ export const logIn = async (req: Request, res: Response) => {
   return res.send(user);
 };
 
-export const logOut = async (req: Request, res: Response) => {
+export const logOut = async (
+  req: Request,
+  res: Response
+): Promise<Response<any>> => {
   const userId = parseInt(req.user.id, 10);
 
   await authService.logOut(userId);
@@ -51,9 +61,12 @@ export const logOut = async (req: Request, res: Response) => {
   return res.sendStatus(200);
 };
 
-export const refreshTokens = async (req: Request, res: Response) => {
+export const refreshTokens = async (
+  req: Request,
+  res: Response
+): Promise<Response<any>> => {
   const { accessToken, refreshToken } = await authService.refreshTokens(
-    parseInt(req.cookies.refreshToken, 10),
+    parseInt(req.user.id, 10),
     req.user.refreshToken
   );
   if (!accessToken || !refreshToken) return res.sendStatus(401);

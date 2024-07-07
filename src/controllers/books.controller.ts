@@ -1,22 +1,18 @@
 import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
 import { uniqBy } from "lodash";
-import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "@dtos";
-import booksService from "@services/books.service";
-import bookshelvesService from "@services/bookshelves.service";
+import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "../dtos";
+import booksService from "../services/books.service";
+import bookshelvesService from "../services/bookshelves.service";
 import {
-  IBook,
   IBookWithoutAuthorsAndGenres,
   OptionalBook,
 } from "../interfaces/books.interface";
 
-export const getAllBooks = async (
-  req: Request,
-  res: Response
-): Promise<Response<IBook[]>> => {
+export const getAllBooks = async (req: Request, res: Response) => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
-  const books: IBook[] = await booksService.getAllBooks(filter);
+  const books = await booksService.getAllBooks(filter);
 
   return res.send(books);
 };
@@ -25,39 +21,46 @@ export const getBookById = async (
   req: Request,
   res: Response
 ): Promise<Response<OptionalBook>> => {
-  const { bookId } = req.params;
+  const { id } = req.params;
 
-  const data: GetBookByIdDto = { id: +bookId };
+  if (!id) {
+    return res.status(400).send("ID parameter is missing");
+  }
+
+  const data: GetBookByIdDto = { id: +id };
 
   const book: OptionalBook = await booksService.getBookById(data.id);
-  if (!book) return res.status(404).send("Book Not Found");
+  if (!book) return res.status(400).send("Book Not Found");
 
   return res.send(book);
 };
+export const createBook = async (req: Request, res: Response) => {
+  try {
+    const bookData = req.body;
 
-export const createBook = async (
-  req: Request,
-  res: Response
-): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
-  const bookData = req.body;
+    if (!bookData) {
+      return res.status(400).send("Bad Request: Empty request body");
+    }
 
-  const book: IBookWithoutAuthorsAndGenres =
-    await booksService.createBook(bookData);
+    const book: IBookWithoutAuthorsAndGenres =
+      await booksService.createBook(bookData);
 
-  return res.status(201).send(book);
+    return res.status(201).send(book);
+  } catch (error) {
+    console.error("Error creating book:", error);
+    return res.status(500).send("Internal Server Error");
+  }
 };
 
-export const updateBookById = async (
-  req: Request,
-  res: Response
-): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
-  const { bookId } = req.params;
+export const updateBookById = async (req: Request, res: Response) => {
+  const { id } = req.params;
   const data: UpdateBookDto = req.body;
 
-  const book: IBookWithoutAuthorsAndGenres = await booksService.updateBookById(
-    +bookId,
-    data
-  );
+  if (!id) {
+    return res.status(400).send("ID parameter is missing");
+  }
+
+  const book = await booksService.updateBookById(+id, data);
 
   return res.send(book);
 };
@@ -67,18 +70,21 @@ export const deleteBookById = async (
   res: Response
 ): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
   const { bookId } = req.params;
+
+  if (!bookId) {
+    return res.status(400).send("ID parameter is missing");
+  }
+
   const data: GetBookByIdDto = { id: +bookId };
 
-  const book: IBookWithoutAuthorsAndGenres = await booksService.deleteBookById(
-    data.id
-  );
+  const book = await booksService.deleteBookById(data.id);
 
   return res.send(book);
 };
 
 export const getBooksByUserId = async (req: Request, res: Response) => {
-  const { bookId } = req.params;
-  const bookshelves = await bookshelvesService.getBookshelvesByUserId(+bookId);
+  const { id } = req.params;
+  const bookshelves = await bookshelvesService.getBookshelvesByUserId(+id);
   const books = bookshelves.flatMap(
     (bookshelf: { books: any }) => bookshelf.books
   );

@@ -32,6 +32,9 @@
 							"FEMALE"
 						]
 					},
+					"refreshToken": {
+						"type": "string"
+					},
 					"birthDate": {
 						"type": "string",
 						"format": "date-time"
@@ -54,6 +57,7 @@
 					"email",
 					"country",
 					"gender",
+					"refreshToken",
 					"birthDate",
 					"joinDate",
 					"profilePicture",
@@ -66,7 +70,7 @@
 				"$ref": "#/components/schemas/Pick_IUser.Exclude_keyofIUser.password__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
-			"UserWithoutPassword": {
+			"IUserWithoutPassword": {
 				"$ref": "#/components/schemas/Omit_IUser.password_"
 			},
 			"SearchQueryDto": {
@@ -138,13 +142,7 @@
 			},
 			"UpdateUserDto": {
 				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"password": {
+					"name": {
 						"type": "string"
 					},
 					"country": {
@@ -152,6 +150,9 @@
 					},
 					"gender": {
 						"$ref": "#/components/schemas/Gender"
+					},
+					"refreshToken": {
+						"type": "string"
 					},
 					"birthDate": {
 						"type": "string",
@@ -366,18 +367,13 @@
 					"progress": {
 						"type": "number",
 						"format": "double"
-					},
-					"startDate": {
-						"type": "string",
-						"format": "date-time"
 					}
 				},
 				"required": [
 					"title",
 					"type",
 					"userId",
-					"progress",
-					"startDate"
+					"progress"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -403,7 +399,19 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"IMessage": {
+			"ChatDto": {
+				"properties": {
+					"question": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"question"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_IMessage.Exclude_keyofIMessage.conversationId__": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -418,21 +426,23 @@
 					},
 					"content": {
 						"type": "string"
-					},
-					"conversationId": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"required": [
 					"id",
 					"createdOn",
 					"role",
-					"content",
-					"conversationId"
+					"content"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IMessage.conversationId_": {
+				"$ref": "#/components/schemas/Pick_IMessage.Exclude_keyofIMessage.conversationId__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"IMessageWithoutConversationId": {
+				"$ref": "#/components/schemas/Omit_IMessage.conversationId_"
 			},
 			"IConversation": {
 				"properties": {
@@ -444,15 +454,6 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"retriever": {
-						"type": "string"
-					},
-					"memory": {
-						"type": "string"
-					},
-					"llm": {
-						"type": "string"
-					},
 					"bookId": {
 						"type": "number",
 						"format": "double"
@@ -463,7 +464,7 @@
 					},
 					"messages": {
 						"items": {
-							"$ref": "#/components/schemas/IMessage"
+							"$ref": "#/components/schemas/IMessageWithoutConversationId"
 						},
 						"type": "array"
 					}
@@ -471,75 +472,9 @@
 				"required": [
 					"id",
 					"createdOn",
-					"retriever",
-					"memory",
-					"llm",
 					"bookId",
 					"userId",
 					"messages"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ChatDto": {
-				"properties": {
-					"bookId": {
-						"type": "number",
-						"format": "double"
-					},
-					"question": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"bookId",
-					"question"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateConversationDto": {
-				"properties": {
-					"retriever": {
-						"type": "string"
-					},
-					"memory": {
-						"type": "string"
-					},
-					"llm": {
-						"type": "string"
-					},
-					"bookId": {
-						"type": "number",
-						"format": "double"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"retriever",
-					"memory",
-					"llm",
-					"bookId",
-					"userId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateMessageDto": {
-				"properties": {
-					"role": {
-						"type": "string"
-					},
-					"content": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"role",
-					"content"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -833,6 +768,68 @@
 				],
 				"type": "string"
 			},
+			"CreateBookDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"format": {
+						"$ref": "#/components/schemas/Format"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"authors": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"title",
+					"isbn",
+					"description",
+					"language",
+					"format",
+					"country",
+					"numOfPages",
+					"publishDate",
+					"pdfLink",
+					"authors",
+					"genres"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"AuthorDto": {
 				"properties": {
 					"name": {
@@ -867,66 +864,6 @@
 					"id",
 					"title",
 					"description"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateBookDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"isbn": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"language": {
-						"type": "string"
-					},
-					"format": {
-						"$ref": "#/components/schemas/Format"
-					},
-					"country": {
-						"type": "string"
-					},
-					"numOfPages": {
-						"type": "number",
-						"format": "double"
-					},
-					"publishDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"pdfLink": {
-						"type": "string"
-					},
-					"authors": {
-						"items": {
-							"$ref": "#/components/schemas/AuthorDto"
-						},
-						"type": "array"
-					},
-					"genres": {
-						"items": {
-							"$ref": "#/components/schemas/GenreDto"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"title",
-					"isbn",
-					"description",
-					"language",
-					"format",
-					"country",
-					"numOfPages",
-					"publishDate",
-					"pdfLink",
-					"authors",
-					"genres"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1083,6 +1020,65 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"SignUpDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"gender": {
+						"$ref": "#/components/schemas/Gender"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"profilePicture": {
+						"type": "string"
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"username",
+					"email",
+					"password",
+					"country",
+					"gender",
+					"isAdmin"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LogInDto": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -1108,7 +1104,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/UserWithoutPassword"
+												"$ref": "#/components/schemas/IUserWithoutPassword"
 											},
 											"type": "array"
 										},
@@ -1162,7 +1158,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1199,7 +1195,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1236,7 +1232,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1272,7 +1268,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1317,7 +1313,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1613,9 +1609,9 @@
 				}
 			}
 		},
-		"/conversations": {
-			"get": {
-				"operationId": "GetAllConversations",
+		"/reading-challenges/remove-book/{id}": {
+			"put": {
+				"operationId": "DeleteBookFromReadingChallenge",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1624,10 +1620,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"items": {
-												"$ref": "#/components/schemas/IConversation"
-											},
-											"type": "array"
+											"$ref": "#/components/schemas/IReadingChallenge"
 										},
 										{}
 									]
@@ -1637,69 +1630,7 @@
 					}
 				},
 				"tags": [
-					"Conversations"
-				],
-				"security": [],
-				"parameters": []
-			},
-			"post": {
-				"operationId": "CreateConversation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IConversation"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Conversations"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateConversationDto"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/conversations/{id}": {
-			"get": {
-				"operationId": "GetConversationById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IConversation"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Conversations"
+					"Reading Challenges"
 				],
 				"security": [],
 				"parameters": [
@@ -1712,10 +1643,21 @@
 							"type": "number"
 						}
 					}
-				]
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "number",
+								"format": "double"
+							}
+						}
+					}
+				}
 			}
 		},
-		"/conversations/chat/{conversationId}": {
+				"/conversations/chat/user/{userId}/book/{bookId}": {
 			"post": {
 				"operationId": "Chat",
 				"responses": {
@@ -1750,7 +1692,16 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "conversationId",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "bookId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -1770,9 +1721,9 @@
 				}
 			}
 		},
-		"/conversations/{conversationId}/messages": {
-			"post": {
-				"operationId": "CreateMessage",
+		"/conversations/user/{userId}/book/{bookId}": {
+			"get": {
+				"operationId": "GetConversationByUserAndBook",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1781,7 +1732,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IMessage"
+											"$ref": "#/components/schemas/IConversation"
 										},
 										{}
 									]
@@ -1797,27 +1748,26 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "conversationId",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "bookId",
 						"required": true,
 						"schema": {
 							"format": "double",
 							"type": "number"
 						}
 					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateMessageDto"
-							}
-						}
-					}
-				}
+				]
 			},
-			"get": {
-				"operationId": "GetMessagesByConversationId",
+			"delete": {
+				"operationId": "DeleteConversation",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1826,10 +1776,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"items": {
-												"$ref": "#/components/schemas/IMessage"
-											},
-											"type": "array"
+											"$ref": "#/components/schemas/IConversation"
 										},
 										{}
 									]
@@ -1845,7 +1792,16 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "conversationId",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "bookId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -2847,6 +2803,182 @@
 						}
 					}
 				]
+			}
+		},
+		"/auth/signup": {
+			"post": {
+				"operationId": "SignUp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"tokens": {
+													"properties": {
+														"refreshToken": {
+															"type": "string"
+														},
+														"accessToken": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"refreshToken",
+														"accessToken"
+													],
+													"type": "object"
+												},
+												"user": {
+													"$ref": "#/components/schemas/IUserWithoutPassword"
+												}
+											},
+											"required": [
+												"tokens",
+												"user"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignUpDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "LogIn",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"tokens": {
+													"properties": {
+														"refreshToken": {
+															"type": "string"
+														},
+														"accessToken": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"refreshToken",
+														"accessToken"
+													],
+													"type": "object"
+												},
+												"user": {
+													"$ref": "#/components/schemas/IUserWithoutPassword"
+												}
+											},
+											"required": [
+												"tokens",
+												"user"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LogInDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/logout": {
+			"delete": {
+				"operationId": "LogOut",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/refresh-tokens": {
+			"post": {
+				"operationId": "RefreshTokens",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"refreshToken": {
+													"type": "string"
+												},
+												"accessToken": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"refreshToken",
+												"accessToken"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},

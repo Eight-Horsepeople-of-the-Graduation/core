@@ -1,13 +1,4 @@
-import {
-  Body,
-  Get,
-  Path,
-  Post,
-  Put,
-  Route,
-  Delete,
-  Tags,
-} from "tsoa";
+import { Body, Get, Path, Post, Put, Route, Delete, Tags } from "tsoa";
 import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
@@ -18,31 +9,39 @@ import { IReadingChallenge } from "../interfaces/reading-challenges.interface";
 @Tags("Reading Challenges")
 export class ReadingChallengesDocs {
   @Get("")
-  public getAllReadingChallenges() : IReadingChallenge[] | any{}
+  public getAllReadingChallenges(): IReadingChallenge[] | any {}
 
   @Get("/:id")
-  public getReadingChallengeById(@Path() id: number) : IReadingChallenge | any{}
+  public getReadingChallengeById(@Path() id: number): IReadingChallenge | any {}
 
   @Get("/user/:userId")
-  public getReadingChallengesByUserId(@Path() userId: number) : IReadingChallenge[] | any {}
+  public getReadingChallengesByUserId(
+    @Path() userId: number
+  ): IReadingChallenge[] | any {}
 
   @Put("/add-book/:readingChallengeId")
   public addBookToReadingChallenge(
     @Path() readingChallengeId: number,
     @Body() bookId: number
-  ) : IReadingChallenge | any {}
+  ): IReadingChallenge | any {}
 
   @Post("/")
   public createReadingChallenge(
     @Body() readingChallengeData: CreateReadingChallengeDto
-  ) : IReadingChallenge | any {}
+  ): IReadingChallenge | any {}
 
   @Put("/:id")
   public updateReadingChallenge(
     @Path() id: number,
-   @Body() updatedData: UpdateReadingChallengeDto
-  ) : IReadingChallenge | any {}
-  
+    @Body() updatedData: UpdateReadingChallengeDto
+  ): IReadingChallenge | any {}
+
+  @Put("/remove-book/:id")
+  public deleteBookFromReadingChallenge(
+    @Path() id: number,
+    @Body() bookId: number
+  ): IReadingChallenge | any {}
+
   @Delete("/:id")
-  public deleteReadingChallenge(@Path() id: number) : IReadingChallenge | any {}
+  public deleteReadingChallenge(@Path() id: number): IReadingChallenge | any {}
 }
