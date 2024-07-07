@@ -16,6 +16,9 @@ import {
   IBookWithoutAuthorsAndGenres,
   OptionalBook,
 } from "../interfaces/books.interface";
+import { IGenre } from "../interfaces/genres.interface";
+import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
+
 @Route("books")
 @Tags("Books")
 export class BooksDocs extends Controller {
@@ -24,18 +27,35 @@ export class BooksDocs extends Controller {
     @Queries() searchQueryDto: SearchQueryDto
   ): IBook[] | any {}
 
-  @Get(":id")
-  public getBookById(@Path() id: number): OptionalBook | any {}
+  @Get("/:bookId")
+  public getBookById(@Path() bookId: number): OptionalBook | any {}
+
+  @Get("/:bookId/reviews")
+  public getReviewsByBookId(
+    @Path() bookId: number
+  ): IReviewWithUserAndBook[] | any {}
+
+  @Get("/:bookId/genres")
+  public getGenressByBookId(@Path() bookId: number): IGenre[] | any {}
+
+  @Get("/:bookId/authors")
+  public getAuthorsByBookId(
+    @Path() bookId: number
+  ): IReviewWithUserAndBook[] | any {}
 
   @Post("/")
-  public createBook(@Body() createBookDto: CreateBookDto): IBookWithoutAuthorsAndGenres | any {}
+  public createBook(
+    @Body() createBookDto: CreateBookDto
+  ): IBookWithoutAuthorsAndGenres | any {}
 
-  @Put("/:id")
+  @Put("/:bookId")
   public updateBookById(
-    @Path() id: number,
+    @Path() bookId: number,
     @Body() updateBookDto: UpdateBookDto
   ): IBookWithoutAuthorsAndGenres | any {}
 
-  @Delete("/:id")
-  public deleteBookById(@Path() id: number): IBookWithoutAuthorsAndGenres | any {}
+  @Delete("/:bookId")
+  public deleteBookById(
+    @Path() bookId: number
+  ): IBookWithoutAuthorsAndGenres | any {}
 }
