@@ -52,7 +52,6 @@ export const logOut = async (
   res: Response
 ): Promise<Response<any>> => {
   const userId = req.user.sub;
-  console.log(userId)
   await authService.logOut(userId);
 
   res.clearCookie("refreshToken");

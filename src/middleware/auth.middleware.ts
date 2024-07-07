@@ -10,7 +10,6 @@ export const authMiddleware = async (
 ) => {
   const accessToken = req.cookies.accessToken;
   if (!accessToken) return res.status(403).send("Access token is required");
-  console.log(accessToken);
   try {
     const decoded = jwt.verify(accessToken, config.accessToken.secret);
     const userId = parseInt(decoded.sub as string, 10);
@@ -20,7 +19,6 @@ export const authMiddleware = async (
     if (!user) return res.status(403).send("User not found");
 
     req.user = decoded;
-    console.log(req.user)
 
     next();
   } catch (err) {
