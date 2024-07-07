@@ -8,6 +8,9 @@ export const getAllReadingChallenges = async () => {
       _count: { select: { books: true } },
     },
   });
+  if (!readingChallenges) {
+    throw new Error("No reading challenges found");
+  }
   return readingChallenges;
 };
 export const getReadingChallengeById = async (readingChallengeId: number) => {
@@ -78,6 +81,8 @@ export const addBookToReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
+//update the craete reading challenge function to take the title name form another function that calculalte the week number and year and month
+
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
 ) => {
@@ -108,6 +113,28 @@ export const deleteReadingChallenge = async (readingChallengeId: number) => {
   return deletedReadingChallenge;
 };
 
+export const deleteBookFromReadingChallenge = async (
+  readingChallengeId: number,
+  bookId: number
+) => {
+  const updatedReadingChallenge = await prismaClient.readingChallenge.update({
+    where: {
+      id: readingChallengeId,
+    },
+    data: {
+      books: {
+        disconnect: {
+          id: bookId,
+        },
+      },
+    },
+    include: {
+      books: true,
+    },
+  });
+  return updatedReadingChallenge;
+};
+
 export default {
   getAllReadingChallenges,
   getReadingChallengeById,
@@ -115,6 +142,7 @@ export default {
   getReadingChallengeByUserId,
   addBookToReadingChallenge,
   createReadingChallenge,
+  deleteBookFromReadingChallenge,
   updateReadingChallenge,
   deleteReadingChallenge,
 };

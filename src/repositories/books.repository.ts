@@ -2,8 +2,15 @@ import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "@dtos";
 import { PrismaClient } from "@prisma/client";
 import prismaClient from "@utils/prisma";
 import { Transaction } from "../types/prismaClient-transaction.type";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+  OptionalBook,
+} from "../interfaces/books.interface";
 
-export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
+export const getAllBooks = async (
+  searchQueryDto: SearchQueryDto
+): Promise<IBook[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
 
@@ -27,7 +34,7 @@ export const getAllBooks = async (searchQueryDto: SearchQueryDto) => {
   return books;
 };
 
-export const getBookById = async (bookId: number) => {
+export const getBookById = async (bookId: number): Promise<OptionalBook> => {
   const book = await prismaClient.book.findUnique({
     where: { id: bookId },
     include: {
@@ -53,16 +60,21 @@ export const getBooksByAuthorId = async (authorId: number) => {
   return books;
 };
 
-export const getBooksByGenreId = async (genreId: number) => {
-  const books = await prismaClient.book.findMany({
-    where: {
-      genres: {
-        some: {
-          id: genreId,
+export const getBooksByGenreId = async (
+  genreId: number
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
+    await prismaClient.book.findMany({
+      where: {
+        genres: {
+          some: {
+            id: genreId,
+          },
         },
       },
-    },
-  });
+    });
+
+  return books;
 };
 
 export const getBooksByReadingChallengeId = async (
@@ -81,17 +93,19 @@ export const getBooksByReadingChallengeId = async (
   return books;
 };
 
-export const createBook = async (createBookDto: CreateBookDto) => {
+export const createBook = async (
+  createBookDto: CreateBookDto
+): Promise<IBookWithoutAuthorsAndGenres> => {
   const { authors, genres } = createBookDto;
 
   const newBook = await prismaClient.book.create({
     data: {
       ...createBookDto,
       authors: {
-        connect: authors.map((author) => ({ id: author.id })),
+        connect: authors.map((id) => ({ id })),
       },
       genres: {
-        connect: genres.map((genre) => ({ id: genre.id })),
+        connect: genres.map((id) => ({ id })),
       },
     },
   });
@@ -102,7 +116,7 @@ export const createBook = async (createBookDto: CreateBookDto) => {
 export const updateBookById = async (
   bookId: number,
   updateBookDto: UpdateBookDto
-) => {
+): Promise<IBookWithoutAuthorsAndGenres> => {
   const { authors, genres } = updateBookDto;
 
   const updatedBook = await prismaClient.book.update({
@@ -110,10 +124,10 @@ export const updateBookById = async (
     data: {
       ...updateBookDto,
       authors: {
-        set: authors.map((author) => ({ id: author.id })),
+        set: authors?.map((author) => ({ id: author.id })),
       },
       genres: {
-        set: genres.map((genre) => ({ id: genre.id })),
+        set: genres?.map((genre) => ({ id: genre.id })),
       },
     },
   });
@@ -138,7 +152,9 @@ export const updateBookRating = async (
   return updatedBook;
 };
 
-export const deleteBookById = async (bookId: number) => {
+export const deleteBookById = async (
+  bookId: number
+): Promise<IBookWithoutAuthorsAndGenres> => {
   const deletedBook = await prismaClient.book.delete({
     where: {
       id: bookId,
@@ -146,6 +162,27 @@ export const deleteBookById = async (bookId: number) => {
   });
 
   return deletedBook;
+};
+
+export const getBooksByUserId = async (userId: number): Promise<IBook[]> => {
+  const bookshelves = await prismaClient.bookshelf.findMany({
+    where: { userId },
+    include: {
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
+    },
+  });
+
+  const books: IBook[] = bookshelves.flatMap((bookshelf) => bookshelf.books);
+  const distinctBooks = [...new Set(books.map((book) => book.id))].map((id) =>
+    books.find((book) => book.id === id)
+  );
+
+  return distinctBooks;
 };
 
 export default {
@@ -158,4 +195,5 @@ export default {
   updateBookById,
   updateBookRating,
   deleteBookById,
+  getBooksByUserId,
 };

@@ -11,7 +11,11 @@ import {
   Tags,
 } from "tsoa";
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "../dtos";
-import { IBook } from "./interfaces";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+  OptionalBook,
+} from "../interfaces/books.interface";
 @Route("books")
 @Tags("Books")
 export class BooksDocs extends Controller {
@@ -21,17 +25,17 @@ export class BooksDocs extends Controller {
   ): IBook[] | any {}
 
   @Get(":id")
-  public getBookById(@Path() id: number): IBook | any {}
+  public getBookById(@Path() id: number): OptionalBook | any {}
 
   @Post("/")
-  public createBook(@Body() createBookDto: CreateBookDto): IBook | any {}
+  public createBook(@Body() createBookDto: CreateBookDto): IBookWithoutAuthorsAndGenres | any {}
 
   @Put("/:id")
   public updateBookById(
     @Path() id: number,
     @Body() updateBookDto: UpdateBookDto
-  ): IBook | any {}
+  ): IBookWithoutAuthorsAndGenres | any {}
 
   @Delete("/:id")
-  public deleteBookById(@Path() id: number): IBook | any {}
+  public deleteBookById(@Path() id: number): IBookWithoutAuthorsAndGenres | any {}
 }

@@ -39,6 +39,9 @@ export const addBookToReadingChallenge = async (
 
   const bookId = parseInt(req.params.bookId, 10);
 
+  if (!bookId) {
+    return res.status(400).send({ error: "Book ID is required" });
+  }
   const updatedReadingChallenge =
     await readingChallengesService.addBookToReadingChallenge(
       readingChallengeId,
@@ -51,6 +54,9 @@ export const addBookToReadingChallenge = async (
 export const createReadingChallenge = async (req: Request, res: Response) => {
   const readingChallengeData = req.body;
 
+  if (!req.body) {
+    return res.status(400).send({ error: "Missing required fields" });
+  }
   const createdReadingChallenge =
     await readingChallengesService.createReadingChallenge(readingChallengeData);
 
@@ -62,6 +68,11 @@ export const updateReadingChallenge = async (req: Request, res: Response) => {
     return res
       .status(400)
       .json({ error: "Updating Reading Callenge Error : Missing Data" });
+  }
+  if (!req.params.id) {
+    return res
+      .status(400)
+      .json({ error: "Updating Reading Callenge Error : Missing Id" });
   }
   const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
 
@@ -75,6 +86,22 @@ export const updateReadingChallenge = async (req: Request, res: Response) => {
   if (!updatedReadingChallenge) {
     return res.status(404).send({ error: "Reading challenge not found" });
   }
+
+  return res.status(200).send(updatedReadingChallenge);
+};
+
+export const deleteBookFromReadingChallenge = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const { bookId } = req.body;
+
+  if (!bookId) {
+    return res.status(400).send({ error: "Book ID is required" });
+  }
+  const updatedReadingChallenge =
+    await readingChallengesService.deleteBookFromReadingChallenge(+id, bookId);
 
   return res.status(200).send(updatedReadingChallenge);
 };
@@ -99,5 +126,6 @@ export default {
   addBookToReadingChallenge,
   createReadingChallenge,
   updateReadingChallenge,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
 };

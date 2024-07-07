@@ -1,35 +1,52 @@
 import { CreateBookshelfDto, SearchQueryDto, UpdateBookshelfDto } from "@dtos";
 import prismaClient from "@utils/prisma";
+import {
+  IBookshelf,
+  IBookshelfWithoutBooks,
+  IBookshelfWithUser,
+  OptionalBookshelf,
+} from "../interfaces/bookshelves.interface";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+} from "../interfaces/books.interface";
 
-export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
+export const getAllBookshelves = async (
+  searchQueryDto: SearchQueryDto
+): Promise<IBookshelfWithUser[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
 
-  const bookshelves = await prismaClient.bookshelf.findMany({
-    where: {
-      ...(term && {
-        title: {
-          contains: term,
-          mode: "insensitive",
-        },
-      }),
-    },
-    include: {
-      books: true,
-      user: true,
-      _count: {
-        select: { books: true },
+  const bookshelves: IBookshelfWithUser[] =
+    await prismaClient.bookshelf.findMany({
+      where: {
+        ...(term && {
+          title: {
+            contains: term,
+            mode: "insensitive",
+          },
+        }),
       },
-    },
-    skip,
-    take: limit,
-  });
+      include: {
+        books: true,
+        user: {
+          select: { name: true, username: true, profilePicture: true },
+        },
+        _count: {
+          select: { books: true },
+        },
+      },
+      skip,
+      take: limit,
+    });
 
   return bookshelves;
 };
 
-export const getBookshelfById = async (bookshelfId: number) => {
-  const bookshelf = await prismaClient.bookshelf.findUnique({
+export const getBookshelfById = async (
+  bookshelfId: number
+): Promise<OptionalBookshelf> => {
+  const bookshelf: OptionalBookshelf = await prismaClient.bookshelf.findUnique({
     where: {
       id: bookshelfId,
     },
@@ -44,8 +61,10 @@ export const getBookshelfById = async (bookshelfId: number) => {
   return bookshelf;
 };
 
-export const getBookshelvesByUserId = async (userId: number) => {
-  const bookshelves = await prismaClient.bookshelf.findMany({
+export const getBookshelvesByUserId = async (
+  userId: number
+): Promise<IBookshelf[]> => {
+  const bookshelves: IBookshelf[] = await prismaClient.bookshelf.findMany({
     where: {
       user: {
         id: userId,
@@ -65,8 +84,8 @@ export const getBookshelvesByUserId = async (userId: number) => {
 export const getBookshelfByUserId = async (
   userId: number,
   bookshelfId: number
-) => {
-  const bookshelf = await prismaClient.bookshelf.findUnique({
+): Promise<OptionalBookshelf> => {
+  const bookshelf: OptionalBookshelf = await prismaClient.bookshelf.findUnique({
     where: {
       id: bookshelfId,
       user: {
@@ -84,8 +103,10 @@ export const getBookshelfByUserId = async (
   return bookshelf;
 };
 
-export const createBookshelf = async (data: CreateBookshelfDto) => {
-  const bookshelf = await prismaClient.bookshelf.create({
+export const createBookshelf = async (
+  data: CreateBookshelfDto
+): Promise<IBookshelf> => {
+  const bookshelf: IBookshelf = await prismaClient.bookshelf.create({
     include: {
       books: true,
       _count: {
@@ -101,17 +122,18 @@ export const createBookshelf = async (data: CreateBookshelfDto) => {
 export const addBooksToBookshelf = async (
   bookshelfId: number,
   booksIds: number[]
-) => {
+): Promise<IBookshelf> => {
   const bookshelf = await getBookshelfById(bookshelfId);
   if (!bookshelf) throw new Error("Bookshelf Not Found");
 
-  const books = await prismaClient.book.findMany({
-    where: {
-      id: { in: booksIds },
-    },
-  });
+  const books: IBookWithoutAuthorsAndGenres[] =
+    await prismaClient.book.findMany({
+      where: {
+        id: { in: booksIds },
+      },
+    });
 
-  const updatedBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf: IBookshelf = await prismaClient.bookshelf.update({
     where: { id: bookshelfId },
     data: {
       books: {
@@ -132,7 +154,7 @@ export const addBooksToBookshelf = async (
 export const removeBooksFromBookshelf = async (
   bookshelfId: number,
   booksIds: number[]
-) => {
+): Promise<IBookshelf> => {
   const bookshelf = await getBookshelfById(bookshelfId);
   if (!bookshelf) throw new Error("Bookshelf Not Found");
 
@@ -142,7 +164,7 @@ export const removeBooksFromBookshelf = async (
     },
   });
 
-  const updatedBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf: IBookshelf = await prismaClient.bookshelf.update({
     where: { id: bookshelfId },
     data: {
       books: {
@@ -163,8 +185,8 @@ export const removeBooksFromBookshelf = async (
 export const updateBookshelf = async (
   bookshelfId: number,
   updatedData: UpdateBookshelfDto
-) => {
-  const bookshelf = await prismaClient.bookshelf.update({
+): Promise<IBookshelf> => {
+  const bookshelf: IBookshelf = await prismaClient.bookshelf.update({
     where: {
       id: bookshelfId,
     },
@@ -180,10 +202,13 @@ export const updateBookshelf = async (
   return bookshelf;
 };
 
-export const deleteBookshelf = async (bookshelfId: number) => {
-  const deletedBookshelf = await prismaClient.bookshelf.delete({
-    where: { id: bookshelfId },
-  });
+export const deleteBookshelf = async (
+  bookshelfId: number
+): Promise<IBookshelfWithoutBooks> => {
+  const deletedBookshelf: IBookshelfWithoutBooks =
+    await prismaClient.bookshelf.delete({
+      where: { id: bookshelfId },
+    });
 
   return deletedBookshelf;
 };

@@ -31,7 +31,7 @@ router.patch(
   asyncWrapper(bookshelvesController.removeBooksFromBookshelf)
 );
 
-router.put(
+router.patch(
   "/:bookshelfId",
   [validationMiddleware(UpdateBookshelfDto)],
   asyncWrapper(bookshelvesController.updateBookshelf)

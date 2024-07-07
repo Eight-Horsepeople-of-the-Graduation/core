@@ -3,9 +3,16 @@ import usersService from "../services/users.service";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
 import { plainToInstance } from "class-transformer";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
 import { uniqBy } from "lodash";
+import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
+import { IBookshelf } from "../interfaces/bookshelves.interface";
+import { IBook } from "../interfaces/books.interface";
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
   const users = await usersService.getAllUsers(filter);
@@ -13,8 +20,11 @@ export const getAllUsers = async (req: Request, res: Response) => {
   return res.send(users);
 };
 
-export const getUserById = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id, 10);
+export const getUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
+  const userId = parseInt(req.params.userId, 10);
 
   const user = await usersService.getUserById(userId);
 
@@ -49,15 +59,19 @@ export const getReadingChallengeByUserId = async (
   return res.send(readingChallenge);
 };
 
-export const getReviewsByUserId = async (req: Request, res: Response) => {
-  const reviewId = parseInt(req.params.reviewId, 10);
-
-  const reviews = await usersService.getReviewsByUserId(reviewId);
+export const getReviewsByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReviewWithUserAndBook[]>> => {
+  const { id } = req.params;
+  const reviews = await usersService.getReviewsByUserId(+id);
 
   return res.send(reviews);
 };
-
-export const getReviewByUserId = async (req: Request, res: Response) => {
+export const getReviewByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReviewWithUserAndBook>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const reviewId = parseInt(req.params.reviewId, 10);
@@ -67,7 +81,10 @@ export const getReviewByUserId = async (req: Request, res: Response) => {
   return res.send(review);
 };
 
-export const getBookshelvesByUserId = async (req: Request, res: Response) => {
+export const getBookshelvesByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf[]>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const bookshelves = await usersService.getBookshelvesByUserId(userId);
@@ -75,7 +92,10 @@ export const getBookshelvesByUserId = async (req: Request, res: Response) => {
   return res.send(bookshelves);
 };
 
-export const getBookshelfByUserId = async (req: Request, res: Response) => {
+export const getBookshelfByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const bookshelfId = parseInt(req.params.bookshelfId, 10);
@@ -88,7 +108,10 @@ export const getBookshelfByUserId = async (req: Request, res: Response) => {
   return res.send(bookshelf);
 };
 
-export const getBooksByUserId = async (req: Request, res: Response) => {
+export const getBooksByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBook[]>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const bookshelves = await usersService.getBookshelvesByUserId(userId);
@@ -102,27 +125,25 @@ export const getBooksByUserId = async (req: Request, res: Response) => {
   return res.send(distinctBooks);
 };
 
-export const createUser = async (req: Request, res: Response) => {
-  const userData: CreateUserDto = req.body;
-
-  const user = await usersService.createUser(userData);
-
-  return res.status(201).send(user);
-};
-
-export const updateUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+export const updateUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
+  const userId = parseInt(req.params.id, 10);
   const updatedData: UpdateUserDto = req.body;
 
-  const user = await usersService.updateUserById(id, updatedData);
+  const user = await usersService.updateUserById(userId, updatedData);
 
   return res.send(user);
 };
 
-export const deleteUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id, 10);
+export const deleteUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
+  const userId = parseInt(req.params.userId, 10);
 
-  const user = await usersService.deleteUserById(id);
+  const user = await usersService.deleteUserById(userId);
 
   return res.send(user);
 };
@@ -137,7 +158,6 @@ export default {
   getBookshelvesByUserId,
   getBookshelfByUserId,
   getBooksByUserId,
-  createUser,
   updateUserById,
   deleteUserById,
 };

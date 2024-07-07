@@ -9,15 +9,18 @@ datasource db {
 
 model User {
   id                Int                @id @default(autoincrement())
+  name              String
   username          String             @unique
   email             String             @unique
   password          String
   country           String
   gender            Gender
-  birthDate         DateTime?
-  joinDate          DateTime           @default(now())
+  refreshToken      String?
   profilePicture    String?
   isAdmin           Boolean            @default(false)
+  birthDate         DateTime?
+  joinDate          DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   books             Book[]
   bookshelves       Bookshelf[]
   favoriteGenres    Genre[]
@@ -97,6 +100,8 @@ model Conversation {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   messages  Message[]
+
+  @@unique([bookId, userId])
 }
 
 model Message {

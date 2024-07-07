@@ -28,7 +28,7 @@ router.post(
   asyncWrapper(booksController.createBook)
 );
 
-router.put(
+router.patch(
   "/:bookId",
   [validationMiddleware(UpdateBookDto)],
   asyncWrapper(booksController.updateBookById)

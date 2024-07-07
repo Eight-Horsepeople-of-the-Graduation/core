@@ -27,15 +27,19 @@ router.post(
   asyncWrapper(readingChallengesController.createReadingChallenge)
 );
 
-router.put(
+router.patch(
   "/:readingChallengeId",
   [validationMiddleware(UpdateReadingChallengeDto)],
   asyncWrapper(readingChallengesController.updateReadingChallenge)
 );
 
-router.put(
+router.patch(
   "/:readingChallengeId/add-book/:bookId",
   asyncWrapper(readingChallengesController.addBookToReadingChallenge)
+);
+router.patch(
+  "/remove-book/:id",
+  asyncWrapper(readingChallengesController.deleteBookFromReadingChallenge)
 );
 
 router.delete(

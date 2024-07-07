@@ -4,30 +4,53 @@ import {
   UpdateReviewDetailsDto,
   UpdateReviewRatingDto,
 } from "../dtos/reviews.dto";
-import { Prisma, PrismaClient } from "@prisma/client";
 import { Transaction } from "../types/prismaClient-transaction.type";
+import {
+  IReview,
+  IReviewWithUserAndBook,
+  OptionalReview,
+  IReviewRatingAggregate,
+  OptionalReviewWithUserAndBook,
+} from "../interfaces/reviews.interface";
 
-export const getReviewById = async (reviewId: number) => {
-  const review = await prismaClient.review.findUnique({
-    where: {
-      id: reviewId,
-    },
-    include: {
-      user: true,
-      book: true,
-    },
-  });
+export const getReviewById = async (
+  reviewId: number
+): Promise<OptionalReviewWithUserAndBook> => {
+  const review: OptionalReviewWithUserAndBook =
+    await prismaClient.review.findUnique({
+      where: {
+        id: reviewId,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+        book: true,
+      },
+    });
 
   return review;
 };
 
-export const getReviewsByBookId = async (bookId: number) => {
-  const reviews = await prismaClient.review.findMany({
+export const getReviewsByBookId = async (
+  bookId: number
+): Promise<IReviewWithUserAndBook[]> => {
+  const reviews: IReviewWithUserAndBook[] = await prismaClient.review.findMany({
     where: {
       bookId,
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
       book: true,
     },
   });
@@ -35,21 +58,33 @@ export const getReviewsByBookId = async (bookId: number) => {
   return reviews;
 };
 
-export const getReviewsByUserId = async (userId: number) => {
-  const reviews = await prismaClient.review.findMany({
+// missing: add service, controller, route in users
+export const getReviewsByUserId = async (
+  userId: number
+): Promise<IReviewWithUserAndBook[]> => {
+  const reviews: IReviewWithUserAndBook[] = await prismaClient.review.findMany({
     where: {
       userId,
     },
     include: {
       book: true,
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
     },
   });
 
   return reviews;
 };
 
-export const getReviewByUserId = async (userId: number, reviewId: number) => {
+export const getReviewByUserId = async (
+  userId: number,
+  reviewId: number
+): Promise<IReviewWithUserAndBook> => {
   const review = await prismaClient.review.findUnique({
     where: {
       id: reviewId,
@@ -59,7 +94,13 @@ export const getReviewByUserId = async (userId: number, reviewId: number) => {
     },
     include: {
       book: true,
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
     },
   });
 
@@ -69,12 +110,18 @@ export const getReviewByUserId = async (userId: number, reviewId: number) => {
 export const createReview = async (
   createReviewDto: CreateReviewDto,
   tx?: Transaction
-) => {
+): Promise<IReviewWithUserAndBook> => {
   const prisma = tx || prismaClient;
   const newReview = await prisma.review.create({
     data: createReviewDto,
     include: {
-      user: true,
+      user: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
       book: true,
     },
   });
@@ -85,21 +132,28 @@ export const createReview = async (
 export const updateReviewDetails = async (
   updateReviewDto: UpdateReviewDetailsDto,
   reviewId: number
-) => {
+): Promise<IReviewWithUserAndBook> => {
   const { title, description } = updateReviewDto;
-  const updatedReview = await prismaClient.review.update({
-    where: {
-      id: reviewId,
-    },
-    data: {
-      title,
-      description,
-    },
-    include: {
-      user: true,
-      book: true,
-    },
-  });
+  const updatedReview: IReviewWithUserAndBook =
+    await prismaClient.review.update({
+      where: {
+        id: reviewId,
+      },
+      data: {
+        title,
+        description,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+        book: true,
+      },
+    });
 
   return updatedReview;
 };
@@ -108,9 +162,9 @@ export const updateReviewRating = async (
   updatedReviewDto: UpdateReviewRatingDto,
   reviewId: number,
   tx?: Transaction
-) => {
+): Promise<IReview> => {
   const prisma = tx || prismaClient;
-  const updatedReview = await prisma.review.update({
+  const updatedReview: IReview = await prisma.review.update({
     where: {
       id: reviewId,
     },
@@ -122,9 +176,12 @@ export const updateReviewRating = async (
   return updatedReview;
 };
 
-export const deleteReview = async (reviewId: number, tx?: Transaction) => {
+export const deleteReview = async (
+  reviewId: number,
+  tx?: Transaction
+): Promise<IReview> => {
   const prisma = tx || prismaClient;
-  const deletedReview = await prisma.review.delete({
+  const deletedReview: IReview = await prisma.review.delete({
     where: {
       id: reviewId,
     },

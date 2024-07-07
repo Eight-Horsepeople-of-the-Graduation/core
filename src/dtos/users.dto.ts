@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsDate,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -20,6 +21,9 @@ export class GetUserDto {
   id: number;
 
   @IsNotEmpty()
+  name: string;
+
+  @IsNotEmpty()
   username: string;
 
   @IsNotEmpty()
@@ -33,11 +37,11 @@ export class GetUserDto {
   gender: Gender;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthDate: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   joinDate: Date;
 
   @IsOptional()
@@ -50,6 +54,11 @@ export class GetUserDto {
 }
 
 export class CreateUserDto {
+  @IsNotEmpty()
+  @IsString()
+  @Length(6, 64)
+  name: string;
+
   @IsNotEmpty()
   @IsString()
   @Length(6, 64)
@@ -81,7 +90,7 @@ export class CreateUserDto {
   gender: Gender;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthDate?: Date;
 
   @IsOptional()
@@ -96,26 +105,8 @@ export class CreateUserDto {
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  @Length(3, 20)
-  username?: string;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsEmail()
-  email?: string;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  @Length(8, 24)
-  @IsStrongPassword({
-    minLength: 8,
-    minUppercase: 1,
-    minLowercase: 1,
-    minNumbers: 1,
-    minSymbols: 1,
-  })
-  password?: string;
+  @Length(6, 64)
+  name?: string;
 
   @IsOptional()
   @IsNotEmpty()
@@ -128,7 +119,11 @@ export class UpdateUserDto {
   gender?: Gender;
 
   @IsOptional()
-  @IsDate()
+  @IsString()
+  refreshToken?: string;
+
+  @IsOptional()
+  @IsDateString()
   birthDate?: Date;
 
   @IsOptional()

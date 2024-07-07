@@ -21,7 +21,7 @@ router.post(
   asyncWrapper(authorsController.createAuthor)
 );
 
-router.put(
+router.patch(
   "/:authorId",
   [validationMiddleware(UpdateAuthorDto)],
   asyncWrapper(authorsController.updateAuthorById)
