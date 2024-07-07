@@ -28,7 +28,7 @@ export const getBooksByReadingChallengeId = async (
       readingChallengeId
     );
 
-  return books;
+  return res.send(200).send(books);
 };
 
 export const addBookToReadingChallenge = async (

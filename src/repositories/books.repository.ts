@@ -79,16 +79,17 @@ export const getBooksByGenreId = async (
 
 export const getBooksByReadingChallengeId = async (
   readingChallengeId: number
-) => {
-  const books = await prismaClient.book.findMany({
-    where: {
-      readingChallenges: {
-        some: {
-          id: readingChallengeId,
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
+    await prismaClient.book.findMany({
+      where: {
+        readingChallenges: {
+          some: {
+            id: readingChallengeId,
+          },
         },
       },
-    },
-  });
+    });
 
   return books;
 };
