@@ -57,11 +57,6 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(3, 255)
-  name: string;
-
-  @IsNotEmpty()
-  @IsString()
   @Length(6, 64)
   name: string;
 
