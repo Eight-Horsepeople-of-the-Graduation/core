@@ -9,6 +9,7 @@ import {
   Queries,
   Delete,
   Tags,
+  Patch,
 } from "tsoa";
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "../dtos";
 import {
@@ -48,7 +49,7 @@ export class BooksDocs extends Controller {
     @Body() createBookDto: CreateBookDto
   ): IBookWithoutAuthorsAndGenres | any {}
 
-  @Put("/:bookId")
+  @Patch("/:bookId")
   public updateBookById(
     @Path() bookId: number,
     @Body() updateBookDto: UpdateBookDto

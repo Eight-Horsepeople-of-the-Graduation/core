@@ -37,7 +37,7 @@ import {
     @Post("/")
     createGenre(@Body() createGenreDto: CreateGenreDto): IGenre | any {}
   
-    @Put("/:genreId")
+    @Patch("/:genreId")
     updateGenreById(
       @Path() genreId: number,
       @Body() updateGenreDto: UpdateGenreDto

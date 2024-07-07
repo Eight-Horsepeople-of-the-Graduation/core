@@ -9,6 +9,7 @@ import {
   Queries,
   Delete,
   Tags,
+  Patch,
 } from "tsoa";
 import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "../dtos";
 import { IAuthor, OptionalAuthor } from "../interfaces/authors.interface";
@@ -31,7 +32,7 @@ export class AuthorsDocs {
     @Path() authorId: number
   ): Promise<IBookWithoutAuthorsAndGenres[]> | any {}
 
-  @Put("/:authorId")
+  @Patch("/:authorId")
   updateAuthorById(
     @Path() authorId: number,
     @Body() updateAuthorDto: UpdateAuthorDto

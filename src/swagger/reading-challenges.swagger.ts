@@ -1,4 +1,4 @@
-import { Body, Get, Path, Post, Put, Route, Delete, Tags } from "tsoa";
+import { Body, Get, Path, Post, Put, Route, Delete, Tags, Patch } from "tsoa";
 import { CreateReadingChallengeDto, UpdateReadingChallengeDto } from "../dtos";
 import { IReadingChallenge } from "../interfaces/reading-challenges.interface";
 
@@ -23,19 +23,19 @@ export class ReadingChallengesDocs {
     @Body() readingChallengeData: CreateReadingChallengeDto
   ): IReadingChallenge | any {}
 
-  @Put("/:readingChallengeId")
+  @Patch("/:readingChallengeId")
   public updateReadingChallenge(
     @Path() readingChallengeId: number,
     @Body() updatedData: UpdateReadingChallengeDto
   ): IReadingChallenge | any {}
 
-  @Put("/:readingChallengeId/add-book/:bookId")
+  @Patch("/:readingChallengeId/add-book/:bookId")
   public addBookToReadingChallenge(
     @Path() readingChallengeId: number,
     @Body() bookId: number
   ): IReadingChallenge | any {}
 
-  @Put("/remove-book/:readingChallengeId")
+  @Patch("/remove-book/:readingChallengeId")
   public deleteBookFromReadingChallenge(
     @Path() readingChallengeId: number,
     @Body() bookId: number

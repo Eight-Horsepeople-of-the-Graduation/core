@@ -1721,7 +1721,7 @@
 					}
 				]
 			},
-			"put": {
+			"patch": {
 				"operationId": "UpdateReadingChallenge",
 				"responses": {
 					"200": {
@@ -1840,7 +1840,7 @@
 			}
 		},
 		"/reading-challenges/{readingChallengeId}/add-book/{bookId}": {
-			"put": {
+			"patch": {
 				"operationId": "AddBookToReadingChallenge",
 				"responses": {
 					"200": {
@@ -1888,7 +1888,7 @@
 			}
 		},
 		"/reading-challenges/remove-book/{readingChallengeId}": {
-			"put": {
+			"patch": {
 				"operationId": "DeleteBookFromReadingChallenge",
 				"responses": {
 					"200": {
@@ -2544,7 +2544,7 @@
 					}
 				]
 			},
-			"put": {
+			"patch": {
 				"operationId": "UpdateBookById",
 				"responses": {
 					"200": {
@@ -2873,7 +2873,7 @@
 					}
 				]
 			},
-			"put": {
+			"patch": {
 				"operationId": "UpdateAuthorById",
 				"responses": {
 					"200": {
@@ -3122,7 +3122,7 @@
 					}
 				]
 			},
-			"put": {
+			"patch": {
 				"operationId": "UpdateGenreById",
 				"responses": {
 					"200": {
@@ -3416,7 +3416,25 @@
 					"Auth"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
