@@ -19,11 +19,13 @@ export const errorHandlerMiddleware = (
 
       return res.status(status).send({
         status,
-        message, 
+        message,
       });
     } else {
-      logger.error(`Unhandled Error : ${error}`);
-      
+      logger.error(
+        `Unhandled Error : ${error} - ${req.originalUrl} - ${req.method} - ${req.ip} - ${JSON.stringify(error)}`
+      );
+
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         message: "Something went wrong",

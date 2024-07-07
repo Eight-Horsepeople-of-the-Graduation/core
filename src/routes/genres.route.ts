@@ -10,13 +10,15 @@ router.get("/", asyncWrapper(genresController.getAllGenres));
 
 router.get("/:genreId", asyncWrapper(genresController.getGenreById));
 
+router.get("/:genreId/books", asyncWrapper(genresController.getBooksByGenreId));
+
 router.post(
   "/",
   [validationMiddleware(CreateGenreDto)],
   asyncWrapper(genresController.createGenre)
 );
 
-router.put(
+router.patch(
   "/:genreId",
   [validationMiddleware(UpdateGenreDto)],
   asyncWrapper(genresController.updateGenreById)

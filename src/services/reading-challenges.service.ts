@@ -4,6 +4,7 @@ import {
   UpdateReadingChallengeDto,
 } from "../dtos/index";
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
+import booksRepository from "@repositories/books.repository";
 
 export const getAllReadingChallenges = async () => {
   if (!readingChallengesRepository) {
@@ -15,24 +16,25 @@ export const getAllReadingChallenges = async () => {
   return readingChallenges;
 };
 
-export const getReadingChallengeById = async (id: number) => {
-  if (!id) {
+export const getReadingChallengeById = async (readingChallengeId: number) => {
+  if (!readingChallengeId) {
     throw new Error("Missing required field: id");
   }
   const readingChallenge =
-    await readingChallengesRepository.getReadingChallengeById(id);
+    await readingChallengesRepository.getReadingChallengeById(
+      readingChallengeId
+    );
 
   return readingChallenge;
 };
 
-export const getReadingChallengesByUserId = async (userId: number) => {
-  if (!userId) {
-    throw new Error("Missing required field: userId");
-  }
-  const readingChallenges =
-    await readingChallengesRepository.getReadingChallengesByUserId(userId);
+export const getBooksByReadingChallengeId = async (
+  readingChallengeId: number
+) => {
+  const books =
+    await booksRepository.getBooksByReadingChallengeId(readingChallengeId);
 
-  return readingChallenges;
+  return books;
 };
 
 export const addBookToReadingChallenge = async (
@@ -67,15 +69,18 @@ export const createReadingChallenge = async (
 };
 
 export const updateReadingChallenge = async (
-  id: number,
+  readingChallengeId: number,
   updatedData: UpdateReadingChallengeDto
 ) => {
-  if (!id) {
+  if (!readingChallengeId) {
     throw new Error("Missing required field: id");
   }
 
   const updatedReadingChallenge =
-    await readingChallengesRepository.updateReadingChallenge(id, updatedData);
+    await readingChallengesRepository.updateReadingChallenge(
+      readingChallengeId,
+      updatedData
+    );
 
   return updatedReadingChallenge;
 };
@@ -101,12 +106,24 @@ export const deleteBookFromReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
-export const deleteReadingChallenge = async (id: number) => {
-  if (!id) {
+export const deleteReadingChallenge = async (readingChallengeId: number) => {
+  if (!readingChallengeId) {
     throw new Error("Missing required field: id");
   }
   const deletedReadingChallenge =
-    await readingChallengesRepository.deleteReadingChallenge(id);
+    await readingChallengesRepository.deleteReadingChallenge(
+      readingChallengeId
+    );
 
   return deletedReadingChallenge;
+};
+
+export default {
+  getAllReadingChallenges,
+  getReadingChallengeById,
+  getBooksByReadingChallengeId,
+  addBookToReadingChallenge,
+  createReadingChallenge,
+  updateReadingChallenge,
+  deleteReadingChallenge,
 };

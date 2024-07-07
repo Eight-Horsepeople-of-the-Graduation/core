@@ -3,6 +3,7 @@ import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "@dtos";
 import authorsService from "@services/authors.service";
 import { plainToInstance } from "class-transformer";
 import { IAuthor, OptionalAuthor } from "../interfaces/authors.interface";
+import { IBook } from "../interfaces/books.interface";
 
 export const getAllAuthors = async (
   req: Request,
@@ -24,6 +25,17 @@ export const getAuthorById = async (
   const author = await authorsService.getAuthorById(authorId);
 
   return res.send(author);
+};
+
+export const getBooksByAuthorId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBook[]>> => {
+  const authorId = parseInt(req.params.authorId, 10);
+
+  const books = await authorsService.getBooksByAuthorId(authorId);
+
+  return res.send(books);
 };
 
 export const createAuthor = async (
@@ -67,6 +79,7 @@ export default {
   createAuthor,
   getAllAuthors,
   getAuthorById,
+  getBooksByAuthorId,
   updateAuthorById,
   deleteAuthorById,
 };

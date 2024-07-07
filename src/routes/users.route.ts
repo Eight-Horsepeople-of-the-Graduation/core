@@ -8,9 +8,45 @@ const router = Router();
 
 router.get("/", asyncWrapper(usersController.getAllUsers));
 
-router.get("/:userId", asyncWrapper(usersController.getUserById));
+router.get("/id/:userId", asyncWrapper(usersController.getUserById));
+router.get(
+  "/username/:username",
+  asyncWrapper(usersController.getUserByUsername)
+);
 
-router.put(
+router.get(
+  "/:userId/readingChallenges",
+  asyncWrapper(usersController.getReadingChallengesByUserId)
+);
+
+router.get(
+  "/:userId/readingChallenges/:readingChallengeId",
+  asyncWrapper(usersController.getReadingChallengeByUserId)
+);
+
+router.get(
+  "/:userId/reviews",
+  asyncWrapper(usersController.getReviewsByUserId)
+);
+
+router.get(
+  "/:userId/reviews/:reviewId",
+  asyncWrapper(usersController.getReviewByUserId)
+);
+
+router.get(
+  "/:userId/bookshelves",
+  asyncWrapper(usersController.getBookshelvesByUserId)
+);
+
+router.get(
+  "/:userId/bookshelves/:bookshelfId",
+  asyncWrapper(usersController.getBookshelfByUserId)
+);
+
+router.get("/:userId/books", asyncWrapper(usersController.getBooksByUserId));
+
+router.patch(
   "/:userId",
   validationMiddleware(UpdateUserDto),
   asyncWrapper(usersController.updateUserById)

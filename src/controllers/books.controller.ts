@@ -5,11 +5,20 @@ import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "../dtos";
 import booksService from "../services/books.service";
 import bookshelvesService from "../services/bookshelves.service";
 import {
+  IBook,
   IBookWithoutAuthorsAndGenres,
   OptionalBook,
 } from "../interfaces/books.interface";
+import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
+import { IGenre } from "../interfaces/genres.interface";
+import { IAuthor } from "../interfaces/authors.interface";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
 
-export const getAllBooks = async (req: Request, res: Response) => {
+export const getAllBooks = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBook[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
   const books = await booksService.getAllBooks(filter);
@@ -21,82 +30,102 @@ export const getBookById = async (
   req: Request,
   res: Response
 ): Promise<Response<OptionalBook>> => {
-  const { id } = req.params;
-
-  if (!id) {
-    return res.status(400).send("ID parameter is missing");
-  }
-
-  const data: GetBookByIdDto = { id: +id };
-
-  const book: OptionalBook = await booksService.getBookById(data.id);
-  if (!book) return res.status(400).send("Book Not Found");
-
-  return res.send(book);
-};
-export const createBook = async (req: Request, res: Response) => {
-  try {
-    const bookData = req.body;
-
-    if (!bookData) {
-      return res.status(400).send("Bad Request: Empty request body");
-    }
-
-    const book: IBookWithoutAuthorsAndGenres =
-      await booksService.createBook(bookData);
-
-    return res.status(201).send(book);
-  } catch (error) {
-    console.error("Error creating book:", error);
-    return res.status(500).send("Internal Server Error");
-  }
-};
-
-export const updateBookById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data: UpdateBookDto = req.body;
-
-  if (!id) {
-    return res.status(400).send("ID parameter is missing");
-  }
-
-  const book = await booksService.updateBookById(+id, data);
-
-  return res.send(book);
-};
-
-export const deleteBookById = async (
-  req: Request,
-  res: Response
-): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
-  const { bookId } = req.params;
+  const bookId = parseInt(req.params.bookId, 10);
 
   if (!bookId) {
     return res.status(400).send("ID parameter is missing");
   }
 
-  const data: GetBookByIdDto = { id: +bookId };
-
-  const book = await booksService.deleteBookById(data.id);
+  const book: OptionalBook = await booksService.getBookById(bookId);
 
   return res.send(book);
 };
 
-export const getBooksByUserId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const bookshelves = await bookshelvesService.getBookshelvesByUserId(+id);
-  const books = bookshelves.flatMap(
-    (bookshelf: { books: any }) => bookshelf.books
-  );
-  const distinctBooks = uniqBy(books, "id");
-  return res.send(distinctBooks);
+export const getReviewsByBookId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReviewWithUserAndBook[]>> => {
+  const bookId = parseInt(req.params.bookId, 10);
+
+  const reviews = await booksService.getReviewsByBookId(bookId);
+
+  return res.send(reviews);
+};
+
+export const getGenresByBookId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IGenre[]>> => {
+  const bookId = parseInt(req.params.bookId);
+
+  const genres = await booksService.getGenresByBookId(bookId);
+
+  return res.send(genres);
+};
+
+export const getAuthorsByBookId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IAuthor>> => {
+  const bookId = parseInt(req.params.bookId, 10);
+
+  const authors = await booksService.getAuthorsByBookId(bookId);
+
+  return res.send(authors);
+};
+export const createBook = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
+  const bookData = req.body;
+
+  if (!bookData) {
+    throw new HttpException(
+      "Bad Request: Empty request body",
+      HttpStatus.BAD_REQUEST
+    );
+  }
+
+  const book: IBookWithoutAuthorsAndGenres =
+    await booksService.createBook(bookData);
+
+  return res.status(201).send(book);
+};
+
+export const updateBookById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
+  const bookId = parseInt(req.params.bookId, 10);
+
+  const data: UpdateBookDto = req.body;
+
+  if (isNaN(bookId)) {
+    throw new HttpException("ID parameter is missing.", HttpStatus.BAD_REQUEST);
+  }
+
+  const book = await booksService.updateBookById(bookId, data);
+
+  return res.send(book);
+};
+
+export const deleteBookById = async (req: Request, res: Response) => {
+  const { bookId } = req.params;
+  if (!bookId) {
+    throw new HttpException("ID parameter is missing.", HttpStatus.BAD_REQUEST);
+  }
+  const book = await booksService.deleteBookById(+bookId);
+
+  return res.send(book);
 };
 
 export default {
   getAllBooks,
   getBookById,
-  getBooksByUserId,
   createBook,
   updateBookById,
   deleteBookById,
+  getReviewsByBookId,
+  getGenresByBookId,
+  getAuthorsByBookId,
 };

@@ -10,7 +10,6 @@ export const authMiddleware = async (
 ) => {
   const accessToken = req.cookies.accessToken;
   if (!accessToken) return res.status(403).send("Access token is required");
-
   try {
     const decoded = jwt.verify(accessToken, config.accessToken.secret);
     const userId = parseInt(decoded.sub as string, 10);

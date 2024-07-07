@@ -3,6 +3,7 @@ import { validationMiddleware } from "@middleware/validation.middleware";
 import asyncWrapper from "@utils/async-wrapper";
 import { Router } from "express";
 import { LogInDto, SignUpDto } from "../dtos/auth.dto";
+import { authMiddleware } from "@middleware/auth.middleware";
 
 const router = Router();
 
@@ -18,8 +19,12 @@ router.post(
   asyncWrapper(authController.logIn)
 );
 
-router.delete("/logout", asyncWrapper(authController.logOut));
+router.delete("/logout", [authMiddleware], asyncWrapper(authController.logOut));
 
-router.post("/refresh-tokens", asyncWrapper(authController.refreshTokens));
+router.post(
+  "/refresh-tokens",
+  [authMiddleware],
+  asyncWrapper(authController.refreshTokens)
+);
 
 export default router;

@@ -8,6 +8,7 @@ import {
   OptionalGenre,
 } from "../interfaces/genres.interface";
 import { CreateGenreDto, UpdateGenreDto } from "@dtos";
+import { IBookWithoutAuthorsAndGenres } from "../interfaces/books.interface";
 
 export const getAllGenres = async (
   req: Request,
@@ -31,11 +32,22 @@ export const getGenreById = async (
   return res.send(genre);
 };
 
+export const getBooksByGenreId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookWithoutAuthorsAndGenres[]>> => {
+  const genreId = parseInt(req.params.genreId, 10);
+
+  const books = await genresService.getBooksByGenreId(genreId);
+
+  return res.send(books);
+};
+
 export const createGenre = async (
   req: Request,
   res: Response
 ): Promise<Response<IGenre>> => {
-  const createGenreDto = plainToInstance(CreateGenreDto, req.body);
+  const createGenreDto = req.body;
 
   const newGenre = await genresService.createGenre(createGenreDto);
 
@@ -47,7 +59,8 @@ export const updateGenreById = async (
   res: Response
 ): Promise<Response<IGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
-  const updateGenreDto = plainToInstance(UpdateGenreDto, req.body);
+
+  const updateGenreDto = req.body;
 
   const updatedGenre = await genresService.updateGenreById(
     genreId,
@@ -71,6 +84,7 @@ export const deleteGenreById = async (
 export default {
   getAllGenres,
   getGenreById,
+  getBooksByGenreId,
   createGenre,
   updateGenreById,
   deleteGenreById,

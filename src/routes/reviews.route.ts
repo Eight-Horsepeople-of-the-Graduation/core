@@ -2,17 +2,15 @@ import reviewsController from "@controllers/reviews.controller";
 import { validationMiddleware } from "@middleware/validation.middleware";
 import asyncWrapper from "@utils/async-wrapper";
 import { Router } from "express";
-import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
+import {
+  CreateReviewDto,
+  UpdateReviewDetailsDto,
+  UpdateReviewRatingDto,
+} from "../dtos/reviews.dto";
 
 const router = Router();
 
-router.get("/:id", asyncWrapper(reviewsController.getReviewById));
-
-// should be in user route  /users/:id/reviews
-router.get("/user/:id", asyncWrapper(reviewsController.getReviewsByUserId));
-
-// should be in book route  /books/:id/reviews
-router.get("/book/:id", asyncWrapper(reviewsController.getReviewsByBookId));
+router.get("/:reviewId", asyncWrapper(reviewsController.getReviewById));
 
 router.post(
   "/",
@@ -21,11 +19,17 @@ router.post(
 );
 
 router.patch(
-  "/:id",
-  [validationMiddleware(UpdateReviewDto)],
-  asyncWrapper(reviewsController.updateReview)
+  "/:reviewId",
+  [validationMiddleware(UpdateReviewDetailsDto)],
+  asyncWrapper(reviewsController.updateReviewDetails)
 );
 
-router.delete("/:id", asyncWrapper(reviewsController.deleteReview));
+router.patch(
+  "/:reviewId/rating",
+  [validationMiddleware(UpdateReviewRatingDto)],
+  asyncWrapper(reviewsController.updateReviewRating)
+);
+
+router.delete("/:reviewId", asyncWrapper(reviewsController.deleteReview));
 
 export default router;

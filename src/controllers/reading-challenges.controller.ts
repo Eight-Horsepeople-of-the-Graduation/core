@@ -9,45 +9,44 @@ export const getAllReadingChallenges = async (req: Request, res: Response) => {
 };
 
 export const getReadingChallengeById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const readingChallenges =
-    await readingChallengesService.getReadingChallengeById(+id);
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
 
-  if (!readingChallenges) {
-    return res.send({ error: "Reading challenges not found" });
-  }
+  const readingChallenges =
+    await readingChallengesService.getReadingChallengeById(readingChallengeId);
 
   return res.send(readingChallenges);
 };
 
-export const getReadingChallengeByUserId = async (
+export const getBooksByReadingChallengeId = async (
   req: Request,
   res: Response
 ) => {
-  const { userId } = req.params;
-  const readingChallenge =
-    await readingChallengesService.getReadingChallengesByUserId(+userId);
-  if (!readingChallenge) {
-    return res
-      .status(404)
-      .send({ error: "No Reading Challenge For This User" });
-  }
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
 
-  return res.send(readingChallenge);
+  const books =
+    await readingChallengesService.getBooksByReadingChallengeId(
+      readingChallengeId
+    );
+
+  return res.send(200).send(books);
 };
 
 export const addBookToReadingChallenge = async (
   req: Request,
   res: Response
 ) => {
-  const { id } = req.params;
-  const { bookId } = req.body;
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+
+  const bookId = parseInt(req.params.bookId, 10);
 
   if (!bookId) {
     return res.status(400).send({ error: "Book ID is required" });
   }
   const updatedReadingChallenge =
-    await readingChallengesService.addBookToReadingChallenge(+id, bookId);
+    await readingChallengesService.addBookToReadingChallenge(
+      readingChallengeId,
+      bookId
+    );
 
   return res.status(200).send(updatedReadingChallenge);
 };
@@ -75,10 +74,14 @@ export const updateReadingChallenge = async (req: Request, res: Response) => {
       .status(400)
       .json({ error: "Updating Reading Callenge Error : Missing Id" });
   }
-  const { id } = req.params;
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+
   const updatedData = req.body;
   const updatedReadingChallenge =
-    await readingChallengesService.updateReadingChallenge(+id, updatedData);
+    await readingChallengesService.updateReadingChallenge(
+      readingChallengeId,
+      updatedData
+    );
 
   if (!updatedReadingChallenge) {
     return res.status(404).send({ error: "Reading challenge not found" });
@@ -104,14 +107,14 @@ export const deleteBookFromReadingChallenge = async (
 };
 
 export const deleteReadingChallenge = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!id) {
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+  if (!readingChallengeId) {
     return res.status(400).json({
       error: "Deleting Reading Callenge Error( Missing field: id ) ",
     });
   }
   const deletedReadingChallenge =
-    await readingChallengesService.deleteReadingChallenge(+id);
+    await readingChallengesService.deleteReadingChallenge(readingChallengeId);
 
   return res.status(200).send(deletedReadingChallenge);
 };
@@ -119,7 +122,7 @@ export const deleteReadingChallenge = async (req: Request, res: Response) => {
 export default {
   getAllReadingChallenges,
   getReadingChallengeById,
-  getReadingChallengeByUserId,
+  getBooksByReadingChallengeId,
   addBookToReadingChallenge,
   createReadingChallenge,
   updateReadingChallenge,

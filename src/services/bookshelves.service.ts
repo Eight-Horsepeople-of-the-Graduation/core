@@ -1,9 +1,4 @@
-import {
-  CreateBookshelfDto,
-  GetBookshelfByIdDto,
-  SearchQueryDto,
-  UpdateBookshelfDto,
-} from "@dtos";
+import { CreateBookshelfDto, SearchQueryDto, UpdateBookshelfDto } from "@dtos";
 import bookshelvesRepository from "@repositories/bookshelves.repository";
 import {
   IBookshelf,
@@ -21,23 +16,12 @@ export const getAllBookshelves = async (
   return bookshelves;
 };
 
-export const getBookshelfById = async (
-  getBookshelfByIdDto: GetBookshelfByIdDto
-): Promise<OptionalBookshelf> => {
-  const bookshelf: OptionalBookshelf =
-    await bookshelvesRepository.getBookshelfById(getBookshelfByIdDto);
+export const getBookshelfById = async (bookshelfId: number): Promise<OptionalBookshelf> => {
+  const bookshelf: OptionalBookshelf = await bookshelvesRepository.getBookshelfById(bookshelfId);
 
   return bookshelf;
 };
 
-export const getBookshelvesByUserId = async (
-  userId: number
-): Promise<IBookshelf[]> => {
-  const bookshelves: IBookshelf[] =
-    await bookshelvesRepository.getBookshelvesByUserId(userId);
-
-  return bookshelves;
-};
 
 export const createBookshelf = async (
   data: CreateBookshelfDto
@@ -49,40 +33,41 @@ export const createBookshelf = async (
 };
 
 export const addBookToBookshelf = async (
-  id: GetBookshelfByIdDto,
+  booksheflId: number,
   bookIds: number[]
 ): Promise<IBookshelf> => {
   const updatedBookshelf: IBookshelf =
-    await bookshelvesRepository.addBooksToBookshelf(id, bookIds);
+    await bookshelvesRepository.addBooksToBookshelf(booksheflId, bookIds);
 
   return updatedBookshelf;
 };
 
 export const removeBooksFromBookshelf = async (
-  id: GetBookshelfByIdDto,
+  bookshelfId: number,
   bookIds: number[]
 ): Promise<IBookshelf> => {
   const updatedBookshelf: IBookshelf =
-    await bookshelvesRepository.removeBooksFromBookshelf(id, bookIds);
+    await bookshelvesRepository.removeBooksFromBookshelf(bookshelfId, bookIds);
 
   return updatedBookshelf;
 };
 
 export const updateBookshelf = async (
-  id: GetBookshelfByIdDto,
+  bookshelfId: number,
   updateBookshelfDto: UpdateBookshelfDto
 ): Promise<IBookshelf> => {
   const updatedBookshelf: IBookshelf =
-    await bookshelvesRepository.updateBookshelf(id, updateBookshelfDto);
+    await bookshelvesRepository.updateBookshelf(bookshelfId, updateBookshelfDto);
 
   return updatedBookshelf;
 };
 
 export const deleteBookshelf = async (
-  id: GetBookshelfByIdDto
+  bookshelfId: number
 ): Promise<IBookshelfWithoutBooks> => {
   const deletedBookshelf: IBookshelfWithoutBooks =
-    await bookshelvesRepository.deleteBookshelf(id);
+   
+    await bookshelvesRepository.deleteBookshelf(bookshelfId);
 
   return deletedBookshelf;
 };
@@ -90,7 +75,6 @@ export const deleteBookshelf = async (
 export default {
   getAllBookshelves,
   getBookshelfById,
-  getBookshelvesByUserId,
   createBookshelf,
   addBookToBookshelf,
   removeBooksFromBookshelf,

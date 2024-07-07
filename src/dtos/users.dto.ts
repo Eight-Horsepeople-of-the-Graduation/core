@@ -37,11 +37,11 @@ export class GetUserDto {
   gender: Gender;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthDate: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   joinDate: Date;
 
   @IsOptional()
@@ -123,7 +123,7 @@ export class UpdateUserDto {
   refreshToken?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthDate?: Date;
 
   @IsOptional()

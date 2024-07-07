@@ -43,6 +43,18 @@ export const getUserById = async (
   return user;
 };
 
+export const getUserByUsername = async (
+  username: string
+): Promise<IUserWithoutPassword> => {
+  let user: IUserWithoutPassword;
+  user = await prismaClient.user.findUnique({
+    where: { username },
+    select: SelectUserWithoutPassword,
+  });
+
+  return user;
+};
+
 export const createUser = async (
   createUserDto: CreateUserDto
 ): Promise<IUserWithoutPassword> => {
@@ -61,15 +73,15 @@ export const createUser = async (
 
 export const updateUserById = async (
   userId: number,
-  updateUserDto: UpdateUserDto
+  updatedData: UpdateUserDto
 ): Promise<IUserWithoutPassword> => {
-  const updatedUser: IUserWithoutPassword = await prismaClient.user.update({
+  const user = await prismaClient.user.update({
     where: { id: userId },
-    data: updateUserDto,
+    data: updatedData,
     select: SelectUserWithoutPassword,
   });
 
-  return updatedUser;
+  return user;
 };
 
 export const deleteUserById = async (
@@ -110,6 +122,7 @@ export const validateCredentials = async (
 export default {
   getAllUsers,
   getUserById,
+  getUserByUsername,
   createUser,
   updateUserById,
   deleteUserById,

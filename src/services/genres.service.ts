@@ -5,6 +5,11 @@ import {
   IGenreWithBooks,
   OptionalGenre,
 } from "../interfaces/genres.interface";
+import booksRepository from "@repositories/books.repository";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+} from "../interfaces/books.interface";
 
 export const getAllGenres = async (
   searchQueryDto: SearchQueryDto
@@ -20,18 +25,20 @@ export const getGenreById = async (genreId: number): Promise<OptionalGenre> => {
   return genre;
 };
 
+export const getBooksByGenreId = async (
+  genreId: number
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books = await booksRepository.getBooksByGenreId(genreId);
+
+  return books;
+};
+
 export const createGenre = async (
   createGenreDto: CreateGenreDto
 ): Promise<IGenre> => {
   const newGenre = await genresRepository.createGenre(createGenreDto);
 
   return newGenre;
-};
-
-export const getGenresByBookId = async (bookId: number): Promise<IGenre[]> => {
-  const genres = await genresRepository.getGenresByBookId(bookId);
-
-  return genres;
 };
 
 export const updateGenreById = async (
@@ -55,8 +62,8 @@ export const deleteGenreById = async (genreId: number): Promise<IGenre> => {
 export default {
   getAllGenres,
   getGenreById,
+  getBooksByGenreId,
   createGenre,
-  getGenresByBookId,
   updateGenreById,
   deleteGenreById,
 };

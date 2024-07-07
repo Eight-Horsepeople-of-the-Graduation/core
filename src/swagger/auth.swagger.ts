@@ -41,5 +41,7 @@ export class AuthDocs {
   logOut(): void {}
 
   @Post("/refresh-tokens")
-  refreshTokens(): { accessToken: string; refreshToken: string } | any {}
+  refreshTokens(
+    @Body() refreshToken: { refreshToken: string }
+  ): { accessToken: string; refreshToken: string } | any {}
 }
