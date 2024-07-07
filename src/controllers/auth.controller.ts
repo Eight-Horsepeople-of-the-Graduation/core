@@ -10,7 +10,7 @@ export const signUp = async (
   const signUpDto = req.body;
 
   const { user, tokens } = await authService.signUp(signUpDto);
-  
+
   res.cookie("refreshToken", tokens.refreshToken, {
     maxAge: config.refreshToken.expiresIn,
     httpOnly: true,

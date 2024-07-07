@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import config from "../config";
+import usersService from "@services/users.service";
 
 export const authMiddleware = async (
   req: Request,
@@ -12,6 +13,11 @@ export const authMiddleware = async (
 
   try {
     const decoded = jwt.verify(accessToken, config.accessToken.secret);
+    const userId = parseInt(decoded.sub as string, 10);
+    if (!userId) return res.status(403).send("Invalid access token");
+
+    const user = await usersService.getUserById(userId);
+    if (!user) return res.status(403).send("User not found");
 
     req.user = decoded;
 
