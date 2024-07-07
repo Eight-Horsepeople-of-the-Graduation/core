@@ -27,6 +27,14 @@ export const getUserById = async (
   return user;
 };
 
+export const getUserByUsername = async (
+  username: string
+): Promise<IUserWithoutPassword> => {
+  const user = await usersRepository.getUserByUsername(username);
+
+  return user;
+};
+
 export const getBooksByUserId = async (userId: number): Promise<IBook[]> => {
   const books = await booksRepository.getBooksByUserId(userId);
 
@@ -126,6 +134,7 @@ export const validateCredentials = async (
 export default {
   getAllUsers,
   getUserById,
+  getUserByUsername,
   getReadingChallengesByUserId,
   getReadingChallengeByUserId,
   getReviewsByUserId,

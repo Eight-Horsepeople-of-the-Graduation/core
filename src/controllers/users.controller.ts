@@ -31,6 +31,18 @@ export const getUserById = async (
   return res.send(user);
 };
 
+export const getUserByUsername = async (
+  req: Request,
+  res: Response
+): Promise<Response<IUserWithoutPassword>> => {
+  const username = req.params.username
+
+  const user = await usersService.getUserByUsername(username);
+
+  return res.send(user);
+};
+
+
 export const getReadingChallengesByUserId = async (
   req: Request,
   res: Response
@@ -151,6 +163,7 @@ export const deleteUserById = async (
 export default {
   getAllUsers,
   getUserById,
+  getUserByUsername,
   getReadingChallengesByUserId,
   getReadingChallengeByUserId,
   getReviewsByUserId,

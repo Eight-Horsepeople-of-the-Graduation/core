@@ -8,7 +8,11 @@ const router = Router();
 
 router.get("/", asyncWrapper(usersController.getAllUsers));
 
-router.get("/:userId", asyncWrapper(usersController.getUserById));
+router.get("/id/:userId", asyncWrapper(usersController.getUserById));
+router.get(
+  "/username/:username",
+  asyncWrapper(usersController.getUserByUsername)
+);
 
 router.get(
   "/:userId/readingChallenges",
@@ -36,7 +40,7 @@ router.get(
 );
 
 router.get(
-  "/:userId/bookshelves/:userId",
+  "/:userId/bookshelves/:bookshelfId",
   asyncWrapper(usersController.getBookshelfByUserId)
 );
 

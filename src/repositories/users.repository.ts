@@ -43,6 +43,18 @@ export const getUserById = async (
   return user;
 };
 
+export const getUserByUsername = async (
+  username: string
+): Promise<IUserWithoutPassword> => {
+  let user: IUserWithoutPassword;
+  user = await prismaClient.user.findUnique({
+    where: { username },
+    select: SelectUserWithoutPassword,
+  });
+
+  return user;
+};
+
 export const createUser = async (
   createUserDto: CreateUserDto
 ): Promise<IUserWithoutPassword> => {
@@ -110,6 +122,7 @@ export const validateCredentials = async (
 export default {
   getAllUsers,
   getUserById,
+  getUserByUsername,
   createUser,
   updateUserById,
   deleteUserById,
