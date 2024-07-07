@@ -10,7 +10,7 @@ export const signUp = async (
   const signUpDto = req.body;
 
   const { user, tokens } = await authService.signUp(signUpDto);
-
+  
   res.cookie("refreshToken", tokens.refreshToken, {
     maxAge: config.refreshToken.expiresIn,
     httpOnly: true,
@@ -66,7 +66,7 @@ export const refreshTokens = async (
   res: Response
 ): Promise<Response<any>> => {
   const { accessToken, refreshToken } = await authService.refreshTokens(
-    parseInt(req.cookies.refreshToken, 10),
+    parseInt(req.user.id, 10),
     req.user.refreshToken
   );
   if (!accessToken || !refreshToken) return res.sendStatus(401);
