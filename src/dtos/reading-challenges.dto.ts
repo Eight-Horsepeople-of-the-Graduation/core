@@ -32,10 +32,6 @@ export class CreateReadingChallengeDto {
   @IsNotEmpty()
   @IsNumber()
   progress: number;
-
-  @IsNotEmpty()
-  @IsDate()
-  startDate: Date;
 }
 
 export class UpdateReadingChallengeDto {

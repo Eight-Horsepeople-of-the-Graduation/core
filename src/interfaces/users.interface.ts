@@ -6,12 +6,28 @@ export interface IUser {
   email: string;
   country: string;
   gender: "MALE" | "FEMALE";
+  refreshToken: string | null;
   birthDate: Date | null;
   joinDate: Date;
   profilePicture: string | null;
   isAdmin: boolean;
 }
 
-
 export type OptionalUser = IUser | null;
-export type UserWithoutPassword = Omit<IUser, "password">;
+export type IUserWithoutPassword = Omit<IUser, "password">;
+export type BookshelfUser = Pick<IUser, "name" | "username" | "profilePicture">;
+export type ReviewUser = Pick<IUser, "name" | "username" | "profilePicture">;
+export const SelectUserWithoutPassword = {
+  id: true,
+  name: true,
+  username: true,
+  email: true,
+  country: true,
+  gender: true,
+  refreshToken: true,
+  profilePicture: true,
+  isAdmin: true,
+  birthDate: true,
+  joinDate: true,
+  updatedAt: true,
+};

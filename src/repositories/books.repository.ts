@@ -55,10 +55,10 @@ export const createBook = async (
     data: {
       ...createBookDto,
       authors: {
-        connect: authors.map((author) => ({ id: author.id })),
+        connect: authors.map((id) => ({ id })),
       },
       genres: {
-        connect: genres.map((genre) => ({ id: genre.id })),
+        connect: genres.map((id) => ({ id })),
       },
     },
   });
@@ -77,10 +77,10 @@ export const updateBookById = async (
     data: {
       ...updateBookDto,
       authors: {
-        set: authors.map((author) => ({ id: author.id })),
+        set: authors?.map((author) => ({ id: author.id })),
       },
       genres: {
-        set: genres.map((genre) => ({ id: genre.id })),
+        set: genres?.map((genre) => ({ id: genre.id })),
       },
     },
   });
@@ -136,9 +136,31 @@ export const deleteBookById = async (
   return deletedBook;
 };
 
+export const getBooksByUserId = async (userId: number) => {
+  const bookshelves = await prismaClient.bookshelf.findMany({
+    where: { userId },
+    include: {
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
+    },
+  });
+
+  const books = bookshelves.flatMap((bookshelf) => bookshelf.books);
+  const distinctBooks = [...new Set(books.map((book) => book.id))].map((id) =>
+    books.find((book) => book.id === id)
+  );
+
+  return distinctBooks;
+};
+
 export default {
   getAllBooks,
   getBookById,
+  getBooksByUserId,
   createBook,
   updateBookById,
   deleteBookById,

@@ -19,10 +19,12 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "gender" "Gender" NOT NULL,
-    "birthDate" TIMESTAMP(3),
-    "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "refreshToken" TEXT,
     "profilePicture" TEXT,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
+    "birthDate" TIMESTAMP(3),
+    "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

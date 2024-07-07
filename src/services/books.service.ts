@@ -14,8 +14,8 @@ export const getAllBooks = async (
   return books;
 };
 
-export const getBookById = async (genreId: number): Promise<OptionalBook> => {
-  const book = await booksRepository.getBookById(genreId);
+export const getBookById = async (bookId: number): Promise<OptionalBook> => {
+  const book = await booksRepository.getBookById(bookId);
 
   return book;
 };
@@ -48,9 +48,16 @@ export const deleteBookById = async (
   return deletedBook;
 };
 
+export const getBooksByUserId = async (userId: number) => {
+  const books = await booksRepository.getBooksByUserId(userId);
+
+  return books;
+};
+
 export default {
   getAllBooks,
   getBookById,
+  getBooksByUserId,
   createBook,
   updateBookById,
   deleteBookById,

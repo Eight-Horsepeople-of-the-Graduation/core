@@ -32,6 +32,9 @@
 							"FEMALE"
 						]
 					},
+					"refreshToken": {
+						"type": "string"
+					},
 					"birthDate": {
 						"type": "string",
 						"format": "date-time"
@@ -54,6 +57,7 @@
 					"email",
 					"country",
 					"gender",
+					"refreshToken",
 					"birthDate",
 					"joinDate",
 					"profilePicture",
@@ -66,7 +70,7 @@
 				"$ref": "#/components/schemas/Pick_IUser.Exclude_keyofIUser.password__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
-			"UserWithoutPassword": {
+			"IUserWithoutPassword": {
 				"$ref": "#/components/schemas/Omit_IUser.password_"
 			},
 			"SearchQueryDto": {
@@ -138,13 +142,7 @@
 			},
 			"UpdateUserDto": {
 				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"password": {
+					"name": {
 						"type": "string"
 					},
 					"country": {
@@ -152,6 +150,9 @@
 					},
 					"gender": {
 						"$ref": "#/components/schemas/Gender"
+					},
+					"refreshToken": {
+						"type": "string"
 					},
 					"birthDate": {
 						"type": "string",
@@ -366,18 +367,13 @@
 					"progress": {
 						"type": "number",
 						"format": "double"
-					},
-					"startDate": {
-						"type": "string",
-						"format": "date-time"
 					}
 				},
 				"required": [
 					"title",
 					"type",
 					"userId",
-					"progress",
-					"startDate"
+					"progress"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -544,181 +540,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Privacy": {
-				"enum": [
-					"PUBLIC",
-					"PRIVATE"
-				],
-				"type": "string"
-			},
-			"IUser": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"gender": {
-						"type": "string",
-						"enum": [
-							"MALE",
-							"FEMALE"
-						]
-					},
-					"birthDate": {
-						"type": "string",
-						"format": "date-time",
-						"nullable": true
-					},
-					"joinDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"profilePicture": {
-						"type": "string",
-						"nullable": true
-					},
-					"isAdmin": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"id",
-					"name",
-					"username",
-					"password",
-					"email",
-					"country",
-					"gender",
-					"birthDate",
-					"joinDate",
-					"profilePicture",
-					"isAdmin"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IBookshelf": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
-					"books": {
-						"items": {
-							"$ref": "#/components/schemas/IBook"
-						},
-						"type": "array"
-					},
-					"user": {
-						"$ref": "#/components/schemas/IUser"
-					},
-					"_count": {
-						"properties": {
-							"books": {
-								"type": "number",
-								"format": "double"
-							}
-						},
-						"required": [
-							"books"
-						],
-						"type": "object"
-					}
-				},
-				"required": [
-					"id",
-					"title",
-					"description",
-					"createdAt",
-					"privacy",
-					"userId",
-					"books",
-					"user",
-					"_count"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateBookshelfDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"title",
-					"description",
-					"privacy",
-					"userId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateBookshelfDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"privacy": {
-						"$ref": "#/components/schemas/Privacy"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"OptionalBook": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/IBook"
-					}
-				],
-				"nullable": true
-			},
 			"Pick_IBook.Exclude_keyofIBook.authors-or-genres__": {
 				"properties": {
 					"id": {
@@ -791,6 +612,215 @@
 			"IBookWithoutAuthorsAndGenres": {
 				"$ref": "#/components/schemas/Omit_IBook.authors-or-genres_"
 			},
+			"IBookshelf": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"privacy": {
+						"type": "string",
+						"enum": [
+							"PRIVATE",
+							"PUBLIC"
+						]
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"books": {
+						"items": {
+							"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
+						},
+						"type": "array"
+					},
+					"_count": {
+						"properties": {
+							"books": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"createdAt",
+					"privacy",
+					"userId",
+					"books",
+					"_count"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_IUser.name-or-username-or-profilePicture_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"profilePicture": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"username",
+					"profilePicture"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"BookshelfUser": {
+				"$ref": "#/components/schemas/Pick_IUser.name-or-username-or-profilePicture_"
+			},
+			"IBookshelfWithUser": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBookshelf"
+					},
+					{
+						"properties": {
+							"user": {
+								"$ref": "#/components/schemas/BookshelfUser"
+							}
+						},
+						"required": [
+							"user"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OptionalBookshelf": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBookshelf"
+					}
+				],
+				"nullable": true
+			},
+			"Privacy": {
+				"enum": [
+					"PUBLIC",
+					"PRIVATE"
+				],
+				"type": "string"
+			},
+			"CreateBookshelfDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"privacy",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBookshelfDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"privacy": {
+						"$ref": "#/components/schemas/Privacy"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_IBookshelf.Exclude_keyofIBookshelf.books-or-_count__": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"privacy": {
+						"type": "string",
+						"enum": [
+							"PRIVATE",
+							"PUBLIC"
+						]
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"createdAt",
+					"privacy",
+					"userId"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IBookshelf.books-or-_count_": {
+				"$ref": "#/components/schemas/Pick_IBookshelf.Exclude_keyofIBookshelf.books-or-_count__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"IBookshelfWithoutBooks": {
+				"$ref": "#/components/schemas/Omit_IBookshelf.books-or-_count_"
+			},
+			"OptionalBook": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IBook"
+					}
+				],
+				"nullable": true
+			},
 			"Format": {
 				"enum": [
 					"PAPERBACK",
@@ -798,6 +828,68 @@
 					"EBOOK"
 				],
 				"type": "string"
+			},
+			"CreateBookDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"format": {
+						"$ref": "#/components/schemas/Format"
+					},
+					"country": {
+						"type": "string"
+					},
+					"numOfPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"publishDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"pdfLink": {
+						"type": "string"
+					},
+					"authors": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"title",
+					"isbn",
+					"description",
+					"language",
+					"format",
+					"country",
+					"numOfPages",
+					"publishDate",
+					"pdfLink",
+					"authors",
+					"genres"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"AuthorDto": {
 				"properties": {
@@ -833,66 +925,6 @@
 					"id",
 					"title",
 					"description"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreateBookDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"isbn": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"language": {
-						"type": "string"
-					},
-					"format": {
-						"$ref": "#/components/schemas/Format"
-					},
-					"country": {
-						"type": "string"
-					},
-					"numOfPages": {
-						"type": "number",
-						"format": "double"
-					},
-					"publishDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"pdfLink": {
-						"type": "string"
-					},
-					"authors": {
-						"items": {
-							"$ref": "#/components/schemas/AuthorDto"
-						},
-						"type": "array"
-					},
-					"genres": {
-						"items": {
-							"$ref": "#/components/schemas/GenreDto"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"title",
-					"isbn",
-					"description",
-					"language",
-					"format",
-					"country",
-					"numOfPages",
-					"publishDate",
-					"pdfLink",
-					"authors",
-					"genres"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -956,6 +988,158 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"OptionalAuthor": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IAuthor"
+					}
+				],
+				"nullable": true
+			},
+			"CreateAuthorDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateAuthorDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IGenreWithBooks": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IGenre"
+					},
+					{
+						"properties": {
+							"books": {
+								"items": {
+									"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OptionalGenre": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IGenre"
+					}
+				],
+				"nullable": true
+			},
+			"CreateGenreDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateGenreDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignUpDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"gender": {
+						"$ref": "#/components/schemas/Gender"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"profilePicture": {
+						"type": "string"
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"username",
+					"email",
+					"password",
+					"country",
+					"gender",
+					"isAdmin"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LogInDto": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -981,7 +1165,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/UserWithoutPassword"
+												"$ref": "#/components/schemas/IUserWithoutPassword"
 											},
 											"type": "array"
 										},
@@ -1035,7 +1219,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1072,7 +1256,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1109,7 +1293,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1145,7 +1329,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1190,7 +1374,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/UserWithoutPassword"
+											"$ref": "#/components/schemas/IUserWithoutPassword"
 										},
 										{}
 									]
@@ -1486,6 +1670,54 @@
 				}
 			}
 		},
+		"/reading-challenges/remove-book/{id}": {
+			"put": {
+				"operationId": "DeleteBookFromReadingChallenge",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReadingChallenge"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reading Challenges"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "number",
+								"format": "double"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/conversations": {
 			"get": {
 				"operationId": "GetAllConversations",
@@ -1740,7 +1972,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/IBookshelf"
+												"$ref": "#/components/schemas/IBookshelfWithUser"
 											},
 											"type": "array"
 										},
@@ -1831,7 +2063,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBookshelf"
+											"$ref": "#/components/schemas/OptionalBookshelf"
 										},
 										{}
 									]
@@ -1911,7 +2143,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/IBookshelf"
+											"$ref": "#/components/schemas/IBookshelfWithoutBooks"
 										},
 										{}
 									]
@@ -2017,11 +2249,19 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"items": {
-									"type": "number",
-									"format": "double"
+								"properties": {
+									"bookIds": {
+										"items": {
+											"type": "number",
+											"format": "double"
+										},
+										"type": "array"
+									}
 								},
-								"type": "array"
+								"required": [
+									"bookIds"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -2068,11 +2308,19 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"items": {
-									"type": "number",
-									"format": "double"
+								"properties": {
+									"bookIds": {
+										"items": {
+											"type": "number",
+											"format": "double"
+										},
+										"type": "array"
+									}
 								},
-								"type": "array"
+								"required": [
+									"bookIds"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -2286,6 +2534,600 @@
 						}
 					}
 				]
+			}
+		},
+		"/authors": {
+			"get": {
+				"operationId": "GetAllAuthors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IAuthor"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateAuthorDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/authors/{authorId}": {
+			"get": {
+				"operationId": "GetAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OptionalAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateAuthorDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAuthor"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/genres": {
+			"get": {
+				"operationId": "GetAllGenres",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IGenreWithBooks"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateGenre",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateGenreDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/genres/{genreId}": {
+			"get": {
+				"operationId": "GetGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OptionalGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateGenreDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/auth/signup": {
+			"post": {
+				"operationId": "SignUp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"tokens": {
+													"properties": {
+														"refreshToken": {
+															"type": "string"
+														},
+														"accessToken": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"refreshToken",
+														"accessToken"
+													],
+													"type": "object"
+												},
+												"user": {
+													"$ref": "#/components/schemas/IUserWithoutPassword"
+												}
+											},
+											"required": [
+												"tokens",
+												"user"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignUpDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "LogIn",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"tokens": {
+													"properties": {
+														"refreshToken": {
+															"type": "string"
+														},
+														"accessToken": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"refreshToken",
+														"accessToken"
+													],
+													"type": "object"
+												},
+												"user": {
+													"$ref": "#/components/schemas/IUserWithoutPassword"
+												}
+											},
+											"required": [
+												"tokens",
+												"user"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LogInDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/logout": {
+			"delete": {
+				"operationId": "LogOut",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/refresh-tokens": {
+			"post": {
+				"operationId": "RefreshTokens",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"refreshToken": {
+													"type": "string"
+												},
+												"accessToken": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"refreshToken",
+												"accessToken"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},
