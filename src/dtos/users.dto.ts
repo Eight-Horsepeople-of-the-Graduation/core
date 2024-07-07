@@ -54,7 +54,6 @@ export class GetUserDto {
 }
 
 export class CreateUserDto {
-
   @IsNotEmpty()
   @IsString()
   @Length(6, 64)

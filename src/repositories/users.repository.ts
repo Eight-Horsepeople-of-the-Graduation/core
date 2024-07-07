@@ -100,7 +100,7 @@ export const validateCredentials = async (
   });
 
   const isValid = await bcrypt.compare(password, user.password);
-  if (!isValid) throw new HttpException("Invalid credentials", 403);
+  if (!isValid) throw new HttpException("Invalid credentials", 401);
 
   user.password = undefined;
 
