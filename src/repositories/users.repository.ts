@@ -35,15 +35,11 @@ export const getUserById = async (
   userId: number
 ): Promise<IUserWithoutPassword> => {
   let user: IUserWithoutPassword;
-  try {
-    user = await prismaClient.user.findUnique({
-      where: { id: userId },
-      select: SelectUserWithoutPassword,
-    });
-  } catch (error: any) {
-    if (error.code === "P2025") throw new HttpException("User not found", 404);
-    else throw new HttpException(error.message, 500);
-  }
+  user = await prismaClient.user.findUnique({
+    where: { id: userId },
+    select: SelectUserWithoutPassword,
+  });
+
   return user;
 };
 
@@ -99,14 +95,9 @@ export const validateCredentials = async (
 ): Promise<IUserWithoutPassword> => {
   let user: IUser;
 
-  try {
-    user = await prismaClient.user.findUnique({
-      where: { email },
-    });
-  } catch (error: any) {
-    if (error.code === "P2025")
-      throw new HttpException("Invalid credentials", 401);
-  }
+  user = await prismaClient.user.findUnique({
+    where: { email },
+  });
 
   const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) throw new HttpException("Invalid credentials", 403);
