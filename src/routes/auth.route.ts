@@ -4,6 +4,7 @@ import asyncWrapper from "@utils/async-wrapper";
 import { Router } from "express";
 import { LogInDto, SignUpDto } from "../dtos/auth.dto";
 import { authMiddleware } from "@middleware/auth.middleware";
+import { refreshTokenMiddleware } from "@middleware/refresh-tokens.middleware";
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.delete("/logout", [authMiddleware], asyncWrapper(authController.logOut));
 
 router.post(
   "/refresh-tokens",
-  [authMiddleware],
+  [refreshTokenMiddleware],
   asyncWrapper(authController.refreshTokens)
 );
 
