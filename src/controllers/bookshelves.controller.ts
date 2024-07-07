@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
-import { GetBookshelfByIdDto, SearchQueryDto } from "@dtos";
+import { SearchQueryDto } from "@dtos";
 import bookshelvesService from "@services/bookshelves.service";
 
 export const getAllBookshelves = async (req: Request, res: Response) => {
@@ -12,22 +12,9 @@ export const getAllBookshelves = async (req: Request, res: Response) => {
 };
 
 export const getBookshelfById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!id) return res.status(400).send("Invalid ID parameter");
+  const bookshelfId = parseInt(req.params.bookshelfId, 10);
 
-  const data: GetBookshelfByIdDto = { id: +id };
-  const bookshelf = await bookshelvesService.getBookshelfById(data);
-  if (!bookshelf) return res.status(400).send("Bookshelf Not Found");
-
-  console.log(req);
-  return res.send(bookshelf);
-};
-
-export const getBookshelvesByUserId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!id) return res.status(404).send("User Not Found");
-
-  const bookshelf = await bookshelvesService.getBookshelvesByUserId(+id);
+  const bookshelf = await bookshelvesService.getBookshelfById(bookshelfId);
 
   return res.send(bookshelf);
 };
@@ -41,9 +28,9 @@ export const createBookshelf = async (req: Request, res: Response) => {
 };
 
 export const addBookToBookshelf = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const bookshelfId = parseInt(req.params.bookshelfId, 10);
+
   const { bookIds } = req.body;
-  const bookshelfId: GetBookshelfByIdDto = { id: +id };
 
   const updatedBookshelf = await bookshelvesService.addBookToBookshelf(
     bookshelfId,
@@ -54,9 +41,10 @@ export const addBookToBookshelf = async (req: Request, res: Response) => {
 };
 
 export const removeBooksFromBookshelf = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { bookIds } = req.body;
-  const bookshelfId: GetBookshelfByIdDto = { id: +id };
+  const bookshelfId = parseInt(req.params.bookshelfId, 10);
+
+  const bookIds = req.body.bookIds;
+
   const updatedBookshelf = await bookshelvesService.removeBooksFromBookshelf(
     bookshelfId,
     bookIds
@@ -65,9 +53,8 @@ export const removeBooksFromBookshelf = async (req: Request, res: Response) => {
 };
 
 export const updateBookshelf = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const bookshelfId = parseInt(req.params.bookshelfId, 10);
   const updatedData = req.body;
-  const bookshelfId: GetBookshelfByIdDto = { id: +id };
 
   const updatedBookshelf = await bookshelvesService.updateBookshelf(
     bookshelfId,
@@ -78,17 +65,17 @@ export const updateBookshelf = async (req: Request, res: Response) => {
 };
 
 export const deleteBookshelf = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const bookshelfId: GetBookshelfByIdDto = { id: +id };
+  const bookshelfId = parseInt(req.params.bookshelfId, 10);
+
   const deletedBookshelf =
     await bookshelvesService.deleteBookshelf(bookshelfId);
+
   return res.send(deletedBookshelf);
 };
 
 export default {
   getAllBookshelves,
   getBookshelfById,
-  getBookshelvesByUserId,
   createBookshelf,
   addBookToBookshelf,
   removeBooksFromBookshelf,

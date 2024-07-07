@@ -12,13 +12,13 @@ router.get(
 );
 
 router.get(
-  "/:id",
+  "/:readingChallengeId",
   asyncWrapper(readingChallengesController.getReadingChallengeById)
 );
 
 router.get(
-  "/user/:userId",
-  asyncWrapper(readingChallengesController.getReadingChallengeByUserId)
+  "/:readingChallengeId/books",
+  asyncWrapper(readingChallengesController.getBooksByReadingChallengeId)
 );
 
 router.post(
@@ -28,18 +28,18 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:readingChallengeId",
   [validationMiddleware(UpdateReadingChallengeDto)],
   asyncWrapper(readingChallengesController.updateReadingChallenge)
 );
 
 router.put(
-  "/add-book/:id",
+  "/:readingChallengeId/add-book/:bookId",
   asyncWrapper(readingChallengesController.addBookToReadingChallenge)
 );
 
 router.delete(
-  "/:id",
+  "/:readingChallengeId",
   asyncWrapper(readingChallengesController.deleteReadingChallenge)
 );
 

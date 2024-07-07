@@ -3,21 +3,15 @@ import { Request, Response } from "express";
 
 export const getReviewById = async (req: Request, res: Response) => {
   const reviewId = parseInt(req.params.id, 10);
+
   const review = await reviewsService.getReviewById(reviewId);
 
   return res.send(review);
 };
 
-// should be in users
-export const getReviewsByUserId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const reviews = await reviewsService.getReviewsByUserId(+id);
-
-  return res.send(reviews);
-};
-
 export const createReview = async (req: Request, res: Response) => {
   const createReviewDto = req.body;
+
   const newReview = await reviewsService.createReview(createReviewDto);
 
   return res.status(201).send(newReview);
@@ -25,7 +19,9 @@ export const createReview = async (req: Request, res: Response) => {
 
 export const updateReviewDetails = async (req: Request, res: Response) => {
   const reviewId = parseInt(req.params.id, 10);
+
   const updateReviewDto = req.body;
+
   const updatedReview = await reviewsService.updateReviewDetails(
     updateReviewDto,
     reviewId
@@ -36,7 +32,9 @@ export const updateReviewDetails = async (req: Request, res: Response) => {
 
 export const updateReviewRating = async (req: Request, res: Response) => {
   const reviewId = parseInt(req.params.id, 10);
+
   const updateReviewDto = req.body;
+
   const updatedReview = await reviewsService.updateReviewRating(
     updateReviewDto,
     reviewId
@@ -47,6 +45,7 @@ export const updateReviewRating = async (req: Request, res: Response) => {
 
 export const deleteReview = async (req: Request, res: Response) => {
   const reviewId = parseInt(req.params.id, 10);
+
   const deletedReview = await reviewsService.deleteReview(reviewId);
 
   return res.send(deletedReview);
@@ -54,7 +53,6 @@ export const deleteReview = async (req: Request, res: Response) => {
 
 export default {
   getReviewById,
-  getReviewsByUserId,
   createReview,
   updateReviewDetails,
   updateReviewRating,

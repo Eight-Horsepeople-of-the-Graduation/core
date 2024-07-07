@@ -14,13 +14,6 @@ export const getReviewById = async (reviewId: number) => {
   return review;
 };
 
-// should be in user
-export const getReviewsByUserId = async (userId: number) => {
-  const reviews = await reviewsRepository.getReviewsByUserId(userId);
-
-  return reviews;
-};
-
 export function createReview(createdReviewDto: CreateReviewDto) {
   return prismaClient.$transaction(async (tx) => {
     await booksService.updateBookRating(
@@ -90,7 +83,6 @@ export function deleteReview(reviewId: number) {
 }
 export default {
   getReviewById,
-  getReviewsByUserId,
   createReview,
   updateReviewDetails,
   updateReviewRating,

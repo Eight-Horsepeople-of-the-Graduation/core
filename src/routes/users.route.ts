@@ -8,7 +8,39 @@ const router = Router();
 
 router.get("/", asyncWrapper(usersController.getAllUsers));
 
-router.get("/:id", asyncWrapper(usersController.getUserById));
+router.get("/:userId", asyncWrapper(usersController.getUserById));
+
+router.get(
+  "/:userId/readingChallenges",
+  asyncWrapper(usersController.getReadingChallengesByUserId)
+);
+
+router.get(
+  "/:userId/readingChallenges/:readingChallengeId",
+  asyncWrapper(usersController.getReadingChallengeByUserId)
+);
+
+router.get(
+  "/:userId/reviews",
+  asyncWrapper(usersController.getReviewsByUserId)
+);
+
+router.get(
+  "/:userId/reviews/:reviewId",
+  asyncWrapper(usersController.getReviewByUserId)
+);
+
+router.get(
+  "/:userId/bookshelves",
+  asyncWrapper(usersController.getBookshelvesByUserId)
+);
+
+router.get(
+  "/:userId/bookshelves/:userId",
+  asyncWrapper(usersController.getBookshelfByUserId)
+);
+
+router.get("/:userId/books", asyncWrapper(usersController.getBooksByUserId));
 
 router.post(
   "/",
@@ -17,11 +49,11 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:userId",
   validationMiddleware(UpdateUserDto),
   asyncWrapper(usersController.updateUserById)
 );
 
-router.delete("/:id", asyncWrapper(usersController.deleteUserById));
+router.delete("/:userId", asyncWrapper(usersController.deleteUserById));
 
 export default router;

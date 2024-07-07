@@ -12,25 +12,6 @@ export enum Privacy {
   PRIVATE = "PRIVATE",
 }
 
-export class GetBookshelvesDto {
-  @IsNotEmpty()
-  id: number;
-
-  @IsNotEmpty()
-  title: string;
-
-  @IsNotEmpty()
-  description: string;
-
-  @IsNotEmpty()
-  privacy: Privacy;
-}
-
-export class GetBookshelfByIdDto {
-  @IsNotEmpty()
-  id: number;
-}
-
 export class CreateBookshelfDto {
   @IsString()
   @IsNotEmpty()

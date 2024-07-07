@@ -19,6 +19,14 @@ export const getGenreById = async (req: Request, res: Response) => {
   return res.send(genre);
 };
 
+export const getBooksByGenreId = async (req: Request, res: Response) => {
+  const genreId = parseInt(req.params.genreId, 10);
+
+  const books = await genresService.getBooksByGenreId(genreId);
+
+  return res.send(books);
+};
+
 export const createGenre = async (req: Request, res: Response) => {
   const createGenreDto = req.body;
 
@@ -29,6 +37,7 @@ export const createGenre = async (req: Request, res: Response) => {
 
 export const updateGenreById = async (req: Request, res: Response) => {
   const genreId = parseInt(req.params.genreId, 10);
+
   const updateGenreDto = req.body;
 
   const updatedGenre = await genresService.updateGenreById(
@@ -50,6 +59,7 @@ export const deleteGenreById = async (req: Request, res: Response) => {
 export default {
   getAllGenres,
   getGenreById,
+  getBooksByGenreId,
   createGenre,
   updateGenreById,
   deleteGenreById,

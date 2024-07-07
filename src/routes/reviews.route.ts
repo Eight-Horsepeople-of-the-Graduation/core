@@ -10,10 +10,7 @@ import {
 
 const router = Router();
 
-router.get("/:id", asyncWrapper(reviewsController.getReviewById));
-
-// should be in user route  /users/:id/reviews
-router.get("/user/:id", asyncWrapper(reviewsController.getReviewsByUserId));
+router.get("/:reviewId", asyncWrapper(reviewsController.getReviewById));
 
 router.post(
   "/",
@@ -22,17 +19,17 @@ router.post(
 );
 
 router.patch(
-  "/:id",
+  "/:reviewId",
   [validationMiddleware(UpdateReviewDetailsDto)],
   asyncWrapper(reviewsController.updateReviewDetails)
 );
 
 router.patch(
-  "/:id/rating",
+  "/:reviewId/rating",
   [validationMiddleware(UpdateReviewRatingDto)],
   asyncWrapper(reviewsController.updateReviewRating)
 );
 
-router.delete("/:id", asyncWrapper(reviewsController.deleteReview));
+router.delete("/:reviewId", asyncWrapper(reviewsController.deleteReview));
 
 export default router;

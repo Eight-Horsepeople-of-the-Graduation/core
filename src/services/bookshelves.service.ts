@@ -1,9 +1,4 @@
-import {
-  CreateBookshelfDto,
-  GetBookshelfByIdDto,
-  SearchQueryDto,
-  UpdateBookshelfDto,
-} from "@dtos";
+import { CreateBookshelfDto, SearchQueryDto, UpdateBookshelfDto } from "@dtos";
 import bookshelvesRepository from "@repositories/bookshelves.repository";
 
 export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
@@ -13,20 +8,10 @@ export const getAllBookshelves = async (searchQueryDto: SearchQueryDto) => {
   return bookshelves;
 };
 
-export const getBookshelfById = async (
-  getBookshelfByIdDto: GetBookshelfByIdDto
-) => {
-  const bookshelf =
-    await bookshelvesRepository.getBookshelfById(getBookshelfByIdDto);
+export const getBookshelfById = async (bookshelfId: number) => {
+  const bookshelf = await bookshelvesRepository.getBookshelfById(bookshelfId);
 
   return bookshelf;
-};
-
-export const getBookshelvesByUserId = async (userId: number) => {
-  const bookshelves =
-    await bookshelvesRepository.getBookshelvesByUserId(userId);
-
-  return bookshelves;
 };
 
 export const createBookshelf = async (data: CreateBookshelfDto) => {
@@ -36,11 +21,11 @@ export const createBookshelf = async (data: CreateBookshelfDto) => {
 };
 
 export const addBookToBookshelf = async (
-  id: GetBookshelfByIdDto,
+  booksheflId: number,
   bookIds: number[]
 ) => {
   const updatedBookshelf = await bookshelvesRepository.addBooksToBookshelf(
-    id,
+    booksheflId,
     bookIds
   );
 
@@ -48,11 +33,11 @@ export const addBookToBookshelf = async (
 };
 
 export const removeBooksFromBookshelf = async (
-  id: GetBookshelfByIdDto,
+  bookshelfId: number,
   bookIds: number[]
 ) => {
   const updatedBookshelf = await bookshelvesRepository.removeBooksFromBookshelf(
-    id,
+    bookshelfId,
     bookIds
   );
 
@@ -60,19 +45,20 @@ export const removeBooksFromBookshelf = async (
 };
 
 export const updateBookshelf = async (
-  id: GetBookshelfByIdDto,
+  bookshelfId: number,
   updateBookshelfDto: UpdateBookshelfDto
 ) => {
   const updatedBookshelf = await bookshelvesRepository.updateBookshelf(
-    id,
+    bookshelfId,
     updateBookshelfDto
   );
 
   return updatedBookshelf;
 };
 
-export const deleteBookshelf = async (id: GetBookshelfByIdDto) => {
-  const deletedBookshelf = await bookshelvesRepository.deleteBookshelf(id);
+export const deleteBookshelf = async (bookshelfId: number) => {
+  const deletedBookshelf =
+    await bookshelvesRepository.deleteBookshelf(bookshelfId);
 
   return deletedBookshelf;
 };
@@ -80,7 +66,6 @@ export const deleteBookshelf = async (id: GetBookshelfByIdDto) => {
 export default {
   getAllBookshelves,
   getBookshelfById,
-  getBookshelvesByUserId,
   createBookshelf,
   addBookToBookshelf,
   removeBooksFromBookshelf,

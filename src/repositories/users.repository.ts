@@ -21,9 +21,9 @@ export const getAllUsers = async (searchQueryDto: SearchQueryDto) => {
   return users;
 };
 
-export const getUserById = async (id: number) => {
+export const getUserById = async (userId: number) => {
   const user = await prismaClient.user.findUnique({
-    where: { id },
+    where: { id: userId },
   });
 
   return user;
@@ -38,20 +38,20 @@ export const createUser = async (userData: CreateUserDto) => {
 };
 
 export const updateUserById = async (
-  id: number,
+  userId: number,
   updatedData: UpdateUserDto
 ) => {
   const user = await prismaClient.user.update({
-    where: { id },
+    where: { id: userId },
     data: updatedData,
   });
 
   return user;
 };
 
-export const deleteUserById = async (id: number) => {
+export const deleteUserById = async (userId: number) => {
   const user = await prismaClient.user.delete({
-    where: { id },
+    where: { id: userId },
   });
 
   return user;

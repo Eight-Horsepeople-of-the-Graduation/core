@@ -10,6 +10,11 @@ router.get("/", asyncWrapper(authorsController.getAllAuthors));
 
 router.get("/:authorId", asyncWrapper(authorsController.getAuthorById));
 
+router.get(
+  "/:authorId/books",
+  asyncWrapper(authorsController.getBooksByAuthorId)
+);
+
 router.post(
   "/",
   [validationMiddleware(CreateAuthorDto)],

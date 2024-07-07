@@ -49,6 +49,23 @@ export const getReviewsByUserId = async (userId: number) => {
   return reviews;
 };
 
+export const getReviewByUserId = async (userId: number, reviewId: number) => {
+  const review = await prismaClient.review.findUnique({
+    where: {
+      id: reviewId,
+      user: {
+        id: userId,
+      },
+    },
+    include: {
+      book: true,
+      user: true,
+    },
+  });
+
+  return review;
+};
+
 export const createReview = async (
   createReviewDto: CreateReviewDto,
   tx?: Transaction
@@ -142,6 +159,7 @@ export const aggregateRatingsByBookId = async (
 export default {
   getReviewsByBookId,
   getReviewsByUserId,
+  getReviewByUserId,
   getReviewById,
   createReview,
   updateReviewDetails,

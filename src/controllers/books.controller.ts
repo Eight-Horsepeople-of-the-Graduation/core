@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
-import { uniqBy } from "lodash";
-import { GetBookByIdDto, SearchQueryDto, UpdateBookDto } from "@dtos";
+import { SearchQueryDto, UpdateBookDto } from "@dtos";
 import booksService from "@services/books.service";
-import bookshelvesService from "@services/bookshelves.service";
 
 export const getAllBooks = async (req: Request, res: Response) => {
   const filter = plainToInstance(SearchQueryDto, req.query);
@@ -14,14 +12,35 @@ export const getAllBooks = async (req: Request, res: Response) => {
 };
 
 export const getBookById = async (req: Request, res: Response) => {
-  const { bookId } = req.params;
+  const bookId = parseInt(req.params.bookId, 10);
 
-  const data: GetBookByIdDto = { bookId: +bookId };
-
-  const book = await booksService.getBookById(data.bookId);
-  if (!book) return res.status(400).send("Book Not Found");
+  const book = await booksService.getBookById(bookId);
 
   return res.send(book);
+};
+
+export const getReviewsByBookId = async (req: Request, res: Response) => {
+  const bookId = parseInt(req.params.bookId, 10);
+
+  const reviews = await booksService.getReviewsByBookId(bookId);
+
+  return res.send(reviews);
+};
+
+export const getGenresByBookId = async (req: Request, res: Response) => {
+  const bookId = parseInt(req.params.bookId);
+
+  const genres = await booksService.getGenresByBookId(bookId);
+
+  return res.send(genres);
+};
+
+export const getAuthorsByBookId = async (req: Request, res: Response) => {
+  const bookId = parseInt(req.params.bookId, 10);
+
+  const authors = await booksService.getAuthorsByBookId(bookId);
+
+  return res.send(authors);
 };
 
 export const createBook = async (req: Request, res: Response) => {
@@ -33,54 +52,30 @@ export const createBook = async (req: Request, res: Response) => {
 };
 
 export const updateBookById = async (req: Request, res: Response) => {
-  const { bookId } = req.params;
+  const bookId = parseInt(req.params.bookId, 10);
+
   const data: UpdateBookDto = req.body;
 
-  const book = await booksService.updateBookById(+bookId, data);
+  const book = await booksService.updateBookById(bookId, data);
 
   return res.send(book);
 };
 
 export const deleteBookById = async (req: Request, res: Response) => {
-  const { bookId } = req.params;
-  const data: GetBookByIdDto = { bookId: +bookId };
+  const bookId = parseInt(req.params.bookId, 10);
 
-  const book = await booksService.deleteBookById(data.bookId);
+  const book = await booksService.deleteBookById(bookId);
 
   return res.send(book);
-};
-
-export const getBooksByUserId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const bookshelves = await bookshelvesService.getBookshelvesByUserId(+id);
-  const books = bookshelves.flatMap(
-    (bookshelf: { books: any }) => bookshelf.books
-  );
-  const distinctBooks = uniqBy(books, "id");
-  return res.send(distinctBooks);
-};
-
-export const getReviewsByBookId = async (req: Request, res: Response) => {
-  const { bookId } = req.params;
-  const reviews = await booksService.getReviewsByBookId(+bookId);
-
-  return res.send(reviews);
-};
-
-export const getGenresByBookId = async (req: Request, res: Response) => {
-  const bookId = parseInt(req.params.bookId);
-  const genres = await booksService.getGenresByBookId(bookId);
-
-  return res.send(genres);
 };
 
 export default {
   getAllBooks,
   getBookById,
-  getBooksByUserId,
   createBook,
   updateBookById,
   deleteBookById,
   getReviewsByBookId,
   getGenresByBookId,
+  getAuthorsByBookId,
 };

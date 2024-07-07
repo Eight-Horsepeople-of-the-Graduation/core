@@ -19,6 +19,14 @@ export const getAuthorById = async (req: Request, res: Response) => {
   return res.send(author);
 };
 
+export const getBooksByAuthorId = async (req: Request, res: Response) => {
+  const authorId = parseInt(req.params.authorId, 10);
+
+  const books = await authorsService.getBooksByAuthorId(authorId);
+
+  return res.send(books);
+};
+
 export const createAuthor = async (req: Request, res: Response) => {
   const createAuthorDto = req.body;
 
@@ -51,6 +59,7 @@ export default {
   createAuthor,
   getAllAuthors,
   getAuthorById,
+  getBooksByAuthorId,
   updateAuthorById,
   deleteAuthorById,
 };

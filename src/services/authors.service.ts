@@ -1,5 +1,6 @@
 import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "@dtos";
 import authorsRepository from "@repositories/authors.repository";
+import booksRepository from "@repositories/books.repository";
 
 export const getAllAuthors = async (SearchQueryDto: SearchQueryDto) => {
   const authors = await authorsRepository.getAllAuthors(SearchQueryDto);
@@ -11,6 +12,12 @@ export const getAuthorById = async (authorId: number) => {
   const author = await authorsRepository.getAuthorById(authorId);
 
   return author;
+};
+
+export const getBooksByAuthorId = async (authorId: number) => {
+  const books = await booksRepository.getBooksByAuthorId(authorId);
+
+  return books;
 };
 
 export const createAuthor = async (createAuthorDto: CreateAuthorDto) => {
@@ -40,6 +47,7 @@ export const deleteAuthorById = async (authorId: number) => {
 export default {
   getAllAuthors,
   getAuthorById,
+  getBooksByAuthorId,
   createAuthor,
   updateAuthorById,
   deleteAuthorById,

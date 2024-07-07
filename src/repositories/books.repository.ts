@@ -39,6 +39,48 @@ export const getBookById = async (bookId: number) => {
   return book;
 };
 
+export const getBooksByAuthorId = async (authorId: number) => {
+  const books = await prismaClient.book.findMany({
+    where: {
+      authors: {
+        some: {
+          id: authorId,
+        },
+      },
+    },
+  });
+
+  return books;
+};
+
+export const getBooksByGenreId = async (genreId: number) => {
+  const books = await prismaClient.book.findMany({
+    where: {
+      genres: {
+        some: {
+          id: genreId,
+        },
+      },
+    },
+  });
+};
+
+export const getBooksByReadingChallengeId = async (
+  readingChallengeId: number
+) => {
+  const books = await prismaClient.book.findMany({
+    where: {
+      readingChallenges: {
+        some: {
+          id: readingChallengeId,
+        },
+      },
+    },
+  });
+
+  return books;
+};
+
 export const createBook = async (createBookDto: CreateBookDto) => {
   const { authors, genres } = createBookDto;
 
@@ -109,8 +151,11 @@ export const deleteBookById = async (bookId: number) => {
 export default {
   getAllBooks,
   getBookById,
+  getBooksByAuthorId,
+  getBooksByGenreId,
+  getBooksByReadingChallengeId,
   createBook,
   updateBookById,
-  deleteBookById,
   updateBookRating,
+  deleteBookById,
 };

@@ -26,6 +26,20 @@ export const getAuthorById = async (authorId: number) => {
   return author;
 };
 
+export const getAuthorsByBookId = async (bookId: number) => {
+  const authors = await prismaClient.author.findMany({
+    where: {
+      books: {
+        some: {
+          id: bookId,
+        },
+      },
+    },
+  });
+
+  return authors;
+};
+
 export const createAuthor = async (createAuthorDto: CreateAuthorDto) => {
   const newAuthor = await prismaClient.author.create({
     data: createAuthorDto,
@@ -64,4 +78,5 @@ export default {
   createAuthor,
   updateAuthorById,
   deleteAuthorById,
+  getAuthorsByBookId,
 };
