@@ -1,4 +1,4 @@
-import { Transform, TransformFnParams } from "class-transformer";
+import { Transform } from "class-transformer";
 import { IsInt, IsOptional, IsPositive, IsString } from "class-validator";
 
 export class SearchQueryDto {

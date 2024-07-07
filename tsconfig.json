@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "experimentalDecorators": true,
+    "target": "ES2016",
+    "incremental": true,
+    "typeRoots": ["node_modules/@types", "./src/types"],
     "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "module": "commonjs",
     "paths": {
       "@controllers/*": ["./src/controllers/*"],
@@ -16,11 +18,13 @@
       "@services/*": ["./src/services/*"],
       "@utils/*": ["./src/utils/*"]
     },
+    "sourceMap": true,
     "resolveJsonModule": true,
     "outDir": "./build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
   }

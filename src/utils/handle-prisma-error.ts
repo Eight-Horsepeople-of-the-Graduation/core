@@ -22,7 +22,6 @@ export default function handlePrismaError(
         message: `Unique constraint failed on the "${meta?.target}" field(s) for the ${meta?.modelName} Entity`,
       });
     case "P2003":
-      console.log
       return res.status(HttpStatus.CONFLICT).send({
         status: HttpStatus.CONFLICT,
         message: `Foreign key constraint failed on the field: ${meta?.field_name}`,
