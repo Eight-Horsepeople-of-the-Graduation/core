@@ -134,7 +134,7 @@ export default function handlePrismaError(
     case "P2025":
       return res.status(HttpStatus.NOT_FOUND).send({
         status: HttpStatus.NOT_FOUND,
-        message: `${meta?.modelName || "Record"} not found`,
+        message: `Record not found or failed to connect to a Record in ${meta?.modelName}`,
       });
     case "P2026":
       return res.status(HttpStatus.BAD_REQUEST).send({

@@ -35,13 +35,12 @@ export const getUserByUsername = async (
   req: Request,
   res: Response
 ): Promise<Response<IUserWithoutPassword>> => {
-  const username = req.params.username
+  const username = req.params.username;
 
   const user = await usersService.getUserByUsername(username);
 
   return res.send(user);
 };
-
 
 export const getReadingChallengesByUserId = async (
   req: Request,
@@ -75,8 +74,8 @@ export const getReviewsByUserId = async (
   req: Request,
   res: Response
 ): Promise<Response<IReviewWithUserAndBook[]>> => {
-  const { id } = req.params;
-  const reviews = await usersService.getReviewsByUserId(+id);
+  const { userId } = req.params;
+  const reviews = await usersService.getReviewsByUserId(+userId);
 
   return res.send(reviews);
 };
@@ -141,7 +140,7 @@ export const updateUserById = async (
   req: Request,
   res: Response
 ): Promise<Response<IUserWithoutPassword>> => {
-  const userId = parseInt(req.params.id, 10);
+  const userId = parseInt(req.params.userId, 10);
   const updatedData: UpdateUserDto = req.body;
 
   const user = await usersService.updateUserById(userId, updatedData);

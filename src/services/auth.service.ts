@@ -46,14 +46,29 @@ export const refreshTokens = async (
   userId: number,
   refreshToken: string
 ): Promise<{ accessToken: string; refreshToken: string }> => {
+  let decodedToken: jwt.JwtPayload;
+  try {
+    decodedToken = jwt.verify(
+      refreshToken,
+      config.refreshToken.secret
+    ) as jwt.JwtPayload;
+  } catch (err) {
+    throw new HttpException("Unauthorized: Invalid token", 401);
+  }
+
+  if (!decodedToken.sub || parseInt(decodedToken.sub, 10) !== userId)
+    throw new HttpException("Unauthorized: Invalid token", 401);
+
   const user = await usersService.getUserById(userId);
-  if (!user.refreshToken) throw new HttpException("Unauthorized", 401);
+  if (!user.refreshToken)
+    throw new HttpException("Unauthorized: No refresh token found", 401);
 
   const refreshTokensMatch = await bcrypt.compare(
     refreshToken,
     user.refreshToken
   );
-  if (!refreshTokensMatch) throw new HttpException("Unauthorized", 401);
+  if (!refreshTokensMatch)
+    throw new HttpException("Unauthorized: token mismatch", 401);
 
   const tokens = await getTokens(user.id, user.email);
   await updateRefreshToken(user.id, tokens.refreshToken);
