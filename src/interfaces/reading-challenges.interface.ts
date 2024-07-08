@@ -1,5 +1,6 @@
-import { IBook, IBookWithoutAuthorsAndGenres } from "./books.interface";
-import { Duration } from "../dtos";
+import {
+  IReadingChallengeBook,
+} from "./books.interface";
 
 export interface IReadingChallenge {
   id: number;
@@ -15,5 +16,5 @@ export interface IReadingChallenge {
 }
 
 export type IReadingChallengeWithBooks = IReadingChallenge & {
-  books: IBookWithoutAuthorsAndGenres[];
+  books: IReadingChallengeBook[];
 };
