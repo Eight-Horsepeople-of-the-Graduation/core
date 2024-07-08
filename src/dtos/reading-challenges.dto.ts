@@ -16,7 +16,7 @@ export enum Duration {
 }
 
 export class CreateReadingChallengeDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   title: string;
 
@@ -31,7 +31,7 @@ export class CreateReadingChallengeDto {
 
   @IsNotEmpty()
   @IsNumber()
-  progress: number;
+  goal: number;
 }
 
 export class UpdateReadingChallengeDto {
