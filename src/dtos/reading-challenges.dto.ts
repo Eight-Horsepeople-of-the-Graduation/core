@@ -41,11 +41,7 @@ export class UpdateReadingChallengeDto {
 
   @IsOptional()
   @IsNumber()
-  progress: number;
-
-  @IsOptional()
-  @IsEnum(Duration)
-  type: Duration;
+  goal: number;
 }
 
 export class GetReadingChallengeDto {

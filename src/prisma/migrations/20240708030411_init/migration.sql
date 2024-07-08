@@ -79,7 +79,7 @@ CREATE TABLE "ReadingChallenge" (
     "type" "ReadingChallengeType" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endDate" TIMESTAMP(3),
-    "progress" INTEGER NOT NULL,
+    "progress" INTEGER NOT NULL DEFAULT 0,
     "goal" INTEGER NOT NULL,
     "timeframe" TEXT NOT NULL,
     "hasEnded" BOOLEAN NOT NULL DEFAULT false,
