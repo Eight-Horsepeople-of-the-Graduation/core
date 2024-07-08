@@ -75,10 +75,14 @@ CREATE TABLE "Review" (
 -- CreateTable
 CREATE TABLE "ReadingChallenge" (
     "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
+    "title" TEXT,
     "type" "ReadingChallengeType" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endDate" TIMESTAMP(3),
     "progress" INTEGER NOT NULL,
+    "goal" INTEGER NOT NULL,
+    "timeframe" TEXT NOT NULL,
+    "hasEnded" BOOLEAN NOT NULL DEFAULT false,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "ReadingChallenge_pkey" PRIMARY KEY ("id")
