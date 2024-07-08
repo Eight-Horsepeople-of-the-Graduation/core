@@ -5,22 +5,42 @@ import {
 } from "../dtos/index";
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
 import booksRepository from "@repositories/books.repository";
+import {
+  IReadingChallenge,
+  IReadingChallengeWithBooks,
+} from "../interfaces/reading-challenges.interface";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+} from "../interfaces/books.interface";
 
-export const getAllReadingChallenges = async () => {
+export const getAllReadingChallenges = async (): Promise<
+  IReadingChallengeWithBooks[]
+> => {
   if (!readingChallengesRepository) {
-    throw new Error("Reading Challenges Repository not found");
+    throw new HttpException(
+      "INTERNAL_SERVER_ERROR: Reading Challenges Repository not found",
+      HttpStatus.INTERNAL_SERVER_ERROR
+    );
   }
-  const readingChallenges =
+  const readingChallenges: IReadingChallengeWithBooks[] =
     await readingChallengesRepository.getAllReadingChallenges();
 
   return readingChallenges;
 };
 
-export const getReadingChallengeById = async (readingChallengeId: number) => {
+export const getReadingChallengeById = async (
+  readingChallengeId: number
+): Promise<IReadingChallengeWithBooks> => {
   if (!readingChallengeId) {
-    throw new Error("Missing required field: id");
+    throw new HttpException(
+      "Missing required field: readingChallengeId",
+      HttpStatus.BAD_REQUEST
+    );
   }
-  const readingChallenge =
+  const readingChallenge: IReadingChallengeWithBooks =
     await readingChallengesRepository.getReadingChallengeById(
       readingChallengeId
     );
@@ -30,37 +50,43 @@ export const getReadingChallengeById = async (readingChallengeId: number) => {
 
 export const getBooksByReadingChallengeId = async (
   readingChallengeId: number
-) => {
-  const books =
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
     await booksRepository.getBooksByReadingChallengeId(readingChallengeId);
 
   return books;
 };
 
-export const addBookToReadingChallenge = async (
+export const addBookToUserReadingChallenges = async (
   readingChallengeId: number,
   bookId: number
 ) => {
-  const book = await getBookById(bookId);
+  const book: IBook = await getBookById(bookId);
   if (!book) {
-    throw new Error("Book not found");
+    throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
   }
-  const readingChallenge = await getReadingChallengeById(readingChallengeId);
+
+  const readingChallenge: IReadingChallengeWithBooks =
+    await getReadingChallengeById(readingChallengeId);
   if (!readingChallenge) {
-    throw new Error("Reading Challenge not found");
+    throw new HttpException(
+      "Reading Challenge not found",
+      HttpStatus.NOT_FOUND
+    );
   }
-  const updatedReadingChallenge =
-    await readingChallengesRepository.addBookToReadingChallenge(
+
+  const updatedReadingChallenges: IReadingChallenge[] =
+    await readingChallengesRepository.addBookToUserReadingChallenges(
       readingChallengeId,
       bookId
     );
-  return updatedReadingChallenge;
+  return updatedReadingChallenges;
 };
 
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
-) => {
-  const createdReadingChallenge =
+): Promise<IReadingChallenge> => {
+  const createdReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.createReadingChallenge(
       readingChallengeData
     );
@@ -68,16 +94,19 @@ export const createReadingChallenge = async (
   return createdReadingChallenge;
 };
 
-export const updateReadingChallenge = async (
+export const updateReadingChallengeDetails = async (
   readingChallengeId: number,
   updatedData: UpdateReadingChallengeDto
-) => {
+): Promise<IReadingChallenge> => {
   if (!readingChallengeId) {
-    throw new Error("Missing required field: id");
+    throw new HttpException(
+      "Missing required field: readingChallengeId",
+      HttpStatus.BAD_REQUEST
+    );
   }
 
-  const updatedReadingChallenge =
-    await readingChallengesRepository.updateReadingChallenge(
+  const updatedReadingChallenge: IReadingChallenge =
+    await readingChallengesRepository.updateReadingChallengeDetails(
       readingChallengeId,
       updatedData
     );
@@ -88,16 +117,19 @@ export const updateReadingChallenge = async (
 export const deleteBookFromReadingChallenge = async (
   readingChallengeId: number,
   bookId: number
-) => {
+): Promise<IReadingChallengeWithBooks> => {
   const book = await getBookById(bookId);
   if (!book) {
-    throw new Error("Book not found");
+    throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
   }
   const readingChallenge = await getReadingChallengeById(readingChallengeId);
   if (!readingChallenge) {
-    throw new Error("Reading Challenge not found");
+    throw new HttpException(
+      "Reading Challenge not found",
+      HttpStatus.NOT_FOUND
+    );
   }
-  const updatedReadingChallenge =
+  const updatedReadingChallenge: IReadingChallengeWithBooks =
     await readingChallengesRepository.deleteBookFromReadingChallenge(
       readingChallengeId,
       bookId
@@ -106,11 +138,16 @@ export const deleteBookFromReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
-export const deleteReadingChallenge = async (readingChallengeId: number) => {
+export const deleteReadingChallenge = async (
+  readingChallengeId: number
+): Promise<IReadingChallenge> => {
   if (!readingChallengeId) {
-    throw new Error("Missing required field: id");
+    throw new HttpException(
+      "Missing required field: readingChallengeId",
+      HttpStatus.BAD_REQUEST
+    );
   }
-  const deletedReadingChallenge =
+  const deletedReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.deleteReadingChallenge(
       readingChallengeId
     );
@@ -122,8 +159,8 @@ export default {
   getAllReadingChallenges,
   getReadingChallengeById,
   getBooksByReadingChallengeId,
-  addBookToReadingChallenge,
+  addBookToUserReadingChallenges,
   createReadingChallenge,
-  updateReadingChallenge,
+  updateReadingChallengeDetails,
   deleteReadingChallenge,
 };
