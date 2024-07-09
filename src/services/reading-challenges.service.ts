@@ -34,12 +34,6 @@ export const getAllReadingChallenges = async (): Promise<
 export const getReadingChallengeById = async (
   readingChallengeId: number
 ): Promise<IReadingChallengeWithBooks> => {
-  if (!readingChallengeId) {
-    throw new HttpException(
-      "Missing required field: readingChallengeId",
-      HttpStatus.BAD_REQUEST
-    );
-  }
   const readingChallenge: IReadingChallengeWithBooks =
     await readingChallengesRepository.getReadingChallengeById(
       readingChallengeId
@@ -98,13 +92,6 @@ export const updateReadingChallengeDetails = async (
   readingChallengeId: number,
   updatedData: UpdateReadingChallengeDto
 ): Promise<IReadingChallenge> => {
-  if (!readingChallengeId) {
-    throw new HttpException(
-      "Missing required field: readingChallengeId",
-      HttpStatus.BAD_REQUEST
-    );
-  }
-
   const updatedReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.updateReadingChallengeDetails(
       readingChallengeId,
@@ -141,12 +128,6 @@ export const deleteBookFromReadingChallenge = async (
 export const deleteReadingChallenge = async (
   readingChallengeId: number
 ): Promise<IReadingChallenge> => {
-  if (!readingChallengeId) {
-    throw new HttpException(
-      "Missing required field: readingChallengeId",
-      HttpStatus.BAD_REQUEST
-    );
-  }
   const deletedReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.deleteReadingChallenge(
       readingChallengeId
