@@ -1,15 +1,20 @@
-import { IBook } from "./books.interface";
-import { Duration } from "../dtos";
+import {
+  IReadingChallengeBook,
+} from "./books.interface";
 
 export interface IReadingChallenge {
   id: number;
-  title: string;
-  type: Duration;
+  title: string | null;
+  type: "WEEKLY" | "MONTHLY" | "ANNUAL";
   startDate: Date;
+  endDate: Date | null;
   progress: number;
+  goal: number;
+  timeframe: string;
+  hasEnded: boolean;
   userId: number;
-  books: IBook[];
-  _count: {
-    books: number;
-  };
 }
+
+export type IReadingChallengeWithBooks = IReadingChallenge & {
+  books: IReadingChallengeBook[];
+};

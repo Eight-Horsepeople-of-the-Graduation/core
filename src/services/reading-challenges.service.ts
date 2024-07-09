@@ -1,26 +1,43 @@
 import { getBookById } from "./books.service";
 import {
   CreateReadingChallengeDto,
+  Duration,
   UpdateReadingChallengeDto,
 } from "../dtos/index";
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
 import booksRepository from "@repositories/books.repository";
+import {
+  IReadingChallenge,
+  IReadingChallengeWithBooks,
+} from "../interfaces/reading-challenges.interface";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+} from "../interfaces/books.interface";
+import { getUserById } from "./users.service";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
 
-export const getAllReadingChallenges = async () => {
+export const getAllReadingChallenges = async (): Promise<
+  IReadingChallengeWithBooks[]
+> => {
   if (!readingChallengesRepository) {
-    throw new Error("Reading Challenges Repository not found");
+    throw new HttpException(
+      "INTERNAL_SERVER_ERROR: Reading Challenges Repository not found",
+      HttpStatus.INTERNAL_SERVER_ERROR
+    );
   }
-  const readingChallenges =
+  const readingChallenges: IReadingChallengeWithBooks[] =
     await readingChallengesRepository.getAllReadingChallenges();
 
   return readingChallenges;
 };
 
-export const getReadingChallengeById = async (readingChallengeId: number) => {
-  if (!readingChallengeId) {
-    throw new Error("Missing required field: id");
-  }
-  const readingChallenge =
+export const getReadingChallengeById = async (
+  readingChallengeId: number
+): Promise<IReadingChallengeWithBooks> => {
+  const readingChallenge: IReadingChallengeWithBooks =
     await readingChallengesRepository.getReadingChallengeById(
       readingChallengeId
     );
@@ -30,37 +47,51 @@ export const getReadingChallengeById = async (readingChallengeId: number) => {
 
 export const getBooksByReadingChallengeId = async (
   readingChallengeId: number
-) => {
-  const books =
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
     await booksRepository.getBooksByReadingChallengeId(readingChallengeId);
 
   return books;
 };
 
-export const addBookToReadingChallenge = async (
-  readingChallengeId: number,
+export const addBookToUserReadingChallenges = async (
+  userId: number,
   bookId: number
 ) => {
-  const book = await getBookById(bookId);
+  const user: IUserWithoutPassword = await getUserById(userId);
+  if (!user) {
+    throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+  }
+  const book: IBook = await getBookById(bookId);
   if (!book) {
-    throw new Error("Book not found");
+    throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
   }
-  const readingChallenge = await getReadingChallengeById(readingChallengeId);
-  if (!readingChallenge) {
-    throw new Error("Reading Challenge not found");
-  }
-  const updatedReadingChallenge =
-    await readingChallengesRepository.addBookToReadingChallenge(
-      readingChallengeId,
+
+  const updatedReadingChallenges: IReadingChallenge[] =
+    await readingChallengesRepository.addBookToUserReadingChallenges(
+      userId,
       bookId
     );
-  return updatedReadingChallenge;
+  return updatedReadingChallenges;
 };
 
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
-) => {
-  const createdReadingChallenge =
+): Promise<IReadingChallenge> => {
+  const { type, userId } = readingChallengeData;
+  const ActiveReadingChallenge =
+    await readingChallengesRepository.getActiveReadingChallengeByType(
+      type,
+      userId
+    );
+  if (ActiveReadingChallenge) {
+    throw new HttpException(
+      "User already has an active reading challenge of this type",
+      HttpStatus.BAD_REQUEST
+    );
+  }
+
+  const createdReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.createReadingChallenge(
       readingChallengeData
     );
@@ -68,16 +99,12 @@ export const createReadingChallenge = async (
   return createdReadingChallenge;
 };
 
-export const updateReadingChallenge = async (
+export const updateReadingChallengeDetails = async (
   readingChallengeId: number,
   updatedData: UpdateReadingChallengeDto
-) => {
-  if (!readingChallengeId) {
-    throw new Error("Missing required field: id");
-  }
-
-  const updatedReadingChallenge =
-    await readingChallengesRepository.updateReadingChallenge(
+): Promise<IReadingChallenge> => {
+  const updatedReadingChallenge: IReadingChallenge =
+    await readingChallengesRepository.updateReadingChallengeDetails(
       readingChallengeId,
       updatedData
     );
@@ -85,32 +112,31 @@ export const updateReadingChallenge = async (
   return updatedReadingChallenge;
 };
 
-export const deleteBookFromReadingChallenge = async (
-  readingChallengeId: number,
+export const deleteBookFromUserReadingChallenges = async (
+  userId: number,
   bookId: number
-) => {
+): Promise<IReadingChallengeWithBooks[]> => {
   const book = await getBookById(bookId);
   if (!book) {
-    throw new Error("Book not found");
+    throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
   }
-  const readingChallenge = await getReadingChallengeById(readingChallengeId);
-  if (!readingChallenge) {
-    throw new Error("Reading Challenge not found");
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new HttpException("User not found", HttpStatus.NOT_FOUND);
   }
-  const updatedReadingChallenge =
-    await readingChallengesRepository.deleteBookFromReadingChallenge(
-      readingChallengeId,
+  const updatedReadingChallenges: IReadingChallengeWithBooks[] =
+    await readingChallengesRepository.deleteBookFromUserReadingChallenges(
+      userId,
       bookId
     );
 
-  return updatedReadingChallenge;
+  return updatedReadingChallenges;
 };
 
-export const deleteReadingChallenge = async (readingChallengeId: number) => {
-  if (!readingChallengeId) {
-    throw new Error("Missing required field: id");
-  }
-  const deletedReadingChallenge =
+export const deleteReadingChallenge = async (
+  readingChallengeId: number
+): Promise<IReadingChallenge> => {
+  const deletedReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.deleteReadingChallenge(
       readingChallengeId
     );
@@ -122,8 +148,9 @@ export default {
   getAllReadingChallenges,
   getReadingChallengeById,
   getBooksByReadingChallengeId,
-  addBookToReadingChallenge,
+  addBookToUserReadingChallenges,
   createReadingChallenge,
-  updateReadingChallenge,
+  updateReadingChallengeDetails,
   deleteReadingChallenge,
+  deleteBookFromUserReadingChallenges,
 };

@@ -18,4 +18,12 @@ export interface IBook {
 }
 
 export type IBookWithoutAuthorsAndGenres = Omit<IBook, "authors" | "genres">;
+export type IReadingChallengeBook = Pick<IBook, "id" | "title" | "coverPicture" | "authors" | "rating">;
 export type OptionalBook = IBook | null;
+export const SelectReadingChallengeBook = {
+  id: true,
+  title: true,
+  coverPicture: true,
+  authors: true,
+  rating: true,
+};

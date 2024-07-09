@@ -10,6 +10,7 @@ import { IUserWithoutPassword } from "../interfaces/users.interface";
 import { IBookshelf } from "../interfaces/bookshelves.interface";
 import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
 import { IBook } from "../interfaces/books.interface";
+import { IReadingChallengeWithBooks } from "../interfaces/reading-challenges.interface";
 
 export const getAllUsers = async (
   filter: SearchQueryDto
@@ -48,14 +49,10 @@ export const getReadingChallengesByUserId = async (userId: number) => {
 };
 
 export const getReadingChallengeByUserId = async (
-  userId: number,
-  reviewId: number
-) => {
+  userId: number
+): Promise<IReadingChallengeWithBooks[]> => {
   const readingChallenge =
-    await readingChallengesRepository.getReadingChallengeByUserId(
-      userId,
-      reviewId
-    );
+    await readingChallengesRepository.getReadingChallengesByUserId(userId);
 
   return readingChallenge;
 };

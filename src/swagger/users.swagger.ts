@@ -10,15 +10,14 @@ import {
   Tags,
   Patch,
 } from "tsoa";
-import { CreateUserDto, UpdateUserDto } from "../dtos";
+import {  UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
 import {
   IUser,
   OptionalUser,
   IUserWithoutPassword,
 } from "../interfaces/users.interface";
-import { IReadingChallenge } from "../interfaces/reading-challenges.interface";
-import { read } from "fs";
+import { IReadingChallenge, IReadingChallengeWithBooks } from "../interfaces/reading-challenges.interface";
 import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
 import { IBookshelf } from "../interfaces/bookshelves.interface";
 import { IBook } from "../interfaces/books.interface";
@@ -39,11 +38,10 @@ export class UsersDocs {
     @Path() username: string
   ): IUserWithoutPassword | any {}
 
-  @Get("/:userId/readingChallenges/:readingChallengeId")
+  @Get("/:userId/readingChallenges")
   public getReadingChallengesByUserId(
     @Path() userId: number,
-    @Path() readingChallengeId: number
-  ): IReadingChallenge | any {}
+  ): IReadingChallengeWithBooks[] | any {}
 
   @Get("/:userId/reviews")
   public getReviewsByUserId(
