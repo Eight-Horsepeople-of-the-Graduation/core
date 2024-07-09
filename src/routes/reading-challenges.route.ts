@@ -30,15 +30,15 @@ router.post(
 router.patch(
   "/:readingChallengeId",
   [validationMiddleware(UpdateReadingChallengeDto)],
-  asyncWrapper(readingChallengesController.updateReadingChallenge)
+  asyncWrapper(readingChallengesController.updateReadingChallengeDetails)
 );
 
 router.patch(
   "/:readingChallengeId/add-book/:bookId",
-  asyncWrapper(readingChallengesController.addBookToReadingChallenge)
+  asyncWrapper(readingChallengesController.addBookToUserReadingChallenges)
 );
 router.patch(
-  "/remove-book/:id",
+  "/:readingChallengeId/remove-book/:bookId",
   asyncWrapper(readingChallengesController.deleteBookFromReadingChallenge)
 );
 
