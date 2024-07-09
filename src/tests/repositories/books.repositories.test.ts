@@ -6,8 +6,8 @@ import {
   deleteBookById,
   getBooksByUserId,
 } from "@repositories/books.repository";
-import prismaClient from "@utils/prisma";
-import { Format } from "../../dtos/books.dto";
+import prismaClient from "../../common/utils/prisma";
+import { Format } from "../../modules/books/dtos/books.dto";
 
 describe("Books Repository", () => {
   describe("getAllBooks", () => {
