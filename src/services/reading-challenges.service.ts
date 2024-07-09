@@ -1,6 +1,7 @@
 import { getBookById } from "./books.service";
 import {
   CreateReadingChallengeDto,
+  Duration,
   UpdateReadingChallengeDto,
 } from "../dtos/index";
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
@@ -77,6 +78,19 @@ export const addBookToUserReadingChallenges = async (
 export const createReadingChallenge = async (
   readingChallengeData: CreateReadingChallengeDto
 ): Promise<IReadingChallenge> => {
+  const { type, userId } = readingChallengeData;
+  const ActiveReadingChallenge =
+    await readingChallengesRepository.getActiveReadingChallengeByType(
+      type,
+      userId
+    );
+  if (ActiveReadingChallenge) {
+    throw new HttpException(
+      "User already has an active reading challenge of this type",
+      HttpStatus.BAD_REQUEST
+    );
+  }
+
   const createdReadingChallenge: IReadingChallenge =
     await readingChallengesRepository.createReadingChallenge(
       readingChallengeData

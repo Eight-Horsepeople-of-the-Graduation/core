@@ -20,11 +20,6 @@ router.get(
 );
 
 router.get(
-  "/:userId/readingChallenges/:readingChallengeId",
-  asyncWrapper(usersController.getReadingChallengeByUserId)
-);
-
-router.get(
   "/:userId/reviews",
   asyncWrapper(usersController.getReviewsByUserId)
 );

@@ -1,5 +1,9 @@
 import { getEndDate, getTimeframe } from "@utils/dates-utils";
-import { CreateReadingChallengeDto, UpdateReadingChallengeDto } from "../dtos";
+import {
+  CreateReadingChallengeDto,
+  Duration,
+  UpdateReadingChallengeDto,
+} from "../dtos";
 import prismaClient from "../utils/prisma";
 import {
   IReadingChallenge,
@@ -235,6 +239,20 @@ export const deleteBookFromUserReadingChallenges = async (
   return updatedReadingChallenges;
 };
 
+const getActiveReadingChallengeByType = async (
+  type: Duration,
+  userId: number
+) => {
+  const activeReadingChallenge = await prismaClient.readingChallenge.findFirst({
+    where: {
+      userId,
+      type,
+      hasEnded: false,
+    },
+  });
+  return activeReadingChallenge;
+};
+
 export default {
   getAllReadingChallenges,
   getReadingChallengeById,
@@ -244,4 +262,5 @@ export default {
   deleteBookFromUserReadingChallenges,
   updateReadingChallengeDetails,
   deleteReadingChallenge,
+  getActiveReadingChallengeByType,
 };

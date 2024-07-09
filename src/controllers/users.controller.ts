@@ -8,6 +8,9 @@ import { uniqBy } from "lodash";
 import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
 import { IBookshelf } from "../interfaces/bookshelves.interface";
 import { IBook } from "../interfaces/books.interface";
+import { IReadingChallengeWithBooks } from "../interfaces/reading-challenges.interface";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
 
 export const getAllUsers = async (
   req: Request,
@@ -45,29 +48,19 @@ export const getUserByUsername = async (
 export const getReadingChallengesByUserId = async (
   req: Request,
   res: Response
-) => {
-  const userId = parseInt(req.params.id, 10);
+): Promise<Response<IReadingChallengeWithBooks[]>> => {
+  const userId = parseInt(req.params.userId, 10);
+  if (!userId) {
+    throw new HttpException(
+      "Missing required field: userId",
+      HttpStatus.BAD_REQUEST
+    );
+  }
 
   const readingChallenges =
     await usersService.getReadingChallengesByUserId(userId);
 
   return res.send(readingChallenges);
-};
-
-export const getReadingChallengeByUserId = async (
-  req: Request,
-  res: Response
-) => {
-  const userId = parseInt(req.params.userId, 10);
-
-  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
-
-  const readingChallenge = await usersService.getReadingChallengeByUserId(
-    userId,
-    readingChallengeId
-  );
-
-  return res.send(readingChallenge);
 };
 
 export const getReviewsByUserId = async (
@@ -164,7 +157,6 @@ export default {
   getUserById,
   getUserByUsername,
   getReadingChallengesByUserId,
-  getReadingChallengeByUserId,
   getReviewsByUserId,
   getReviewByUserId,
   getBookshelvesByUserId,
