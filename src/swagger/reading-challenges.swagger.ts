@@ -1,48 +1,67 @@
-import { Body, Get, Path, Post, Put, Route, Delete, Tags, Patch } from "tsoa";
-import { CreateReadingChallengeDto, UpdateReadingChallengeDto } from "../dtos";
-import { IReadingChallenge } from "../interfaces/reading-challenges.interface";
+import {
+  CreateReadingChallengeDto,
+  Duration,
+  UpdateReadingChallengeDto,
+} from "../dtos/index";
+import {
+  IReadingChallenge,
+  IReadingChallengeWithBooks,
+} from "../interfaces/reading-challenges.interface";
+import {
+  Body,
+  Get,
+  Path,
+  Post,
+  Put,
+  Route,
+  Queries,
+  Delete,
+  Tags,
+  Patch,
+} from "tsoa";
+import { IBookWithoutAuthorsAndGenres } from "../interfaces/books.interface";
 
-@Route("reading-challenges")
+@Route("/reading-challenges")
 @Tags("Reading Challenges")
 export class ReadingChallengesDocs {
   @Get("/")
-  public getAllReadingChallenges(): IReadingChallenge[] | any {}
+  getAllReadingChallenges(): IReadingChallengeWithBooks[] | any {}
 
   @Get("/:readingChallengeId")
-  public getReadingChallengeById(
+  getReadingChallengeById(
     @Path() readingChallengeId: number
-  ): IReadingChallenge | any {}
+  ): IReadingChallengeWithBooks | any {}
 
   @Get("/:readingChallengeId/books")
   getBooksByReadingChallengeId(
     @Path() readingChallengeId: number
-  ): IReadingChallenge | any {}
+  ): IBookWithoutAuthorsAndGenres[] | any {}
 
   @Post("/")
-  public createReadingChallenge(
+  createReadingChallenge(
     @Body() readingChallengeData: CreateReadingChallengeDto
   ): IReadingChallenge | any {}
 
   @Patch("/:readingChallengeId")
-  public updateReadingChallenge(
+  updateReadingChallengeDetails(
     @Path() readingChallengeId: number,
     @Body() updatedData: UpdateReadingChallengeDto
   ): IReadingChallenge | any {}
 
-  @Patch("/:readingChallengeId/add-book/:bookId")
-  public addBookToReadingChallenge(
-    @Path() readingChallengeId: number,
-    @Body() bookId: number
-  ): IReadingChallenge | any {}
+  @Patch("/:userId/add-book/:bookId")
+  addBookToUserReadingChallenges(
+    @Path() userId: number,
+    @Path() bookId: number
+  ): IReadingChallengeWithBooks[] | any {}
 
-  @Patch("/remove-book/:readingChallengeId")
-  public deleteBookFromReadingChallenge(
-    @Path() readingChallengeId: number,
-    @Body() bookId: number
-  ): IReadingChallenge | any {}
+  @Patch("/:userId/remove-book/:bookId")
+  deleteBookFromUserReadingChallenges(
+    @Path() userId: number,
+    @Path() bookId: number
+  ): IReadingChallengeWithBooks[] | any {}
 
   @Delete("/:readingChallengeId")
-  public deleteReadingChallenge(
+  deleteReadingChallenge(
     @Path() readingChallengeId: number
   ): IReadingChallenge | any {}
 }
