@@ -4,13 +4,13 @@
   "description": "",
   "main": "src/app.ts",
   "prisma": {
-    "schema": "src/prisma/schema.prisma",
-    "seed": "ts-node src/prisma/seed/seed.ts"
+    "schema": "./prisma/schema.prisma",
+    "seed": "ts-node ./prisma/seed/seed.ts"
   },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "start": "ts-node -r tsconfig-paths/register src/app.ts",
+    "start": "ts-node -r --files tsconfig-paths/register src/app.ts",
     "start:dev": "ts-node-dev --files -r tsconfig-paths/register src/app.ts",
     "test": "jest",
     "swagger": "pnpm dlx tsoa spec-and-routes",

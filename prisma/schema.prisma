@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  name              String
+  username          String             @unique
+  email             String             @unique
+  password          String
+  country           String
+  gender            Gender
+  refreshToken      String?
+  profilePicture    String?
+  isAdmin           Boolean            @default(false)
+  birthDate         DateTime?
+  joinDate          DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  books             Book[]
+  bookshelves       Bookshelf[]
+  favoriteGenres    Genre[]
+  readingChallenges ReadingChallenge[]
+  reviews           Review[]
+  conversation      Conversation[]
+}
+
+model Book {
+  id                Int                @id @default(autoincrement())
+  title             String
+  isbn              String             @unique
+  description       String
+  publishDate       DateTime
+  format            Format
+  language          String
+  country           String
+  numOfPages        Int
+  rating            Float?
+  pdfLink           String?
+  coverPicture      String?
+  authors           Author[]
+  bookshelves       Bookshelf[]
+  genres            Genre[]
+  owners            User[]
+  readingChallenges ReadingChallenge[]
+  reviews           Review[]
+  conversation      Conversation[]
+}
+
+model Bookshelf {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  privacy     Privacy  @default(PUBLIC)
+  books       Book[]
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+
+  @@unique([userId, title])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  rating      Float
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  book        Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId      Int
+
+  @@unique([userId, bookId])
+}
+
+model ReadingChallenge {
+  id        Int                  @id @default(autoincrement())
+  title     String?
+  type      ReadingChallengeType
+  startDate DateTime             @default(now())
+  endDate   DateTime?
+  progress  Int                  @default(0)
+  goal      Int
+  timeframe String
+  hasEnded  Boolean              @default(false)
+  books     Book[]
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+}
+
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  createdOn DateTime  @default(now())
+  retriever String
+  memory    String
+  llm       String
+  book      Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  messages  Message[]
+
+  @@unique([bookId, userId])
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  createdOn      DateTime     @default(now())
+  role           String
+  content        String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId Int
+}
+
+model Genre {
+  id          Int    @id @default(autoincrement())
+  title       String @unique
+  description String
+  books       Book[]
+  users       User[]
+}
+
+model Author {
+  id    Int    @id @default(autoincrement())
+  name  String
+  books Book[]
+}
+
+enum Format {
+  PAPERBACK
+  HARDCOVER
+  EBOOK
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum ReadingChallengeType {
+  WEEKLY
+  MONTHLY
+  ANNUAL
+}
+
+enum Privacy {
+  PUBLIC
+  PRIVATE
+}
