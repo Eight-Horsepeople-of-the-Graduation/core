@@ -50,6 +50,3 @@ export const getTimeframe = (
     return `year ${getYear(startDate)}`;
   }
 };
-
-console.log(dayjs().endOf("year").toISOString())
-console.log(getTimeframe(new Date("2024-05-20T15:15:46.060Z"), ReadingChallengeType.WEEKLY))

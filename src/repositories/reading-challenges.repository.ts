@@ -10,6 +10,8 @@ import {
   IReadingChallengeWithBooks,
 } from "../interfaces/reading-challenges.interface";
 import { SelectReadingChallengeBook } from "../interfaces/books.interface";
+import { HttpException } from "@exceptions/http.exception";
+import { HttpStatus } from "@enums/http-status.enum";
 
 export const getAllReadingChallenges = async (): Promise<
   IReadingChallengeWithBooks[]
@@ -89,12 +91,18 @@ export const addBookToUserReadingChallenges = async (
           where: { id: readingChallenge.id },
           data: { hasEnded: true },
         });
-        return readingChallenge;
+        throw new HttpException(
+          "Reading challenge has already ended",
+          HttpStatus.BAD_REQUEST
+        );
       }
 
       // Check if the book is already in the reading challenge
       if (readingChallenge.books.some((book) => book.id === bookId))
-        return readingChallenge;
+        throw new HttpException(
+          "Book was already added to the users currently active reading challenges",
+          HttpStatus.BAD_REQUEST
+        );
 
       // Update the reading challenge by adding the book and incrementing the progress
       const updatedReadingChallenge =
@@ -202,7 +210,10 @@ export const deleteBookFromUserReadingChallenges = async (
             where: { id: readingChallenge.id },
             data: { hasEnded: true },
           });
-          return readingChallenge;
+          throw new HttpException(
+            "Reading challenge has already ended",
+            HttpStatus.BAD_REQUEST
+          );
         }
 
         if (readingChallenge.books.some((book) => book.id === bookId)) {
@@ -231,8 +242,12 @@ export const deleteBookFromUserReadingChallenges = async (
               },
             });
           return updatedReadingChallenge;
+        } else {
+          throw new HttpException(
+            "Book was not found in the users currently active reading challenges",
+            HttpStatus.BAD_REQUEST
+          );
         }
-        return readingChallenge;
       })
     );
 
