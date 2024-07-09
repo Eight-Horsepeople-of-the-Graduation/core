@@ -34,11 +34,11 @@ router.patch(
 );
 
 router.patch(
-  "/:readingChallengeId/add-book/:bookId",
+  "/:userId/add-book/:bookId",
   asyncWrapper(readingChallengesController.addBookToUserReadingChallenges)
 );
 router.patch(
-  "/:readingChallengeId/remove-book/:bookId",
+  "/:userId/remove-book/:bookId",
   asyncWrapper(readingChallengesController.deleteBookFromReadingChallenge)
 );
 

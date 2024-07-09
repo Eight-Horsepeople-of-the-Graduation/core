@@ -93,10 +93,10 @@ export const addBookToUserReadingChallenges = async (
   req: Request,
   res: Response
 ): Promise<Response<IReadingChallenge[]>> => {
-  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
-  if (!readingChallengeId) {
+  const userId = parseInt(req.params.userId, 10);
+  if (!userId) {
     throw new HttpException(
-      "Missing required field: readingChallengeId",
+      "Missing required field: userId",
       HttpStatus.BAD_REQUEST
     );
   }
@@ -111,7 +111,7 @@ export const addBookToUserReadingChallenges = async (
 
   const updatedReadingChallenges =
     await readingChallengesService.addBookToUserReadingChallenges(
-      readingChallengeId,
+      userId,
       bookId
     );
 
@@ -122,24 +122,21 @@ export const deleteBookFromReadingChallenge = async (
   req: Request,
   res: Response
 ): Promise<Response<IReadingChallengeWithBooks>> => {
-  const { readingChallengeId, bookId } = req.params;
-  const readingChallengeIdInt = parseInt(readingChallengeId, 10);
+  const { userId, bookId } = req.params;
+  const userIdInt = parseInt(userId, 10);
   const bookIdInt = parseInt(bookId, 10);
 
   if (!bookIdInt) {
     throw new HttpException("Book ID is required", HttpStatus.BAD_GATEWAY);
   }
 
-  if (!readingChallengeIdInt) {
-    throw new HttpException(
-      "Reading Challenge ID is required",
-      HttpStatus.BAD_GATEWAY
-    );
+  if (!userIdInt) {
+    throw new HttpException("User ID is required", HttpStatus.BAD_GATEWAY);
   }
 
   const updatedReadingChallenge =
-    await readingChallengesService.deleteBookFromReadingChallenge(
-      readingChallengeIdInt,
+    await readingChallengesService.deleteBookFromUserReadingChallenges(
+      userIdInt,
       bookIdInt
     );
 

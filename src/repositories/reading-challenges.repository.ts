@@ -76,9 +76,17 @@ export const addBookToUserReadingChallenges = async (
   // Update progress for each reading challenge
   const updatedReadingChallenges: IReadingChallenge[] = await Promise.all(
     userReadingChallenges.map(async (readingChallenge) => {
-      // Check if the reading challenge has already been completed
-      if (readingChallenge.progress >= readingChallenge.goal)
+      // Check if the reading challenge has already been completed (false positive)
+      if (
+        readingChallenge.progress >= readingChallenge.goal ||
+        readingChallenge.endDate < new Date()
+      ) {
+        await prismaClient.readingChallenge.update({
+          where: { id: readingChallenge.id },
+          data: { hasEnded: true },
+        });
         return readingChallenge;
+      }
 
       // Check if the book is already in the reading challenge
       if (readingChallenge.books.some((book) => book.id === bookId))
@@ -96,8 +104,12 @@ export const addBookToUserReadingChallenges = async (
                 id: bookId,
               },
             },
-            progress: readingChallenge.progress + 1,
-            hasEnded: readingChallenge.endDate < new Date(),
+            progress: {
+              increment: 1,
+            },
+            hasEnded:
+              readingChallenge.endDate < new Date() ||
+              readingChallenge.progress + 1 >= readingChallenge.goal,
           },
           include: {
             books: {
@@ -157,21 +169,15 @@ export const deleteReadingChallenge = async (
   return deletedReadingChallenge;
 };
 
-export const deleteBookFromReadingChallenge = async (
-  readingChallengeId: number,
+export const deleteBookFromUserReadingChallenges = async (
+  userId: number,
   bookId: number
-): Promise<IReadingChallengeWithBooks> => {
-  const updatedReadingChallenge: IReadingChallengeWithBooks =
-    await prismaClient.readingChallenge.update({
+): Promise<IReadingChallengeWithBooks[]> => {
+  const userReadingChallenges: IReadingChallengeWithBooks[] =
+    await prismaClient.readingChallenge.findMany({
       where: {
-        id: readingChallengeId,
-      },
-      data: {
-        books: {
-          disconnect: {
-            id: bookId,
-          },
-        },
+        userId,
+        hasEnded: false,
       },
       include: {
         books: {
@@ -179,7 +185,54 @@ export const deleteBookFromReadingChallenge = async (
         },
       },
     });
-  return updatedReadingChallenge;
+
+  const updatedReadingChallenges: IReadingChallengeWithBooks[] =
+    await Promise.all(
+      userReadingChallenges.map(async (readingChallenge) => {
+        // Check if the reading challenge has already been completed (false positive)
+        if (
+          readingChallenge.progress >= readingChallenge.goal ||
+          readingChallenge.endDate < new Date()
+        ) {
+          await prismaClient.readingChallenge.update({
+            where: { id: readingChallenge.id },
+            data: { hasEnded: true },
+          });
+          return readingChallenge;
+        }
+
+        if (readingChallenge.books.some((book) => book.id === bookId)) {
+          const updatedReadingChallenge =
+            await prismaClient.readingChallenge.update({
+              where: {
+                id: readingChallenge.id,
+              },
+              data: {
+                progress: {
+                  decrement: 1,
+                },
+                books: {
+                  disconnect: {
+                    id: bookId,
+                  },
+                },
+                hasEnded:
+                  readingChallenge.endDate < new Date() ||
+                  readingChallenge.progress - 1 >= readingChallenge.goal,
+              },
+              include: {
+                books: {
+                  select: SelectReadingChallengeBook,
+                },
+              },
+            });
+          return updatedReadingChallenge;
+        }
+        return readingChallenge;
+      })
+    );
+
+  return updatedReadingChallenges;
 };
 
 export default {
@@ -188,7 +241,7 @@ export default {
   getReadingChallengesByUserId,
   addBookToUserReadingChallenges,
   createReadingChallenge,
-  deleteBookFromReadingChallenge,
+  deleteBookFromUserReadingChallenges,
   updateReadingChallengeDetails,
   deleteReadingChallenge,
 };

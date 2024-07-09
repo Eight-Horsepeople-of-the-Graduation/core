@@ -15,6 +15,8 @@ import {
   IBook,
   IBookWithoutAuthorsAndGenres,
 } from "../interfaces/books.interface";
+import { getUserById } from "./users.service";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
 
 export const getAllReadingChallenges = async (): Promise<
   IReadingChallengeWithBooks[]
@@ -52,26 +54,21 @@ export const getBooksByReadingChallengeId = async (
 };
 
 export const addBookToUserReadingChallenges = async (
-  readingChallengeId: number,
+  userId: number,
   bookId: number
 ) => {
+  const user: IUserWithoutPassword = await getUserById(userId);
+  if (!user) {
+    throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+  }
   const book: IBook = await getBookById(bookId);
   if (!book) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
   }
 
-  const readingChallenge: IReadingChallengeWithBooks =
-    await getReadingChallengeById(readingChallengeId);
-  if (!readingChallenge) {
-    throw new HttpException(
-      "Reading Challenge not found",
-      HttpStatus.NOT_FOUND
-    );
-  }
-
   const updatedReadingChallenges: IReadingChallenge[] =
     await readingChallengesRepository.addBookToUserReadingChallenges(
-      readingChallengeId,
+      userId,
       bookId
     );
   return updatedReadingChallenges;
@@ -101,28 +98,25 @@ export const updateReadingChallengeDetails = async (
   return updatedReadingChallenge;
 };
 
-export const deleteBookFromReadingChallenge = async (
-  readingChallengeId: number,
+export const deleteBookFromUserReadingChallenges = async (
+  userId: number,
   bookId: number
-): Promise<IReadingChallengeWithBooks> => {
+): Promise<IReadingChallengeWithBooks[]> => {
   const book = await getBookById(bookId);
   if (!book) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
   }
-  const readingChallenge = await getReadingChallengeById(readingChallengeId);
-  if (!readingChallenge) {
-    throw new HttpException(
-      "Reading Challenge not found",
-      HttpStatus.NOT_FOUND
-    );
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new HttpException("User not found", HttpStatus.NOT_FOUND);
   }
-  const updatedReadingChallenge: IReadingChallengeWithBooks =
-    await readingChallengesRepository.deleteBookFromReadingChallenge(
-      readingChallengeId,
+  const updatedReadingChallenges: IReadingChallengeWithBooks[] =
+    await readingChallengesRepository.deleteBookFromUserReadingChallenges(
+      userId,
       bookId
     );
 
-  return updatedReadingChallenge;
+  return updatedReadingChallenges;
 };
 
 export const deleteReadingChallenge = async (
@@ -144,4 +138,5 @@ export default {
   createReadingChallenge,
   updateReadingChallengeDetails,
   deleteReadingChallenge,
+  deleteBookFromUserReadingChallenges,
 };
