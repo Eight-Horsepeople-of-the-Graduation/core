@@ -20,6 +20,8 @@ import {
 } from "../interfaces/reviews.interface";
 import { IBook } from "../interfaces/books.interface";
 import { IReadingChallengeWithBooks } from "../interfaces/reading-challenges.interface";
+import { HttpException } from "../exceptions/http.exception";
+import { HttpStatus } from "../enums/http-status.enum";
 
 export const getAllUsers = async (
   filter: SearchQueryDto
@@ -31,9 +33,9 @@ export const getAllUsers = async (
 
 export const getUserById = async (
   userId: number
-): Promise<OptionalUserWithoutPassword> => {
+): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.getUserById(userId);
-
+  if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
   return user;
 };
 
@@ -131,9 +133,9 @@ export const getReviewByUserId = async (
 export const validateCredentials = async (
   email: string,
   password: string
-): Promise<OptionalUserWithoutPassword> => {
+): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.validateCredentials(email, password);
-
+  if(!user) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED);
   return user;
 };
 

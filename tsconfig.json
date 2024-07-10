@@ -23,5 +23,9 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "express.d.ts", // Ensure this file is included
+    "src/**/*.ts"
+  ]
 }

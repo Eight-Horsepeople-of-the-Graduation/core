@@ -8,6 +8,7 @@ import conversationsRouter from "../routes/conversations.route";
 import authorsRouter from "../routes/authors.route";
 import genresRouter from "../routes/genres.route";
 import reviewsRouter from "../routes/reviews.route";
+import authRouter from "../routes/auth.route";
 
 /**
  * Registers all routes in the application
@@ -15,6 +16,7 @@ import reviewsRouter from "../routes/reviews.route";
  * @returns void
  */
 const loadRouters = (app: Express) => {
+  app.use("/auth", authRouter)
   app.use("/books", booksRouter);
   app.use("/bookshelves", bookshelfRouter);
   app.use("/reading-challenges", readingChallengesRouter);
