@@ -127,11 +127,11 @@ export const deleteBookFromReadingChallenge = async (
   const bookIdInt = parseInt(bookId, 10);
 
   if (!bookIdInt) {
-    throw new HttpException("Book ID is required", HttpStatus.BAD_GATEWAY);
+    throw new HttpException("Book ID is required", HttpStatus.BAD_REQUEST);
   }
 
   if (!userIdInt) {
-    throw new HttpException("User ID is required", HttpStatus.BAD_GATEWAY);
+    throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
   }
 
   const updatedReadingChallenge =
@@ -149,7 +149,7 @@ export const deleteReadingChallenge = async (req: Request, res: Response) => {
   if (!readingChallengeId) {
     throw new HttpException(
       "Reading Challenge ID is required",
-      HttpStatus.BAD_GATEWAY
+      HttpStatus.BAD_REQUEST
     );
   }
 
