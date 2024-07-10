@@ -34,6 +34,12 @@ export const getReadingChallengeById = async (
       readingChallengeId
     );
 
+  if (!readingChallenge) {
+    throw new HttpException(
+      "Reading challenge not found",
+      HttpStatus.NOT_FOUND
+    );
+  }
   return readingChallenge;
 };
 
