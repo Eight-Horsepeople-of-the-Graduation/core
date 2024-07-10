@@ -14,6 +14,7 @@ import authorsRepository from "@repositories/authors.repository";
 import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
 import { IGenre } from "../interfaces/genres.interface";
 import { IAuthor } from "../interfaces/authors.interface";
+import { HttpException } from "@exceptions/http.exception";
 
 export const getAllBooks = async (
   searchQueryDto: SearchQueryDto
@@ -24,7 +25,7 @@ export const getAllBooks = async (
 };
 
 export const getBookById = async (bookId: number): Promise<OptionalBook> => {
-  const book = await booksRepository.getBookById(bookId);
+  const book: OptionalBook = await booksRepository.getBookById(bookId);
 
   return book;
 };
@@ -58,7 +59,6 @@ export const createBook = async (
 
   return newBook;
 };
-
 export const updateBookById = async (
   bookId: number,
   updateBookDto: UpdateBookDto

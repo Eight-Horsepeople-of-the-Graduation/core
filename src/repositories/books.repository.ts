@@ -46,16 +46,19 @@ export const getBookById = async (bookId: number): Promise<OptionalBook> => {
   return book;
 };
 
-export const getBooksByAuthorId = async (authorId: number) => {
-  const books = await prismaClient.book.findMany({
-    where: {
-      authors: {
-        some: {
-          id: authorId,
+export const getBooksByAuthorId = async (
+  authorId: number
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
+    await prismaClient.book.findMany({
+      where: {
+        authors: {
+          some: {
+            id: authorId,
+          },
         },
       },
-    },
-  });
+    });
 
   return books;
 };

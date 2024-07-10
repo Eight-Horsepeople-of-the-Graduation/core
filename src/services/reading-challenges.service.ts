@@ -22,12 +22,6 @@ import { IUserWithoutPassword } from "../interfaces/users.interface";
 export const getAllReadingChallenges = async (): Promise<
   IReadingChallengeWithBooks[]
 > => {
-  if (!readingChallengesRepository) {
-    throw new HttpException(
-      "INTERNAL_SERVER_ERROR: Reading Challenges Repository not found",
-      HttpStatus.INTERNAL_SERVER_ERROR
-    );
-  }
   const readingChallenges: IReadingChallengeWithBooks[] =
     await readingChallengesRepository.getAllReadingChallenges();
 
