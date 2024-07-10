@@ -1,0 +1,89 @@
+import { IAuthor, OptionalAuthor } from "@common/interfaces/authors.interface";
+import { IBook } from "@common/interfaces/books.interface";
+import authorsService from "@modules/authors/authors.service";
+import {
+  CreateAuthorDto,
+  UpdateAuthorDto,
+} from "@modules/authors/dtos/authors.dto";
+import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+import { plainToInstance } from "class-transformer";
+import { Request, Response } from "express";
+
+export const getAllAuthors = async (
+  req: Request,
+  res: Response
+): Promise<Response<IAuthor[]>> => {
+  const filter = plainToInstance(SearchQueryDto, req.query);
+
+  const authors = await authorsService.getAllAuthors(filter);
+
+  return res.send(authors);
+};
+
+export const getAuthorById = async (
+  req: Request,
+  res: Response
+): Promise<Response<OptionalAuthor>> => {
+  const authorId = parseInt(req.params.authorId, 10);
+
+  const author = await authorsService.getAuthorById(authorId);
+
+  return res.send(author);
+};
+
+export const getBooksByAuthorId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBook[]>> => {
+  const authorId = parseInt(req.params.authorId, 10);
+
+  const books = await authorsService.getBooksByAuthorId(authorId);
+
+  return res.send(books);
+};
+
+export const createAuthor = async (
+  req: Request,
+  res: Response
+): Promise<Response<IAuthor>> => {
+  const createAuthorDto = plainToInstance(CreateAuthorDto, req.body);
+
+  const newAuthor = await authorsService.createAuthor(createAuthorDto);
+
+  return res.status(201).send(newAuthor);
+};
+
+export const updateAuthorById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IAuthor>> => {
+  const authorId = parseInt(req.params.authorId, 10);
+  const updateAuthorDto = plainToInstance(UpdateAuthorDto, req.body);
+
+  const updatedAuthor = await authorsService.updateAuthorById(
+    authorId,
+    updateAuthorDto
+  );
+
+  return res.send(updatedAuthor);
+};
+
+export const deleteAuthorById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IAuthor>> => {
+  const authorId = parseInt(req.params.authorId, 10);
+
+  const deletedAuthor = await authorsService.deleteAuthorById(authorId);
+
+  return res.send(deletedAuthor);
+};
+
+export default {
+  createAuthor,
+  getAllAuthors,
+  getAuthorById,
+  getBooksByAuthorId,
+  updateAuthorById,
+  deleteAuthorById,
+};

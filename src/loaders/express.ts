@@ -1,14 +1,14 @@
 import { Express } from "express";
-import authRouter from "@routes/auth.route";
-import readingChallengesRouter from "@routes/reading-challenges.route";
-import usersRouter from "@routes/users.route";
-import booksRouter from "@routes/books.route";
-import bookshelfRouter from "@routes/bookshelves.route";
-import searchRouter from "@routes/search.route";
-import conversationsRouter from "@routes/conversations.route";
-import authorsRouter from "@routes/authors.route";
-import genresRouter from "@routes/genres.route";
-import reviewsRouter from "@routes/reviews.route";
+import authRouter from "@modules/auth/auth.route";
+import readingChallengesRouter from "@modules/reading-challenges/reading-challenges.route";
+import usersRouter from "@modules/users/users.route";
+import booksRouter from "../modules/books/books.route";
+import bookshelfRouter from "@modules/bookshelves/bookshelves.route";
+import searchRouter from "@modules/search/search.route";
+import conversationsRouter from "@modules/conversations/conversations.route";
+import authorsRouter from "@modules/authors/authors.route";
+import genresRouter from "@modules/genres/genres.route";
+import reviewsRouter from "@modules/reviews/reviews.route";
 
 /**
  * Registers all routes in the application

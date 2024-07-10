@@ -1,23 +1,16 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
     "target": "ES2016",
     "incremental": true,
-    "typeRoots": ["node_modules/@types", "./src/types"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
+    // "baseUrl": "./",
     "paths": {
-      "@controllers/*": ["./src/controllers/*"],
-      "@dtos": ["./src/dtos"],
-      "@enums/*": ["./src/enums/*"],
-      "@exceptions/*": ["./src/exceptions/*"],
-      "@loaders/*": ["./src/loaders/*"],
-      "@middleware/*": ["./src/middleware/*"],
-      "@repositories/*": ["./src/repositories/*"],
-      "@routes/*": ["./src/routes/*"],
-      "@services/*": ["./src/services/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@common/*": ["./src/common/*"]
     },
+    "typeRoots": ["node_modules/@types", "src/common/types"],
     "sourceMap": true,
     "resolveJsonModule": true,
     "outDir": "./build",
