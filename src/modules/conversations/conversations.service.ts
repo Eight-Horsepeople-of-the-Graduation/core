@@ -17,12 +17,12 @@ import { buildChat, ChatArgs } from "rag-api";
 import config from "../../config";
 
 export const getConversationByUserAndBook = async (
-  userId: number,
-  bookId: number
+  bookId: number,
+  userId: number
 ): Promise<IConversation> => {
   let conversation = await conversationsRepository.getConversationByUserAndBook(
-    userId,
-    bookId
+    bookId,
+    userId
   );
 
   if (!conversation) {
