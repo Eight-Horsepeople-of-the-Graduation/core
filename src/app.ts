@@ -9,6 +9,12 @@ const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 import { prismaErrorHandlerMiddleware } from "./middleware/prisma-error-handler.middleware";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
+
+declare module "express" {
+  interface Request {
+    user?: any;
+  }
+}
 const app = express();
 
 app.use(cors());
