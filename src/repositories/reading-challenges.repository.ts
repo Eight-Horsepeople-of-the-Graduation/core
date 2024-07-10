@@ -65,7 +65,6 @@ export const addBookToUserReadingChallenges = async (
   userId: number,
   bookId: number
 ): Promise<IReadingChallenge[]> => {
-  // Get all reading challenges that the user is currently participating in
   const userReadingChallenges: IReadingChallengeWithBooks[] =
     await prismaClient.readingChallenge.findMany({
       where: {

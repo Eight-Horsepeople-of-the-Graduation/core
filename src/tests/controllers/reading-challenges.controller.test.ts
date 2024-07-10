@@ -12,6 +12,8 @@ import * as readingChallengesService from "../../services/reading-challenges.ser
 import { getAllReadingChallenges } from "../../controllers/reading-challenges.controller";
 import { ReadingChallengeType } from "@prisma/client";
 import { Format } from "@prisma/client";
+import { title } from "process";
+import authorsController from "@controllers/authors.controller";
 
 describe("Reading Challenges Controller", () => {
   afterEach(() => {
@@ -36,6 +38,8 @@ describe("Reading Challenges Controller", () => {
       expect(res.send).toHaveBeenCalledWith([]);
     });
 
+    // should handle the case when it returns an array of reading challenges
+
     it("should handle the case when it returns an array of reading challenges", async () => {
       const req = {} as Request;
       const res = {
@@ -44,24 +48,32 @@ describe("Reading Challenges Controller", () => {
 
       const mockReadingChallenges = [
         {
-          books: [],
-          _count: { books: 0 },
+          books: [] as any[],
+          _count: { books: 1 },
           id: 1,
           title: "Challenge 1",
           userId: 1,
           type: ReadingChallengeType.MONTHLY,
-          startDate: new Date(),
+          startDate: new Date("2023-01-01"),
           progress: 0,
+          endDate: new Date("2023-04-01"),
+          goal: 25,
+          timeframe: "3 months",
+          hasEnded: false,
         },
         {
-          books: [],
+          books: [] as any[],
           _count: { books: 0 },
           id: 2,
           title: "Challenge 2",
           userId: 1,
           type: ReadingChallengeType.ANNUAL,
-          startDate: new Date(),
+          startDate: new Date("2023-01-01"),
           progress: 42,
+          endDate: new Date("2023-04-01"),
+          goal: 45,
+          timeframe: "4 months",
+          hasEnded: false,
         },
       ];
 

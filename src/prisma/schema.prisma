@@ -79,19 +79,18 @@ model Review {
 }
 
 model ReadingChallenge {
-  id                    Int                   @id @default(autoincrement())
-  title                 String?
-  type                  ReadingChallengeType
-  startDate             DateTime              @default(now())
-  endDate               DateTime?
-  progress              Int                   @default(0)
-  goal                  Int
-  timeframe             String
-  hasEnded              Boolean               @default(false)
-  books                 Book[]
-  user                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                Int
-
+  id        Int                  @id @default(autoincrement())
+  title     String?
+  type      ReadingChallengeType
+  startDate DateTime             @default(now())
+  endDate   DateTime?
+  progress  Int                  @default(0)
+  goal      Int
+  timeframe String
+  hasEnded  Boolean              @default(false)
+  books     Book[]
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
 }
 
 model Conversation {

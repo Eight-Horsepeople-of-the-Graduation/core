@@ -1,7 +1,6 @@
 import { getBookById } from "./books.service";
 import {
   CreateReadingChallengeDto,
-  Duration,
   UpdateReadingChallengeDto,
 } from "../dtos/index";
 import readingChallengesRepository from "../repositories/reading-challenges.repository";
