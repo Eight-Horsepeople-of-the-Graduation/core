@@ -1,90 +1,160 @@
 import { Request, Response } from "express";
 import * as readingChallengesService from "../services/reading-challenges.service";
+import {
+  IReadingChallenge,
+  IReadingChallengeWithBooks,
+} from "../interfaces/reading-challenges.interface";
+import { HttpException } from "../exceptions/http.exception";
+import { HttpStatus } from "../enums/http-status.enum";
+import { IBookWithoutAuthorsAndGenres } from "../interfaces/books.interface";
 
-export const getAllReadingChallenges = async (req: Request, res: Response) => {
+export const getAllReadingChallenges = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReadingChallengeWithBooks[]>> => {
   const readingChallenges =
     await readingChallengesService.getAllReadingChallenges();
 
   return res.send(readingChallenges);
 };
 
-export const getReadingChallengeById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const readingChallenges =
-    await readingChallengesService.getReadingChallengeById(+id);
-
-  if (!readingChallenges) {
-    return res.send({ error: "Reading challenges not found" });
+export const getReadingChallengeById = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReadingChallengeWithBooks>> => {
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+  if (!readingChallengeId) {
+    throw new HttpException(
+      "Missing required field: readingChallengeId",
+      HttpStatus.BAD_REQUEST
+    );
   }
+  const readingChallenges =
+    await readingChallengesService.getReadingChallengeById(readingChallengeId);
 
   return res.send(readingChallenges);
 };
 
-export const getReadingChallengeByUserId = async (
+export const getBooksByReadingChallengeId = async (
   req: Request,
   res: Response
-) => {
-  const { userId } = req.params;
-  const readingChallenge =
-    await readingChallengesService.getReadingChallengesByUserId(+userId);
-  if (!readingChallenge) {
-    return res
-      .status(404)
-      .send({ error: "No Reading Challenge For This User" });
+): Promise<Response<IBookWithoutAuthorsAndGenres[]>> => {
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+  if (!readingChallengeId) {
+    throw new HttpException(
+      "Missing required field: readingChallengeId",
+      HttpStatus.BAD_REQUEST
+    );
   }
 
-  return res.send(readingChallenge);
+  const books =
+    await readingChallengesService.getBooksByReadingChallengeId(
+      readingChallengeId
+    );
+
+  return res.send(books);
 };
 
-export const addBookToReadingChallenge = async (
+export const createReadingChallenge = async (
   req: Request,
   res: Response
-) => {
-  const { id } = req.params;
-  const { bookId } = req.body;
-
-  const updatedReadingChallenge =
-    await readingChallengesService.addBookToReadingChallenge(+id, bookId);
-
-  return res.status(200).send(updatedReadingChallenge);
-};
-
-export const createReadingChallenge = async (req: Request, res: Response) => {
+): Promise<Response<IReadingChallenge>> => {
   const readingChallengeData = req.body;
 
   const createdReadingChallenge =
     await readingChallengesService.createReadingChallenge(readingChallengeData);
 
-  return res.status(201).send(createdReadingChallenge);
+  return res.status(HttpStatus.CREATED).send(createdReadingChallenge);
 };
 
-export const updateReadingChallenge = async (req: Request, res: Response) => {
-  if (!req.body) {
-    return res
-      .status(400)
-      .json({ error: "Updating Reading Callenge Error : Missing Data" });
+export const updateReadingChallengeDetails = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReadingChallenge>> => {
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+  if (!readingChallengeId) {
+    throw new HttpException(
+      "Missing required field: readingChallengeId",
+      HttpStatus.BAD_REQUEST
+    );
   }
-  const { id } = req.params;
+
   const updatedData = req.body;
   const updatedReadingChallenge =
-    await readingChallengesService.updateReadingChallenge(+id, updatedData);
+    await readingChallengesService.updateReadingChallengeDetails(
+      readingChallengeId,
+      updatedData
+    );
 
-  if (!updatedReadingChallenge) {
-    return res.status(404).send({ error: "Reading challenge not found" });
+  return res.send(updatedReadingChallenge);
+};
+
+export const addBookToUserReadingChallenges = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReadingChallenge[]>> => {
+  const userId = parseInt(req.params.userId, 10);
+  if (!userId) {
+    throw new HttpException(
+      "Missing required field: userId",
+      HttpStatus.BAD_REQUEST
+    );
   }
 
-  return res.status(200).send(updatedReadingChallenge);
+  const bookId = parseInt(req.params.bookId, 10);
+  if (!bookId) {
+    throw new HttpException(
+      "Missing required field: bookId",
+      HttpStatus.BAD_REQUEST
+    );
+  }
+
+  const updatedReadingChallenges =
+    await readingChallengesService.addBookToUserReadingChallenges(
+      userId,
+      bookId
+    );
+
+  return res.send(updatedReadingChallenges);
+};
+
+export const deleteBookFromReadingChallenge = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReadingChallengeWithBooks>> => {
+  const { userId, bookId } = req.params;
+  const userIdInt = parseInt(userId, 10);
+  const bookIdInt = parseInt(bookId, 10);
+
+  if (!bookIdInt) {
+    throw new HttpException("Book ID is required", HttpStatus.BAD_GATEWAY);
+  }
+
+  if (!userIdInt) {
+    throw new HttpException("User ID is required", HttpStatus.BAD_GATEWAY);
+  }
+
+  const updatedReadingChallenge =
+    await readingChallengesService.deleteBookFromUserReadingChallenges(
+      userIdInt,
+      bookIdInt
+    );
+
+  return res.send(updatedReadingChallenge);
 };
 
 export const deleteReadingChallenge = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!id) {
-    return res.status(400).json({
-      error: "Deleting Reading Callenge Error( Missing field: id ) ",
-    });
+  const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
+
+  if (!readingChallengeId) {
+    throw new HttpException(
+      "Reading Challenge ID is required",
+      HttpStatus.BAD_GATEWAY
+    );
   }
+
   const deletedReadingChallenge =
-    await readingChallengesService.deleteReadingChallenge(+id);
+    await readingChallengesService.deleteReadingChallenge(readingChallengeId);
 
   return res.status(200).send(deletedReadingChallenge);
 };
@@ -92,9 +162,10 @@ export const deleteReadingChallenge = async (req: Request, res: Response) => {
 export default {
   getAllReadingChallenges,
   getReadingChallengeById,
-  getReadingChallengeByUserId,
-  addBookToReadingChallenge,
+  getBooksByReadingChallengeId,
+  addBookToUserReadingChallenges,
   createReadingChallenge,
-  updateReadingChallenge,
+  updateReadingChallengeDetails,
+  deleteBookFromReadingChallenge,
   deleteReadingChallenge,
 };

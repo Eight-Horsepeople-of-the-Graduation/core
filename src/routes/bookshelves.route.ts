@@ -8,11 +8,9 @@ const router = Router();
 
 router.get("/", asyncWrapper(bookshelvesController.getAllBookshelves));
 
-router.get("/:id", asyncWrapper(bookshelvesController.getBookshelfById));
-
 router.get(
-  "/user/:id",
-  asyncWrapper(bookshelvesController.getBookshelvesByUserId)
+  "/:bookshelfId",
+  asyncWrapper(bookshelvesController.getBookshelfById)
 );
 
 router.post(
@@ -22,23 +20,26 @@ router.post(
 );
 
 router.patch(
-  "/add-books/:id",
+  "/add-books/:bookshelfId",
   [validationMiddleware(UpdateBookshelfDto)],
   asyncWrapper(bookshelvesController.addBookToBookshelf)
 );
 
 router.patch(
-  "/remove-books/:id",
+  "/remove-books/:bookshelfId",
   [validationMiddleware(UpdateBookshelfDto)],
   asyncWrapper(bookshelvesController.removeBooksFromBookshelf)
 );
 
-router.put(
-  "/:id",
+router.patch(
+  "/:bookshelfId",
   [validationMiddleware(UpdateBookshelfDto)],
   asyncWrapper(bookshelvesController.updateBookshelf)
 );
 
-router.delete("/:id", asyncWrapper(bookshelvesController.deleteBookshelf));
+router.delete(
+  "/:bookshelfId",
+  asyncWrapper(bookshelvesController.deleteBookshelf)
+);
 
 export default router;

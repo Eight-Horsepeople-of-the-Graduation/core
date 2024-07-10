@@ -22,7 +22,6 @@ export default function handlePrismaError(
         message: `Unique constraint failed on the "${meta?.target}" field(s) for the ${meta?.modelName} Entity`,
       });
     case "P2003":
-      console.log
       return res.status(HttpStatus.CONFLICT).send({
         status: HttpStatus.CONFLICT,
         message: `Foreign key constraint failed on the field: ${meta?.field_name}`,
@@ -135,7 +134,7 @@ export default function handlePrismaError(
     case "P2025":
       return res.status(HttpStatus.NOT_FOUND).send({
         status: HttpStatus.NOT_FOUND,
-        message: `${meta?.modelName || "Record"} not found`,
+        message: `Record not found or failed to connect to a Record in ${meta?.modelName}`,
       });
     case "P2026":
       return res.status(HttpStatus.BAD_REQUEST).send({

@@ -13,13 +13,12 @@ import { HttpStatus } from "../enums/http-status.enum";
 import booksRepository from "../repositories/books.repository";
 
 export const getConversationByUserAndBook = async (
-  userId: number,
-  bookId: number
+  bookId: number,
+  userId: number
 ): Promise<IConversation> => {
-
   let conversation = await conversationRepository.getConversationByUserAndBook(
-    userId,
-    bookId
+    bookId,
+    userId
   );
 
   if (!conversation) {
@@ -68,7 +67,6 @@ export const deleteConversation = async (
   bookId: number,
   userId: number
 ): Promise<OptionalConversation> => {
-
   const conversation = conversationRepository.deleteConversation(
     bookId,
     userId

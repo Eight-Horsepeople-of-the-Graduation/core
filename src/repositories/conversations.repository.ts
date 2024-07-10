@@ -14,8 +14,15 @@ import { IMessage } from "../interfaces/messages.interface";
 export const createConversation = async (
   conversationData: CreateConversationDto
 ): Promise<IConversation> => {
-  const conversation: IConversation = await prismaClient.conversation.create({
-    data: conversationData,
+  const conversation: IConversation = await prismaClient.conversation.upsert({
+    where: {
+      bookId_userId : {
+        bookId: conversationData.bookId,
+        userId: conversationData.userId,
+      }
+    },
+    create: conversationData,
+    update: {},
     select: {
       id: true,
       messages: {

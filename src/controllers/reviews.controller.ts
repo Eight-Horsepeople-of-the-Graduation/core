@@ -5,37 +5,17 @@ import {
   IReviewWithUserAndBook,
   OptionalReviewWithUserAndBook,
 } from "../interfaces/reviews.interface";
+import usersService from "../services/users.service";
+import booksService from "../services/books.service";
 
 export const getReviewById = async (
   req: Request,
   res: Response
 ): Promise<Response<OptionalReviewWithUserAndBook>> => {
-  const id = parseInt(req.params.id, 10);
-  const review = await reviewsService.getReviewById(id);
+  const reviewId = parseInt(req.params.id, 10);
+  const review = await reviewsService.getReviewById(+reviewId);
 
   return res.send(review);
-};
-
-// should be in users
-export const getReviewsByUserId = async (
-  req: Request,
-  res: Response
-): Promise<Response<IReviewWithUserAndBook[]>> => {
-  const { id } = req.params;
-  const reviews = await reviewsService.getReviewsByUserId(+id);
-
-  return res.send(reviews);
-};
-
-// should be in books
-export const getReviewsByBookId = async (
-  req: Request,
-  res: Response
-): Promise<Response<IReviewWithUserAndBook[]>> => {
-  const { id } = req.params;
-  const reviews = await reviewsService.getReviewsByBookId(+id);
-
-  return res.send(reviews);
 };
 
 export const createReview = async (
@@ -43,18 +23,37 @@ export const createReview = async (
   res: Response
 ): Promise<Response<IReview>> => {
   const createReviewDto = req.body;
-  const newReview = await reviewsService.createReviewAndRating(createReviewDto);
+
+  const newReview = await reviewsService.createReview(createReviewDto);
 
   return res.status(201).send(newReview);
 };
 
-export const updateReview = async (
+export const updateReviewDetails = async (
   req: Request,
   res: Response
 ): Promise<Response<IReviewWithUserAndBook>> => {
   const reviewId = parseInt(req.params.id, 10);
+
   const updateReviewDto = req.body;
-  const updatedReview = await reviewsService.updateReviewAndRating(
+
+  const updatedReview = await reviewsService.updateReviewDetails(
+    updateReviewDto,
+    reviewId
+  );
+
+  return res.send(updatedReview);
+};
+
+export const updateReviewRating = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReviewWithUserAndBook>> => {
+  const reviewId = parseInt(req.params.id, 10);
+
+  const updateReviewDto = req.body;
+
+  const updatedReview = await reviewsService.updateReviewRating(
     updateReviewDto,
     reviewId
   );
@@ -67,16 +66,16 @@ export const deleteReview = async (
   res: Response
 ): Promise<Response<IReviewWithUserAndBook>> => {
   const reviewId = parseInt(req.params.id, 10);
-  const deletedReview = await reviewsService.deleteReviewAndRating(reviewId);
+
+  const deletedReview = await reviewsService.deleteReview(reviewId);
 
   return res.send(deletedReview);
 };
 
 export default {
   getReviewById,
-  getReviewsByUserId,
-  getReviewsByBookId,
   createReview,
-  updateReview,
+  updateReviewDetails,
+  updateReviewRating,
   deleteReview,
 };

@@ -31,33 +31,34 @@ export class BookshelvesDocs {
     @Queries() searchQueryDto: SearchQueryDto
   ): IBookshelfWithUser[] | any {}
 
-  @Get("/:id")
-  public getBookshelfById(@Path() id: number): OptionalBookshelf | any {}
+  @Get("/:bookshelfId")
+  public getBookshelfById(
+    @Path() bookshelfId: number
+  ): OptionalBookshelf | any {}
 
-  @Get("/user/:id")
-  public getBookshelvesByUserId(@Path() id: number): IBookshelf[] | any {}
-
-  @Post("")
+  @Post("/")
   public createBookshelf(@Body() data: CreateBookshelfDto): IBookshelf | any {}
 
-  @Patch("/add-books/:id")
+  @Patch("/add-books/:bookshelfId")
   public addBookToBookshelf(
-    @Path() id: number,
+    @Path() bookshelfId: number,
     @Body() bookIds: { bookIds: number[] }
   ): IBookshelf | any {}
 
-  @Patch("/remove-books/:id")
+  @Patch("/remove-books/:bookshelfId")
   public removeBooksFromBookshelf(
-    @Path() id: number,
+    @Path() bookshelfId: number,
     @Body() bookIds: { bookIds: number[] }
   ): IBookshelf | any {}
 
-  @Put("/:id")
+  @Patch("/:bookshelfId")
   public updateBookshelf(
-    @Path() id: number,
+    @Path() bookshelfId: number,
     @Body() updateBookshelfDto: UpdateBookshelfDto
   ): IBookshelf | any {}
 
-  @Delete("/:id")
-  public deleteBookshelf(@Path() id: number): IBookshelfWithoutBooks | any {}
+  @Delete("/:bookshelfId")
+  public deleteBookshelf(
+    @Path() bookshelfId: number
+  ): IBookshelfWithoutBooks | any {}
 }

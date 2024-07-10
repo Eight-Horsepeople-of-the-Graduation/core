@@ -10,20 +10,30 @@ router.get("/", asyncWrapper(booksController.getAllBooks));
 
 router.get("/:bookId", asyncWrapper(booksController.getBookById));
 
+router.get(
+  "/:bookId/reviews",
+  asyncWrapper(booksController.getReviewsByBookId)
+);
+
+router.get("/:bookId/genres", asyncWrapper(booksController.getGenresByBookId));
+
+router.get(
+  "/:bookId/authors",
+  asyncWrapper(booksController.getAuthorsByBookId)
+);
+
 router.post(
   "/",
   [validationMiddleware(CreateBookDto)],
   asyncWrapper(booksController.createBook)
 );
 
-router.put(
+router.patch(
   "/:bookId",
   [validationMiddleware(UpdateBookDto)],
   asyncWrapper(booksController.updateBookById)
 );
 
 router.delete("/:bookId", asyncWrapper(booksController.deleteBookById));
-
-router.get("/book-of-user/:bookId", asyncWrapper(booksController.getBooksByUserId));
 
 export default router;

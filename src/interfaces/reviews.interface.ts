@@ -19,4 +19,5 @@ export type IReviewRatingAggregate = {
 export type IReviewWithUser = IReview & { user: ReviewUser };
 export type IReviewWithBook = IReview & { book: IBookWithoutAuthorsAndGenres };
 export type IReviewWithUserAndBook = IReviewWithUser & IReviewWithBook;
+export type OptionalReviewWithUserAn = IReviewWithUserAndBook | null;
 export type OptionalReviewWithUserAndBook = IReviewWithUserAndBook | null;

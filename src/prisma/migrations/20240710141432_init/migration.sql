@@ -19,10 +19,12 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "gender" "Gender" NOT NULL,
-    "birthDate" TIMESTAMP(3),
-    "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "refreshToken" TEXT,
     "profilePicture" TEXT,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
+    "birthDate" TIMESTAMP(3),
+    "joinDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -73,10 +75,14 @@ CREATE TABLE "Review" (
 -- CreateTable
 CREATE TABLE "ReadingChallenge" (
     "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
+    "title" TEXT,
     "type" "ReadingChallengeType" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "progress" INTEGER NOT NULL,
+    "endDate" TIMESTAMP(3),
+    "progress" INTEGER NOT NULL DEFAULT 0,
+    "goal" INTEGER NOT NULL,
+    "timeframe" TEXT NOT NULL,
+    "hasEnded" BOOLEAN NOT NULL DEFAULT false,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "ReadingChallenge_pkey" PRIMARY KEY ("id")
@@ -173,6 +179,9 @@ CREATE UNIQUE INDEX "Bookshelf_userId_title_key" ON "Bookshelf"("userId", "title
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Review_userId_bookId_key" ON "Review"("userId", "bookId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Conversation_bookId_userId_key" ON "Conversation"("bookId", "userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Genre_title_key" ON "Genre"("title");

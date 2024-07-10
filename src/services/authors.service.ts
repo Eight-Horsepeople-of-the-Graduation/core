@@ -1,6 +1,11 @@
 import { CreateAuthorDto, SearchQueryDto, UpdateAuthorDto } from "../dtos";
 import authorsRepository from "../repositories/authors.repository";
+import booksRepository from "../repositories/books.repository";
 import { IAuthor, OptionalAuthor } from "../interfaces/authors.interface";
+import {
+  IBook,
+  IBookWithoutAuthorsAndGenres,
+} from "../interfaces/books.interface";
 
 export const getAllAuthors = async (
   SearchQueryDto: SearchQueryDto
@@ -16,6 +21,14 @@ export const getAuthorById = async (
   const author = await authorsRepository.getAuthorById(authorId);
 
   return author;
+};
+
+export const getBooksByAuthorId = async (
+  authorId: number
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books = await booksRepository.getBooksByAuthorId(authorId);
+
+  return books;
 };
 
 export const createAuthor = async (
@@ -47,6 +60,7 @@ export const deleteAuthorById = async (authorId: number): Promise<IAuthor> => {
 export default {
   getAllAuthors,
   getAuthorById,
+  getBooksByAuthorId,
   createAuthor,
   updateAuthorById,
   deleteAuthorById,

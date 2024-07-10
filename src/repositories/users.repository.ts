@@ -1,14 +1,22 @@
+import * as bcrypt from "bcrypt";
 import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "../dtos";
 import prismaClient from "../utils/prisma";
-import { IUser, OptionalUser } from "../interfaces/users.interface";
+import { HttpException } from "../exceptions/http.exception";
+import {
+  IUser,
+  IUserWithoutPassword,
+  OptionalUser,
+  OptionalUserWithoutPassword,
+  SelectUserWithoutPassword,
+} from "../interfaces/users.interface";
 
 export const getAllUsers = async (
   searchQueryDto: SearchQueryDto
-): Promise<IUser[]> => {
+): Promise<IUserWithoutPassword[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
-  const skip: number = (page - 1) * limit;
+  const skip = (page - 1) * limit;
 
-  const users: IUser[] = await prismaClient.user.findMany({
+  const users: IUserWithoutPassword[] = await prismaClient.user.findMany({
     where: {
       ...(term && {
         username: {
@@ -18,16 +26,20 @@ export const getAllUsers = async (
       }),
     },
     skip,
-
+    select: SelectUserWithoutPassword,
     take: limit,
   });
 
   return users;
 };
 
-export const getUserById = async (id: number): Promise<OptionalUser> => {
-  const user: OptionalUser = await prismaClient.user.findUnique({
-    where: { id },
+export const getUserById = async (
+  userId: number
+): Promise<OptionalUserWithoutPassword> => {
+  let user: OptionalUserWithoutPassword;
+  user = await prismaClient.user.findUnique({
+    where: { id: userId },
+    select: SelectUserWithoutPassword,
   });
 
   return user;
@@ -35,40 +47,77 @@ export const getUserById = async (id: number): Promise<OptionalUser> => {
 
 export const getUserByUsername = async (
   username: string
-): Promise<OptionalUser> => {
-  const user: OptionalUser = await prismaClient.user.findUnique({
+): Promise<OptionalUserWithoutPassword> => {
+  let user: OptionalUserWithoutPassword;
+  user = await prismaClient.user.findUnique({
     where: { username },
+    select: SelectUserWithoutPassword,
   });
 
   return user;
 };
 
-export const createUser = async (userData: CreateUserDto): Promise<IUser> => {
-  const user: IUser = await prismaClient.user.create({
-    data: userData,
+export const createUser = async (
+  createUserDto: CreateUserDto
+): Promise<IUserWithoutPassword> => {
+  const hashedPassword = await hashPassword(createUserDto.password);
+
+  const newUser: IUserWithoutPassword = await prismaClient.user.create({
+    data: {
+      ...createUserDto,
+      password: hashedPassword,
+    },
+    select: SelectUserWithoutPassword,
   });
 
-  return user;
+  return newUser;
 };
 
 export const updateUserById = async (
-  id: number,
+  userId: number,
   updatedData: UpdateUserDto
-): Promise<IUser> => {
-  const user: IUser = await prismaClient.user.update({
-    where: { id },
+): Promise<IUserWithoutPassword> => {
+  const user = await prismaClient.user.update({
+    where: { id: userId },
     data: updatedData,
+    select: SelectUserWithoutPassword,
   });
 
   return user;
 };
 
-export const deleteUserById = async (id: number): Promise<IUser> => {
-  const user:IUser = await prismaClient.user.delete({
-    where: { id },
+export const deleteUserById = async (
+  userId: number
+): Promise<IUserWithoutPassword> => {
+  const deletedUser: IUserWithoutPassword = await prismaClient.user.delete({
+    where: { id: userId },
+    select: SelectUserWithoutPassword,
   });
 
-  return user;
+  return deletedUser;
+};
+
+export const hashPassword = async (password: string): Promise<string> => {
+  const salt = await bcrypt.genSalt(10);
+
+  return await bcrypt.hash(password, salt);
+};
+
+export const validateCredentials = async (
+  email: string,
+  password: string
+): Promise<OptionalUserWithoutPassword> => {
+  const user: OptionalUser = await prismaClient.user.findUnique({
+    where: { email },
+  });
+
+  if (!user || !(await bcrypt.compare(password, (user as IUser).password))) {
+    throw new HttpException("Invalid credentials", 401);
+  }
+
+  const { password: _, ...userWithoutPassword } = user as IUser;
+
+  return userWithoutPassword;
 };
 
 export default {
@@ -78,4 +127,6 @@ export default {
   createUser,
   updateUserById,
   deleteUserById,
+  hashPassword,
+  validateCredentials,
 };

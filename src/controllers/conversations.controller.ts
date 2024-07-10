@@ -19,8 +19,8 @@ export const getConversationByUserAndBook = async (
   await conversationsService.checkUserAndBook(userId, bookId);
 
   const conversation = await conversationsService.getConversationByUserAndBook(
-    userId,
-    bookId
+    bookId,
+    userId
   );
 
   return res.send(conversation);

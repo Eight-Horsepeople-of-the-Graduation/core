@@ -3,38 +3,68 @@ import prismaClient from "../../../utils/prisma";
 import { data } from "../data/readingChallengesData.json";
 import { ReadingChallengeType } from "@prisma/client";
 import { seedConfig } from "./config";
+import { getEndDate, getTimeframe } from "../../../utils/dates-utils";
+import { forEach } from "lodash";
+
 export async function seedReadingChallenges(num: number) {
-  num = Math.min(num, data.length);
-  console.log("-----------------------------Seeding Reading Challenges----------------");
+  num = Math.min(num, 1);
+  num = Math.max(num, 3);
+  console.log(
+    "-----------------------------Seeding Reading Challenges----------------"
+  );
 
-  for (let i = 0; i < num; i++) {
+  for (let id = 1; id <= seedConfig.userCount; id++) {
     const user = await prismaClient.user.findUniqueOrThrow({
-      where: {
-        id: Math.max(1, Math.floor(Math.random() * (seedConfig.userCount + 1))),
-      },
+      where: { id },
     });
 
-    const books = await prismaClient.book.findMany();
-    const bookNum = Math.floor(Math.random() * books.length) + 1;
-    await prismaClient.readingChallenge.create({
-      data: {
-        title: data[i].title,
-        type: faker.helpers.arrayElement([
-          ReadingChallengeType.WEEKLY,
-          ReadingChallengeType.MONTHLY,
-          ReadingChallengeType.ANNUAL,
-        ]),
-        startDate: faker.date.soon({ days: 365, refDate: user.joinDate }),
-        books: {
-          connect: faker.helpers
-            .arrayElements(books, bookNum)
-            .map((book) => ({ id: book.id })),
+    //Get Random Type
+    const types = faker.helpers.arrayElements(
+      [
+        ReadingChallengeType.WEEKLY,
+        ReadingChallengeType.MONTHLY,
+        ReadingChallengeType.ANNUAL,
+      ],
+      num
+    );
+
+    for (const type of types) {
+      const startDate = faker.date.soon({ days: 365, refDate: user.joinDate });
+      const endDate = getEndDate(startDate, type);
+      const goal = Math.min(
+        Math.min(5, seedConfig.bookCount),
+        Math.floor(Math.random() * seedConfig.bookCount) + 1
+      );
+      const progress = Math.min(
+        Math.floor(goal / 3),
+        Math.floor(Math.random() * goal) + 1
+      );
+
+      await prismaClient.readingChallenge.create({
+        data: {
+          title: faker.helpers.arrayElement(data).title,
+          timeframe: getTimeframe(startDate, type),
+          type,
+          startDate,
+          books: {
+            connect: faker.helpers
+              .arrayElements(
+                Array.from({ length: seedConfig.bookCount }, (_, i) => i + 1),
+                progress
+              )
+              .map((bookId) => ({ id: bookId })),
+          },
+          userId: user.id,
+          progress,
+          goal,
+          endDate,
+          hasEnded: new Date(endDate) < new Date(),
         },
-        userId: user.id,
-        progress: Math.floor(Math.random() * bookNum),
-      },
-    });
+      });
+    }
   }
 
-  console.log(`Added ${num} reading challenges..`);
+  console.log(
+    `Added ${num} reading challenges for all ${seedConfig.userCount} users..`
+  );
 }

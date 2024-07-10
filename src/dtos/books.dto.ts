@@ -27,7 +27,7 @@ export class CreateBookDto {
 
   @IsNotEmpty()
   @IsString()
-  @IsISBN(10 || 13)
+//  @IsISBN(10 || 13)
   isbn: string;
 
   @IsNotEmpty()
@@ -60,24 +60,27 @@ export class CreateBookDto {
   @IsUrl()
   pdfLink: string;
 
-  @IsNotEmpty()
-  @ValidateNested()
-  authors: AuthorDto[];
+  @IsOptional()
+  @IsString()
+  @IsUrl()
+  coverPicture: string;
 
   @IsNotEmpty()
-  @ValidateNested()
-  genres: GenreDto[];
+  authors: number[];
+
+  @IsNotEmpty()
+  genres: number[];
 }
 
 export class GetBookByIdDto {
   @IsNotEmpty()
   @IsNumber()
-  id: number;
+  bookId: number;
 }
 
 export class GetBookDto {
   @IsNotEmpty()
-  id: number;
+  bookId: number;
 
   @IsNotEmpty()
   title: string;
@@ -122,7 +125,7 @@ export class UpdateBookDto {
 
   @IsOptional()
   @IsString()
-  @IsISBN(10 || 13)
+//  @IsISBN(10 || 13)
   isbn: string;
 
   @IsOptional()
@@ -154,6 +157,11 @@ export class UpdateBookDto {
   @IsString()
   @IsUrl()
   pdfLink: string;
+
+  @IsOptional()
+  @IsString()
+  @IsUrl()
+  coverPicture: string;
 
   @IsOptional()
   @ValidateNested()

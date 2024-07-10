@@ -11,6 +11,7 @@ datasource db {
   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
 model User {
   id                Int                @id @default(autoincrement())
   name              String
@@ -19,10 +20,12 @@ model User {
   password          String
   country           String
   gender            Gender
-  birthDate         DateTime?
-  joinDate          DateTime           @default(now())
+  refreshToken      String?
   profilePicture    String?
   isAdmin           Boolean            @default(false)
+  birthDate         DateTime?
+  joinDate          DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   books             Book[]
   bookshelves       Bookshelf[]
   favoriteGenres    Genre[]
@@ -81,14 +84,19 @@ model Review {
 }
 
 model ReadingChallenge {
-  id        Int                  @id @default(autoincrement())
-  title     String
-  type      ReadingChallengeType
-  startDate DateTime             @default(now())
-  progress  Int
-  books     Book[]
-  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  id                    Int                   @id @default(autoincrement())
+  title                 String?
+  type                  ReadingChallengeType
+  startDate             DateTime              @default(now())
+  endDate               DateTime?
+  progress              Int                   @default(0)
+  goal                  Int
+  timeframe             String
+  hasEnded              Boolean               @default(false)
+  books                 Book[]
+  user                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                Int
+
 }
 
 model Conversation {

@@ -1,7 +1,8 @@
 import { Body, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { ChatDto, CreateConversationDto, CreateMessageDto } from "../dtos";
 import { IConversation } from "../interfaces/conversations.interface";
-
+import { IMessage } from "../interfaces/messages.interface";
+import { deleteConversation } from "../repositories/conversations.repository";
 
 @Route("conversations")
 @Tags("Conversations")
@@ -15,8 +16,8 @@ export class ConversationsSwagger {
 
   @Get("/user/:userId/book/:bookId")
   public getConversationByUserAndBook(
-    @Path() userId: number,
-    @Path() bookId: number
+    @Path() bookId: number,
+    @Path() userId: number
   ): IConversation | any {}
 
   @Delete("/user/:userId/book/:bookId")

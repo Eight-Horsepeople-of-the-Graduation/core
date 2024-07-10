@@ -1,7 +1,7 @@
 import { CreateBookDto, SearchQueryDto, UpdateBookDto } from "../dtos";
+import { PrismaClient } from "@prisma/client";
 import prismaClient from "../utils/prisma";
-import { CreateReviewDto, UpdateReviewDto } from "../dtos/reviews.dto";
-import { aggregateRatingsByBookId } from "./reviews.repository";
+import { Transaction } from "../types/prismaClient-transaction.type";
 import {
   IBook,
   IBookWithoutAuthorsAndGenres,
@@ -46,6 +46,54 @@ export const getBookById = async (bookId: number): Promise<OptionalBook> => {
   return book;
 };
 
+export const getBooksByAuthorId = async (authorId: number) => {
+  const books = await prismaClient.book.findMany({
+    where: {
+      authors: {
+        some: {
+          id: authorId,
+        },
+      },
+    },
+  });
+
+  return books;
+};
+
+export const getBooksByGenreId = async (
+  genreId: number
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
+    await prismaClient.book.findMany({
+      where: {
+        genres: {
+          some: {
+            id: genreId,
+          },
+        },
+      },
+    });
+
+  return books;
+};
+
+export const getBooksByReadingChallengeId = async (
+  readingChallengeId: number
+): Promise<IBookWithoutAuthorsAndGenres[]> => {
+  const books: IBookWithoutAuthorsAndGenres[] =
+    await prismaClient.book.findMany({
+      where: {
+        readingChallenges: {
+          some: {
+            id: readingChallengeId,
+          },
+        },
+      },
+    });
+
+  return books;
+};
+
 export const createBook = async (
   createBookDto: CreateBookDto
 ): Promise<IBookWithoutAuthorsAndGenres> => {
@@ -55,10 +103,10 @@ export const createBook = async (
     data: {
       ...createBookDto,
       authors: {
-        connect: authors.map((author) => ({ id: author.id })),
+        connect: authors.map((id) => ({ id })),
       },
       genres: {
-        connect: genres.map((genre) => ({ id: genre.id })),
+        connect: genres.map((id) => ({ id })),
       },
     },
   });
@@ -89,39 +137,20 @@ export const updateBookById = async (
 };
 
 export const updateBookRating = async (
-  updatedReviewDto: UpdateReviewDto
-): Promise<void> => {
-  const { count: currentRatingsCount, sum: currentRatingsSum } =
-    await aggregateRatingsByBookId(updatedReviewDto.bookId);
-
-  if (updatedReviewDto.rating === undefined) return;
-  const newRatingsSum = currentRatingsSum.rating || 0 + updatedReviewDto.rating;
-  const newRatingsCount = currentRatingsCount.rating || 0 + 1;
-
-  await prismaClient.book.update({
-    where: { id: updatedReviewDto.bookId },
+  rating: number,
+  bookId: number,
+  tx?: Transaction
+) => {
+  const prisma = tx || prismaClient;
+  const updatedBook = await prisma.book.update({
+    where: {
+      id: bookId,
+    },
     data: {
-      rating: newRatingsSum / newRatingsCount,
+      rating,
     },
   });
-};
-
-export const removeBookRating = async (
-  updatedReviewDto: UpdateReviewDto
-): Promise<void> => {
-  const { count: currentRatingsCount, sum: currentRatingsSum } =
-    await aggregateRatingsByBookId(updatedReviewDto.bookId);
-
-  if (updatedReviewDto.rating === undefined) return;
-  const newRatingsSum = currentRatingsSum.rating || 0 - updatedReviewDto.rating;
-  const newRatingsCount = currentRatingsCount.rating || 0 - 1;
-
-  await prismaClient.book.update({
-    where: { id: updatedReviewDto.bookId },
-    data: {
-      rating: newRatingsSum / newRatingsCount,
-    },
-  });
+  return updatedBook;
 };
 
 export const deleteBookById = async (
@@ -136,12 +165,40 @@ export const deleteBookById = async (
   return deletedBook;
 };
 
+export const getBooksByUserId = async (
+  userId: number
+): Promise<IBook[] | any> => {
+  const bookshelves = await prismaClient.bookshelf.findMany({
+    where: { userId },
+    include: {
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
+    },
+  });
+
+  const books: IBook[] = bookshelves.flatMap((bookshelf) => bookshelf.books);
+  const distinctBooks = [...new Set(books.map((book) => book.id))].map((id) =>
+    books.find((book) => book.id === id)
+  );
+
+  if (!distinctBooks) return [] as IBook[];
+
+  return distinctBooks;
+};
+
 export default {
   getAllBooks,
   getBookById,
+  getBooksByAuthorId,
+  getBooksByGenreId,
+  getBooksByReadingChallengeId,
   createBook,
   updateBookById,
-  deleteBookById,
   updateBookRating,
-  removeBookRating,
+  deleteBookById,
+  getBooksByUserId,
 };

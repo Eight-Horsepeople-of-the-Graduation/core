@@ -3,98 +3,165 @@ import usersService from "../services/users.service";
 import { CreateUserDto, UpdateUserDto } from "../dtos";
 import { SearchQueryDto } from "../dtos/search.dto";
 import { plainToInstance } from "class-transformer";
-import {
-  IUser,
-  OptionalUser,
-  UserWithoutPassword,
-} from "../interfaces/users.interface";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
+import { uniqBy } from "lodash";
+import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
+import { IBookshelf } from "../interfaces/bookshelves.interface";
+import { IBook } from "../interfaces/books.interface";
+import { IReadingChallengeWithBooks } from "../interfaces/reading-challenges.interface";
+import { HttpException } from "../exceptions/http.exception";
 import { HttpStatus } from "../enums/http-status.enum";
 
 export const getAllUsers = async (
   req: Request,
   res: Response
-): Promise<Response<UserWithoutPassword[]>> => {
-  const filter: SearchQueryDto = plainToInstance(SearchQueryDto, req.query);
+): Promise<Response<IUserWithoutPassword[]>> => {
+  const filter = plainToInstance(SearchQueryDto, req.query);
 
-  const users: UserWithoutPassword[] = await usersService.getAllUsers(filter);
+  const users = await usersService.getAllUsers(filter);
 
-  return res.status(HttpStatus.OK).send(users);
+  return res.send(users);
 };
 
 export const getUserById = async (
   req: Request,
   res: Response
-): Promise<Response<UserWithoutPassword>> => {
-  const id: number = parseInt(req.params.id, 10);
+): Promise<Response<IUserWithoutPassword>> => {
+  const userId = parseInt(req.params.userId, 10);
 
-  const user: OptionalUser = await usersService.getUserById(id);
-  if (!user)
-    return res.status(HttpStatus.NOT_FOUND).send({ message: "User not found" });
+  const user = await usersService.getUserById(userId);
 
-  const { password, ...userWithoutPassword }: IUser = user; // Destructure to remove password
-
-  return res.status(HttpStatus.OK).send(userWithoutPassword);
+  return res.send(user);
 };
 
 export const getUserByUsername = async (
   req: Request,
   res: Response
-): Promise<Response<UserWithoutPassword>> => {
-  const username: string = req.params.username;
+): Promise<Response<IUserWithoutPassword>> => {
+  const username = req.params.username;
 
-  const user: OptionalUser = await usersService.getUserByUsername(
-    username.toLowerCase()
-  );
-  if (!user)
-    return res.status(HttpStatus.NOT_FOUND).send({ message: "User not found" });
+  const user = await usersService.getUserByUsername(username);
 
-  const { password, ...userWithoutPassword }: IUser = user; // Destructure to remove password
-
-  return res.status(HttpStatus.OK).send(userWithoutPassword);
+  return res.send(user);
 };
 
-export const createUser = async (
+export const getReadingChallengesByUserId = async (
   req: Request,
   res: Response
-): Promise<Response<UserWithoutPassword>> => {
-  const userData: CreateUserDto = req.body;
+): Promise<Response<IReadingChallengeWithBooks[]>> => {
+  const userId = parseInt(req.params.userId, 10);
+  if (!userId) {
+    throw new HttpException(
+      "Missing required field: userId",
+      HttpStatus.BAD_REQUEST
+    );
+  }
 
-  const user: UserWithoutPassword = await usersService.createUser(userData);
+  const readingChallenges =
+    await usersService.getReadingChallengesByUserId(userId);
 
-  return res.status(HttpStatus.CREATED).send(user);
+  return res.send(readingChallenges);
+};
+
+export const getReviewsByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReviewWithUserAndBook[]>> => {
+  const { userId } = req.params;
+  const reviews = await usersService.getReviewsByUserId(+userId);
+
+  return res.send(reviews);
+};
+export const getReviewByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IReviewWithUserAndBook>> => {
+  const userId = parseInt(req.params.userId, 10);
+
+  const reviewId = parseInt(req.params.reviewId, 10);
+
+  const review = await usersService.getReviewByUserId(userId, reviewId);
+
+  return res.send(review);
+};
+
+export const getBookshelvesByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf[]>> => {
+  const userId = parseInt(req.params.userId, 10);
+
+  const bookshelves = await usersService.getBookshelvesByUserId(userId);
+
+  return res.send(bookshelves);
+};
+
+export const getBookshelfByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBookshelf>> => {
+  const userId = parseInt(req.params.userId, 10);
+
+  const bookshelfId = parseInt(req.params.bookshelfId, 10);
+
+  const bookshelf = await usersService.getBookshelfByUserId(
+    userId,
+    bookshelfId
+  );
+
+  return res.send(bookshelf);
+};
+
+export const getBooksByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response<IBook[]>> => {
+  const userId = parseInt(req.params.userId, 10);
+
+  const bookshelves = await usersService.getBookshelvesByUserId(userId);
+
+  const books = bookshelves.flatMap(
+    (bookshelf: { books: any }) => bookshelf.books
+  );
+
+  const distinctBooks = uniqBy(books, "id");
+
+  return res.send(distinctBooks);
 };
 
 export const updateUserById = async (
   req: Request,
   res: Response
-): Promise<Response<UserWithoutPassword>> => {
-  const id: number = parseInt(req.params.id, 10);
+): Promise<Response<IUserWithoutPassword>> => {
+  const userId = parseInt(req.params.userId, 10);
   const updatedData: UpdateUserDto = req.body;
 
-  const user: UserWithoutPassword = await usersService.updateUserById(
-    id,
-    updatedData
-  );
+  const user = await usersService.updateUserById(userId, updatedData);
 
-  return res.status(HttpStatus.OK).send(user);
+  return res.send(user);
 };
 
 export const deleteUserById = async (
   req: Request,
   res: Response
-): Promise<Response<UserWithoutPassword>> => {
-  const id: number = parseInt(req.params.id, 10);
+): Promise<Response<IUserWithoutPassword>> => {
+  const userId = parseInt(req.params.userId, 10);
 
-  const user: UserWithoutPassword = await usersService.deleteUserById(id);
+  const user = await usersService.deleteUserById(userId);
 
-  return res.status(HttpStatus.OK).send(user);
+  return res.send(user);
 };
 
 export default {
   getAllUsers,
   getUserById,
   getUserByUsername,
-  createUser,
+  getReadingChallengesByUserId,
+  getReviewsByUserId,
+  getReviewByUserId,
+  getBookshelvesByUserId,
+  getBookshelfByUserId,
+  getBooksByUserId,
   updateUserById,
   deleteUserById,
 };
