@@ -1,6 +1,7 @@
-import { Format, Privacy } from "@dtos";
-import bookshelvesRepository from "@repositories/bookshelves.repository";
-import prismaClient from "@utils/prisma";
+import { Format } from "@prisma/client";
+import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
+import prismaClient from "@common/utils/prisma";
+import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
 
 describe("Bookshelves Repository Integration Tests", () => {
   beforeEach(async () => {

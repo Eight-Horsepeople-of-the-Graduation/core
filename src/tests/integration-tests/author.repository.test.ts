@@ -1,6 +1,6 @@
-import { Format } from "@dtos";
-import authorsRepository from "@repositories/authors.repository";
-import prismaClient from "@utils/prisma";
+import { Format } from "@prisma/client";
+import authorsRepository from "@modules/authors/authors.repository";
+import prismaClient from "@common/utils/prisma";
 
 describe("Author Repository Integration Tests", () => {
   beforeEach(async () => {

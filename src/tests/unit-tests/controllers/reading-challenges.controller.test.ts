@@ -8,7 +8,7 @@ import {
   getReadingChallengeByUserId,
   updateReadingChallenge,
 } from "../../controllers/reading-challenges.controller";
-import * as readingChallengesService from "../../modules/reading-challenges/reading-challenges.service";
+import * as readingChallengesService from "../../../modules/reading-challenges/reading-challenges.service";
 import { getAllReadingChallenges } from "../../controllers/reading-challenges.controller";
 import { ReadingChallengeType } from "@prisma/client";
 import { Format } from "@prisma/client";

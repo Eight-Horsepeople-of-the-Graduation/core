@@ -1,9 +1,6 @@
-import { Format } from "@dtos";
-import booksRepository from "@repositories/books.repository";
-import readingChallengesRepository from "@repositories/reading-challenges.repository";
-import prismaClient from "@utils/prisma";
-import { count } from "console";
-import { get } from "lodash";
+import booksRepository from "@modules/books/books.repository";
+import prismaClient from "@common/utils/prisma";
+import { Format } from "@modules/books/dtos/books.dto";
 
 describe("Books Repository Integration Tests", () => {
   beforeEach(async () => {

@@ -9,11 +9,11 @@ import {
   getReadingChallengesByUserId,
   updateReadingChallenge,
 } from "@modules/reading-challenges/reading-challenges.repository";
-import prismaClient from "../../common/utils/prisma";
+import prismaClient from "../../../common/utils/prisma";
 import {
   Duration,
   UpdateReadingChallengeDto,
-} from "../../modules/reading-challenges/dtos/reading-challenges.dto";
+} from "../../../modules/reading-challenges/dtos/reading-challenges.dto";
 
 describe("ReadingChallengesRepository", () => {
   describe("getAllReadingChallenges", () => {

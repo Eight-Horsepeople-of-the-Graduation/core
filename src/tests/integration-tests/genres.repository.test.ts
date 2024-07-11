@@ -1,7 +1,6 @@
-import { Format } from "@dtos";
-import genresRepository from "@repositories/genres.repository";
-import prismaClient from "@utils/prisma";
-import e from "express";
+import { Format } from "@prisma/client";
+import genresRepository from "@modules/genres/genres.repository";
+import prismaClient from "@common/utils/prisma";
 
 describe("Genres Repository Integration Tests", () => {
   beforeEach(async () => {

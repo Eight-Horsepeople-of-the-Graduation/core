@@ -1,6 +1,6 @@
-import { Format } from "@dtos";
-import prismaClient from "@utils/prisma";
-import conversationsRepository from "@repositories/conversations.repository";
+import { Format } from "@prisma/client";
+import prismaClient from "@common/utils/prisma";
+import conversationsRepository from "@modules/conversations/conversations.repository";
 
 describe("Conversation Repository Integration Tests", () => {
   beforeEach(async () => {

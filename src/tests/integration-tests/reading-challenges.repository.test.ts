@@ -1,6 +1,7 @@
-import { Duration, Format } from "@dtos";
-import readingChallengesRepository from "@repositories/reading-challenges.repository";
-import prismaClient from "@utils/prisma";
+import { Duration } from "@modules/reading-challenges/dtos/reading-challenges.dto";
+import { Format } from "@prisma/client";
+import readingChallengesRepository from "@modules/reading-challenges/reading-challenges.repository";
+import prismaClient from "@common/utils/prisma";
 
 describe("Reading Challenges Repository Integration Tests", () => {
   const getValidUserId = async () => {
