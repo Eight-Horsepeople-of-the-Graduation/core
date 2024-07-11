@@ -1,46 +1,27 @@
-import { Request, Response } from "express";
+import { HttpStatus } from "@common/enums/http-status.enum";
+import { HttpException } from "@common/exceptions/http.exception";
+import { IReadingChallengeWithBooks } from "@common/interfaces/reading-challenges.interface";
+import { Format } from "@modules/books/dtos/books.dto";
 import {
-  addBookToReadingChallenge,
+  addBookToUserReadingChallenges,
   createReadingChallenge,
   deleteBookFromReadingChallenge,
   deleteReadingChallenge,
+  getAllReadingChallenges,
   getReadingChallengeById,
-  getReadingChallengeByUserId,
-  updateReadingChallenge,
-} from "../../controllers/reading-challenges.controller";
-import * as readingChallengesService from "../../../modules/reading-challenges/reading-challenges.service";
-import { getAllReadingChallenges } from "../../controllers/reading-challenges.controller";
+  updateReadingChallengeDetails,
+} from "@modules/reading-challenges/reading-challenges.controller";
+import readingChallengesService from "@modules/reading-challenges/reading-challenges.service";
 import { ReadingChallengeType } from "@prisma/client";
-import { Format } from "@prisma/client";
-import { title } from "process";
-import authorsController from "@controllers/authors.controller";
+import { Request, Response } from "express";
 
 describe("Reading Challenges Controller", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
   describe("getAllReadingChallenges", () => {
-    it("should handle the case when the service returns null or undefined", async () => {
-      const req = {} as Request;
-      const res = {
-        send: jest.fn(),
-      } as unknown as Response;
-
-      jest
-        .spyOn(readingChallengesService, "getAllReadingChallenges")
-        .mockResolvedValue([]);
-
-      await getAllReadingChallenges(req, res);
-
-      expect(
-        readingChallengesService.getAllReadingChallenges
-      ).toHaveBeenCalled();
-      expect(res.send).toHaveBeenCalledWith([]);
-    });
-
-    // should handle the case when it returns an array of reading challenges
-
-    it("should handle the case when it returns an array of reading challenges", async () => {
+    // Successfully retrieves all reading challenges
+    it("should return all reading challenges when they exist", async () => {
       const req = {} as Request;
       const res = {
         send: jest.fn(),
@@ -83,196 +64,143 @@ describe("Reading Challenges Controller", () => {
 
       await getAllReadingChallenges(req, res);
 
-      expect(
-        readingChallengesService.getAllReadingChallenges
-      ).toHaveBeenCalled();
       expect(res.send).toHaveBeenCalledWith(mockReadingChallenges);
     });
-  });
 
+    it("should return an empty array when no reading challenges are available", async () => {
+      const req = {} as Request;
+      const res = {
+        send: jest.fn(),
+      } as unknown as Response;
+
+      jest
+        .spyOn(readingChallengesService, "getAllReadingChallenges")
+        .mockResolvedValue([]);
+
+      await getAllReadingChallenges(req, res);
+
+      expect(res.send).toHaveBeenCalledWith([]);
+    });
+  });
   describe("getReadingChallengeById", () => {
-    it("should handle the case when the service returns null or undefined", async () => {
+    // Successfully retrieves a reading challenge by a valid ID
+    it("should return reading challenge when valid ID is provided", async () => {
       const req = {
         params: {
-          id: "1",
+          readingChallengeId: "1",
         },
       } as unknown as Request;
       const res = {
         send: jest.fn(),
       } as unknown as Response;
 
-      jest
-        .spyOn(readingChallengesService, "getReadingChallengeById")
-        .mockResolvedValue(null);
-
-      await getReadingChallengeById(req, res);
-
-      expect(
-        readingChallengesService.getReadingChallengeById
-      ).toHaveBeenCalledWith(1);
-      expect(res.send).toHaveBeenCalledWith({
-        error: "Reading challenges not found",
-      });
-    });
-
-    it("should handle the case when the service returns a reading challenge", async () => {
-      const req = {
-        params: {
-          id: "1",
-        },
-      } as unknown as Request;
-      const res = {
-        send: jest.fn(),
-        status: jest.fn(),
-      } as unknown as Response;
-
-      const mockReadingChallenge = {
-        books: [],
+      const readingChallenge = {
+        books: [] as any[],
         _count: { books: 0 },
-        id: 1,
-        title: "Challenge 1",
+        id: 2,
+        title: "Challenge 2",
         userId: 1,
-        type: ReadingChallengeType.MONTHLY,
-        startDate: new Date(),
-        progress: 0,
+        type: ReadingChallengeType.ANNUAL,
+        startDate: new Date("2023-01-01"),
+        progress: 42,
+        endDate: new Date("2023-04-01"),
+        goal: 45,
+        timeframe: "4 months",
+        hasEnded: false,
       };
-
       jest
         .spyOn(readingChallengesService, "getReadingChallengeById")
-        .mockResolvedValue(mockReadingChallenge);
+        .mockResolvedValue(readingChallenge);
 
       await getReadingChallengeById(req, res);
 
       expect(
         readingChallengesService.getReadingChallengeById
       ).toHaveBeenCalledWith(1);
-      expect(res.send).toHaveBeenCalledWith(mockReadingChallenge);
+      expect(res.send).toHaveBeenCalledWith(readingChallenge);
+    });
+    it("should throw HttpException when reading challenge ID is missing", async () => {
+      const req = {
+        params: {},
+      } as unknown as Request;
+      const res = {} as Response;
+
+      await expect(getReadingChallengeById(req, res)).rejects.toThrow(
+        HttpException
+      );
+      await expect(getReadingChallengeById(req, res)).rejects.toThrow(
+        "Missing required field: readingChallengeId"
+      );
     });
   });
 
-  describe("getReadingChallengeByUserId", () => {
-    it("should handle the case when the service returns null or undefined", async () => {
+  describe("addBookToReadingChallenge", () => {
+    // Successfully adds a book to a user's reading challenges when valid userId and bookId are provided
+    it("should add a book to user's reading challenges when valid userId and bookId are provided", async () => {
       const req = {
         params: {
           userId: "1",
+          bookId: "101",
         },
       } as unknown as Request;
       const res = {
         send: jest.fn(),
-        status: jest.fn(),
       } as unknown as Response;
 
-      jest
-        .spyOn(readingChallengesService, "getReadingChallengesByUserId")
-        .mockResolvedValue([]);
-
-      await getReadingChallengeByUserId(req, res);
-
-      expect(
-        readingChallengesService.getReadingChallengesByUserId
-      ).toHaveBeenCalledWith(1);
-      expect(res.send).toHaveBeenCalledWith([]);
-    });
-
-    it("should return reading challenges when given a valid userId", async () => {
-      const req = { params: { userId: "1" } } as unknown as Request;
-      const res = {
-        send: jest.fn(),
-      } as unknown as Response;
-      const mockReadingChallenges = [
+      const mockUpdatedReadingChallenges = [
         {
-          books: [],
+          books: [] as any[],
           _count: { books: 0 },
-          id: 1,
-          title: "Challenge 1",
+          id: 2,
+          title: "Challenge 2",
           userId: 1,
-          type: ReadingChallengeType.MONTHLY,
-          startDate: new Date(),
-          progress: 0,
+          type: ReadingChallengeType.ANNUAL,
+          startDate: new Date("2023-01-01"),
+          progress: 42,
+          endDate: new Date("2023-04-01"),
+          goal: 45,
+          timeframe: "4 months",
+          hasEnded: false,
         },
       ];
-
       jest
-        .spyOn(readingChallengesService, "getReadingChallengesByUserId")
-        .mockResolvedValue(mockReadingChallenges);
+        .spyOn(readingChallengesService, "addBookToUserReadingChallenges")
+        .mockResolvedValue(mockUpdatedReadingChallenges);
 
-      await getReadingChallengeByUserId(req, res);
+      await addBookToUserReadingChallenges(req, res);
 
       expect(
-        readingChallengesService.getReadingChallengesByUserId
-      ).toHaveBeenCalledWith(1);
-      expect(res.send).toHaveBeenCalledWith(mockReadingChallenges);
+        readingChallengesService.addBookToUserReadingChallenges
+      ).toHaveBeenCalledWith(1, 101);
+      expect(res.send).toHaveBeenCalledWith(mockUpdatedReadingChallenges);
     });
-  });
-  describe("addBookToReadingChallenge", () => {
-    it("should successfully add a book to an existing reading challenge when valid id and bookId are provided", async () => {
+
+    it("should throw an exception when userId is missing from request parameters", async () => {
       const req = {
-        params: { id: "1" },
-        body: { bookId: 2 },
+        params: {
+          bookId: "101",
+        },
       } as unknown as Request;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
-      } as unknown as Response;
+      const res = {} as Response;
 
-      const mockUpdatedReadingChallenge = {
-        id: 1,
-        books: [
-          {
-            id: 2,
-            title: "Book Title",
-            isbn: "1234567890",
-            description: "Book Description",
-            publishDate: new Date(),
-            format: Format.HARDCOVER,
-            language: "English",
-            country: "United States",
-            numOfPages: 200,
-            pdfLink: null,
-            coverPicture: null,
-          },
-        ],
-        title: "Challenge 1",
-        userId: 1,
-        type: ReadingChallengeType.MONTHLY,
-        startDate: new Date(),
-        progress: 0,
-      };
-      jest
-        .spyOn(readingChallengesService, "addBookToReadingChallenge")
-        .mockResolvedValue(mockUpdatedReadingChallenge);
-
-      await addBookToReadingChallenge(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.send).toHaveBeenCalledWith(mockUpdatedReadingChallenge);
-    });
-    it("should return an error when bookId is missing in request body", async () => {
-      const req = {
-        params: { id: "1" },
-        body: {},
-      } as unknown as Request;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
-      } as unknown as Response;
-
-      await addBookToReadingChallenge(req, res);
-
-      expect(res.send).toHaveBeenCalledWith({ error: "Book ID is required" });
+      await expect(addBookToUserReadingChallenges(req, res)).rejects.toThrow(
+        HttpException
+      );
+      await expect(addBookToUserReadingChallenges(req, res)).rejects.toThrow(
+        "Missing required field: userId"
+      );
     });
   });
 
   describe("createReadingChallenge", () => {
+    // Successfully create a reading challenge with valid data
     it("should create a reading challenge when valid data is provided", async () => {
       const req = {
         body: {
           title: "New Challenge",
-          description: "Read 10 books in 2023",
-          userId: 1,
-          type: ReadingChallengeType.MONTHLY,
-          startDate: new Date(),
-          progress: 0,
+          description: "Read 5 books in a month",
+          startDate: "2023-01-01",
+          endDate: "2023-01-31",
         },
       } as Request;
 
@@ -284,11 +212,15 @@ describe("Reading Challenges Controller", () => {
       const createdReadingChallenge = {
         id: 1,
         title: "New Challenge",
-        description: "Read 10 books in 2023",
-        userId: 1,
+        description: "Read 5 books in a month",
+        startDate: new Date("2023-01-01"),
+        endDate: new Date("2023-01-31"),
         type: ReadingChallengeType.MONTHLY,
-        startDate: new Date(),
+        goal: 5,
+        userId: 1,
         progress: 0,
+        timeframe: "1 month",
+        hasEnded: false,
       };
 
       jest
@@ -297,169 +229,238 @@ describe("Reading Challenges Controller", () => {
 
       await createReadingChallenge(req, res);
 
+      expect(res.status).toHaveBeenCalledWith(HttpStatus.CREATED);
       expect(res.send).toHaveBeenCalledWith(createdReadingChallenge);
     });
-    it("should return 400 error when request body is missing", async () => {
+    // Handle invalid data types in request body
+    it("should handle invalid data types in request body", async () => {
       const req = {
-        body: null,
-      } as unknown as Request;
+        body: "invalidData",
+      } as Request;
+
       const res = {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
       } as unknown as Response;
 
-      await createReadingChallenge(req, res);
+      jest
+        .spyOn(readingChallengesService, "createReadingChallenge")
+        .mockImplementation(() => {
+          throw new Error("Invalid data types in request body");
+        });
 
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.send).toHaveBeenCalledWith({
-        error: "Missing required fields",
-      });
+      await expect(createReadingChallenge(req, res)).rejects.toThrow(
+        "Invalid data types in request body"
+      );
     });
   });
   describe("updateReadingChallenge", () => {
-    it("should update the reading challenge when valid id and data are provided", async () => {
+    // Successfully updates reading challenge details with valid ID and data
+    it("should update reading challenge details when valid ID and data are provided", async () => {
       const req = {
-        params: { id: "1" },
-        body: { title: "Updated Challenge" },
+        params: { readingChallengeId: "1" },
+        body: { title: "New Title" },
       } as unknown as Request;
       const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
         send: jest.fn(),
       } as unknown as Response;
 
       const updatedReadingChallenge = {
         id: 1,
         title: "New Challenge",
-        description: "Read 10 books in 2023",
-        userId: 1,
+        description: "Read 5 books in a month",
+        startDate: new Date("2023-01-01"),
+        endDate: new Date("2023-01-31"),
         type: ReadingChallengeType.MONTHLY,
-        startDate: new Date(),
+        goal: 5,
+        userId: 1,
         progress: 0,
+        timeframe: "1 month",
+        hasEnded: false,
+        books: [
+          {
+            title: "The Hobbit",
+            isbn: "978-3-16-148410-0",
+            description: "A fantasy novel by J.R.R. Tolkien",
+            publishDate: new Date("1954-07-29"),
+            format: Format.PAPERBACK,
+            language: "English",
+            country: "United Kingdom",
+            numOfPages: 310,
+            pdfLink: "https://www.pdfdrive.com/download.pdf",
+            coverPicture: "https://www.pdfdrive.com/cover.jpg",
+            rating: 4.5,
+            authors: [1],
+            genres: [1],
+          },
+        ],
       };
       jest
-        .spyOn(readingChallengesService, "updateReadingChallenge")
+        .spyOn(readingChallengesService, "updateReadingChallengeDetails")
         .mockResolvedValue(updatedReadingChallenge);
 
-      await updateReadingChallenge(req, res);
+      await updateReadingChallengeDetails(req, res);
 
-      expect(res.status).toHaveBeenCalledWith(200);
+      expect(
+        readingChallengesService.updateReadingChallengeDetails
+      ).toHaveBeenCalledWith(1, { title: "New Title" });
       expect(res.send).toHaveBeenCalledWith(updatedReadingChallenge);
     });
-
-    it("should return 400 error when id is missing in request params", async () => {
+    // Throws HttpException when readingChallengeId is missing
+    it("should throw HttpException when readingChallengeId is missing", async () => {
       const req = {
-        params: {},
-        body: { title: "Updated Challenge" },
+        params: { readingChallengeId: "" },
+        body: { title: "New Title" },
       } as unknown as Request;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as unknown as Response;
+      const res = {} as Response;
 
-      await updateReadingChallenge(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({
-        error: "Updating Reading Callenge Error : Missing Id",
-      });
+      await expect(updateReadingChallengeDetails(req, res)).rejects.toThrow(
+        HttpException
+      );
+      await expect(updateReadingChallengeDetails(req, res)).rejects.toThrow(
+        "Missing required field: readingChallengeId"
+      );
     });
   });
 
   describe("deleteBookFromReadingChallenge", () => {
-    it("should delete a book from an existing reading challenge when valid IDs are provided", async () => {
+    // Successfully delete a book from a user's reading challenge when valid userId and bookId are provided
+    it("should successfully delete a book from a user's reading challenge when valid userId and bookId are provided", async () => {
       const req = {
-        params: { id: "1" },
-        body: { bookId: 1 },
+        params: {
+          userId: "1",
+          bookId: "2",
+        },
       } as unknown as Request;
+
       const res = {
-        status: jest.fn().mockReturnThis(),
         send: jest.fn(),
       } as unknown as Response;
 
-      const mockDeleteBookFromReadingChallenge = jest
-        .spyOn(readingChallengesService, "deleteBookFromReadingChallenge")
-        .mockResolvedValue({
-          books: [],
-          id: 1,
-          title: "Challenge 1",
-          userId: 1,
-          type: ReadingChallengeType.MONTHLY,
-          startDate: new Date("2023-01-01"),
-          progress: 0,
-        });
-
-      await deleteBookFromReadingChallenge(req, res);
-
-      expect(mockDeleteBookFromReadingChallenge).toHaveBeenCalledWith(1, 1);
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.send).toHaveBeenCalledWith({
-        books: [],
-        id: 1,
-        title: "Challenge 1",
-        userId: 1,
-        type: ReadingChallengeType.MONTHLY,
-        startDate: new Date("2023-01-01"),
-        progress: 0,
-      });
-    });
-    // Book ID is missing or invalid
-    it("should return status 400 with error message when book ID is missing", async () => {
-      const req = {
-        params: { id: "1" },
-        body: {},
-      } as unknown as Request;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
-      } as unknown as Response;
-
-      await deleteBookFromReadingChallenge(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.send).toHaveBeenCalledWith({ error: "Book ID is required" });
-    });
-  });
-  describe("deleteReadingChallenge", () => {
-    it("should delete a reading challenge when a valid id is provided", async () => {
-      const req = { params: { id: "1" } } as unknown as Request;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
-      } as unknown as Response;
-      const deletedReadingChallenge = {
+      const updatedReadingChallenge: IReadingChallengeWithBooks = {
         id: 1,
         title: "New Challenge",
-        description: "Read 10 books in 2023",
-        userId: 1,
+        startDate: new Date("2023-01-01"),
+        endDate: new Date("2023-01-31"),
         type: ReadingChallengeType.MONTHLY,
-        startDate: new Date(),
+        goal: 5,
+        userId: 1,
         progress: 0,
+        timeframe: "1 month",
+        hasEnded: false,
+        books: [
+          {
+            id: 1,
+            title: "The Hobbit",
+            coverPicture: "https://www.pdfdrive.com/cover.jpg",
+            rating: 4.5,
+            authors: [
+              {
+                id: 1,
+                name: "J.R.R. Tolkien",
+              },
+            ],
+          },
+        ],
       };
 
       jest
+        .spyOn(readingChallengesService, "deleteBookFromUserReadingChallenges")
+        .mockResolvedValue([updatedReadingChallenge]);
+
+      await deleteBookFromReadingChallenge(req, res);
+
+      expect(
+        readingChallengesService.deleteBookFromUserReadingChallenges
+      ).toHaveBeenCalledWith(1, 2);
+      expect(res.send).toBeDefined();
+    });
+    it("should throw an HttpException when bookId is not provided in the request", async () => {
+      const req = {
+        params: {
+          userId: "1",
+          bookId: "",
+        },
+      } as unknown as Request;
+
+      const res = {} as Response;
+
+      await expect(deleteBookFromReadingChallenge(req, res)).rejects.toThrow(
+        HttpException
+      );
+      await expect(deleteBookFromReadingChallenge(req, res)).rejects.toThrow(
+        "Book ID is required"
+      );
+    });
+  });
+  describe("deleteReadingChallenge", () => {
+    // Successfully delete a reading challenge when a valid ID is provided
+    it("should delete the reading challenge when a valid ID is provided", async () => {
+      const req = {
+        params: {
+          readingChallengeId: "1",
+        },
+      } as unknown as Request;
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      } as unknown as Response;
+
+      const mockDeletedReadingChallenge = {
+        id: 1,
+        title: "New Challenge",
+        description: "Read 5 books in a month",
+        startDate: new Date("2023-01-01"),
+        endDate: new Date("2023-01-31"),
+        type: ReadingChallengeType.MONTHLY,
+        goal: 5,
+        userId: 1,
+        progress: 0,
+        timeframe: "1 month",
+        hasEnded: false,
+        books: [
+          {
+            title: "The Hobbit",
+            isbn: "978-3-16-148410-0",
+            description: "A fantasy novel by J.R.R. Tolkien",
+            publishDate: new Date("1954-07-29"),
+            format: Format.PAPERBACK,
+            language: "English",
+            country: "United Kingdom",
+            numOfPages: 310,
+            pdfLink: "https://www.pdfdrive.com/download.pdf",
+            coverPicture: "https://www.pdfdrive.com/cover.jpg",
+            rating: 4.5,
+            authors: [1],
+            genres: [1],
+          },
+        ],
+      };
+      jest
         .spyOn(readingChallengesService, "deleteReadingChallenge")
-        .mockResolvedValue(deletedReadingChallenge);
+        .mockResolvedValue(mockDeletedReadingChallenge);
 
       await deleteReadingChallenge(req, res);
 
       expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.send).toHaveBeenCalledWith(deletedReadingChallenge);
+      expect(res.send).toHaveBeenCalledWith(mockDeletedReadingChallenge);
     });
 
-    it("should return status 400 when id is missing in request params", async () => {
-      const req = { params: {} } as unknown as Request;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as unknown as Response;
+    // Handle cases where the reading challenge ID is missing or invalid
+    it("should throw an error when the reading challenge ID is missing or invalid", async () => {
+      const req = {
+        params: {
+          readingChallengeId: "",
+        },
+      } as unknown as Request;
+      const res = {} as Response;
 
-      await deleteReadingChallenge(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({
-        error: "Deleting Reading Callenge Error( Missing field: id ) ",
-      });
+      await expect(deleteReadingChallenge(req, res)).rejects.toThrow(
+        HttpException
+      );
+      await expect(deleteReadingChallenge(req, res)).rejects.toThrow(
+        "Reading Challenge ID is required"
+      );
     });
   });
 });
