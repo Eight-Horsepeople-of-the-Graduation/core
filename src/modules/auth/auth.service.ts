@@ -38,6 +38,7 @@ export const signUp = async (
     for (const defaultBookshelf of defaultBookshelves) {
       await bookshelvesRepository.createBookshelf(defaultBookshelf, tx);
     }
+    console.log("User created with default bookshelves")
 
     return { user, tokens };
   });

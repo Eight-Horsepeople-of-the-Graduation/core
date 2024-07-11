@@ -1,9 +1,12 @@
+import { HttpStatus } from "@common/enums/http-status.enum";
+import { HttpException } from "@common/exceptions/http.exception";
 import {
   IBookshelf,
   IBookshelfWithoutBooks,
   IBookshelfWithUser,
   OptionalBookshelf,
 } from "@common/interfaces/bookshelves.interface";
+import { getDefaultTitles } from "@common/utils/build-default-bookshelves";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
 import {
   CreateBookshelfDto,
@@ -32,6 +35,18 @@ export const getBookshelfById = async (
 export const createBookshelf = async (
   data: CreateBookshelfDto
 ): Promise<IBookshelf> => {
+  const { userId, title } = data;
+  const bookshelvesTitles = (
+    await bookshelvesRepository.getBookshelvesByUserId(userId)
+  ).map((bookshelf) => bookshelf.title.toLowerCase());
+
+  if (bookshelvesTitles.includes(title.toLowerCase())) {
+    throw new HttpException(
+      "Bookshelf with this title already exists",
+      HttpStatus.CONFLICT
+    );
+  }
+
   const bookshelf: IBookshelf =
     await bookshelvesRepository.createBookshelf(data);
 
@@ -62,6 +77,23 @@ export const updateBookshelf = async (
   bookshelfId: number,
   updateBookshelfDto: UpdateBookshelfDto
 ): Promise<IBookshelf> => {
+  if (checkDefaultBookshelf(bookshelfId)) {
+    if (updateBookshelfDto.description || updateBookshelfDto.title) {
+      throw new HttpException(
+        "You can't update default bookshelves title or description.",
+        HttpStatus.FORBIDDEN
+      );
+    } else {
+      const updatedBookshelf: IBookshelf =
+        await bookshelvesRepository.updateBookshelf(
+          bookshelfId,
+          updateBookshelfDto
+        );
+
+      return updatedBookshelf;
+    }
+  }
+
   const updatedBookshelf: IBookshelf =
     await bookshelvesRepository.updateBookshelf(
       bookshelfId,
@@ -74,12 +106,26 @@ export const updateBookshelf = async (
 export const deleteBookshelf = async (
   bookshelfId: number
 ): Promise<IBookshelfWithoutBooks> => {
+  if (checkDefaultBookshelf(bookshelfId)) {
+    throw new HttpException(
+      "You can't delete default bookshelves",
+      HttpStatus.FORBIDDEN
+    );
+  }
+
   const deletedBookshelf: IBookshelfWithoutBooks =
     await bookshelvesRepository.deleteBookshelf(bookshelfId);
 
   return deletedBookshelf;
 };
 
+const checkDefaultBookshelf = async (bookshelfId: number) => {
+  const bookshelfTitle = (
+    await bookshelvesRepository.getBookshelfById(bookshelfId)
+  ).title.toLowerCase();
+
+  return getDefaultTitles().includes(bookshelfTitle);
+};
 export default {
   getAllBookshelves,
   getBookshelfById,
