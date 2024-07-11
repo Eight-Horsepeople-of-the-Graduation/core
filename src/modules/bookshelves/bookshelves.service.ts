@@ -6,12 +6,20 @@ import {
   IBookshelfWithUser,
   OptionalBookshelf,
 } from "@common/interfaces/bookshelves.interface";
-import { getDefaultTitles } from "@common/utils/build-default-bookshelves";
+import {
+  doneReadingInfo,
+  getDefaultTitles,
+} from "@common/utils/build-default-bookshelves";
+import prismaClient from "@common/utils/prisma";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
 import {
   CreateBookshelfDto,
   UpdateBookshelfDto,
 } from "@modules/bookshelves/dtos/bookshelves.dto";
+import {
+  addBookToUserReadingChallenges,
+  deleteBookFromUserReadingChallenges,
+} from "@modules/reading-challenges/reading-challenges.repository";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllBookshelves = async (
@@ -54,23 +62,70 @@ export const createBookshelf = async (
 };
 
 export const addBookToBookshelf = async (
-  booksheflId: number,
+  bookshelflId: number,
   bookIds: number[]
 ): Promise<IBookshelf> => {
-  const updatedBookshelf: IBookshelf =
-    await bookshelvesRepository.addBooksToBookshelf(booksheflId, bookIds);
+  if (checkDefaultBookshelf(bookshelflId, doneReadingInfo.title)) {
+    return prismaClient.$transaction(async (tx) => {
+      const userId = (
+        await bookshelvesRepository.getBookshelfById(bookshelflId)
+      ).userId;
 
-  return updatedBookshelf;
+      const updatedBookshelf: IBookshelf =
+        await bookshelvesRepository.addBooksToBookshelf(
+          bookshelflId,
+          bookIds,
+          tx
+        );
+
+      Promise.all(
+        bookIds.map(async (bookId) => {
+          await addBookToUserReadingChallenges(userId, bookId, tx);
+        })
+      );
+      return updatedBookshelf;
+    });
+  } else {
+    const updatedBookshelf: IBookshelf =
+      await bookshelvesRepository.addBooksToBookshelf(bookshelflId, bookIds);
+
+    return updatedBookshelf;
+  }
 };
 
 export const removeBooksFromBookshelf = async (
-  bookshelfId: number,
+  bookshelflId: number,
   bookIds: number[]
 ): Promise<IBookshelf> => {
-  const updatedBookshelf: IBookshelf =
-    await bookshelvesRepository.removeBooksFromBookshelf(bookshelfId, bookIds);
+  if (checkDefaultBookshelf(bookshelflId, doneReadingInfo.title)) {
+    return prismaClient.$transaction(async (tx) => {
+      const userId = (
+        await bookshelvesRepository.getBookshelfById(bookshelflId)
+      ).userId;
 
-  return updatedBookshelf;
+      const updatedBookshelf: IBookshelf =
+        await bookshelvesRepository.removeBooksFromBookshelf(
+          bookshelflId,
+          bookIds,
+          tx
+        );
+
+      Promise.all(
+        bookIds.map(async (bookId) => {
+          await deleteBookFromUserReadingChallenges(userId, bookId, tx);
+        })
+      );
+      return updatedBookshelf;
+    });
+  } else {
+    const updatedBookshelf: IBookshelf =
+      await bookshelvesRepository.removeBooksFromBookshelf(
+        bookshelflId,
+        bookIds
+      );
+
+    return updatedBookshelf;
+  }
 };
 
 export const updateBookshelf = async (
@@ -119,11 +174,15 @@ export const deleteBookshelf = async (
   return deletedBookshelf;
 };
 
-const checkDefaultBookshelf = async (bookshelfId: number) => {
+const checkDefaultBookshelf = async (bookshelfId: number, title?: string) => {
   const bookshelfTitle = (
     await bookshelvesRepository.getBookshelfById(bookshelfId)
   ).title.toLowerCase();
 
+  if (title) {
+    if (title === bookshelfTitle) return true;
+    else return false;
+  }
   return getDefaultTitles().includes(bookshelfTitle);
 };
 export default {

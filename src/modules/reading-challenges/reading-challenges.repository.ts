@@ -12,6 +12,7 @@ import {
 import { SelectReadingChallengeBook } from "@common/interfaces/books.interface";
 import { HttpException } from "../../common/exceptions/http.exception";
 import { HttpStatus } from "../../common/enums/http-status.enum";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
 
 export const getAllReadingChallenges = async (): Promise<
   IReadingChallengeWithBooks[]
@@ -63,11 +64,13 @@ export const getReadingChallengesByUserId = async (
 
 export const addBookToUserReadingChallenges = async (
   userId: number,
-  bookId: number
+  bookId: number,
+  tx?: Transaction
 ): Promise<IReadingChallenge[]> => {
+  const _prismaClient = tx || prismaClient;
   // Get all reading challenges that the user is currently participating in
   const userReadingChallenges: IReadingChallengeWithBooks[] =
-    await prismaClient.readingChallenge.findMany({
+    await _prismaClient.readingChallenge.findMany({
       where: {
         userId,
         hasEnded: false,
@@ -87,7 +90,7 @@ export const addBookToUserReadingChallenges = async (
         readingChallenge.progress >= readingChallenge.goal ||
         readingChallenge.endDate < new Date()
       ) {
-        await prismaClient.readingChallenge.update({
+        await _prismaClient.readingChallenge.update({
           where: { id: readingChallenge.id },
           data: { hasEnded: true },
         });
@@ -106,7 +109,7 @@ export const addBookToUserReadingChallenges = async (
 
       // Update the reading challenge by adding the book and incrementing the progress
       const updatedReadingChallenge =
-        await prismaClient.readingChallenge.update({
+        await _prismaClient.readingChallenge.update({
           where: {
             id: readingChallenge.id,
           },
@@ -183,8 +186,11 @@ export const deleteReadingChallenge = async (
 
 export const deleteBookFromUserReadingChallenges = async (
   userId: number,
-  bookId: number
+  bookId: number,
+  tx?: Transaction
 ): Promise<IReadingChallengeWithBooks[]> => {
+  const _prismaClient = tx || prismaClient;
+
   const userReadingChallenges: IReadingChallengeWithBooks[] =
     await prismaClient.readingChallenge.findMany({
       where: {
@@ -206,7 +212,7 @@ export const deleteBookFromUserReadingChallenges = async (
           readingChallenge.progress >= readingChallenge.goal ||
           readingChallenge.endDate < new Date()
         ) {
-          await prismaClient.readingChallenge.update({
+          await _prismaClient.readingChallenge.update({
             where: { id: readingChallenge.id },
             data: { hasEnded: true },
           });
@@ -218,7 +224,7 @@ export const deleteBookFromUserReadingChallenges = async (
 
         if (readingChallenge.books.some((book) => book.id === bookId)) {
           const updatedReadingChallenge =
-            await prismaClient.readingChallenge.update({
+            await _prismaClient.readingChallenge.update({
               where: {
                 id: readingChallenge.id,
               },

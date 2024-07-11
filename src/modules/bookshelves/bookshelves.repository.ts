@@ -1,3 +1,5 @@
+import { HttpStatus } from "@common/enums/http-status.enum";
+import { HttpException } from "@common/exceptions/http.exception";
 import { IBookWithoutAuthorsAndGenres } from "@common/interfaces/books.interface";
 import {
   IBookshelf,
@@ -125,8 +127,10 @@ export const createBookshelf = async (
 
 export const addBooksToBookshelf = async (
   bookshelfId: number,
-  booksIds: number[]
+  booksIds: number[],
+  tx?: Transaction
 ): Promise<IBookshelf> => {
+  const _prismaClient = tx || prismaClient;
   const bookshelf = await getBookshelfById(bookshelfId);
   if (!bookshelf) throw new Error("Bookshelf Not Found");
 
@@ -137,7 +141,7 @@ export const addBooksToBookshelf = async (
       },
     });
 
-  const updatedBookshelf: IBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf: IBookshelf = await _prismaClient.bookshelf.update({
     where: { id: bookshelfId },
     data: {
       books: {
@@ -157,10 +161,14 @@ export const addBooksToBookshelf = async (
 
 export const removeBooksFromBookshelf = async (
   bookshelfId: number,
-  booksIds: number[]
+  booksIds: number[],
+  tx?: Transaction
 ): Promise<IBookshelf> => {
+  const _prismaClient = tx || prismaClient;
+
   const bookshelf = await getBookshelfById(bookshelfId);
-  if (!bookshelf) throw new Error("Bookshelf Not Found");
+  if (!bookshelf)
+    throw new HttpException("Bookshelf Not Found", HttpStatus.NOT_FOUND);
 
   const books = await prismaClient.book.findMany({
     where: {
@@ -168,7 +176,7 @@ export const removeBooksFromBookshelf = async (
     },
   });
 
-  const updatedBookshelf: IBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf: IBookshelf = await _prismaClient.bookshelf.update({
     where: { id: bookshelfId },
     data: {
       books: {
