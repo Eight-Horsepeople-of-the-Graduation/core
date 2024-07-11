@@ -7,8 +7,9 @@
     "experimentalDecorators": true,
     // "baseUrl": "./",
     "paths": {
-      "@modules/*": ["./src/modules/*"],
-      "@common/*": ["./src/common/*"]
+      "@common/*": ["./src/common/*"],
+      "@loaders/*": ["./src/loaders/*"],
+      "@modules/*": ["./src/modules/*"]
     },
     "typeRoots": ["node_modules/@types", "src/common/types"],
     "sourceMap": true,
