@@ -67,6 +67,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     await prismaClient.readingChallenge.deleteMany();
     await prismaClient.user.deleteMany();
     await prismaClient.book.deleteMany();
+    await prismaClient.author.deleteMany();
   });
 
   afterAll(async () => {
@@ -78,7 +79,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
 
     const newReadingChallenge = {
       title: "New Reading Challenge",
-      startDate: new Date("2021-01-01"), // Consider mocking Date constructor for better isolation
+      startDate: new Date("2021-01-01"), 
       endDate: new Date("2021-12-31"),
       type: Duration.ANNUAL,
       goal: 12,

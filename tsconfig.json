@@ -5,7 +5,6 @@
     "incremental": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    // "baseUrl": "./",
     "paths": {
       "@modules/*": ["./src/modules/*"],
       "@common/*": ["./src/common/*"]

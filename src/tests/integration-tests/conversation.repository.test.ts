@@ -1,6 +1,7 @@
 import { Format } from "@prisma/client";
 import prismaClient from "@common/utils/prisma";
 import conversationsRepository from "@modules/conversations/conversations.repository";
+import { constant } from "lodash";
 
 describe("Conversation Repository Integration Tests", () => {
   beforeEach(async () => {
@@ -44,6 +45,19 @@ describe("Conversation Repository Integration Tests", () => {
         llm: " test conversation llm ",
         bookId: bookId,
         userId: userId,
+      },
+    });
+    const validConversationId = await prismaClient.conversation.findFirst();
+    const conversationId = validConversationId.id;
+    await prismaClient.message.create({
+      data: {
+        content: "Test message",
+        role: "human",
+        conversation: {
+          connect: {
+            id: conversationId,
+          },
+        },
       },
     });
   });
@@ -113,4 +127,61 @@ describe("Conversation Repository Integration Tests", () => {
 
     expect(foundConversation).toMatchObject(conversations);
   });
+
+  it("should delete conversation", async () => {
+    const validBookId = await prismaClient.book.findFirst();
+    const validUserId = await prismaClient.user.findFirst();
+    const Conversation = await prismaClient.conversation.findFirst();
+    const conversationId = Conversation.id;
+    const userId = validUserId.id;
+    const bookId = validBookId.id;
+    await conversationsRepository.deleteConversation(bookId, userId);
+    const foundConversation = await prismaClient.message.findUnique({
+      where: {
+        id: conversationId,
+      },
+    });
+
+    expect(foundConversation).toBeNull();
+  });
+
+  it("get Messages By ConversationId ", async () => {
+    const conversation = await prismaClient.conversation.findFirst();
+    const conversationId = conversation.id;
+    const messages =
+      await conversationsRepository.getMessagesByConversationId(conversationId);
+    const foundMessages = await prismaClient.message.findMany({
+      where: {
+        conversationId: conversationId,
+      },
+    });
+
+    expect(foundMessages).toHaveLength(messages.length);
+  });
+  // it("should create a conversation", async () => {
+  //   const validBookId = await prismaClient.book.findFirst();
+  //   const validUserId = await prismaClient.user.findFirst();
+  //   const userId = validUserId.id;
+  //   const bookId = validBookId.id;
+
+  //   const conversationData = {
+  //     retriever: "Conversation retriever",
+  //     memory: " test conversation memory ",
+  //     llm: " test conversation llm ",
+  //     bookId: bookId,
+  //     userId: userId,
+  //   };
+  //   const conversation =
+  //     await conversationsRepository.createConversation(conversationData);
+  //   const foundConversation = await prismaClient.conversation.findUnique({
+  //     where: {
+  //       id: conversation.id,
+  //     },
+  //     include: {
+  //       messages: true,
+  //     },
+  //   });
+
+  //   expect(foundConversation).toMatchObject(conversation);
+  // });
 });
