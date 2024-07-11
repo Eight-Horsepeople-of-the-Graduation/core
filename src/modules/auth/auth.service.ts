@@ -6,6 +6,16 @@ import { IUserWithoutPassword } from "@common/interfaces/users.interface";
 import usersService from "@modules/users/users.service";
 import { HttpException } from "@common/exceptions/http.exception";
 import { JwtPayload } from "@common/types/jwt-payload.interface";
+import prismaClient from "@common/utils/prisma";
+import usersRepository from "@modules/users/users.repository";
+import booksRepository from "@modules/books/books.repository";
+import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
+import {
+  CreateBookshelfDto,
+  Privacy,
+} from "@modules/bookshelves/dtos/bookshelves.dto";
+import { buildDefaultBookshelves } from "@common/utils/build-default-bookshelves";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
 
 export const signUp = async (
   signUpDto: SignUpDto
@@ -13,12 +23,24 @@ export const signUp = async (
   user: IUserWithoutPassword;
   tokens: { accessToken: string; refreshToken: string };
 }> => {
-  const user = await usersService.createUser(signUpDto);
+  return prismaClient.$transaction(async (tx) => {
+    // First, operation in the transaction
+    const user = await usersRepository.createUser(signUpDto, tx);
+    const tokens = await getTokens(user.id, user.email);
 
-  const tokens = await getTokens(user.id, user.email);
-  await updateRefreshToken(user.id, tokens.refreshToken);
+    // Second operation in the transaction
+    await updateRefreshToken(user.id, tokens.refreshToken, tx);
 
-  return { user, tokens };
+    const defaultBookshelves: CreateBookshelfDto[] = buildDefaultBookshelves(
+      user.id
+    );
+    // Third operation in the transaction
+    for (const defaultBookshelf of defaultBookshelves) {
+      await bookshelvesRepository.createBookshelf(defaultBookshelf, tx);
+    }
+
+    return { user, tokens };
+  });
 };
 
 export const logIn = async (
@@ -94,13 +116,18 @@ export const getTokens = async (
 
 export const updateRefreshToken = async (
   userId: number,
-  refreshToken: string
+  refreshToken: string,
+  tx?: Transaction
 ): Promise<void> => {
   const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
 
-  await usersService.updateUserById(userId, {
-    refreshToken: hashedRefreshToken,
-  });
+  await usersRepository.updateUserById(
+    userId,
+    {
+      refreshToken: hashedRefreshToken,
+    },
+    tx
+  );
 };
 
 export default {
