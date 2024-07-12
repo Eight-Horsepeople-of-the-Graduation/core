@@ -16,7 +16,7 @@
     "test": "jest",
     "swagger": "pnpm dlx tsoa spec-and-routes",
     "prisma:generate": "pnpm dlx prisma generate",
-    "prisma:migrate": "pnpm dlx prisma migrate dev",
+    "prisma:migrate": "pnpm dlx prisma migrate dev", 
     "prisma:seed": "pnpm dlx prisma db seed",
     "lint": "eslint '**/**/*.ts'",
     "format": "prettier --write 'src/**/*.{js,ts}'",
