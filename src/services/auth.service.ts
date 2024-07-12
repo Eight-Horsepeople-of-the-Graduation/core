@@ -3,9 +3,15 @@ import * as jwt from "jsonwebtoken";
 import config from "../config";
 import { LogInDto, SignUpDto } from "../dtos/auth.dto";
 import { IUserWithoutPassword } from "../interfaces/users.interface";
-import usersService from "../services/users.service";
+import usersService from "./users.service";
 import { HttpException } from "../exceptions/http.exception";
 import { JwtPayload } from "../types/jwt-payload.interface";
+import prismaClient from "../utils/prisma";
+import usersRepository from "../repositories/users.repository";
+import bookshelvesRepository from "../repositories/bookshelves.repository";
+import { CreateBookshelfDto, Privacy } from "../dtos";
+import { buildDefaultBookshelves } from "../utils/build-default-bookshelves";
+import { Transaction } from "../types/prismaClient-transaction.type";
 
 export const signUp = async (
   signUpDto: SignUpDto
@@ -13,12 +19,25 @@ export const signUp = async (
   user: IUserWithoutPassword;
   tokens: { accessToken: string; refreshToken: string };
 }> => {
-  const user = await usersService.createUser(signUpDto);
+  return prismaClient.$transaction(async (tx) => {
+    // First, operation in the transaction
+    const user = await usersRepository.createUser(signUpDto, tx);
+    const tokens = await getTokens(user.id, user.email);
 
-  const tokens = await getTokens(user.id, user.email);
-  await updateRefreshToken(user.id, tokens.refreshToken);
+    // Second operation in the transaction
+    await updateRefreshToken(user.id, tokens.refreshToken, tx);
 
-  return { user, tokens };
+    const defaultBookshelves: CreateBookshelfDto[] = buildDefaultBookshelves(
+      user.id
+    );
+    // Third operation in the transaction
+    for (const defaultBookshelf of defaultBookshelves) {
+      await bookshelvesRepository.createBookshelf(defaultBookshelf, tx);
+    }
+    console.log("User created with default bookshelves");
+
+    return { user, tokens };
+  });
 };
 
 export const logIn = async (
@@ -47,11 +66,9 @@ export const refreshTokens = async (
   refreshToken: string
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   let decodedToken: jwt.JwtPayload;
-  const refreshTokenSecret: string | undefined = config.refreshToken.secret;
-
+  const refreshTokenSecret = config.refreshToken.secret;
   if (!refreshTokenSecret)
-    throw new HttpException("Refresh token secret is not defined", 500);
-
+    throw new HttpException("Unauthorized: Invalid token", 401);
   try {
     decodedToken = jwt.verify(
       refreshToken,
@@ -87,14 +104,10 @@ export const getTokens = async (
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   const payload: JwtPayload = { sub: userId, email };
 
-  const accessTokenSecret: string | undefined = config.accessToken.secret;
-  const refreshTokenSecret: string | undefined = config.refreshToken.secret;
-
-  if (!accessTokenSecret)
-    throw new HttpException("Access token secret is not defined", 500);
-  if (!refreshTokenSecret)
-    throw new HttpException("Refresh token secret is not defined", 500);
-
+  const refreshTokenSecret = config.refreshToken.secret;
+  const accessTokenSecret = config.accessToken.secret;
+  if (!refreshTokenSecret || !accessTokenSecret)
+    throw new HttpException("Unauthorized: Invalid token", 401);
   const accessToken = jwt.sign(payload, accessTokenSecret, {
     expiresIn: config.accessToken.expiresIn,
   });
@@ -107,13 +120,18 @@ export const getTokens = async (
 
 export const updateRefreshToken = async (
   userId: number,
-  refreshToken: string
+  refreshToken: string,
+  tx?: Transaction
 ): Promise<void> => {
   const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
 
-  await usersService.updateUserById(userId, {
-    refreshToken: hashedRefreshToken,
-  });
+  await usersRepository.updateUserById(
+    userId,
+    {
+      refreshToken: hashedRefreshToken,
+    },
+    tx
+  );
 };
 
 export default {

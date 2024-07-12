@@ -15,9 +15,14 @@ export interface IUser {
 
 export type OptionalUser = IUser | null;
 export type IUserWithoutPassword = Omit<IUser, "password">;
-export type OptionalUserWithoutPassword = Omit<IUser, "password"> | null;
+export type OptionalUserWithoutPassword = IUserWithoutPassword | null;
 export type BookshelfUser = Pick<IUser, "name" | "username" | "profilePicture">;
 export type ReviewUser = Pick<IUser, "name" | "username" | "profilePicture">;
+export type RequestUser = Pick<
+  IUser,
+  "id" | "name" | "username" | "profilePicture" | "isAdmin"
+>;
+
 export const SelectUserWithoutPassword = {
   id: true,
   name: true,

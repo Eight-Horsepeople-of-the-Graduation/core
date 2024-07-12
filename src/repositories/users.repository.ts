@@ -1,14 +1,15 @@
 import * as bcrypt from "bcrypt";
-import { CreateUserDto, SearchQueryDto, UpdateUserDto } from "../dtos";
-import prismaClient from "../utils/prisma";
 import { HttpException } from "../exceptions/http.exception";
 import {
   IUser,
   IUserWithoutPassword,
   OptionalUser,
-  OptionalUserWithoutPassword,
   SelectUserWithoutPassword,
 } from "../interfaces/users.interface";
+import prismaClient from "../utils/prisma";
+import { SearchQueryDto } from "../dtos";
+import { CreateUserDto, UpdateUserDto } from "../dtos";
+import { Transaction } from "../types/prismaClient-transaction.type";
 
 export const getAllUsers = async (
   searchQueryDto: SearchQueryDto
@@ -35,8 +36,8 @@ export const getAllUsers = async (
 
 export const getUserById = async (
   userId: number
-): Promise<OptionalUserWithoutPassword> => {
-  let user: OptionalUserWithoutPassword;
+): Promise<IUserWithoutPassword | null> => {
+  let user: IUserWithoutPassword | null;
   user = await prismaClient.user.findUnique({
     where: { id: userId },
     select: SelectUserWithoutPassword,
@@ -47,8 +48,8 @@ export const getUserById = async (
 
 export const getUserByUsername = async (
   username: string
-): Promise<OptionalUserWithoutPassword> => {
-  let user: OptionalUserWithoutPassword;
+): Promise<IUserWithoutPassword | null> => {
+  let user: IUserWithoutPassword | null;
   user = await prismaClient.user.findUnique({
     where: { username },
     select: SelectUserWithoutPassword,
@@ -58,11 +59,13 @@ export const getUserByUsername = async (
 };
 
 export const createUser = async (
-  createUserDto: CreateUserDto
+  createUserDto: CreateUserDto,
+  tx?: Transaction
 ): Promise<IUserWithoutPassword> => {
+  const _prismaClient = tx || prismaClient;
   const hashedPassword = await hashPassword(createUserDto.password);
 
-  const newUser: IUserWithoutPassword = await prismaClient.user.create({
+  const newUser: IUserWithoutPassword = await _prismaClient.user.create({
     data: {
       ...createUserDto,
       password: hashedPassword,
@@ -75,9 +78,11 @@ export const createUser = async (
 
 export const updateUserById = async (
   userId: number,
-  updatedData: UpdateUserDto
+  updatedData: UpdateUserDto,
+  tx?: Transaction
 ): Promise<IUserWithoutPassword> => {
-  const user = await prismaClient.user.update({
+  const _prismaClient = tx || prismaClient;
+  const user = await _prismaClient.user.update({
     where: { id: userId },
     data: updatedData,
     select: SelectUserWithoutPassword,
@@ -106,14 +111,15 @@ export const hashPassword = async (password: string): Promise<string> => {
 export const validateCredentials = async (
   email: string,
   password: string
-): Promise<OptionalUserWithoutPassword> => {
-  const user: OptionalUser = await prismaClient.user.findUnique({
+): Promise<IUserWithoutPassword> => {
+  let user: OptionalUser;
+
+  user = await prismaClient.user.findUnique({
     where: { email },
   });
 
-  if (!user || !(await bcrypt.compare(password, (user as IUser).password))) {
-    throw new HttpException("Invalid credentials", 401);
-  }
+  const isValid = await bcrypt.compare(password, (user as IUser).password);
+  if (!isValid) throw new HttpException("Invalid credentials", 401);
 
   const { password: _, ...userWithoutPassword } = user as IUser;
 

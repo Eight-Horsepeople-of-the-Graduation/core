@@ -22,7 +22,7 @@ export const signUp = async (
     sameSite: "none",
   });
 
-  return res.send(user);
+  return res.send({ user, tokens });
 };
 
 export const logIn = async (
@@ -44,7 +44,7 @@ export const logIn = async (
     sameSite: "none",
   });
 
-  return res.send(user);
+  return res.send({ user, tokens });
 };
 
 export const logOut = async (
