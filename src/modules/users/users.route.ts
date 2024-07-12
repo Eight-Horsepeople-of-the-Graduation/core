@@ -1,3 +1,4 @@
+import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
 import { UpdateUserDto } from "@modules/users/dtos/users.dto";
@@ -43,10 +44,15 @@ router.get("/:userId/books", asyncWrapper(usersController.getBooksByUserId));
 
 router.patch(
   "/:userId",
+  authMiddleware,
   validationMiddleware(UpdateUserDto),
   asyncWrapper(usersController.updateUserById)
 );
 
-router.delete("/:userId", asyncWrapper(usersController.deleteUserById));
+router.delete(
+  "/:userId",
+  authMiddleware,
+  asyncWrapper(usersController.deleteUserById)
+);
 
 export default router;
