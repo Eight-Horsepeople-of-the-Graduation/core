@@ -1,4 +1,4 @@
-import { Gender } from "@modules/users/dtos/users.dto";
+import { Gender } from "../../users/dtos/users.dto";
 import {
   IsBoolean,
   IsDateString,

@@ -6,7 +6,7 @@ import usersService from "@modules/users/users.service";
 export const refreshTokenMiddleware = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.status(403).send("Refresh token is required");
@@ -17,7 +17,7 @@ export const refreshTokenMiddleware = async (
     if (!userId) return res.status(403).send("Invalid refresh token");
 
     const user = await usersService.getUserById(userId);
-    if (!user || !user.refreshToken)
+    if (!user?.refreshToken)
       return res.status(403).send("No refresh token found");
 
     req.user = user;

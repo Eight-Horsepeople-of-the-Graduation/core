@@ -1,12 +1,12 @@
-import { IBookWithoutAuthorsAndGenres } from "@common/interfaces/books.interface";
+import { IBookWithoutAuthorsAndGenres } from "../interfaces/books.interface";
 import {
   IReadingChallenge,
   IReadingChallengeWithBooks,
-} from "@common/interfaces/reading-challenges.interface";
+} from "../interfaces/reading-challenges.interface";
 import {
   CreateReadingChallengeDto,
   UpdateReadingChallengeDto,
-} from "@modules/reading-challenges/dtos/reading-challenges.dto";
+} from "../../modules/reading-challenges/dtos/reading-challenges.dto";
 import { Body, Delete, Get, Patch, Path, Post, Route, Tags } from "tsoa";
 
 @Route("/reading-challenges")
@@ -17,39 +17,39 @@ export class ReadingChallengesDocs {
 
   @Get("/:readingChallengeId")
   getReadingChallengeById(
-    @Path() readingChallengeId: number
+    @Path() readingChallengeId: number,
   ): IReadingChallengeWithBooks | any {}
 
   @Get("/:readingChallengeId/books")
   getBooksByReadingChallengeId(
-    @Path() readingChallengeId: number
+    @Path() readingChallengeId: number,
   ): IBookWithoutAuthorsAndGenres[] | any {}
 
   @Post("/")
   createReadingChallenge(
-    @Body() readingChallengeData: CreateReadingChallengeDto
+    @Body() readingChallengeData: CreateReadingChallengeDto,
   ): IReadingChallenge | any {}
 
   @Patch("/:readingChallengeId")
   updateReadingChallengeDetails(
     @Path() readingChallengeId: number,
-    @Body() updatedData: UpdateReadingChallengeDto
+    @Body() updatedData: UpdateReadingChallengeDto,
   ): IReadingChallenge | any {}
 
   @Patch("/:userId/add-book/:bookId")
   addBookToUserReadingChallenges(
     @Path() userId: number,
-    @Path() bookId: number
+    @Path() bookId: number,
   ): IReadingChallengeWithBooks[] | any {}
 
   @Patch("/:userId/remove-book/:bookId")
   deleteBookFromUserReadingChallenges(
     @Path() userId: number,
-    @Path() bookId: number
+    @Path() bookId: number,
   ): IReadingChallengeWithBooks[] | any {}
 
   @Delete("/:readingChallengeId")
   deleteReadingChallenge(
-    @Path() readingChallengeId: number
+    @Path() readingChallengeId: number,
   ): IReadingChallenge | any {}
 }

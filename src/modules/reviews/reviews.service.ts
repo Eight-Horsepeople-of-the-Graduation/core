@@ -13,7 +13,7 @@ import {
 import reviewsRepository from "@modules/reviews/reviews.repository";
 
 export const getReviewById = async (
-  reviewId: number
+  reviewId: number,
 ): Promise<OptionalReviewWithUserAndBook> => {
   const review = await reviewsRepository.getReviewById(reviewId);
 
@@ -21,19 +21,19 @@ export const getReviewById = async (
 };
 
 export function createReview(
-  createdReviewDto: CreateReviewDto
+  createdReviewDto: CreateReviewDto,
 ): Promise<IReviewWithUserAndBook> {
   return prismaClient.$transaction(async (tx) => {
     await booksService.updateBookRating(
       createdReviewDto.rating,
       createdReviewDto.bookId,
       true,
-      tx
+      tx,
     );
 
     const newReview = await reviewsRepository.createReview(
       createdReviewDto,
-      tx
+      tx,
     );
 
     return newReview;
@@ -42,11 +42,11 @@ export function createReview(
 
 export const updateReviewDetails = async (
   updateReviewDetailsDto: UpdateReviewDetailsDto,
-  reviewId: number
+  reviewId: number,
 ): Promise<IReviewWithUserAndBook> => {
   const updatedReview = await reviewsRepository.updateReviewDetails(
     updateReviewDetailsDto,
-    reviewId
+    reviewId,
   );
 
   return updatedReview;
@@ -54,19 +54,19 @@ export const updateReviewDetails = async (
 
 export function updateReviewRating(
   updateReviewDto: UpdateReviewRatingDto,
-  reviewId: number
+  reviewId: number,
 ): Promise<IReview> {
   return prismaClient.$transaction(async (tx) => {
     await booksService.updateBookRating(
       updateReviewDto.rating,
       updateReviewDto.bookId,
       true,
-      tx
+      tx,
     );
     const updatedReview = await reviewsRepository.updateReviewRating(
       updateReviewDto,
       reviewId,
-      tx
+      tx,
     );
 
     return updatedReview;
@@ -78,10 +78,10 @@ export function deleteReview(reviewId: number) {
     const review = await getReviewById(reviewId);
 
     await booksService.updateBookRating(
-      review!.rating,
-      review!.bookId,
+      review.rating,
+      review.bookId,
       false,
-      tx
+      tx,
     );
 
     const deletedReview = await reviewsRepository.deleteReview(reviewId, tx);

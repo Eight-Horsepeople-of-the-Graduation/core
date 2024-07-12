@@ -1,3 +1,4 @@
+import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
 import { UpdateUserDto } from "@modules/users/dtos/users.dto";
@@ -11,42 +12,47 @@ router.get("/", asyncWrapper(usersController.getAllUsers));
 router.get("/id/:userId", asyncWrapper(usersController.getUserById));
 router.get(
   "/username/:username",
-  asyncWrapper(usersController.getUserByUsername)
+  asyncWrapper(usersController.getUserByUsername),
 );
 
 router.get(
   "/:userId/readingChallenges",
-  asyncWrapper(usersController.getReadingChallengesByUserId)
+  asyncWrapper(usersController.getReadingChallengesByUserId),
 );
 
 router.get(
   "/:userId/reviews",
-  asyncWrapper(usersController.getReviewsByUserId)
+  asyncWrapper(usersController.getReviewsByUserId),
 );
 
 router.get(
   "/:userId/reviews/:reviewId",
-  asyncWrapper(usersController.getReviewByUserId)
+  asyncWrapper(usersController.getReviewByUserId),
 );
 
 router.get(
   "/:userId/bookshelves",
-  asyncWrapper(usersController.getBookshelvesByUserId)
+  asyncWrapper(usersController.getBookshelvesByUserId),
 );
 
 router.get(
   "/:userId/bookshelves/:bookshelfId",
-  asyncWrapper(usersController.getBookshelfByUserId)
+  asyncWrapper(usersController.getBookshelfByUserId),
 );
 
 router.get("/:userId/books", asyncWrapper(usersController.getBooksByUserId));
 
 router.patch(
   "/:userId",
+  authMiddleware,
   validationMiddleware(UpdateUserDto),
-  asyncWrapper(usersController.updateUserById)
+  asyncWrapper(usersController.updateUserById),
 );
 
-router.delete("/:userId", asyncWrapper(usersController.deleteUserById));
+router.delete(
+  "/:userId",
+  authMiddleware,
+  asyncWrapper(usersController.deleteUserById),
+);
 
 export default router;

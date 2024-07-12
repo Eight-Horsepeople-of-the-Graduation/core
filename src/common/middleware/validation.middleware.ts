@@ -22,7 +22,7 @@ export const validationMiddleware = <T>(dto: any): RequestHandler => {
 
     if (validationErrors.length) {
       const message = validationErrors
-        .map((error: ValidationError) => Object.values(error.constraints!))
+        .map((error: ValidationError) => Object.values(error.constraints))
         .join(",");
 
       next(new HttpException(message, 400));

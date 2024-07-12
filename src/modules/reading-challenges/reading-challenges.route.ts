@@ -1,3 +1,4 @@
+import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
 import {
@@ -11,43 +12,50 @@ const router = Router();
 
 router.get(
   "/",
-  asyncWrapper(readingChallengesController.getAllReadingChallenges)
+  asyncWrapper(readingChallengesController.getAllReadingChallenges),
 );
 
 router.get(
   "/:readingChallengeId",
-  asyncWrapper(readingChallengesController.getReadingChallengeById)
+  authMiddleware,
+  asyncWrapper(readingChallengesController.getReadingChallengeById),
 );
 
 router.get(
   "/:readingChallengeId/books",
-  asyncWrapper(readingChallengesController.getBooksByReadingChallengeId)
+  authMiddleware,
+  asyncWrapper(readingChallengesController.getBooksByReadingChallengeId),
 );
 
 router.post(
   "/",
+  authMiddleware,
   [validationMiddleware(CreateReadingChallengeDto)],
-  asyncWrapper(readingChallengesController.createReadingChallenge)
+  asyncWrapper(readingChallengesController.createReadingChallenge),
 );
 
 router.patch(
   "/:readingChallengeId",
+  authMiddleware,
   [validationMiddleware(UpdateReadingChallengeDto)],
-  asyncWrapper(readingChallengesController.updateReadingChallengeDetails)
+  asyncWrapper(readingChallengesController.updateReadingChallengeDetails),
 );
 
 router.patch(
   "/:userId/add-book/:bookId",
-  asyncWrapper(readingChallengesController.addBookToUserReadingChallenges)
+  authMiddleware,
+  asyncWrapper(readingChallengesController.addBookToUserReadingChallenges),
 );
 router.patch(
   "/:userId/remove-book/:bookId",
-  asyncWrapper(readingChallengesController.deleteBookFromReadingChallenge)
+  authMiddleware,
+  asyncWrapper(readingChallengesController.deleteBookFromReadingChallenge),
 );
 
 router.delete(
   "/:readingChallengeId",
-  asyncWrapper(readingChallengesController.deleteReadingChallenge)
+  authMiddleware,
+  asyncWrapper(readingChallengesController.deleteReadingChallenge),
 );
 
 export default router;

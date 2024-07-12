@@ -1,41 +1,23 @@
-import cookieParser from "cookie-parser";
-import cors from "cors";
 import express from "express";
-import morgan from "morgan";
-import helmet from "helmet";
 import * as swaggerUI from "swagger-ui-express";
 import config from "./config";
 import { errorHandlerMiddleware } from "@common/middleware/error-handler.middleware";
 import * as swaggerJson from "@common/swagger/swagger.json";
 import logger from "@common/utils/logger";
 import { prismaErrorHandlerMiddleware } from "@common/middleware/prisma-error-handler.middleware";
-import loadRouters from "./loaders/express";
+import loadRouters from "@loaders/routes.loader";
+import loadMainMiddleware from "@loaders/middleware.loader";
 
 /**
- * Starts the server
+ * Starts the server by loading the main middleware and routers
+ * and listening on the specified port in the config file (default is 3000)
  * @returns void
  */
 const startServer = async () => {
   const app = express();
   const port = config.port;
 
-  app.use(morgan("dev"));
-  app.use(
-    cors({
-      origin: config.origin,
-      credentials: true,
-    })
-  );
-  app.use(helmet());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(
-    cookieParser(config.cookieSecret, {
-      httpOnly: true,
-      signed: true,
-    } as any)
-  );
-
+  loadMainMiddleware(app);
   loadRouters(app);
 
   app.use(["/docs", "/swagger"], swaggerUI.serve, swaggerUI.setup(swaggerJson));

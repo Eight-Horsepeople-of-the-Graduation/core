@@ -11,7 +11,7 @@ import {
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllGenres = async (
-  searchQueryDto: SearchQueryDto
+  searchQueryDto: SearchQueryDto,
 ): Promise<IGenreWithBooks[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
@@ -46,7 +46,7 @@ export const getGenreById = async (genreId: number): Promise<OptionalGenre> => {
 };
 
 export const createGenre = async (
-  createGenreDto: CreateGenreDto
+  createGenreDto: CreateGenreDto,
 ): Promise<IGenre> => {
   const newGenre: IGenre = await prismaClient.genre.create({
     data: createGenreDto,
@@ -71,7 +71,7 @@ export const getGenresByBookId = async (bookId: number): Promise<IGenre[]> => {
 
 export const updateGenreById = async (
   genreId: number,
-  updateGenreDto: UpdateGenreDto
+  updateGenreDto: UpdateGenreDto,
 ): Promise<IGenre> => {
   const updatedGenre: IGenre = await prismaClient.genre.update({
     where: { id: genreId },

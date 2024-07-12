@@ -7,7 +7,7 @@ export async function seedReviews(num: number) {
   num = Math.min(num, Math.min(data.length, seedConfig.userCount));
 
   console.log(
-    "-----------------------------Seeding Reviews---------------------------"
+    "-----------------------------Seeding Reviews---------------------------",
   );
 
   for (const book of books) {

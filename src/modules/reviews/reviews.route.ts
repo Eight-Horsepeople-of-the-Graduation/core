@@ -1,3 +1,4 @@
+import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
 import {
@@ -14,22 +15,29 @@ router.get("/:reviewId", asyncWrapper(reviewsController.getReviewById));
 
 router.post(
   "/",
+  authMiddleware,
   [validationMiddleware(CreateReviewDto)],
-  asyncWrapper(reviewsController.createReview)
+  asyncWrapper(reviewsController.createReview),
 );
 
 router.patch(
   "/:reviewId",
+  authMiddleware,
   [validationMiddleware(UpdateReviewDetailsDto)],
-  asyncWrapper(reviewsController.updateReviewDetails)
+  asyncWrapper(reviewsController.updateReviewDetails),
 );
 
 router.patch(
   "/:reviewId/rating",
+  authMiddleware,
   [validationMiddleware(UpdateReviewRatingDto)],
-  asyncWrapper(reviewsController.updateReviewRating)
+  asyncWrapper(reviewsController.updateReviewRating),
 );
 
-router.delete("/:reviewId", asyncWrapper(reviewsController.deleteReview));
+router.delete(
+  "/:reviewId",
+  authMiddleware,
+  asyncWrapper(reviewsController.deleteReview),
+);
 
 export default router;

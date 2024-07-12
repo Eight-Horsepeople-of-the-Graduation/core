@@ -1,3 +1,5 @@
+import { HttpStatus } from "@common/enums/http-status.enum";
+import { HttpException } from "@common/exceptions/http.exception";
 import { IBookWithoutAuthorsAndGenres } from "@common/interfaces/books.interface";
 import {
   IBookshelf,
@@ -5,6 +7,7 @@ import {
   IBookshelfWithUser,
   OptionalBookshelf,
 } from "@common/interfaces/bookshelves.interface";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
 import prismaClient from "@common/utils/prisma";
 import {
   CreateBookshelfDto,
@@ -13,7 +16,7 @@ import {
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllBookshelves = async (
-  searchQueryDto: SearchQueryDto
+  searchQueryDto: SearchQueryDto,
 ): Promise<IBookshelfWithUser[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
@@ -45,7 +48,7 @@ export const getAllBookshelves = async (
 };
 
 export const getBookshelfById = async (
-  bookshelfId: number
+  bookshelfId: number,
 ): Promise<OptionalBookshelf> => {
   const bookshelf: OptionalBookshelf = await prismaClient.bookshelf.findUnique({
     where: {
@@ -63,7 +66,7 @@ export const getBookshelfById = async (
 };
 
 export const getBookshelvesByUserId = async (
-  userId: number
+  userId: number,
 ): Promise<IBookshelf[]> => {
   const bookshelves: IBookshelf[] = await prismaClient.bookshelf.findMany({
     where: {
@@ -84,7 +87,7 @@ export const getBookshelvesByUserId = async (
 
 export const getBookshelfByUserId = async (
   userId: number,
-  bookshelfId: number
+  bookshelfId: number,
 ): Promise<OptionalBookshelf> => {
   const bookshelf: OptionalBookshelf = await prismaClient.bookshelf.findUnique({
     where: {
@@ -105,16 +108,18 @@ export const getBookshelfByUserId = async (
 };
 
 export const createBookshelf = async (
-  data: CreateBookshelfDto
+  data: CreateBookshelfDto,
+  tx?: Transaction,
 ): Promise<IBookshelf> => {
-  const bookshelf: IBookshelf = await prismaClient.bookshelf.create({
+  const _prismaClient = tx || prismaClient;
+  const bookshelf: IBookshelf = await _prismaClient.bookshelf.create({
     include: {
       books: true,
       _count: {
         select: { books: true },
       },
     },
-    data: data,
+    data,
   });
 
   return bookshelf;
@@ -122,8 +127,10 @@ export const createBookshelf = async (
 
 export const addBooksToBookshelf = async (
   bookshelfId: number,
-  booksIds: number[]
+  booksIds: number[],
+  tx?: Transaction,
 ): Promise<IBookshelf> => {
+  const _prismaClient = tx || prismaClient;
   const bookshelf = await getBookshelfById(bookshelfId);
   if (!bookshelf) throw new Error("Bookshelf Not Found");
 
@@ -134,11 +141,11 @@ export const addBooksToBookshelf = async (
       },
     });
 
-  const updatedBookshelf: IBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf: IBookshelf = await _prismaClient.bookshelf.update({
     where: { id: bookshelfId },
     data: {
       books: {
-        connect: books.map((book: { id: any }) => ({ id: book.id })),
+        connect: books.map((book: { id: number }) => ({ id: book.id })),
       },
     },
     include: {
@@ -154,10 +161,14 @@ export const addBooksToBookshelf = async (
 
 export const removeBooksFromBookshelf = async (
   bookshelfId: number,
-  booksIds: number[]
+  booksIds: number[],
+  tx?: Transaction,
 ): Promise<IBookshelf> => {
+  const _prismaClient = tx || prismaClient;
+
   const bookshelf = await getBookshelfById(bookshelfId);
-  if (!bookshelf) throw new Error("Bookshelf Not Found");
+  if (!bookshelf)
+    throw new HttpException("Bookshelf Not Found", HttpStatus.NOT_FOUND);
 
   const books = await prismaClient.book.findMany({
     where: {
@@ -165,11 +176,11 @@ export const removeBooksFromBookshelf = async (
     },
   });
 
-  const updatedBookshelf: IBookshelf = await prismaClient.bookshelf.update({
+  const updatedBookshelf: IBookshelf = await _prismaClient.bookshelf.update({
     where: { id: bookshelfId },
     data: {
       books: {
-        disconnect: books.map((book: { id: any }) => ({ id: book.id })),
+        disconnect: books.map((book: { id: number }) => ({ id: book.id })),
       },
     },
     include: {
@@ -185,7 +196,7 @@ export const removeBooksFromBookshelf = async (
 
 export const updateBookshelf = async (
   bookshelfId: number,
-  updatedData: UpdateBookshelfDto
+  updatedData: UpdateBookshelfDto,
 ): Promise<IBookshelf> => {
   const bookshelf: IBookshelf = await prismaClient.bookshelf.update({
     where: {
@@ -204,7 +215,7 @@ export const updateBookshelf = async (
 };
 
 export const deleteBookshelf = async (
-  bookshelfId: number
+  bookshelfId: number,
 ): Promise<IBookshelfWithoutBooks> => {
   const deletedBookshelf: IBookshelfWithoutBooks =
     await prismaClient.bookshelf.delete({

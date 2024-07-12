@@ -9,7 +9,7 @@ import { Request, Response } from "express";
 
 export const getAllBookshelves = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelfWithUser[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
@@ -21,7 +21,7 @@ export const getAllBookshelves = async (
 
 export const getBookshelfById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelf>> => {
   const bookshelfId = parseInt(req.params.bookshelfId, 10);
   if (isNaN(bookshelfId)) return res.status(400).send("Invalid ID parameter");
@@ -34,7 +34,7 @@ export const getBookshelfById = async (
 
 export const getBookshelvesByUserId = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelf[]>> => {
   const bookshelfId = parseInt(req.params.bookshelfId, 10);
   if (isNaN(bookshelfId)) return res.status(400).send("Invalid ID parameter");
@@ -46,7 +46,7 @@ export const getBookshelvesByUserId = async (
 
 export const createBookshelf = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelf>> => {
   const bookshelfData = req.body;
 
@@ -57,7 +57,7 @@ export const createBookshelf = async (
 
 export const addBookToBookshelf = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelf>> => {
   const bookshelfId = parseInt(req.params.bookshelfId, 10);
   if (isNaN(bookshelfId)) return res.status(400).send("Invalid ID parameter");
@@ -66,7 +66,7 @@ export const addBookToBookshelf = async (
 
   const updatedBookshelf = await bookshelvesService.addBookToBookshelf(
     bookshelfId,
-    bookIds
+    bookIds,
   );
 
   return res.send(updatedBookshelf);
@@ -74,7 +74,7 @@ export const addBookToBookshelf = async (
 
 export const removeBooksFromBookshelf = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelf>> => {
   const bookshelfId = parseInt(req.params.bookshelfId, 10);
   if (isNaN(bookshelfId)) return res.status(400).send("Invalid ID parameter");
@@ -83,14 +83,14 @@ export const removeBooksFromBookshelf = async (
 
   const updatedBookshelf = await bookshelvesService.removeBooksFromBookshelf(
     bookshelfId,
-    bookIds
+    bookIds,
   );
   return res.send(updatedBookshelf);
 };
 
 export const updateBookshelf = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookshelf>> => {
   const bookshelfId = parseInt(req.params.bookshelfId, 10);
   if (isNaN(bookshelfId)) return res.status(400).send("Invalid ID parameter");
@@ -99,7 +99,7 @@ export const updateBookshelf = async (
 
   const updatedBookshelf = await bookshelvesService.updateBookshelf(
     bookshelfId,
-    updatedData
+    updatedData,
   );
 
   return res.send(updatedBookshelf);

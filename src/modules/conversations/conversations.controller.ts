@@ -9,18 +9,21 @@ import { Request, Response } from "express";
 
 export const getConversationByUserAndBook = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IConversation>> => {
   const userId = parseInt(req.params.userId, 10);
   const bookId = parseInt(req.params.bookId, 10);
-  if (isNaN(userId) || isNaN(bookId)) {
-    throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
+
+  if (!bookId) {
+    throw new HttpException("Book ID is required", HttpStatus.BAD_REQUEST);
   }
-  await conversationsService.checkUserAndBook(userId, bookId);
+  if (!userId) {
+    throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
+  }
 
   const conversation = await conversationsService.getConversationByUserAndBook(
     userId,
-    bookId
+    bookId,
   );
 
   return res.send(conversation);
@@ -28,14 +31,16 @@ export const getConversationByUserAndBook = async (
 
 export const chat = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<{ answer: string }>> => {
   const bookId = parseInt(req.params.bookId, 10);
   const userId = parseInt(req.params.userId, 10);
-  if (isNaN(bookId) || isNaN(userId)) {
-    throw new HttpException("Invalid user or book id", HttpStatus.BAD_REQUEST);
+  if (!bookId) {
+    throw new HttpException("Book ID is required", HttpStatus.BAD_REQUEST);
   }
-  await conversationsService.checkUserAndBook(userId, bookId);
+  if (!userId) {
+    throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
+  }
 
   const chatDto = req.body;
 
@@ -46,22 +51,25 @@ export const chat = async (
 
 export const deleteConversation = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<OptionalConversation>> => {
   const bookId = parseInt(req.params.bookId, 10);
   const userId = parseInt(req.params.userId, 10);
-  if (isNaN(bookId) || isNaN(userId)) {
-    throw new HttpException("Invalid user or book Id", HttpStatus.BAD_REQUEST);
+  if (!bookId) {
+    throw new HttpException("Book ID is required", HttpStatus.BAD_REQUEST);
   }
-  await conversationsService.checkUserAndBook(userId, bookId);
+  if (!userId) {
+    throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
+  }
+
   const conversation = await conversationsService.deleteConversation(
     bookId,
-    userId
+    userId,
   );
   if (!conversation) {
     throw new HttpException(
       "No conversation started between the provided user and the provided book",
-      HttpStatus.NOT_FOUND
+      HttpStatus.NOT_FOUND,
     );
   }
   return res.status(HttpStatus.OK).send(conversation);

@@ -1,3 +1,4 @@
+import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
 import {
@@ -17,16 +18,22 @@ router.get("/:genreId/books", asyncWrapper(genresController.getBooksByGenreId));
 
 router.post(
   "/",
+  authMiddleware,
   [validationMiddleware(CreateGenreDto)],
-  asyncWrapper(genresController.createGenre)
+  asyncWrapper(genresController.createGenre),
 );
 
 router.patch(
   "/:genreId",
+  authMiddleware,
   [validationMiddleware(UpdateGenreDto)],
-  asyncWrapper(genresController.updateGenreById)
+  asyncWrapper(genresController.updateGenreById),
 );
 
-router.delete("/:genreId", asyncWrapper(genresController.deleteGenreById));
+router.delete(
+  "/:genreId",
+  authMiddleware,
+  asyncWrapper(genresController.deleteGenreById),
+);
 
 export default router;

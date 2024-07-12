@@ -9,7 +9,7 @@ import { range } from "lodash";
 export async function seedBooks(num: number) {
   num = Math.min(num, data.length);
   console.log(
-    "-----------------------------Seeding Books, Authors, Genres------------"
+    "-----------------------------Seeding Books, Authors, Genres------------",
   );
 
   // Add genres and authors of the desired books
@@ -79,12 +79,11 @@ export async function seedBooks(num: number) {
         },
       },
     });
-
     // Add book
     await prismaClient.book.create({
       data: {
         title: book.title,
-        isbn: "9999999999999" ? generateISBN13() : book.isbn,
+        isbn: book.isbn ? book.isbn : generateISBN13(),
         description: book.description,
         publishDate: new Date(book.publishDate || "1000-01-01"),
         format: bookFormat,
@@ -110,7 +109,7 @@ export async function seedBooks(num: number) {
   }
 
   console.log(
-    `Added ${num} Books along with their respective genres and authors..`
+    `Added ${num} Books along with their respective genres and authors..`,
   );
 }
 
@@ -131,8 +130,8 @@ function generateISBN13() {
 function getDesc(genre: string) {
   const genresData = readFileSync(
     "./prisma/seed/data/genresData.json",
-    "utf-8"
+    "utf-8",
   );
   const genres = JSON.parse(genresData);
-  return genres.data.filter((g: any) => g.title === genre)[0].description;
+  return genres.data.filter((g) => g.title === genre)[0].description;
 }

@@ -12,7 +12,7 @@ import {
 } from "@modules/reviews/dtos/reviews.dto";
 
 export const getReviewById = async (
-  reviewId: number
+  reviewId: number,
 ): Promise<OptionalReviewWithUserAndBook> => {
   const review: OptionalReviewWithUserAndBook =
     await prismaClient.review.findUnique({
@@ -35,7 +35,7 @@ export const getReviewById = async (
 };
 
 export const getReviewsByBookId = async (
-  bookId: number
+  bookId: number,
 ): Promise<IReviewWithUserAndBook[]> => {
   const reviews: IReviewWithUserAndBook[] = await prismaClient.review.findMany({
     where: {
@@ -58,7 +58,7 @@ export const getReviewsByBookId = async (
 
 // missing: add service, controller, route in users
 export const getReviewsByUserId = async (
-  userId: number
+  userId: number,
 ): Promise<IReviewWithUserAndBook[]> => {
   const reviews: IReviewWithUserAndBook[] = await prismaClient.review.findMany({
     where: {
@@ -81,7 +81,7 @@ export const getReviewsByUserId = async (
 
 export const getReviewByUserId = async (
   userId: number,
-  reviewId: number
+  reviewId: number,
 ): Promise<IReviewWithUserAndBook> => {
   const review = await prismaClient.review.findUnique({
     where: {
@@ -107,7 +107,7 @@ export const getReviewByUserId = async (
 
 export const createReview = async (
   createReviewDto: CreateReviewDto,
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<IReviewWithUserAndBook> => {
   const prisma = tx || prismaClient;
   const newReview = await prisma.review.create({
@@ -129,7 +129,7 @@ export const createReview = async (
 
 export const updateReviewDetails = async (
   updateReviewDto: UpdateReviewDetailsDto,
-  reviewId: number
+  reviewId: number,
 ): Promise<IReviewWithUserAndBook> => {
   const { title, description } = updateReviewDto;
   const updatedReview: IReviewWithUserAndBook =
@@ -159,7 +159,7 @@ export const updateReviewDetails = async (
 export const updateReviewRating = async (
   updatedReviewDto: UpdateReviewRatingDto,
   reviewId: number,
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<IReview> => {
   const prisma = tx || prismaClient;
   const updatedReview: IReview = await prisma.review.update({
@@ -176,7 +176,7 @@ export const updateReviewRating = async (
 
 export const deleteReview = async (
   reviewId: number,
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<IReview> => {
   const prisma = tx || prismaClient;
   const deletedReview: IReview = await prisma.review.delete({
@@ -190,7 +190,7 @@ export const deleteReview = async (
 
 export const aggregateRatingsByBookId = async (
   bookId: number,
-  tx?: Transaction
+  tx?: Transaction,
 ) => {
   const prisma = tx || prismaClient;
   const currentRatings = await prisma.review.aggregate({

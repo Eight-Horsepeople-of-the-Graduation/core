@@ -1,5 +1,5 @@
-export type UserWithRefreshToken = {
+export interface UserWithRefreshToken {
   id: number;
   email: string;
   refreshToken: string;
-};
+}

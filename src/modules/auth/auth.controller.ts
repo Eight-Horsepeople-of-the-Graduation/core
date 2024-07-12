@@ -5,7 +5,7 @@ import { IUserWithoutPassword } from "@common/interfaces/users.interface";
 
 export const signUp = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IUserWithoutPassword>> => {
   const signUpDto = req.body;
 
@@ -22,12 +22,12 @@ export const signUp = async (
     sameSite: "none",
   });
 
-  return res.send(user);
+  return res.send({ user, tokens });
 };
 
 export const logIn = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IUserWithoutPassword>> => {
   const logInDto = req.body;
 
@@ -44,13 +44,13 @@ export const logIn = async (
     sameSite: "none",
   });
 
-  return res.send(user);
+  return res.send({ user, tokens });
 };
 
 export const logOut = async (
   req: Request,
-  res: Response
-): Promise<Response<any>> => {
+  res: Response,
+): Promise<Response<void>> => {
   const userId = req.user.sub;
   await authService.logOut(userId);
 
@@ -62,11 +62,11 @@ export const logOut = async (
 
 export const refreshTokens = async (
   req: Request,
-  res: Response
-): Promise<Response<any>> => {
+  res: Response,
+): Promise<Response<void>> => {
   const { accessToken, refreshToken } = await authService.refreshTokens(
     parseInt(req.user.id, 10),
-    req.user.refreshToken
+    req.user.refreshToken,
   );
   if (!accessToken || !refreshToken) return res.sendStatus(401);
 

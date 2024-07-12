@@ -4,7 +4,7 @@ import { seedConfig } from "./config";
 export async function seedConversations() {
   const userCount = seedConfig.userCount;
   console.log(
-    "-----------------------------Seeding Conversations---------------------"
+    "-----------------------------Seeding Conversations---------------------",
   );
   for (let i = 1; i <= userCount; i++) {
     await prismaClient.conversation.createMany({
