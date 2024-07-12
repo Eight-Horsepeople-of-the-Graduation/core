@@ -20,6 +20,8 @@ export const getConversationByUserAndBook = async (
   bookId: number,
   userId: number
 ): Promise<IConversation> => {
+  await checkUserAndBook(userId, bookId);
+
   let conversation = await conversationsRepository.getConversationByUserAndBook(
     bookId,
     userId
@@ -71,10 +73,18 @@ export const deleteConversation = async (
   bookId: number,
   userId: number
 ): Promise<OptionalConversation> => {
+  await checkUserAndBook(userId, bookId);
+
   const conversation = conversationsRepository.deleteConversation(
     bookId,
     userId
   );
+  if (!conversation) {
+    throw new HttpException(
+      "No conversation started between the provided user and the provided book",
+      HttpStatus.NOT_FOUND
+    );
+  }
   return conversation;
 };
 
