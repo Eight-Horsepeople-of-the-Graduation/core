@@ -17,11 +17,13 @@ router.get(
 
 router.get(
   "/:readingChallengeId",
+  authMiddleware,
   asyncWrapper(readingChallengesController.getReadingChallengeById)
 );
 
 router.get(
   "/:readingChallengeId/books",
+  authMiddleware,
   asyncWrapper(readingChallengesController.getBooksByReadingChallengeId)
 );
 
