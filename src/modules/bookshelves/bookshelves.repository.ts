@@ -109,7 +109,7 @@ export const getBookshelfByUserId = async (
 
 export const createBookshelf = async (
   data: CreateBookshelfDto,
-  tx? : Transaction
+  tx?: Transaction,
 ): Promise<IBookshelf> => {
   const _prismaClient = tx || prismaClient;
   const bookshelf: IBookshelf = await _prismaClient.bookshelf.create({
@@ -128,7 +128,7 @@ export const createBookshelf = async (
 export const addBooksToBookshelf = async (
   bookshelfId: number,
   booksIds: number[],
-  tx? : Transaction
+  tx?: Transaction,
 ): Promise<IBookshelf> => {
   const _prismaClient = tx || prismaClient;
   const bookshelf = await getBookshelfById(bookshelfId);
@@ -162,7 +162,7 @@ export const addBooksToBookshelf = async (
 export const removeBooksFromBookshelf = async (
   bookshelfId: number,
   booksIds: number[],
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<IBookshelf> => {
   const _prismaClient = tx || prismaClient;
 

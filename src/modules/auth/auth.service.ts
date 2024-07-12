@@ -32,13 +32,13 @@ export const signUp = async (
     await updateRefreshToken(user.id, tokens.refreshToken, tx);
 
     const defaultBookshelves: CreateBookshelfDto[] = buildDefaultBookshelves(
-      user.id
+      user.id,
     );
     // Third operation in the transaction
     for (const defaultBookshelf of defaultBookshelves) {
       await bookshelvesRepository.createBookshelf(defaultBookshelf, tx);
     }
-    console.log("User created with default bookshelves")
+    console.log("User created with default bookshelves");
 
     return { user, tokens };
   });
@@ -127,7 +127,7 @@ export const updateRefreshToken = async (
     {
       refreshToken: hashedRefreshToken,
     },
-    tx
+    tx,
   );
 };
 

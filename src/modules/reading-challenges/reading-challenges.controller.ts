@@ -75,7 +75,7 @@ export const updateReadingChallengeDetails = async (
   if (!readingChallengeId) {
     throw new HttpException(
       "Reading Challenge ID is required",
-      HttpStatus.BAD_REQUEST
+      HttpStatus.BAD_REQUEST,
     );
   }
 
@@ -95,18 +95,12 @@ export const addBookToUserReadingChallenges = async (
 ): Promise<Response<IReadingChallenge[]>> => {
   const userId = parseInt(req.params.userId, 10);
   if (!userId) {
-    throw new HttpException(
-      "User ID is required",
-      HttpStatus.BAD_REQUEST
-    );
+    throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
   }
 
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId) {
-    throw new HttpException(
-      "Book ID is required",
-      HttpStatus.BAD_REQUEST
-    );
+    throw new HttpException("Book ID is required", HttpStatus.BAD_REQUEST);
   }
 
   const updatedReadingChallenges =
@@ -149,7 +143,7 @@ export const deleteReadingChallenge = async (req: Request, res: Response) => {
   if (!readingChallengeId) {
     throw new HttpException(
       "Reading Challenge ID is required",
-      HttpStatus.BAD_REQUEST
+      HttpStatus.BAD_REQUEST,
     );
   }
 
