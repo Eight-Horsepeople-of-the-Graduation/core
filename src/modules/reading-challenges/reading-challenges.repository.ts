@@ -163,12 +163,23 @@ export const updateReadingChallengeDetails = async (
   readingChallengeId: number,
   updatedData: UpdateReadingChallengeDto
 ): Promise<IReadingChallenge> => {
+  const readingChallenge = await prismaClient.readingChallenge.findUnique({
+    where: {
+      id: readingChallengeId,
+    },
+  });
+
   const updatedReadingChallenge: IReadingChallenge =
     await prismaClient.readingChallenge.update({
       where: {
         id: readingChallengeId,
       },
-      data: updatedData,
+      data: {
+        ...updatedData,
+        hasEnded: updatedData.goal
+          ? readingChallenge.progress >= updatedData.goal
+          : readingChallenge.hasEnded,
+      },
     });
   return updatedReadingChallenge;
 };

@@ -78,11 +78,9 @@ export const addBookToBookshelf = async (
           tx
         );
 
-      Promise.all(
-        bookIds.map(async (bookId) => {
-          await addBookToUserReadingChallenges(userId, bookId, tx);
-        })
-      );
+      for (const bookId of bookIds) {
+        await addBookToUserReadingChallenges(userId, bookId, tx);
+      }
       return updatedBookshelf;
     });
   } else {
@@ -110,11 +108,9 @@ export const removeBooksFromBookshelf = async (
           tx
         );
 
-      Promise.all(
-        bookIds.map(async (bookId) => {
-          await deleteBookFromUserReadingChallenges(userId, bookId, tx);
-        })
-      );
+      for (const bookId of bookIds) {
+        await deleteBookFromUserReadingChallenges(userId, bookId, tx);
+      }
       return updatedBookshelf;
     });
   } else {
