@@ -2,7 +2,7 @@ import prismaClient from "../../../src/common/utils/prisma";
 
 export async function resetDatabase() {
   console.log(
-    "--------------------------Resetting database--------------------------"
+    "--------------------------Resetting database--------------------------",
   );
 
   // Clear all records in the Messages table

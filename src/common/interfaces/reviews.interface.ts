@@ -12,10 +12,10 @@ export interface IReview {
 }
 
 export type OptionalReview = IReview | null;
-export type IReviewRatingAggregate = {
+export interface IReviewRatingAggregate {
   count: { rating: number };
   sum: { rating: number | null };
-};
+}
 export type IReviewWithUser = IReview & { user: ReviewUser };
 export type IReviewWithBook = IReview & { book: IBookWithoutAuthorsAndGenres };
 export type IReviewWithUserAndBook = IReviewWithUser & IReviewWithBook;

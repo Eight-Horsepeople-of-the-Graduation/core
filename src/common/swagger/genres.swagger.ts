@@ -1,14 +1,14 @@
-import { IBookWithoutAuthorsAndGenres } from "@common/interfaces/books.interface";
+import { IBookWithoutAuthorsAndGenres } from "../interfaces/books.interface";
 import {
   IGenre,
   IGenreWithBooks,
   OptionalGenre,
-} from "@common/interfaces/genres.interface";
+} from "../interfaces/genres.interface";
 import {
   CreateGenreDto,
   UpdateGenreDto,
-} from "@modules/genres/dtos/genres.dto";
-import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+} from "../../modules/genres/dtos/genres.dto";
+import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
 import {
   Body,
   Delete,
@@ -26,7 +26,7 @@ import {
 export class GenresDocs {
   @Get("/")
   getAllGenres(
-    @Queries() searchQueryDto: SearchQueryDto
+    @Queries() searchQueryDto: SearchQueryDto,
   ): IGenreWithBooks[] | any {}
 
   @Get("/:genreId")
@@ -34,7 +34,7 @@ export class GenresDocs {
 
   @Get("/:genreId/books")
   getBooksByGenreId(
-    @Path() genreId: number
+    @Path() genreId: number,
   ): IBookWithoutAuthorsAndGenres[] | any {}
 
   @Post("/")
@@ -43,7 +43,7 @@ export class GenresDocs {
   @Patch("/:genreId")
   updateGenreById(
     @Path() genreId: number,
-    @Body() updateGenreDto: UpdateGenreDto
+    @Body() updateGenreDto: UpdateGenreDto,
   ): IGenre | any {}
 
   @Delete("/:genreId")

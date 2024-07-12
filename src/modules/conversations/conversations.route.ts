@@ -10,20 +10,20 @@ const router = Router();
 router.get(
   "/user/:userId/book/:bookId",
   authMiddleware,
-  asyncWrapper(conversationsController.getConversationByUserAndBook)
+  asyncWrapper(conversationsController.getConversationByUserAndBook),
 );
 
 router.post(
   "/chat/user/:userId/book/:bookId",
   authMiddleware,
   [validationMiddleware(ChatDto)],
-  asyncWrapper(conversationsController.chat)
+  asyncWrapper(conversationsController.chat),
 );
 
 router.delete(
   "/user/:userId/book/:bookId",
   authMiddleware,
-  asyncWrapper(conversationsController.deleteConversation)
+  asyncWrapper(conversationsController.deleteConversation),
 );
 
 // router.delete(

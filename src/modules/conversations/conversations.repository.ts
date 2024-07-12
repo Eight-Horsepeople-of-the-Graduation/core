@@ -14,7 +14,7 @@ import {
 } from "@modules/conversations/dtos/conversations.dto";
 
 export const createConversation = async (
-  conversationData: CreateConversationDto
+  conversationData: CreateConversationDto,
 ): Promise<IConversation> => {
   const conversation: IConversation = await prismaClient.conversation.create({
     data: conversationData,
@@ -43,7 +43,7 @@ export const createConversation = async (
 
 export const getConversationByUserAndBook = async (
   bookId: number,
-  userId: number
+  userId: number,
 ): Promise<OptionalConversation> => {
   const conversation = await prismaClient.conversation.findUnique({
     where: {
@@ -77,7 +77,7 @@ export const getConversationByUserAndBook = async (
 
 export const deleteConversation = async (
   bookId: number,
-  userId: number
+  userId: number,
 ): Promise<OptionalConversation> => {
   const conversation = await prismaClient.conversation.findUnique({
     where: {
@@ -130,7 +130,7 @@ export const getConversationById = async (id: number) => {
 
 export const createMessage = async (
   messageData: CreateMessageDto,
-  coversationid: number
+  coversationid: number,
 ) => {
   const message = await prismaClient.message.create({
     data: {
@@ -155,7 +155,7 @@ export const getMessagesByConversationId = async (conversationId: number) => {
 
   const asLangChainMessage = (
     role: string,
-    content: string
+    content: string,
   ): AIMessage | HumanMessage | SystemMessage => {
     switch (role) {
       case "human":

@@ -13,34 +13,34 @@ router.get("/:bookId", asyncWrapper(booksController.getBookById));
 
 router.get(
   "/:bookId/reviews",
-  asyncWrapper(booksController.getReviewsByBookId)
+  asyncWrapper(booksController.getReviewsByBookId),
 );
 
 router.get("/:bookId/genres", asyncWrapper(booksController.getGenresByBookId));
 
 router.get(
   "/:bookId/authors",
-  asyncWrapper(booksController.getAuthorsByBookId)
+  asyncWrapper(booksController.getAuthorsByBookId),
 );
 
 router.post(
   "/",
   authMiddleware,
   [validationMiddleware(CreateBookDto)],
-  asyncWrapper(booksController.createBook)
+  asyncWrapper(booksController.createBook),
 );
 
 router.patch(
   "/:bookId",
   authMiddleware,
   [validationMiddleware(UpdateBookDto)],
-  asyncWrapper(booksController.updateBookById)
+  asyncWrapper(booksController.updateBookById),
 );
 
 router.delete(
   "/:bookId",
   authMiddleware,
-  asyncWrapper(booksController.deleteBookById)
+  asyncWrapper(booksController.deleteBookById),
 );
 
 export default router;

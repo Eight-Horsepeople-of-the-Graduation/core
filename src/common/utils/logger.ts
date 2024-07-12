@@ -24,7 +24,7 @@ const logger = createLogger({
     timestamp({
       format: "DD-MM-YYYY HH:mm:ss",
     }),
-    logFormat // Apply the custom log format
+    logFormat, // Apply the custom log format
   ),
   transports: [
     new Console({
@@ -32,7 +32,7 @@ const logger = createLogger({
         colorize({
           all: true, // Apply color to all levels
         }),
-        logFormat // Apply the custom log format with colors
+        logFormat, // Apply the custom log format with colors
       ),
     }),
     new File({
@@ -44,8 +44,8 @@ const logger = createLogger({
         }),
         format.printf(
           ({ level, message, _timestamp }) =>
-            `[${_timestamp}] [${level}] ${message}`
-        )
+            `[${_timestamp}] [${level}] ${message}`,
+        ),
       ),
     }),
     new File({
@@ -56,8 +56,8 @@ const logger = createLogger({
         }),
         format.printf(
           ({ level, message, _timestamp }) =>
-            `[${_timestamp}] [${level}] ${message}`
-        )
+            `[${_timestamp}] [${level}] ${message}`,
+        ),
       ),
     }),
   ],

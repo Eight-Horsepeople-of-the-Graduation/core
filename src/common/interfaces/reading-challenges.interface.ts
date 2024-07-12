@@ -1,6 +1,4 @@
-import {
-  IReadingChallengeBook,
-} from "./books.interface";
+import { IReadingChallengeBook } from "./books.interface";
 
 export interface IReadingChallenge {
   id: number;

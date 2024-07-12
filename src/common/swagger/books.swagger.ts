@@ -2,11 +2,14 @@ import {
   IBook,
   IBookWithoutAuthorsAndGenres,
   OptionalBook,
-} from "@common/interfaces/books.interface";
-import { IGenre } from "@common/interfaces/genres.interface";
-import { IReviewWithUserAndBook } from "@common/interfaces/reviews.interface";
-import { CreateBookDto, UpdateBookDto } from "@modules/books/dtos/books.dto";
-import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+} from "../interfaces/books.interface";
+import { IGenre } from "../interfaces/genres.interface";
+import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
+import {
+  CreateBookDto,
+  UpdateBookDto,
+} from "../../modules/books/dtos/books.dto";
+import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
 import {
   Body,
   Controller,
@@ -25,7 +28,7 @@ import {
 export class BooksDocs extends Controller {
   @Get("/")
   public getAllBooks(
-    @Queries() searchQueryDto: SearchQueryDto
+    @Queries() searchQueryDto: SearchQueryDto,
   ): IBook[] | any {}
 
   @Get("/:bookId")
@@ -33,7 +36,7 @@ export class BooksDocs extends Controller {
 
   @Get("/:bookId/reviews")
   public getReviewsByBookId(
-    @Path() bookId: number
+    @Path() bookId: number,
   ): IReviewWithUserAndBook[] | any {}
 
   @Get("/:bookId/genres")
@@ -41,22 +44,22 @@ export class BooksDocs extends Controller {
 
   @Get("/:bookId/authors")
   public getAuthorsByBookId(
-    @Path() bookId: number
+    @Path() bookId: number,
   ): IReviewWithUserAndBook[] | any {}
 
   @Post("/")
   public createBook(
-    @Body() createBookDto: CreateBookDto
+    @Body() createBookDto: CreateBookDto,
   ): IBookWithoutAuthorsAndGenres | any {}
 
   @Patch("/:bookId")
   public updateBookById(
     @Path() bookId: number,
-    @Body() updateBookDto: UpdateBookDto
+    @Body() updateBookDto: UpdateBookDto,
   ): IBookWithoutAuthorsAndGenres | any {}
 
   @Delete("/:bookId")
   public deleteBookById(
-    @Path() bookId: number
+    @Path() bookId: number,
   ): IBookWithoutAuthorsAndGenres | any {}
 }

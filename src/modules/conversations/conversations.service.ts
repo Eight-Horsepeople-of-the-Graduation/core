@@ -18,13 +18,13 @@ import config from "../../config";
 
 export const getConversationByUserAndBook = async (
   bookId: number,
-  userId: number
+  userId: number,
 ): Promise<IConversation> => {
   await checkUserAndBook(userId, bookId);
 
   let conversation = await conversationsRepository.getConversationByUserAndBook(
     bookId,
-    userId
+    userId,
   );
 
   if (!conversation) {
@@ -44,11 +44,11 @@ export const getConversationByUserAndBook = async (
 export const chat = async (
   bookId: number,
   userId: number,
-  chatDto: ChatDto
+  chatDto: ChatDto,
 ) => {
   const conversation: IConversation = await getConversationByUserAndBook(
     bookId,
-    userId
+    userId,
   );
 
   const { question } = chatDto;
@@ -71,25 +71,25 @@ export const chat = async (
 
 export const deleteConversation = async (
   bookId: number,
-  userId: number
+  userId: number,
 ): Promise<OptionalConversation> => {
   await checkUserAndBook(userId, bookId);
 
   const conversation = conversationsRepository.deleteConversation(
     bookId,
-    userId
+    userId,
   );
   if (!conversation) {
     throw new HttpException(
       "No conversation started between the provided user and the provided book",
-      HttpStatus.NOT_FOUND
+      HttpStatus.NOT_FOUND,
     );
   }
   return conversation;
 };
 
 export const createConversation = async (
-  conversationData: CreateConversationDto
+  conversationData: CreateConversationDto,
 ): Promise<IConversation> => {
   const conversation =
     await conversationsRepository.createConversation(conversationData);
@@ -99,11 +99,11 @@ export const createConversation = async (
 
 export const createMessage = async (
   messageData: CreateMessageDto,
-  conversationId: number
+  conversationId: number,
 ) => {
   const message = await conversationsRepository.createMessage(
     messageData,
-    conversationId
+    conversationId,
   );
 
   return message;

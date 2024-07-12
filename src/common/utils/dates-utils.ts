@@ -40,7 +40,7 @@ const getYear = (date: Date): number => {
 
 export const getTimeframe = (
   startDate: Date,
-  type: ReadingChallengeType
+  type: ReadingChallengeType,
 ): string => {
   if (type === ReadingChallengeType.WEEKLY) {
     return `week ${getWeekOfYear(startDate)}`;

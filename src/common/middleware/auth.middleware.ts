@@ -6,7 +6,7 @@ import usersService from "@modules/users/users.service";
 export const authMiddleware = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const accessToken = req.cookies.accessToken;
   if (!accessToken) return res.status(403).send("Access token is required");

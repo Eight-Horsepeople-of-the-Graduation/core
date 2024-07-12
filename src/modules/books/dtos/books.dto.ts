@@ -1,10 +1,9 @@
-import { AuthorDto } from "@modules/authors/dtos/authors.dto";
-import { GenreDto } from "@modules/genres/dtos/genres.dto";
+import { AuthorDto } from "../../authors/dtos/authors.dto";
+import { GenreDto } from "../../genres/dtos/genres.dto";
 import {
   IsNotEmpty,
   IsString,
   IsNumber,
-  IsISBN,
   IsEnum,
   IsOptional,
   IsPositive,

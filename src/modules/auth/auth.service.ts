@@ -18,7 +18,7 @@ import { buildDefaultBookshelves } from "@common/utils/build-default-bookshelves
 import { Transaction } from "@common/types/prismaClient-transaction.type";
 
 export const signUp = async (
-  signUpDto: SignUpDto
+  signUpDto: SignUpDto,
 ): Promise<{
   user: IUserWithoutPassword;
   tokens: { accessToken: string; refreshToken: string };
@@ -45,14 +45,14 @@ export const signUp = async (
 };
 
 export const logIn = async (
-  logInDto: LogInDto
+  logInDto: LogInDto,
 ): Promise<{
   user: IUserWithoutPassword;
   tokens: { accessToken: string; refreshToken: string };
 }> => {
   const user = await usersService.validateCredentials(
     logInDto.email,
-    logInDto.password
+    logInDto.password,
   );
 
   const tokens = await getTokens(user.id, user.email);
@@ -67,13 +67,13 @@ export const logOut = async (userId: number): Promise<void> => {
 
 export const refreshTokens = async (
   userId: number,
-  refreshToken: string
+  refreshToken: string,
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   let decodedToken: jwt.JwtPayload;
   try {
     decodedToken = jwt.verify(
       refreshToken,
-      config.refreshToken.secret
+      config.refreshToken.secret,
     ) as jwt.JwtPayload;
   } catch (err) {
     throw new HttpException("Unauthorized: Invalid token", 401);
@@ -88,7 +88,7 @@ export const refreshTokens = async (
 
   const refreshTokensMatch = await bcrypt.compare(
     refreshToken,
-    user.refreshToken
+    user.refreshToken,
   );
   if (!refreshTokensMatch)
     throw new HttpException("Unauthorized: token mismatch", 401);
@@ -101,7 +101,7 @@ export const refreshTokens = async (
 
 export const getTokens = async (
   userId: number,
-  email: string
+  email: string,
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   const payload: JwtPayload = { sub: userId, email };
 
@@ -118,7 +118,7 @@ export const getTokens = async (
 export const updateRefreshToken = async (
   userId: number,
   refreshToken: string,
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<void> => {
   const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
 

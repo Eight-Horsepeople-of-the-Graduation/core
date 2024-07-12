@@ -5,7 +5,7 @@ export async function seedAuthors(num: number) {
   const currentAuthorCount = await prismaClient.author.count();
   if (currentAuthorCount >= num) {
     console.log(
-      `Current author count: ${currentAuthorCount} - Skipping seeding..`
+      `Current author count: ${currentAuthorCount} - Skipping seeding..`,
     );
     return;
   }
@@ -17,6 +17,6 @@ export async function seedAuthors(num: number) {
   }
 
   console.log(
-    `Added extra ${num - currentAuthorCount} authors - current count: ${num}..`
+    `Added extra ${num - currentAuthorCount} authors - current count: ${num}..`,
   );
 }

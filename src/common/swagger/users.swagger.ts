@@ -1,10 +1,10 @@
-import { IBook } from "@common/interfaces/books.interface";
-import { IBookshelf } from "@common/interfaces/bookshelves.interface";
-import { IReadingChallengeWithBooks } from "@common/interfaces/reading-challenges.interface";
-import { IReviewWithUserAndBook } from "@common/interfaces/reviews.interface";
-import { IUserWithoutPassword } from "@common/interfaces/users.interface";
-import { SearchQueryDto } from "@modules/search/dtos/search.dto";
-import { UpdateUserDto } from "@modules/users/dtos/users.dto";
+import { IBook } from "../interfaces/books.interface";
+import { IBookshelf } from "../interfaces/bookshelves.interface";
+import { IReadingChallengeWithBooks } from "../interfaces/reading-challenges.interface";
+import { IReviewWithUserAndBook } from "../interfaces/reviews.interface";
+import { IUserWithoutPassword } from "../interfaces/users.interface";
+import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
+import { UpdateUserDto } from "../../modules/users/dtos/users.dto";
 import { Body, Delete, Get, Patch, Path, Queries, Route, Tags } from "tsoa";
 
 @Route("users")
@@ -12,7 +12,7 @@ import { Body, Delete, Get, Patch, Path, Queries, Route, Tags } from "tsoa";
 export class UsersDocs {
   @Get("/")
   public getAllUsers(
-    @Queries() filter: SearchQueryDto
+    @Queries() filter: SearchQueryDto,
   ): IUserWithoutPassword[] | any {}
 
   @Get("/id/:userId")
@@ -20,23 +20,23 @@ export class UsersDocs {
 
   @Get("/username/:username")
   public getUserByUsername(
-    @Path() username: string
+    @Path() username: string,
   ): IUserWithoutPassword | any {}
 
   @Get("/:userId/readingChallenges")
   public getReadingChallengesByUserId(
-    @Path() userId: number
+    @Path() userId: number,
   ): IReadingChallengeWithBooks[] | any {}
 
   @Get("/:userId/reviews")
   public getReviewsByUserId(
-    @Path() userId: number
+    @Path() userId: number,
   ): IReviewWithUserAndBook[] | any {}
 
   @Get("/:userId/reviews/:reviewId")
   public getReviewByUserId(
     @Path() userId: number,
-    @Path() reviewId: number
+    @Path() reviewId: number,
   ): IReviewWithUserAndBook | any {}
 
   @Get("/:userId/bookshelves")
@@ -45,7 +45,7 @@ export class UsersDocs {
   @Get("/:userId/bookshelves/:bookshelfId")
   getBookshelfByUserId(
     @Path() userId: number,
-    @Path() bookshelfId: number
+    @Path() bookshelfId: number,
   ): IBookshelf[] | any {}
 
   @Get("/:userId/books")
@@ -54,7 +54,7 @@ export class UsersDocs {
   @Patch("/:id")
   public updateUserById(
     @Path() id: number,
-    @Body() updatedData: UpdateUserDto
+    @Body() updatedData: UpdateUserDto,
   ): IUserWithoutPassword | any {}
 
   @Delete("/:id")
