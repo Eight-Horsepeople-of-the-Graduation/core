@@ -30,7 +30,7 @@ export const getDefaultTitles = () => {
 };
 
 export const buildDefaultBookshelves = (
-  userId: number
+  userId: number,
 ): CreateBookshelfDto[] => {
   return [
     {

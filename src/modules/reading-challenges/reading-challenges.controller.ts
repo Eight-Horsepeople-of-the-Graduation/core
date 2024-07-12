@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 
 export const getAllReadingChallenges = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IReadingChallengeWithBooks[]>> => {
   const readingChallenges =
     await readingChallengesService.getAllReadingChallenges();
@@ -20,13 +20,13 @@ export const getAllReadingChallenges = async (
 
 export const getReadingChallengeById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IReadingChallengeWithBooks>> => {
   const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
   if (!readingChallengeId) {
     throw new HttpException(
       "Missing required field: readingChallengeId",
-      HttpStatus.BAD_REQUEST
+      HttpStatus.BAD_REQUEST,
     );
   }
   const readingChallenges =
@@ -37,19 +37,19 @@ export const getReadingChallengeById = async (
 
 export const getBooksByReadingChallengeId = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBookWithoutAuthorsAndGenres[]>> => {
   const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
   if (!readingChallengeId) {
     throw new HttpException(
       "Missing required field: readingChallengeId",
-      HttpStatus.BAD_REQUEST
+      HttpStatus.BAD_REQUEST,
     );
   }
 
   const books =
     await readingChallengesService.getBooksByReadingChallengeId(
-      readingChallengeId
+      readingChallengeId,
     );
 
   return res.send(books);
@@ -57,7 +57,7 @@ export const getBooksByReadingChallengeId = async (
 
 export const createReadingChallenge = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IReadingChallenge>> => {
   const readingChallengeData = req.body;
 
@@ -69,13 +69,13 @@ export const createReadingChallenge = async (
 
 export const updateReadingChallengeDetails = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IReadingChallenge>> => {
   const readingChallengeId = parseInt(req.params.readingChallengeId, 10);
   if (!readingChallengeId) {
     throw new HttpException(
       "Reading Challenge ID is required",
-      HttpStatus.BAD_REQUEST
+      HttpStatus.BAD_REQUEST,
     );
   }
 
@@ -83,7 +83,7 @@ export const updateReadingChallengeDetails = async (
   const updatedReadingChallenge =
     await readingChallengesService.updateReadingChallengeDetails(
       readingChallengeId,
-      updatedData
+      updatedData,
     );
 
   return res.send(updatedReadingChallenge);
@@ -91,28 +91,22 @@ export const updateReadingChallengeDetails = async (
 
 export const addBookToUserReadingChallenges = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IReadingChallenge[]>> => {
   const userId = parseInt(req.params.userId, 10);
   if (!userId) {
-    throw new HttpException(
-      "User ID is required",
-      HttpStatus.BAD_REQUEST
-    );
+    throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
   }
 
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId) {
-    throw new HttpException(
-      "Book ID is required",
-      HttpStatus.BAD_REQUEST
-    );
+    throw new HttpException("Book ID is required", HttpStatus.BAD_REQUEST);
   }
 
   const updatedReadingChallenges =
     await readingChallengesService.addBookToUserReadingChallenges(
       userId,
-      bookId
+      bookId,
     );
 
   return res.send(updatedReadingChallenges);
@@ -120,7 +114,7 @@ export const addBookToUserReadingChallenges = async (
 
 export const deleteBookFromReadingChallenge = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IReadingChallengeWithBooks>> => {
   const { userId, bookId } = req.params;
   const userIdInt = parseInt(userId, 10);
@@ -137,7 +131,7 @@ export const deleteBookFromReadingChallenge = async (
   const updatedReadingChallenge =
     await readingChallengesService.deleteBookFromUserReadingChallenges(
       userIdInt,
-      bookIdInt
+      bookIdInt,
     );
 
   return res.send(updatedReadingChallenge);
@@ -149,7 +143,7 @@ export const deleteReadingChallenge = async (req: Request, res: Response) => {
   if (!readingChallengeId) {
     throw new HttpException(
       "Reading Challenge ID is required",
-      HttpStatus.BAD_REQUEST
+      HttpStatus.BAD_REQUEST,
     );
   }
 

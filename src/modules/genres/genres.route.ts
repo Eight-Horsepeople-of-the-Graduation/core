@@ -20,20 +20,20 @@ router.post(
   "/",
   authMiddleware,
   [validationMiddleware(CreateGenreDto)],
-  asyncWrapper(genresController.createGenre)
+  asyncWrapper(genresController.createGenre),
 );
 
 router.patch(
   "/:genreId",
   authMiddleware,
   [validationMiddleware(UpdateGenreDto)],
-  asyncWrapper(genresController.updateGenreById)
+  asyncWrapper(genresController.updateGenreById),
 );
 
 router.delete(
   "/:genreId",
   authMiddleware,
-  asyncWrapper(genresController.deleteGenreById)
+  asyncWrapper(genresController.deleteGenreById),
 );
 
 export default router;

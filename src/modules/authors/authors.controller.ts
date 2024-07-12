@@ -11,7 +11,7 @@ import { Request, Response } from "express";
 
 export const getAllAuthors = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IAuthor[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
@@ -22,7 +22,7 @@ export const getAllAuthors = async (
 
 export const getAuthorById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<OptionalAuthor>> => {
   const authorId = parseInt(req.params.authorId, 10);
 
@@ -33,7 +33,7 @@ export const getAuthorById = async (
 
 export const getBooksByAuthorId = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IBook[]>> => {
   const authorId = parseInt(req.params.authorId, 10);
 
@@ -44,7 +44,7 @@ export const getBooksByAuthorId = async (
 
 export const createAuthor = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IAuthor>> => {
   const createAuthorDto = plainToInstance(CreateAuthorDto, req.body);
 
@@ -55,14 +55,14 @@ export const createAuthor = async (
 
 export const updateAuthorById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IAuthor>> => {
   const authorId = parseInt(req.params.authorId, 10);
   const updateAuthorDto = plainToInstance(UpdateAuthorDto, req.body);
 
   const updatedAuthor = await authorsService.updateAuthorById(
     authorId,
-    updateAuthorDto
+    updateAuthorDto,
   );
 
   return res.send(updatedAuthor);
@@ -70,7 +70,7 @@ export const updateAuthorById = async (
 
 export const deleteAuthorById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response<IAuthor>> => {
   const authorId = parseInt(req.params.authorId, 10);
 

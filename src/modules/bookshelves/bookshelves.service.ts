@@ -23,7 +23,7 @@ import {
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllBookshelves = async (
-  searchQueryDto: SearchQueryDto
+  searchQueryDto: SearchQueryDto,
 ): Promise<IBookshelfWithUser[]> => {
   const bookshelves: IBookshelfWithUser[] =
     await bookshelvesRepository.getAllBookshelves(searchQueryDto);
@@ -32,7 +32,7 @@ export const getAllBookshelves = async (
 };
 
 export const getBookshelfById = async (
-  bookshelfId: number
+  bookshelfId: number,
 ): Promise<OptionalBookshelf> => {
   const bookshelf: OptionalBookshelf =
     await bookshelvesRepository.getBookshelfById(bookshelfId);
@@ -41,7 +41,7 @@ export const getBookshelfById = async (
 };
 
 export const createBookshelf = async (
-  data: CreateBookshelfDto
+  data: CreateBookshelfDto,
 ): Promise<IBookshelf> => {
   const { userId, title } = data;
   const bookshelvesTitles = (
@@ -51,7 +51,7 @@ export const createBookshelf = async (
   if (bookshelvesTitles.includes(title.toLowerCase())) {
     throw new HttpException(
       "Bookshelf with this title already exists",
-      HttpStatus.CONFLICT
+      HttpStatus.CONFLICT,
     );
   }
 
@@ -62,20 +62,19 @@ export const createBookshelf = async (
 };
 
 export const addBookToBookshelf = async (
-  bookshelflId: number,
-  bookIds: number[]
+  bookshelfId: number,
+  bookIds: number[],
 ): Promise<IBookshelf> => {
-  if (checkDefaultBookshelf(bookshelflId, doneReadingInfo.title)) {
+  if (checkDefaultBookshelf(bookshelfId, doneReadingInfo.title)) {
     return prismaClient.$transaction(async (tx) => {
-      const userId = (
-        await bookshelvesRepository.getBookshelfById(bookshelflId)
-      ).userId;
+      const userId = (await bookshelvesRepository.getBookshelfById(bookshelfId))
+        .userId;
 
       const updatedBookshelf: IBookshelf =
         await bookshelvesRepository.addBooksToBookshelf(
-          bookshelflId,
+          bookshelfId,
           bookIds,
-          tx
+          tx,
         );
 
       for (const bookId of bookIds) {
@@ -85,27 +84,26 @@ export const addBookToBookshelf = async (
     });
   } else {
     const updatedBookshelf: IBookshelf =
-      await bookshelvesRepository.addBooksToBookshelf(bookshelflId, bookIds);
+      await bookshelvesRepository.addBooksToBookshelf(bookshelfId, bookIds);
 
     return updatedBookshelf;
   }
 };
 
 export const removeBooksFromBookshelf = async (
-  bookshelflId: number,
-  bookIds: number[]
+  bookshelfId: number,
+  bookIds: number[],
 ): Promise<IBookshelf> => {
-  if (checkDefaultBookshelf(bookshelflId, doneReadingInfo.title)) {
+  if (checkDefaultBookshelf(bookshelfId, doneReadingInfo.title)) {
     return prismaClient.$transaction(async (tx) => {
-      const userId = (
-        await bookshelvesRepository.getBookshelfById(bookshelflId)
-      ).userId;
+      const userId = (await bookshelvesRepository.getBookshelfById(bookshelfId))
+        .userId;
 
       const updatedBookshelf: IBookshelf =
         await bookshelvesRepository.removeBooksFromBookshelf(
-          bookshelflId,
+          bookshelfId,
           bookIds,
-          tx
+          tx,
         );
 
       for (const bookId of bookIds) {
@@ -116,8 +114,8 @@ export const removeBooksFromBookshelf = async (
   } else {
     const updatedBookshelf: IBookshelf =
       await bookshelvesRepository.removeBooksFromBookshelf(
-        bookshelflId,
-        bookIds
+        bookshelfId,
+        bookIds,
       );
 
     return updatedBookshelf;
@@ -126,19 +124,19 @@ export const removeBooksFromBookshelf = async (
 
 export const updateBookshelf = async (
   bookshelfId: number,
-  updateBookshelfDto: UpdateBookshelfDto
+  updateBookshelfDto: UpdateBookshelfDto,
 ): Promise<IBookshelf> => {
   if (checkDefaultBookshelf(bookshelfId)) {
     if (updateBookshelfDto.description || updateBookshelfDto.title) {
       throw new HttpException(
         "You can't update default bookshelves title or description.",
-        HttpStatus.FORBIDDEN
+        HttpStatus.FORBIDDEN,
       );
     } else {
       const updatedBookshelf: IBookshelf =
         await bookshelvesRepository.updateBookshelf(
           bookshelfId,
-          updateBookshelfDto
+          updateBookshelfDto,
         );
 
       return updatedBookshelf;
@@ -148,19 +146,19 @@ export const updateBookshelf = async (
   const updatedBookshelf: IBookshelf =
     await bookshelvesRepository.updateBookshelf(
       bookshelfId,
-      updateBookshelfDto
+      updateBookshelfDto,
     );
 
   return updatedBookshelf;
 };
 
 export const deleteBookshelf = async (
-  bookshelfId: number
+  bookshelfId: number,
 ): Promise<IBookshelfWithoutBooks> => {
   if (checkDefaultBookshelf(bookshelfId)) {
     throw new HttpException(
       "You can't delete default bookshelves",
-      HttpStatus.FORBIDDEN
+      HttpStatus.FORBIDDEN,
     );
   }
 

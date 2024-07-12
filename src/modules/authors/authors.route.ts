@@ -16,27 +16,27 @@ router.get("/:authorId", asyncWrapper(authorsController.getAuthorById));
 
 router.get(
   "/:authorId/books",
-  asyncWrapper(authorsController.getBooksByAuthorId)
+  asyncWrapper(authorsController.getBooksByAuthorId),
 );
 
 router.post(
   "/",
   authMiddleware,
   [validationMiddleware(CreateAuthorDto)],
-  asyncWrapper(authorsController.createAuthor)
+  asyncWrapper(authorsController.createAuthor),
 );
 
 router.patch(
   "/:authorId",
   authMiddleware,
   [validationMiddleware(UpdateAuthorDto)],
-  asyncWrapper(authorsController.updateAuthorById)
+  asyncWrapper(authorsController.updateAuthorById),
 );
 
 router.delete(
   "/:authorId",
   authMiddleware,
-  asyncWrapper(authorsController.deleteAuthorById)
+  asyncWrapper(authorsController.deleteAuthorById),
 );
 
 export default router;

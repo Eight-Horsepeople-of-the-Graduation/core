@@ -7,14 +7,14 @@ export const errorHandlerMiddleware = (
   error: HttpException,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     if (error instanceof HttpException) {
       const status = error.status || 500;
       const message = error.response || "Something went wrong";
       logger.error(
-        `${status} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+        `${status} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`,
       );
 
       return res.status(status).send({
@@ -23,7 +23,7 @@ export const errorHandlerMiddleware = (
       });
     } else {
       logger.error(
-        `Unhandled Error : ${error} - ${req.originalUrl} - ${req.method} - ${req.ip} - ${JSON.stringify(error)}`
+        `Unhandled Error : ${error} - ${req.originalUrl} - ${req.method} - ${req.ip} - ${JSON.stringify(error)}`,
       );
 
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({

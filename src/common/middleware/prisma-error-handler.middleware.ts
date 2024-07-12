@@ -13,7 +13,7 @@ export const prismaErrorHandlerMiddleware = (
   error: any,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     if (error instanceof PrismaClientKnownRequestError) {
@@ -25,7 +25,7 @@ export const prismaErrorHandlerMiddleware = (
           `-----------------Prisma's Message End---------------\n` +
           `Meta: ${JSON.stringify(meta)}\n` +
           `Origin: ${req.originalUrl} - ${req.method} - ${req.ip}\n` +
-          `Request Body: ${JSON.stringify(req.body)}\n`
+          `Request Body: ${JSON.stringify(req.body)}\n`,
         // `${error.stack}`
       );
 
@@ -40,7 +40,7 @@ export const prismaErrorHandlerMiddleware = (
         `${error.name} - ${error.clientVersion}: ${error.message}\n` +
           `Origin: ${req.originalUrl} - ${req.method} - ${req.ip}\n` +
           `Request Body: ${JSON.stringify(req.body)}\n` +
-          `${error.stack}`
+          `${error.stack}`,
       );
       return res.status(500).send({
         status: 500,

@@ -3,12 +3,12 @@ import { data } from "../data/messagesData.json";
 
 export async function seedMessages() {
   console.log(
-    "-----------------------------Seeding Messages---------------------------"
+    "-----------------------------Seeding Messages---------------------------",
   );
   const conversations = await prismaClient.conversation.findMany();
 
   for (const conversation of conversations) {
-    let convStartDate = new Date();
+    const convStartDate = new Date();
     const bookId = conversation.bookId;
     for (const message of data) {
       if (message.bookId !== bookId) continue;

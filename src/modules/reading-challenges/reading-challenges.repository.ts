@@ -29,7 +29,7 @@ export const getAllReadingChallenges = async (): Promise<
 };
 
 export const getReadingChallengeById = async (
-  readingChallengeId: number
+  readingChallengeId: number,
 ): Promise<IReadingChallengeWithBooks> => {
   const readingChallenge: IReadingChallengeWithBooks =
     await prismaClient.readingChallenge.findUnique({
@@ -46,7 +46,7 @@ export const getReadingChallengeById = async (
 };
 
 export const getReadingChallengesByUserId = async (
-  userId: number
+  userId: number,
 ): Promise<IReadingChallengeWithBooks[]> => {
   const readingChallenges: IReadingChallengeWithBooks[] =
     await prismaClient.readingChallenge.findMany({
@@ -65,7 +65,7 @@ export const getReadingChallengesByUserId = async (
 export const addBookToUserReadingChallenges = async (
   userId: number,
   bookId: number,
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<IReadingChallenge[]> => {
   const _prismaClient = tx || prismaClient;
   // Get all reading challenges that the user is currently participating in
@@ -96,7 +96,7 @@ export const addBookToUserReadingChallenges = async (
         });
         throw new HttpException(
           "Reading challenge has already ended",
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         );
       }
 
@@ -104,7 +104,7 @@ export const addBookToUserReadingChallenges = async (
       if (readingChallenge.books.some((book) => book.id === bookId))
         throw new HttpException(
           "Book was already added to the users currently active reading challenges",
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         );
 
       // Update the reading challenge by adding the book and incrementing the progress
@@ -133,14 +133,14 @@ export const addBookToUserReadingChallenges = async (
           },
         });
       return updatedReadingChallenge;
-    })
+    }),
   );
 
   return updatedReadingChallenges;
 };
 
 export const createReadingChallenge = async (
-  readingChallengeData: CreateReadingChallengeDto
+  readingChallengeData: CreateReadingChallengeDto,
 ): Promise<IReadingChallenge> => {
   const { goal, title, type, userId } = readingChallengeData;
 
@@ -161,7 +161,7 @@ export const createReadingChallenge = async (
 
 export const updateReadingChallengeDetails = async (
   readingChallengeId: number,
-  updatedData: UpdateReadingChallengeDto
+  updatedData: UpdateReadingChallengeDto,
 ): Promise<IReadingChallenge> => {
   const readingChallenge = await prismaClient.readingChallenge.findUnique({
     where: {
@@ -184,7 +184,7 @@ export const updateReadingChallengeDetails = async (
   return updatedReadingChallenge;
 };
 export const deleteReadingChallenge = async (
-  readingChallengeId: number
+  readingChallengeId: number,
 ): Promise<IReadingChallenge> => {
   const deletedReadingChallenge: IReadingChallenge =
     await prismaClient.readingChallenge.delete({
@@ -198,7 +198,7 @@ export const deleteReadingChallenge = async (
 export const deleteBookFromUserReadingChallenges = async (
   userId: number,
   bookId: number,
-  tx?: Transaction
+  tx?: Transaction,
 ): Promise<IReadingChallengeWithBooks[]> => {
   const _prismaClient = tx || prismaClient;
 
@@ -229,7 +229,7 @@ export const deleteBookFromUserReadingChallenges = async (
           });
           throw new HttpException(
             "Reading challenge has already ended",
-            HttpStatus.BAD_REQUEST
+            HttpStatus.BAD_REQUEST,
           );
         }
 
@@ -262,10 +262,10 @@ export const deleteBookFromUserReadingChallenges = async (
         } else {
           throw new HttpException(
             "Book was not found in the users currently active reading challenges",
-            HttpStatus.BAD_REQUEST
+            HttpStatus.BAD_REQUEST,
           );
         }
-      })
+      }),
     );
 
   return updatedReadingChallenges;
@@ -273,7 +273,7 @@ export const deleteBookFromUserReadingChallenges = async (
 
 const getActiveReadingChallengeByType = async (
   type: Duration,
-  userId: number
+  userId: number,
 ) => {
   const activeReadingChallenge = await prismaClient.readingChallenge.findFirst({
     where: {

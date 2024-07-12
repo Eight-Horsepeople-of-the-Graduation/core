@@ -18,7 +18,7 @@ const loadMainMiddleware = (app: Express) => {
     cors({
       origin: config.origin,
       credentials: true,
-    })
+    }),
   );
 
   app.use(
@@ -28,7 +28,7 @@ const loadMainMiddleware = (app: Express) => {
       standardHeaders: true,
       legacyHeaders: true,
       message: "Too many requests, please try again later.",
-    })
+    }),
   );
 
   app.use(helmet());
@@ -40,7 +40,7 @@ const loadMainMiddleware = (app: Express) => {
     cookieParser(config.cookieSecret, {
       httpOnly: true,
       signed: true,
-    } as any)
+    } as cookieParser.CookieParseOptions),
   );
 };
 

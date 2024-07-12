@@ -5,7 +5,7 @@ import { hashSync, genSaltSync } from "bcrypt";
 
 export async function seedUsers(num: number) {
   console.log(
-    "-----------------------------Seeding Users-----------------------------"
+    "-----------------------------Seeding Users-----------------------------",
   );
 
   for (let i = 0; i < num; i++) {
@@ -20,7 +20,7 @@ export async function seedUsers(num: number) {
 function createRandomUser() {
   const gender = faker.helpers.arrayElement([Gender.MALE, Gender.FEMALE]);
   const firstName = faker.person.firstName(
-    gender.toLowerCase() as "male" | "female"
+    gender.toLowerCase() as "male" | "female",
   );
   const lastName = faker.person.lastName();
   const email = faker.internet.email({ firstName, lastName });

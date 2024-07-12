@@ -12,7 +12,7 @@ export async function seedReadingChallenges(num: number) {
   num = Math.min(num, 1);
   num = Math.max(num, 3);
   console.log(
-    "-----------------------------Seeding Reading Challenges----------------"
+    "-----------------------------Seeding Reading Challenges----------------",
   );
 
   for (let id = 1; id <= seedConfig.userCount; id++) {
@@ -27,7 +27,7 @@ export async function seedReadingChallenges(num: number) {
         ReadingChallengeType.MONTHLY,
         ReadingChallengeType.ANNUAL,
       ],
-      num
+      num,
     );
 
     for (const type of types) {
@@ -35,11 +35,11 @@ export async function seedReadingChallenges(num: number) {
       const endDate = getEndDate(startDate, type);
       const goal = Math.min(
         Math.min(5, seedConfig.bookCount),
-        Math.floor(Math.random() * seedConfig.bookCount) + 1
+        Math.floor(Math.random() * seedConfig.bookCount) + 1,
       );
       const progress = Math.min(
         Math.floor(goal / 3),
-        Math.floor(Math.random() * goal) + 1
+        Math.floor(Math.random() * goal) + 1,
       );
 
       await prismaClient.readingChallenge.create({
@@ -52,7 +52,7 @@ export async function seedReadingChallenges(num: number) {
             connect: faker.helpers
               .arrayElements(
                 Array.from({ length: seedConfig.bookCount }, (_, i) => i + 1),
-                progress
+                progress,
               )
               .map((bookId) => ({ id: bookId })),
           },
@@ -67,6 +67,6 @@ export async function seedReadingChallenges(num: number) {
   }
 
   console.log(
-    `Added ${num} reading challenges for all ${seedConfig.userCount} users..`
+    `Added ${num} reading challenges for all ${seedConfig.userCount} users..`,
   );
 }

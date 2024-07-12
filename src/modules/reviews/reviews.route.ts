@@ -17,27 +17,27 @@ router.post(
   "/",
   authMiddleware,
   [validationMiddleware(CreateReviewDto)],
-  asyncWrapper(reviewsController.createReview)
+  asyncWrapper(reviewsController.createReview),
 );
 
 router.patch(
   "/:reviewId",
   authMiddleware,
   [validationMiddleware(UpdateReviewDetailsDto)],
-  asyncWrapper(reviewsController.updateReviewDetails)
+  asyncWrapper(reviewsController.updateReviewDetails),
 );
 
 router.patch(
   "/:reviewId/rating",
   authMiddleware,
   [validationMiddleware(UpdateReviewRatingDto)],
-  asyncWrapper(reviewsController.updateReviewRating)
+  asyncWrapper(reviewsController.updateReviewRating),
 );
 
 router.delete(
   "/:reviewId",
   authMiddleware,
-  asyncWrapper(reviewsController.deleteReview)
+  asyncWrapper(reviewsController.deleteReview),
 );
 
 export default router;
