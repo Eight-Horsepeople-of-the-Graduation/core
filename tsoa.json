@@ -1,13 +1,13 @@
 {
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/swagger/*.ts", "src/dtos/*.dto.ts"],
+  "controllerPathGlobs": ["src/common/swagger/*.ts", "src/modules/**/dto/*.dto.ts"],
   "spec": {
-    "outputDirectory": "src/swagger",
+    "outputDirectory": "src/common/swagger",
     "specVersion": 3
   },
   "routes": {
-    "routesDir": "src/swagger",
+    "routesDir": "src/common/swagger",
     "routesFileName": "swagger-generated-routes.ts"
   }
 }
