@@ -8,6 +8,7 @@ import {
 import prismaClient from "@common/utils/prisma";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 import { CreateUserDto, UpdateUserDto } from "@modules/users/dtos/users.dto";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
 
 export const getAllUsers = async (
   searchQueryDto: SearchQueryDto
@@ -57,11 +58,13 @@ export const getUserByUsername = async (
 };
 
 export const createUser = async (
-  createUserDto: CreateUserDto
+  createUserDto: CreateUserDto,
+  tx?: Transaction
 ): Promise<IUserWithoutPassword> => {
+  const _prismaClient = tx || prismaClient;
   const hashedPassword = await hashPassword(createUserDto.password);
 
-  const newUser: IUserWithoutPassword = await prismaClient.user.create({
+  const newUser: IUserWithoutPassword = await _prismaClient.user.create({
     data: {
       ...createUserDto,
       password: hashedPassword,
@@ -74,9 +77,11 @@ export const createUser = async (
 
 export const updateUserById = async (
   userId: number,
-  updatedData: UpdateUserDto
+  updatedData: UpdateUserDto,
+  tx?: Transaction
 ): Promise<IUserWithoutPassword> => {
-  const user = await prismaClient.user.update({
+  const _prismaClient = tx || prismaClient;
+  const user = await _prismaClient.user.update({
     where: { id: userId },
     data: updatedData,
     select: SelectUserWithoutPassword,
