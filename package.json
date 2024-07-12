@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "prebuild":"pnpm dlx tslint -c tslint.json -p tsconfig.json",
     "build:watch": "tsc -w",
     "start": "ts-node -r --files tsconfig-paths/register src/app.ts",
     "start:dev": "ts-node-dev --files -r tsconfig-paths/register src/app.ts",

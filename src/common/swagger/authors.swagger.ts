@@ -21,7 +21,7 @@ import { IBookWithoutAuthorsAndGenres } from "@common/interfaces/books.interface
 @Tags("Authors")
 export class AuthorsDocs {
   @Get("/")
-  getAllAuthors(@Queries() SearchQueryDto: SearchQueryDto): IAuthor[] | any {}
+  getAllAuthors(@Queries() searchQueryDto: SearchQueryDto): IAuthor[] | any {}
 
   @Get("/:authorId")
   getAuthorById(@Path() authorId: number): OptionalAuthor | any {}

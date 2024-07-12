@@ -13,8 +13,8 @@ addColors({
 });
 
 // Define a custom log format to match NestJS console output style
-const logFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}] ${message}`;
+const logFormat = printf(({ level, message, _timestamp }) => {
+  return `${_timestamp} [${level}] ${message}`;
 });
 
 // Create a logger instance
@@ -43,8 +43,8 @@ const logger = createLogger({
           format: "DD-MM-YYYY HH:mm:ss",
         }),
         format.printf(
-          ({ level, message, timestamp }) =>
-            `[${timestamp}] [${level}] ${message}`
+          ({ level, message, _timestamp }) =>
+            `[${_timestamp}] [${level}] ${message}`
         )
       ),
     }),
@@ -55,8 +55,8 @@ const logger = createLogger({
           format: "DD-MM-YYYY HH:mm:ss",
         }),
         format.printf(
-          ({ level, message, timestamp }) =>
-            `[${timestamp}] [${level}] ${message}`
+          ({ level, message, _timestamp }) =>
+            `[${_timestamp}] [${level}] ${message}`
         )
       ),
     }),

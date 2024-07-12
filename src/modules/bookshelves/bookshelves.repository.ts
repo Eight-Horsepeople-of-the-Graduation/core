@@ -114,7 +114,7 @@ export const createBookshelf = async (
         select: { books: true },
       },
     },
-    data: data,
+    data,
   });
 
   return bookshelf;

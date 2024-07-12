@@ -118,7 +118,7 @@ export const deleteConversation = async (
 export const getConversationById = async (id: number) => {
   const conversation = await prismaClient.conversation.findUnique({
     where: {
-      id: id,
+      id,
     },
     include: {
       messages: true,

@@ -55,7 +55,7 @@ export const getGenresByBookId = async (
   req: Request,
   res: Response
 ): Promise<Response<IGenre[]>> => {
-  const bookId = parseInt(req.params.bookId);
+  const bookId = parseInt(req.params.bookId, 10);
 
   const genres = await booksService.getGenresByBookId(bookId);
 

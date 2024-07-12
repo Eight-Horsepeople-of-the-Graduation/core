@@ -21,5 +21,6 @@
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*"]
 }

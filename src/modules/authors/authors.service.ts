@@ -9,9 +9,9 @@ import booksRepository from "@modules/books/books.repository";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllAuthors = async (
-  SearchQueryDto: SearchQueryDto
+  searchQueryDto: SearchQueryDto
 ): Promise<IAuthor[]> => {
-  const authors = await authorsRepository.getAllAuthors(SearchQueryDto);
+  const authors = await authorsRepository.getAllAuthors(searchQueryDto);
 
   return authors;
 };

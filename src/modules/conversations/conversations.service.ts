@@ -44,7 +44,7 @@ export const chat = async (
   userId: number,
   chatDto: ChatDto
 ) => {
-  let conversation: IConversation = await getConversationByUserAndBook(
+  const conversation: IConversation = await getConversationByUserAndBook(
     bookId,
     userId
   );
@@ -60,9 +60,9 @@ export const chat = async (
       getMessagesByConversationId,
     },
   };
-  const chat = buildChat(chatArgs);
+  const chatInstance = buildChat(chatArgs);
 
-  const answer = await chat.invoke({ question });
+  const answer = await chatInstance.invoke({ question });
 
   return answer.text;
 };
