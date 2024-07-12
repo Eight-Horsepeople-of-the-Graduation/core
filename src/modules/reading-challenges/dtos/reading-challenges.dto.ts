@@ -36,11 +36,11 @@ export class CreateReadingChallengeDto {
 export class UpdateReadingChallengeDto {
   @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsNumber()
-  goal: number;
+  goal?: number;
 }
 
 export class GetReadingChallengeDto {
