@@ -2,12 +2,11 @@ name: Lint and Format
 
 on:
   push:
-    branches:
-      - "**" # This will match all branches
+    branches: [main]
   pull_request:
-    branches:
-      - "**" # This will match all branches
-  workflow_dispatch: # This allows manual triggering of the workflow
+    branches: [main]
+  workflow_dispatch:
+
 
 jobs:
   lint:
