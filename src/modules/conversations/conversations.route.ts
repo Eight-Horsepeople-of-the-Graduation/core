@@ -9,6 +9,7 @@ const router = Router();
 
 router.get(
   "/user/:userId/book/:bookId",
+  authMiddleware,
   asyncWrapper(conversationsController.getConversationByUserAndBook)
 );
 
