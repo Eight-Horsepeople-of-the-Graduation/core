@@ -4,9 +4,10 @@ dayjs.extend(weekOfYear);
 
 import { ReadingChallengeType } from "@prisma/client";
 const getEndOfWeek = (date: dayjs.Dayjs): dayjs.Dayjs => {
-  let endDate = dayjs(date).endOf("week");
-  return endDate.set("day", endDate.get("day") - 1);
+  const endDate = dayjs(date).endOf("week");
+  return endDate.set("day", endDate.get("day"));
 };
+
 
 const getEndOfMonth = (date: dayjs.Dayjs): dayjs.Dayjs => {
   return dayjs(date).endOf("month");
