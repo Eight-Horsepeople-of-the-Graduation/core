@@ -29,7 +29,12 @@ export const getAllBookshelves = async (
         }),
       },
       include: {
-        books: true,
+        books: {
+          include: {
+            authors: true,
+            genres: true,
+          },
+        },
         user: {
           select: { name: true, username: true, profilePicture: true },
         },
@@ -52,7 +57,12 @@ export const getBookshelfById = async (
       id: bookshelfId,
     },
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -72,7 +82,12 @@ export const getBookshelvesByUserId = async (
       },
     },
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -94,7 +109,12 @@ export const getBookshelfByUserId = async (
       },
     },
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -111,7 +131,12 @@ export const createBookshelf = async (
   const _prismaClient = tx || prismaClient;
   const bookshelf: IBookshelf = await _prismaClient.bookshelf.create({
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -146,7 +171,12 @@ export const addBooksToBookshelf = async (
       },
     },
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -181,7 +211,12 @@ export const removeBooksFromBookshelf = async (
       },
     },
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -200,7 +235,12 @@ export const updateBookshelf = async (
       id: bookshelfId,
     },
     include: {
-      books: true,
+      books: {
+        include: {
+          authors: true,
+          genres: true,
+        },
+      },
       _count: {
         select: { books: true },
       },
@@ -217,6 +257,14 @@ export const deleteBookshelf = async (
   const deletedBookshelf: IBookshelfWithoutBooks =
     await prismaClient.bookshelf.delete({
       where: { id: bookshelfId },
+      include: {
+        books: {
+          include: {
+            authors: true,
+            genres: true,
+          },
+        },
+      },
     });
 
   return deletedBookshelf;
