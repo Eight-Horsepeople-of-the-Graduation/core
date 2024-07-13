@@ -109,6 +109,29 @@ export class UpdateUserDto {
   name?: string;
 
   @IsOptional()
+  @IsString()
+  @Length(6, 64)
+  username?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsEmail()
+  @Length(6, 64)
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(8, 24)
+  @IsStrongPassword({
+    minLength: 8,
+    minUppercase: 1,
+    minLowercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+  })
+  password?: string;
+
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   country?: string;
@@ -129,8 +152,4 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   profilePicture?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  isAdmin?: boolean;
 }
