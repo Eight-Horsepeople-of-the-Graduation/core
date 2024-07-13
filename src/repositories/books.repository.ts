@@ -55,6 +55,9 @@ export const getBooksByAuthorId = async (authorId: number) => {
         },
       },
     },
+    include: {
+      authors: true,
+    },
   });
 
   return books;
@@ -71,6 +74,10 @@ export const getBooksByGenreId = async (
             id: genreId,
           },
         },
+      },
+
+      include: {
+        authors: true,
       },
     });
 
@@ -89,6 +96,9 @@ export const getBooksByReadingChallengeId = async (
           },
         },
       },
+      include:{
+        authors:true
+      }
     });
 
   return books;
@@ -109,6 +119,9 @@ export const createBook = async (
         connect: genres.map((id) => ({ id })),
       },
     },
+    include:{
+      authors:true
+    }
   });
 
   return newBook;
@@ -131,6 +144,9 @@ export const updateBookById = async (
         set: genres?.map((genre) => ({ id: genre.id })),
       },
     },
+    include:{
+      authors:true
+    }
   });
 
   return updatedBook;
@@ -149,6 +165,9 @@ export const updateBookRating = async (
     data: {
       rating,
     },
+    include:{
+      authors:true
+    }
   });
   return updatedBook;
 };
@@ -160,6 +179,9 @@ export const deleteBookById = async (
     where: {
       id: bookId,
     },
+    include:{
+      authors:true
+    }
   });
 
   return deletedBook;
