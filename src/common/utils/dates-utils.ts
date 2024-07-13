@@ -5,8 +5,9 @@ dayjs.extend(weekOfYear);
 import { ReadingChallengeType } from "@prisma/client";
 const getEndOfWeek = (date: dayjs.Dayjs): dayjs.Dayjs => {
   const endDate = dayjs(date).endOf("week");
-  return endDate.set("day", endDate.get("day") - 1);
+  return endDate.set("day", endDate.get("day"));
 };
+
 
 const getEndOfMonth = (date: dayjs.Dayjs): dayjs.Dayjs => {
   return dayjs(date).endOf("month");
@@ -40,7 +41,7 @@ const getYear = (date: Date): number => {
 
 export const getTimeframe = (
   startDate: Date,
-  type: ReadingChallengeType,
+  type: ReadingChallengeType
 ): string => {
   if (type === ReadingChallengeType.WEEKLY) {
     return `week ${getWeekOfYear(startDate)}`;
