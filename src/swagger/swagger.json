@@ -604,6 +604,75 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"OptionalReviewWithUserAndBook": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IReviewWithUserAndBook"
+					}
+				],
+				"nullable": true
+			},
+			"CreateReviewDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"bookId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"rating",
+					"bookId",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReviewDetailsDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateReviewRatingDto": {
+				"properties": {
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"bookId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"rating",
+					"bookId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Duration": {
 				"enum": [
 					"WEEKLY",
@@ -651,6 +720,67 @@
 				"required": [
 					"title",
 					"goal"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IGenreWithBooks": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IGenre"
+					},
+					{
+						"properties": {
+							"books": {
+								"items": {
+									"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"books"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OptionalGenre": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/IGenre"
+					}
+				],
+				"nullable": true
+			},
+			"CreateGenreDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateGenreDto": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1069,67 +1199,6 @@
 				},
 				"required": [
 					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IGenreWithBooks": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/IGenre"
-					},
-					{
-						"properties": {
-							"books": {
-								"items": {
-									"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
-								},
-								"type": "array"
-							}
-						},
-						"required": [
-							"books"
-						],
-						"type": "object"
-					}
-				]
-			},
-			"OptionalGenre": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/IGenre"
-					}
-				],
-				"nullable": true
-			},
-			"CreateGenreDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"title",
-					"description"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateGenreDto": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"title",
-					"description"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1672,6 +1741,207 @@
 				]
 			}
 		},
+		"/reviews/{reviewId}": {
+			"get": {
+				"operationId": "GetReviewById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OptionalReviewWithUserAndBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reviewId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdateReviewDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReviewWithUserAndBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reviewId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateReviewDetailsDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteReview",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReview"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reviewId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/reviews": {
+			"post": {
+				"operationId": "CreateReview",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReviewWithUserAndBook"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateReviewDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reviews/{reviewId}/rating": {
+			"patch": {
+				"operationId": "UpdateReviewRating",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IReview"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reviewId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateReviewRatingDto"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/reading-challenges": {
 			"get": {
 				"operationId": "GetAllReadingChallenges",
@@ -1983,6 +2253,255 @@
 					{
 						"in": "path",
 						"name": "bookId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/genres": {
+			"get": {
+				"operationId": "GetAllGenres",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IGenreWithBooks"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "term",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateGenre",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateGenreDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/genres/{genreId}": {
+			"get": {
+				"operationId": "GetGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OptionalGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdateGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateGenreDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IGenre"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/genres/{genreId}/books": {
+			"get": {
+				"operationId": "GetBooksByGenreId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
+											},
+											"type": "array"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "genreId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -3042,255 +3561,6 @@
 					{
 						"in": "path",
 						"name": "authorId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/genres": {
-			"get": {
-				"operationId": "GetAllGenres",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IGenreWithBooks"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Genres"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "term",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "CreateGenre",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IGenre"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Genres"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateGenreDto"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/genres/{genreId}": {
-			"get": {
-				"operationId": "GetGenreById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/OptionalGenre"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Genres"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "genreId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"patch": {
-				"operationId": "UpdateGenreById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IGenre"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Genres"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "genreId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateGenreDto"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteGenreById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/IGenre"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Genres"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "genreId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/genres/{genreId}/books": {
-			"get": {
-				"operationId": "GetBooksByGenreId",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/IBookWithoutAuthorsAndGenres"
-											},
-											"type": "array"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Genres"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "genreId",
 						"required": true,
 						"schema": {
 							"format": "double",
