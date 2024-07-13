@@ -2,11 +2,11 @@ import {
   IBook,
   IBookWithoutAuthorsAndGenres,
   OptionalBook,
-} from "@common/interfaces/books.interface";
-import { Transaction } from "@common/types/prismaClient-transaction.type";
-import prismaClient from "@common/utils/prisma";
-import { CreateBookDto, UpdateBookDto } from "@modules/books/dtos/books.dto";
-import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+} from "../../common/interfaces/books.interface";
+import { Transaction } from "../../common/types/prismaClient-transaction.type";
+import prismaClient from "../../common/utils/prisma";
+import { CreateBookDto, UpdateBookDto } from "../../modules/books/dtos/books.dto";
+import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
 
 export const getAllBooks = async (
   searchQueryDto: SearchQueryDto,

@@ -27,5 +27,5 @@ export async function seedReviews(num: number) {
     }
   }
 
-  console.log(`Added ${num} reviews..`);
+  console.log(`Added ${num} reviews for each book..`);
 }

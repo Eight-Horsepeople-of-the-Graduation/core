@@ -1,19 +1,19 @@
-import { HttpStatus } from "@common/enums/http-status.enum";
-import { HttpException } from "@common/exceptions/http.exception";
-import { IBookWithoutAuthorsAndGenres } from "@common/interfaces/books.interface";
+import { HttpStatus } from "../../common/enums/http-status.enum";
+import { HttpException } from "../../common/exceptions/http.exception";
+import { IBookWithoutAuthorsAndGenres } from "../../common/interfaces/books.interface";
 import {
   IBookshelf,
   IBookshelfWithoutBooks,
   IBookshelfWithUser,
   OptionalBookshelf,
-} from "@common/interfaces/bookshelves.interface";
-import { Transaction } from "@common/types/prismaClient-transaction.type";
-import prismaClient from "@common/utils/prisma";
+} from "../../common/interfaces/bookshelves.interface";
+import { Transaction } from "../../common/types/prismaClient-transaction.type";
+import prismaClient from "../../common/utils/prisma";
 import {
   CreateBookshelfDto,
   UpdateBookshelfDto,
-} from "@modules/bookshelves/dtos/bookshelves.dto";
-import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+} from "../../modules/bookshelves/dtos/bookshelves.dto";
+import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
 
 export const getAllBookshelves = async (
   searchQueryDto: SearchQueryDto,
