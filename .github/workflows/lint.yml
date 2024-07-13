@@ -41,4 +41,4 @@ jobs:
         run: pnpm run lint
 
       - name: Format code
-        run: pnpm run format:check
+        run: pnpm run format:check --write
