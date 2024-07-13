@@ -21,7 +21,7 @@ module.exports = [
     rules: {
       // ...typescriptEslintRecommended.rules, // Spread the recommended rules from typescript-eslint
       // ...prettierRecommended.rules, // Spread the recommended rules from prettier
-      'prettier/prettier': 'error',
+      'prettier/prettier': 'off',
       '@typescript-eslint/no-unused-vars': 'off', // Disables the rule for unused variables
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
