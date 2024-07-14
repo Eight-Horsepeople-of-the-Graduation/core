@@ -34,6 +34,9 @@ jobs:
           pnpm config set store-dir ~/.pnpm-store
       - name: Install dependencies
         run: pnpm install
-
+      
+      - name: Prisma generate
+        run: pnpm prisma:generate
+      
       - name: Run tests
         run: pnpm run test
