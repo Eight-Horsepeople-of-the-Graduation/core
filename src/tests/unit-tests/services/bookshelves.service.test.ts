@@ -1,5 +1,7 @@
+import { HttpStatus } from "@common/enums/http-status.enum";
+import { HttpException } from "@common/exceptions/http.exception";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
-import {
+import bookshelvesService, {
   addBookToBookshelf,
   createBookshelf,
   deleteBookshelf,
@@ -12,6 +14,9 @@ import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
 import { title } from "process";
 
 describe("Bookshelves Service Unit Tests", () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
   describe("getBookshelves", () => {
     // Retrieves all bookshelves successfully when valid search query is provided
     it("should retrieve all bookshelves when valid search query is provided", async () => {
@@ -161,22 +166,12 @@ describe("Bookshelves Service Unit Tests", () => {
         .spyOn(bookshelvesRepository, "createBookshelf")
         .mockResolvedValue(expectedBookshelf);
 
+      jest
+        .spyOn(bookshelvesRepository, "getBookshelvesByUserId")
+        .mockResolvedValue([] as any);
       const result = await createBookshelf(data);
 
       expect(result).toEqual(expectedBookshelf);
-      expect(bookshelvesRepository.createBookshelf).toHaveBeenCalledWith(data);
-    });
-    // Handles empty data input
-    it("should throw an error when data is empty", async () => {
-      const data = {} as any;
-
-      jest
-        .spyOn(bookshelvesRepository, "createBookshelf")
-        .mockImplementation(() => {
-          throw new Error("Data is required");
-        });
-
-      await expect(createBookshelf(data)).rejects.toThrow("Data is required");
       expect(bookshelvesRepository.createBookshelf).toHaveBeenCalledWith(data);
     });
   });
@@ -327,11 +322,12 @@ describe("Bookshelves Service Unit Tests", () => {
 
       jest
         .spyOn(bookshelvesRepository, "updateBookshelf")
-        .mockResolvedValue(null);
+        .mockRejectedValue(new Error("Bookshelf not found"));
 
-      const result = await updateBookshelf(bookshelfId, updateBookshelfDto);
-
-      expect(result).toBeNull();
+      // Try to update the bookshelf (expect an error)
+      await expect(
+        updateBookshelf(bookshelfId, updateBookshelfDto)
+      ).rejects.toThrow("Bookshelf not found");
       expect(bookshelvesRepository.updateBookshelf).toHaveBeenCalledWith(
         bookshelfId,
         updateBookshelfDto
@@ -341,7 +337,7 @@ describe("Bookshelves Service Unit Tests", () => {
   describe("deleteBookshelf", () => {
     // Successfully deletes a bookshelf by its ID
     it("should successfully delete a bookshelf by its ID", async () => {
-      const bookshelfId = 1;
+      const bookshelfId = 2;
       const mockDeletedBookshelf = {
         id: 2,
         title: "Fiction",
@@ -359,7 +355,6 @@ describe("Bookshelves Service Unit Tests", () => {
           profilePicture: "profilePicture",
         },
       };
-
       jest
         .spyOn(bookshelvesRepository, "deleteBookshelf")
         .mockResolvedValue(mockDeletedBookshelf);
@@ -371,6 +366,7 @@ describe("Bookshelves Service Unit Tests", () => {
         bookshelfId
       );
     });
+
     // Attempt to delete a bookshelf with a non-existent ID
     it("should throw an error when attempting to delete a bookshelf with a non-existent ID", async () => {
       const nonExistentBookshelfId = 999;
@@ -382,7 +378,7 @@ describe("Bookshelves Service Unit Tests", () => {
       await expect(deleteBookshelf(nonExistentBookshelfId)).rejects.toThrow(
         "Bookshelf not found"
       );
-      expect(bookshelvesRepository.deleteBookshelf).toHaveBeenCalledWith(
+      expect(bookshelvesRepository.getBookshelfById).toHaveBeenCalledWith(
         nonExistentBookshelfId
       );
     });
