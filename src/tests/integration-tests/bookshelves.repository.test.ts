@@ -4,7 +4,7 @@ import prismaClient from "@common/utils/prisma";
 import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
 
 describe("Bookshelves Repository Integration Tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.user.create({
       data: {
         username: "testuseername1",
@@ -76,15 +76,18 @@ describe("Bookshelves Repository Integration Tests", () => {
     });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await prismaClient.book.deleteMany();
     await prismaClient.author.deleteMany();
     await prismaClient.genre.deleteMany();
     await prismaClient.user.deleteMany();
     await prismaClient.bookshelf.deleteMany();
-  });
 
-  afterAll(async () => {
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Author_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Bookshelf_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
   });
 

@@ -4,7 +4,8 @@ import conversationsRepository from "@modules/conversations/conversations.reposi
 import { constant } from "lodash";
 
 describe("Conversation Repository Integration Tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
+    
     await prismaClient.book.create({
       data: {
         title: "Test Book",
@@ -61,12 +62,17 @@ describe("Conversation Repository Integration Tests", () => {
       },
     });
   });
-  afterEach(async () => {
+
+  afterAll(async () => {
     await prismaClient.conversation.deleteMany();
+    await prismaClient.message.deleteMany();
     await prismaClient.user.deleteMany();
     await prismaClient.book.deleteMany();
-  });
-  afterAll(async () => {
+
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Conversation_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Message_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
   });
   it("should get conversation by id ", async () => {

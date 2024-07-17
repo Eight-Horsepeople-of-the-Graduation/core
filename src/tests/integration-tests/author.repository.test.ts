@@ -3,7 +3,7 @@ import authorsRepository from "@modules/authors/authors.repository";
 import prismaClient from "@common/utils/prisma";
 
 describe("Author Repository Integration Tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.author.create({
       data: {
         name: "Test Author",
@@ -37,12 +37,15 @@ describe("Author Repository Integration Tests", () => {
       },
     });
   });
-  afterEach(async () => {
-    await prismaClient.author.deleteMany();
-    await prismaClient.user.deleteMany();
-    await prismaClient.book.deleteMany();
-  });
+
   afterAll(async () => {
+    await prismaClient.user.deleteMany();
+    await prismaClient.author.deleteMany();
+    await prismaClient.book.deleteMany();
+
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Author_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
   });
 

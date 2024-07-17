@@ -3,7 +3,7 @@ import genresRepository from "@modules/genres/genres.repository";
 import prismaClient from "@common/utils/prisma";
 
 describe("Genres Repository Integration Tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.genre.create({
       data: {
         title: "Test Genre",
@@ -28,11 +28,12 @@ describe("Genres Repository Integration Tests", () => {
       },
     });
   });
-  afterEach(async () => {
+  afterAll(async () => {
     await prismaClient.genre.deleteMany();
     await prismaClient.book.deleteMany();
-  });
-  afterAll(async () => {
+
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
   });
 
