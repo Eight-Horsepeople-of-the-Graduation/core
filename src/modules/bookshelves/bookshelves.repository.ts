@@ -16,7 +16,7 @@ import {
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllBookshelves = async (
-  searchQueryDto: SearchQueryDto,
+  searchQueryDto: SearchQueryDto
 ): Promise<IBookshelfWithUser[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
@@ -48,7 +48,7 @@ export const getAllBookshelves = async (
 };
 
 export const getBookshelfById = async (
-  bookshelfId: number,
+  bookshelfId: number
 ): Promise<OptionalBookshelf> => {
   const bookshelf: OptionalBookshelf = await prismaClient.bookshelf.findUnique({
     where: {
@@ -66,7 +66,7 @@ export const getBookshelfById = async (
 };
 
 export const getBookshelvesByUserId = async (
-  userId: number,
+  userId: number
 ): Promise<IBookshelf[]> => {
   const bookshelves: IBookshelf[] = await prismaClient.bookshelf.findMany({
     where: {
@@ -87,7 +87,7 @@ export const getBookshelvesByUserId = async (
 
 export const getBookshelfByUserId = async (
   userId: number,
-  bookshelfId: number,
+  bookshelfId: number
 ): Promise<OptionalBookshelf> => {
   const bookshelf: OptionalBookshelf = await prismaClient.bookshelf.findUnique({
     where: {
@@ -109,7 +109,7 @@ export const getBookshelfByUserId = async (
 
 export const createBookshelf = async (
   data: CreateBookshelfDto,
-  tx?: Transaction,
+  tx?: Transaction
 ): Promise<IBookshelf> => {
   const _prismaClient = tx || prismaClient;
   const bookshelf: IBookshelf = await _prismaClient.bookshelf.create({
@@ -128,7 +128,7 @@ export const createBookshelf = async (
 export const addBooksToBookshelf = async (
   bookshelfId: number,
   booksIds: number[],
-  tx?: Transaction,
+  tx?: Transaction
 ): Promise<IBookshelf> => {
   const _prismaClient = tx || prismaClient;
   const bookshelf = await getBookshelfById(bookshelfId);
@@ -162,7 +162,7 @@ export const addBooksToBookshelf = async (
 export const removeBooksFromBookshelf = async (
   bookshelfId: number,
   booksIds: number[],
-  tx?: Transaction,
+  tx?: Transaction
 ): Promise<IBookshelf> => {
   const _prismaClient = tx || prismaClient;
 
@@ -196,7 +196,7 @@ export const removeBooksFromBookshelf = async (
 
 export const updateBookshelf = async (
   bookshelfId: number,
-  updatedData: UpdateBookshelfDto,
+  updatedData: UpdateBookshelfDto
 ): Promise<IBookshelf> => {
   const bookshelf: IBookshelf = await prismaClient.bookshelf.update({
     where: {
@@ -215,7 +215,7 @@ export const updateBookshelf = async (
 };
 
 export const deleteBookshelf = async (
-  bookshelfId: number,
+  bookshelfId: number
 ): Promise<IBookshelfWithoutBooks> => {
   const deletedBookshelf: IBookshelfWithoutBooks =
     await prismaClient.bookshelf.delete({
@@ -223,6 +223,19 @@ export const deleteBookshelf = async (
     });
 
   return deletedBookshelf;
+};
+
+export const getBookshelvesByBookId = async (bookId: number) => {
+  const bookshelves = prismaClient.bookshelf.findMany({
+    where: {
+      books: {
+        some: {
+          id: bookId,
+        },
+      },
+    },
+  });
+  return bookshelves;
 };
 
 export default {
@@ -235,4 +248,5 @@ export default {
   removeBooksFromBookshelf,
   updateBookshelf,
   deleteBookshelf,
+  getBookshelvesByBookId,
 };

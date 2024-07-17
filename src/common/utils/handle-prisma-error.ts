@@ -4,8 +4,8 @@ import { List } from "lodash";
 
 export default function handlePrismaError(
   code: string,
-  meta: Record<string, string | List<string>> | undefined,
-  res: Response,
+  meta: Record<string, any> | undefined,
+  res: Response
 ) {
   switch (code) {
     case "P2000":
