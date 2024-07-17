@@ -39,4 +39,4 @@ jobs:
         run: pnpm prisma:generate
       
       - name: Run tests
-        run: pnpm run test
+        run: pnpm run test:unit
