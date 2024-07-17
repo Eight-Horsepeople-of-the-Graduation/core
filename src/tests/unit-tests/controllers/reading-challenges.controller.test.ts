@@ -187,7 +187,7 @@ describe("Reading Challenges Controller", () => {
         HttpException
       );
       await expect(addBookToUserReadingChallenges(req, res)).rejects.toThrow(
-        "Missing required field: userId"
+        "User ID is required"
       );
     });
   });
@@ -318,7 +318,7 @@ describe("Reading Challenges Controller", () => {
         HttpException
       );
       await expect(updateReadingChallengeDetails(req, res)).rejects.toThrow(
-        "Missing required field: readingChallengeId"
+        "Reading Challenge ID is required"
       );
     });
   });
