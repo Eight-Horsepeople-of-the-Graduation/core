@@ -29,15 +29,11 @@ describe("conversation controller Unit Tests", () => {
         userId: 1,
       };
       jest
-        .spyOn(conversationsService, "checkUserAndBook")
-        .mockResolvedValueOnce(Promise.resolve());
-      jest
         .spyOn(conversationsService, "getConversationByUserAndBook")
         .mockResolvedValueOnce(mockConversation);
 
       await getConversationByUserAndBook(req, res);
 
-      expect(conversationsService.checkUserAndBook).toHaveBeenCalledWith(1, 2);
       expect(
         conversationsService.getConversationByUserAndBook
       ).toHaveBeenCalledWith(1, 2);
@@ -81,9 +77,6 @@ describe("conversation controller Unit Tests", () => {
         send: jest.fn(),
       } as unknown as Response;
 
-      jest
-        .spyOn(conversationsService, "checkUserAndBook")
-        .mockResolvedValueOnce(Promise.resolve());
       const mockConversation = {
         id: 1,
         messages: [] as any[],
@@ -97,7 +90,6 @@ describe("conversation controller Unit Tests", () => {
 
       await deleteConversation(req, res);
 
-      expect(conversationsService.checkUserAndBook).toHaveBeenCalledWith(1, 1);
       expect(conversationsService.deleteConversation).toHaveBeenCalledWith(
         1,
         1

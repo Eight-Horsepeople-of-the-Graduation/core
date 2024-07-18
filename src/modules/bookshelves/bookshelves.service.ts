@@ -194,6 +194,7 @@ export const deleteBookshelf = async (
 
 const _getBookshelfIfDefault = async (bookshelfId: number, title?: string) => {
   const bookshelf = await bookshelvesRepository.getBookshelfById(bookshelfId);
+  if(!bookshelf) return null;
   const bookshelfTitle = bookshelf.title.toLowerCase();
   if (title) {
     if (title === bookshelfTitle) return bookshelf;
@@ -211,4 +212,5 @@ export default {
   removeBooksFromBookshelf,
   updateBookshelf,
   deleteBookshelf,
+  _getBookshelfIfDefault
 };

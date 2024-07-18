@@ -15,14 +15,16 @@ import {
   updateReadingChallengeDetails,
 } from "@modules/reading-challenges/reading-challenges.service";
 import { Gender } from "@modules/users/dtos/users.dto";
+import usersRepository from "@modules/users/users.repository";
 import usersService from "@modules/users/users.service";
 import { ReadingChallengeType } from "@prisma/client";
-import { title } from "process";
+jest.mock('@modules/books/books.repository'); 
 
 describe("Reading Challenges Service Unit Tests", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   describe("getAllReadingChallenges", () => {
     // Retrieves all reading challenges successfully
     it("should retrieve all reading challenges successfully when called", async () => {
@@ -166,8 +168,7 @@ describe("Reading Challenges Service Unit Tests", () => {
       const userId = 1;
       const bookId = 1;
 
-      jest.spyOn(usersService, "getUserById").mockResolvedValue(null);
-
+      usersRepository.getUserById = jest.fn().mockResolvedValue(null);
       await expect(
         addBookToUserReadingChallenges(userId, bookId)
       ).rejects.toThrow(HttpException);
@@ -390,8 +391,7 @@ describe("Reading Challenges Service Unit Tests", () => {
       const userId = 1;
       const bookId = 999;
 
-      jest.spyOn(booksRepository, "getBookById").mockResolvedValue(null);
-
+      booksRepository.getBookById = jest.fn().mockRejectedValue(null);
       await expect(
         deleteBookFromUserReadingChallenges(userId, bookId)
       ).rejects.toThrow(HttpException);

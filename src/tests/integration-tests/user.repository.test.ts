@@ -4,7 +4,7 @@ import { Gender } from "@modules/users/dtos/users.dto";
 import usersRepository from "@modules/users/users.repository";
 
 describe("User Repository Integration tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.user.create({
       data: {
         username: "testuseername",
@@ -16,10 +16,11 @@ describe("User Repository Integration tests", () => {
       },
     });
   });
-  afterEach(async () => {
-    await prismaClient.user.deleteMany();
-  });
+
   afterAll(async () => {
+    await prismaClient.user.deleteMany();
+
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
   });
 

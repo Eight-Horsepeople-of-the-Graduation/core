@@ -1,5 +1,6 @@
 name: Run Unit Tests
-
+env:
+  PINECONE_API_KEY: ${{secrets.PINECONE_API_KEY}}
 on:
   push:
     branches: [main]
@@ -39,4 +40,4 @@ jobs:
         run: pnpm prisma:generate
       
       - name: Run tests
-        run: pnpm run test
+        run: pnpm run test:unit

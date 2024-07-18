@@ -4,12 +4,7 @@ import readingChallengesRepository from "@modules/reading-challenges/reading-cha
 import prismaClient from "@common/utils/prisma";
 
 describe("Reading Challenges Repository Integration Tests", () => {
-  const getValidUserId = async () => {
-    const user = await prismaClient.user.findFirst();
-    return user.id;
-  };
-
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.book.create({
       data: {
         title: "Test Book",
@@ -63,23 +58,29 @@ describe("Reading Challenges Repository Integration Tests", () => {
     });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await prismaClient.readingChallenge.deleteMany();
     await prismaClient.user.deleteMany();
     await prismaClient.book.deleteMany();
     await prismaClient.author.deleteMany();
-  });
 
-  afterAll(async () => {
+    await prismaClient.$queryRaw`ALTER SEQUENCE "ReadingChallenge_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Author_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
+
     await prismaClient.$disconnect();
   });
-
+  const getValidUserId = async () => {
+    const user = await prismaClient.user.findFirst();
+    return user.id;
+  };
   it("should create a new reading challenge", async () => {
     const userId = await getValidUserId();
 
     const newReadingChallenge = {
       title: "New Reading Challenge",
-      startDate: new Date("2021-01-01"), 
+      startDate: new Date("2021-01-01"),
       endDate: new Date("2021-12-31"),
       type: Duration.ANNUAL,
       goal: 12,
@@ -128,7 +129,10 @@ describe("Reading Challenges Repository Integration Tests", () => {
       await readingChallengesRepository.getReadingChallengeById(1);
 
     const newReadingChallenge = await prismaClient.readingChallenge.findUnique({
-      where: { id: 1 },
+      where: { id: 1, },
+      include: {
+        books: true
+      }
     });
 
     expect(readingChallenge).toEqual(newReadingChallenge);

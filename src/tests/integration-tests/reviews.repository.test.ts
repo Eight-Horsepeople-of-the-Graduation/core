@@ -4,7 +4,7 @@ import reviewsRepository from "@modules/reviews/reviews.repository";
 import e from "express";
 
 describe("Reviews Repository Integration Tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.user.create({
       data: {
         username: "testuseername",
@@ -47,13 +47,16 @@ describe("Reviews Repository Integration Tests", () => {
       },
     });
   });
-  afterEach(async () => {
+
+  afterAll(async () => {
     await prismaClient.review.deleteMany();
     await prismaClient.user.deleteMany();
     await prismaClient.book.deleteMany();
-  });
 
-  afterAll(async () => {
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Review_id_seq" RESTART WITH 1`;
+    
     await prismaClient.$disconnect();
   });
   it("should get review by book id ", async () => {
