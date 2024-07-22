@@ -1,17 +1,15 @@
 import { faker } from "@faker-js/faker";
-import { Gender } from "@prisma/client";
+import { Gender } from "../../../src/modules/users/dtos/users.dto";
 import prismaClient from "../../../src/common/utils/prisma";
 import { hashSync, genSaltSync } from "bcrypt";
-
+import { signUp } from "../../../src/modules/auth/auth.service";
 export async function seedUsers(num: number) {
   console.log(
-    "-----------------------------Seeding Users-----------------------------",
+    "-----------------------------Seeding Users-----------------------------"
   );
 
   for (let i = 0; i < num; i++) {
-    await prismaClient.user.create({
-      data: createRandomUser(),
-    });
+    signUp(createRandomUser());
   }
 
   console.log(`Added ${num} users..`);
@@ -20,7 +18,7 @@ export async function seedUsers(num: number) {
 function createRandomUser() {
   const gender = faker.helpers.arrayElement([Gender.MALE, Gender.FEMALE]);
   const firstName = faker.person.firstName(
-    gender.toLowerCase() as "male" | "female",
+    gender.toLowerCase() as "male" | "female"
   );
   const lastName = faker.person.lastName();
   const email = faker.internet.email({ firstName, lastName });

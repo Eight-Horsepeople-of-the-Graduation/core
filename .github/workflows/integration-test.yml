@@ -3,6 +3,8 @@ env:
   PINECONE_API_KEY: ${{secrets.PINECONE_API_KEY}}
   POSTGRES_PRISMA_URL: ${{secrets.POSTGRES_PRISMA_URL}}
   POSTGRES_URL_NON_POOLING: ${{secrets.POSTGRES_URL_NON_POOLING}}
+  JWT_REFRESH_SECRET: ${{secrets.JWT_REFRESH_SECRET}}
+  JWT_ACCESS_SECRET: ${{secrets.JWT_ACCESS_SECRET}}
 on:
   push:
     branches: [main]

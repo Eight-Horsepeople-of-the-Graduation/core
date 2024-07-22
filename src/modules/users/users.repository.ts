@@ -1,14 +1,14 @@
 import * as bcrypt from "bcrypt";
-import { HttpException } from "@common/exceptions/http.exception";
+import { HttpException } from "../../common/exceptions/http.exception";
 import {
   IUser,
   IUserWithoutPassword,
   SelectUserWithoutPassword,
-} from "@common/interfaces/users.interface";
-import prismaClient from "@common/utils/prisma";
-import { SearchQueryDto } from "@modules/search/dtos/search.dto";
-import { CreateUserDto, UpdateUserDto } from "@modules/users/dtos/users.dto";
-import { Transaction } from "@common/types/prismaClient-transaction.type";
+} from "../../common/interfaces/users.interface";
+import prismaClient from "../../common/utils/prisma";
+import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
+import { CreateUserDto, UpdateUserDto } from "../../modules/users/dtos/users.dto";
+import { Transaction } from "../../common/types/prismaClient-transaction.type";
 
 export const getAllUsers = async (
   searchQueryDto: SearchQueryDto,

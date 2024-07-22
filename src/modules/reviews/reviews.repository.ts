@@ -2,14 +2,14 @@ import {
   IReview,
   IReviewWithUserAndBook,
   OptionalReviewWithUserAndBook,
-} from "@common/interfaces/reviews.interface";
-import { Transaction } from "@common/types/prismaClient-transaction.type";
-import prismaClient from "@common/utils/prisma";
+} from "../../common/interfaces/reviews.interface";
+import { Transaction } from "../../common/types/prismaClient-transaction.type";
+import prismaClient from "../../common/utils/prisma";
 import {
   CreateReviewDto,
   UpdateReviewDetailsDto,
   UpdateReviewRatingDto,
-} from "@modules/reviews/dtos/reviews.dto";
+} from "../../modules/reviews/dtos/reviews.dto";
 
 export const getReviewById = async (
   reviewId: number,
