@@ -1,9 +1,8 @@
 import booksRepository from "@modules/books/books.repository";
 import prismaClient from "@common/utils/prisma";
 import { Format } from "@modules/books/dtos/books.dto";
-
 describe("Books Repository Integration Tests", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prismaClient.user.create({
       data: {
         username: "testuseername",
@@ -63,13 +62,17 @@ describe("Books Repository Integration Tests", () => {
       },
     });
   });
-  afterEach(async () => {
-    await prismaClient.book.deleteMany();
+  afterAll(async () => {
+    await prismaClient.user.deleteMany();
     await prismaClient.author.deleteMany();
     await prismaClient.genre.deleteMany();
-    await prismaClient.user.deleteMany();
-  });
-  afterAll(async () => {
+    await prismaClient.book.deleteMany();
+
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Author_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
+    await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
+
     await prismaClient.$disconnect();
   });
 
@@ -113,9 +116,13 @@ describe("Books Repository Integration Tests", () => {
     const bookId = 1;
     const books = await booksRepository.getBookById(bookId);
 
-    const book = await prismaClient.book.findFirst({
+    const book = await prismaClient.book.findUnique({
       where: {
         id: bookId,
+      },
+      include: {
+        authors: true,
+        genres: true,
       },
     });
     expect(books).toEqual(book);
