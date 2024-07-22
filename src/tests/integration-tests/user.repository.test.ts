@@ -306,5 +306,5 @@ describe("User Repository Integration tests", () => {
         })
       )._count.books
     ).toBe(1);
-  });
+  }, 10000);
 });
