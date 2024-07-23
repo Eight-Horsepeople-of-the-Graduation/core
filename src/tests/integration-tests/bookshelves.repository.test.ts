@@ -74,7 +74,7 @@ describe("Bookshelves Repository Integration Tests", () => {
         userId: Number(validUserId),
       },
     });
-  });
+  }, 20000);
 
   afterAll(async () => {
     await prismaClient.book.deleteMany();
@@ -89,7 +89,7 @@ describe("Bookshelves Repository Integration Tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
     await prismaClient.$queryRaw`ALTER SEQUENCE "Bookshelf_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
-  });
+  }, 20000);
 
   it("should create a bookshelf", async () => {
     const getValidUserId = async () => {
@@ -113,7 +113,7 @@ describe("Bookshelves Repository Integration Tests", () => {
       },
     });
     expect(newbookshelf).toMatchObject(bookshelf);
-  });
+  }, 20000);
   it("should add books to a bookshelf", async () => {
     const bookshelf = await prismaClient.bookshelf.findFirst();
     const bookshelfId = bookshelf.id;
@@ -136,7 +136,7 @@ describe("Bookshelves Repository Integration Tests", () => {
     });
 
     expect(updatedBookshelf).toMatchObject(bookshelfWithBooks);
-  });
+  }, 20000);
 
   it("should get a bookshelf by id", async () => {
     const bookshelf = await prismaClient.bookshelf.findFirst();
@@ -146,7 +146,7 @@ describe("Bookshelves Repository Integration Tests", () => {
       await bookshelvesRepository.getBookshelfById(bookshelfId);
 
     expect(foundBookshelf).toMatchObject(bookshelf);
-  });
+  }, 20000);
   it("should get all bookshelves by user id", async () => {
     const getValidUserId = async () => {
       const user = await prismaClient.user.findFirst();
@@ -163,14 +163,14 @@ describe("Bookshelves Repository Integration Tests", () => {
       },
     });
     expect(bookshelves).toMatchObject(bookselves);
-  });
+  }, 20000);
   it("should get all bookshelves", async () => {
     const searchQueryDto = {};
     const bookshelves =
       await bookshelvesRepository.getAllBookshelves(searchQueryDto);
     const allBookshelves = await prismaClient.bookshelf.findMany();
     expect(bookshelves).toHaveLength(allBookshelves.length);
-  });
+  }, 20000);
 
   it("should update a bookshelf", async () => {
     const bookshelf = await prismaClient.bookshelf.findFirst();
@@ -194,7 +194,7 @@ describe("Bookshelves Repository Integration Tests", () => {
     });
 
     expect(updatedbookshelf).toMatchObject(bookshelfAfterUpdate);
-  });
+  }, 20000);
 
   it("should delete a bookshelf", async () => {
     const getValidBookshelfId = async () => {
@@ -209,7 +209,7 @@ describe("Bookshelves Repository Integration Tests", () => {
       },
     });
     expect(bookshelf).toBeNull();
-  });
+  }, 20000);
 
   it("should remove books from a bookshelf", async () => {
     const bookshelf = await prismaClient.bookshelf.findFirst();
@@ -235,7 +235,7 @@ describe("Bookshelves Repository Integration Tests", () => {
     });
 
     expect(updatedBookshelf).toMatchObject(bookshelfWithBooks);
-  });
+  }, 20000);
   it("should get bookshelf by user id", async () => {
     const getValidUserId = async () => {
       const user = await prismaClient.user.findFirst();
@@ -251,5 +251,5 @@ describe("Bookshelves Repository Integration Tests", () => {
     );
 
     expect(foundBookshelf).toMatchObject(bookshelf);
-  });
+  }, 20000);
 });

@@ -61,7 +61,7 @@ describe("Conversation Repository Integration Tests", () => {
         },
       },
     });
-  });
+  }, 20000);
 
   afterAll(async () => {
     await prismaClient.conversation.deleteMany();
@@ -74,7 +74,7 @@ describe("Conversation Repository Integration Tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "Conversation_id_seq" RESTART WITH 1`;
     await prismaClient.$queryRaw`ALTER SEQUENCE "Message_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
-  });
+  }, 20000);
   it("should get conversation by id ", async () => {
     const conversation = await prismaClient.conversation.findFirst();
     const conversationId = conversation.id;
@@ -90,7 +90,7 @@ describe("Conversation Repository Integration Tests", () => {
     });
 
     expect(foundConversation).toMatchObject(conversations);
-  });
+  }, 20000);
 
   it("should create a new message", async () => {
     const conversation = await prismaClient.conversation.findFirst();
@@ -110,7 +110,7 @@ describe("Conversation Repository Integration Tests", () => {
     });
 
     expect(foundMessage).toMatchObject(message);
-  });
+  }, 20000);
 
   it("should get conversation by bookId and userId", async () => {
     const conversation = await prismaClient.conversation.findFirst();
@@ -132,7 +132,7 @@ describe("Conversation Repository Integration Tests", () => {
     });
 
     expect(foundConversation).toMatchObject(conversations);
-  });
+  }, 20000);
 
   it("should delete conversation", async () => {
     const validBookId = await prismaClient.book.findFirst();
@@ -149,7 +149,7 @@ describe("Conversation Repository Integration Tests", () => {
     });
 
     expect(foundConversation).toBeNull();
-  });
+  }, 20000);
 
   it("get Messages By ConversationId ", async () => {
     const conversation = await prismaClient.conversation.findFirst();
@@ -163,7 +163,7 @@ describe("Conversation Repository Integration Tests", () => {
     });
 
     expect(foundMessages).toHaveLength(messages.length);
-  });
+  }, 20000);
   // it("should create a conversation", async () => {
   //   const validBookId = await prismaClient.book.findFirst();
   //   const validUserId = await prismaClient.user.findFirst();

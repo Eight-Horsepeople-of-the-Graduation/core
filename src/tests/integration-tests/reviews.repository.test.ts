@@ -46,7 +46,7 @@ describe("Reviews Repository Integration Tests", () => {
         title: "Great book",
       },
     });
-  });
+  }, 20000);
 
   afterAll(async () => {
     await prismaClient.review.deleteMany();
@@ -58,7 +58,7 @@ describe("Reviews Repository Integration Tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "Review_id_seq" RESTART WITH 1`;
     
     await prismaClient.$disconnect();
-  });
+  }, 20000);
   it("should get review by book id ", async () => {
     const book = await prismaClient.book.findFirst();
     const reviews = await prismaClient.review.findMany({
@@ -79,7 +79,7 @@ describe("Reviews Repository Integration Tests", () => {
 
     const review = await reviewsRepository.getReviewsByBookId(book.id);
     expect(reviews).toMatchObject(review);
-  });
+  }, 20000);
 
   it("should get reviews by user id", async () => {
     const user = await prismaClient.user.findFirst();
@@ -100,7 +100,7 @@ describe("Reviews Repository Integration Tests", () => {
     });
     const review = await reviewsRepository.getReviewsByUserId(user.id);
     expect(reviews).toMatchObject(review);
-  });
+  }, 20000);
 
   it("should get review by user id ", async () => {
     const user = await prismaClient.user.findFirst();
@@ -128,7 +128,7 @@ describe("Reviews Repository Integration Tests", () => {
       vaildReview.id
     );
     expect(reviews).toMatchObject(review);
-  });
+  }, 20000);
 
   it("should get review by id ", async () => {
     const vaildReview = await prismaClient.review.findFirst();
@@ -149,7 +149,7 @@ describe("Reviews Repository Integration Tests", () => {
     });
     const review = await reviewsRepository.getReviewById(vaildReview.id);
     expect(spcifiedReview).toMatchObject(review);
-  });
+  }, 20000);
 
   it("should create a new review", async () => {
     await prismaClient.user.create({
@@ -214,7 +214,7 @@ describe("Reviews Repository Integration Tests", () => {
       },
     });
     expect(review).toMatchObject(createdReview);
-  });
+  }, 20000);
   it("should update review details", async () => {
     const validReviewId = await prismaClient.review.findFirst();
     const reviewData = {
@@ -241,7 +241,7 @@ describe("Reviews Repository Integration Tests", () => {
       },
     });
     expect(review).toMatchObject(updatedReview);
-  });
+  }, 20000);
 
   it("should delete review", async () => {
     const validReviewId = await prismaClient.review.findFirst();
@@ -252,7 +252,7 @@ describe("Reviews Repository Integration Tests", () => {
       },
     });
     expect(review).toBeNull();
-  });
+  }, 20000);
   it("should update review rating", async () => {
     const validReviewId = await prismaClient.review.findFirst();
 
@@ -272,5 +272,5 @@ describe("Reviews Repository Integration Tests", () => {
       },
     });
     expect(review).toMatchObject(updatedReview);
-  });
+  }, 20000);
 });

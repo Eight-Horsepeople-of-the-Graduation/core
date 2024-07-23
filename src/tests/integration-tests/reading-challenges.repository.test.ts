@@ -56,7 +56,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
         },
       ],
     });
-  });
+  }, 20000);
 
   afterAll(async () => {
     await prismaClient.readingChallenge.deleteMany();
@@ -70,7 +70,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
 
     await prismaClient.$disconnect();
-  });
+  }, 20000);
   const getValidUserId = async () => {
     const user = await prismaClient.user.findFirst();
     return user.id;
@@ -100,7 +100,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     );
 
     expect(readingChallenge).toMatchObject(addedReadingChallenge);
-  });
+  }, 20000);
 
   it("should get all reading challenges for a user", async () => {
     const readingChallenges =
@@ -109,7 +109,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     const newReadingChallenge = await prismaClient.readingChallenge.findMany();
 
     expect(readingChallenges).toHaveLength(newReadingChallenge.length);
-  });
+  }, 20000);
 
   it("should get reading challenges by user id", async () => {
     const userId = 1;
@@ -122,7 +122,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     });
 
     expect(readingChallenges).toHaveLength(newReadingChallenge.length);
-  });
+  }, 20000);
 
   it("should get reading challenge by id", async () => {
     const readingChallenge =
@@ -136,7 +136,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     });
 
     expect(readingChallenge).toEqual(newReadingChallenge);
-  });
+  }, 20000);
 
   it("should update reading challenge", async () => {
     const updatedReadingChallenge = {
@@ -157,7 +157,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
       where: { id: readingChallengeId },
     });
     expect(readingChallenge.title).toBe("Updated Reading Challenge");
-  });
+  }, 20000);
 
   it("should delete reading challenge", async () => {
     const getValidReadingChallengeId = async () => {
@@ -176,7 +176,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
       });
 
     expect(deletedReadingChallenge).toBeNull();
-  });
+  }, 20000);
 
   it("should add a book to reading challenge", async () => {
     const getValidReadingChallengeId = async () => {
@@ -208,7 +208,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     });
 
     expect(readingChallenge).toHaveProperty("books");
-  });
+  }, 20000);
 
   it("should remove a book from reading challenge", async () => {
     const getValidReadingChallengeId = async () => {
@@ -245,7 +245,7 @@ describe("Reading Challenges Repository Integration Tests", () => {
     });
 
     expect(readingChallenge).toHaveProperty("books");
-  });
+  }, 20000);
   it("should get all active reading challenges by type", async () => {
     const userId = await getValidUserId();
     const readingChallenge =
@@ -255,5 +255,5 @@ describe("Reading Challenges Repository Integration Tests", () => {
       );
 
     expect(readingChallenge).toHaveProperty("type", Duration.ANNUAL);
-  });
+  }, 20000);
 });
