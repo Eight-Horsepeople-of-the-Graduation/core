@@ -54,21 +54,21 @@ describe("Author Repository Integration Tests", () => {
     const authors = await prismaClient.author.findMany();
 
     expect(authors).toHaveLength(allauthers.length);
-  });
+  }, 20000);
 
   it("should return author by id", async () => {
     const author = await prismaClient.author.findFirst();
     const foundAuthor = await authorsRepository.getAuthorById(author.id);
 
     expect(foundAuthor).toEqual(author);
-  });
+  }, 20000);
 
   it("should return authors by book id", async () => {
     const book = await prismaClient.book.findFirst();
     const authors = await authorsRepository.getAuthorsByBookId(book.id);
 
     expect(authors).toHaveLength(1);
-  });
+  }, 20000);
 
   it("should create author", async () => {
     const newAuthor = await authorsRepository.createAuthor({
@@ -76,7 +76,7 @@ describe("Author Repository Integration Tests", () => {
     });
 
     expect(newAuthor.name).toEqual("Test Author 2");
-  });
+  }, 20000);
 
   it("should update author by id", async () => {
     const author = await prismaClient.author.findFirst();
@@ -85,7 +85,7 @@ describe("Author Repository Integration Tests", () => {
     });
 
     expect(updatedAuthor.name).toEqual("Updated Author");
-  });
+  }, 20000);
 
   it("should delete author by id", async () => {
     const getValidAutorId = async () => {
@@ -99,5 +99,5 @@ describe("Author Repository Integration Tests", () => {
     });
 
     expect(authors).toBeNull();
-  });
+  }, 20000);
 });

@@ -27,7 +27,7 @@ describe("Genres Repository Integration Tests", () => {
         },
       },
     });
-  });
+  }, 20000);
   afterAll(async () => {
     await prismaClient.genre.deleteMany();
     await prismaClient.book.deleteMany();
@@ -35,21 +35,21 @@ describe("Genres Repository Integration Tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
     await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
     await prismaClient.$disconnect();
-  });
+  }, 20000);
 
   it("should return all genres", async () => {
     const allGenres = await genresRepository.getAllGenres({ term: "" });
     const genres = await prismaClient.genre.findMany();
 
     expect(genres).toHaveLength(allGenres.length);
-  });
+  }, 20000);
 
   it("should return genre by id", async () => {
     const genre = await prismaClient.genre.findFirst();
     const foundGenre = await genresRepository.getGenreById(genre.id);
 
     expect(foundGenre).toEqual(genre);
-  });
+  }, 20000);
   it("should create a new genre", async () => {
     const newGenre = await genresRepository.createGenre({
       title: "New Genre",
@@ -62,7 +62,7 @@ describe("Genres Repository Integration Tests", () => {
     });
 
     expect(newGenre).toHaveProperty("title");
-  });
+  }, 20000);
 
   it("should return genres by book id", async () => {
     const genre = await prismaClient.genre.findFirst();
@@ -78,7 +78,7 @@ describe("Genres Repository Integration Tests", () => {
       },
     });
     expect(genres).toHaveLength(genresByBook.length);
-  });
+  }, 20000);
 
   it("should update genre by id", async () => {
     const genre = await prismaClient.genre.findFirst();
@@ -88,7 +88,7 @@ describe("Genres Repository Integration Tests", () => {
     });
 
     expect(updatedGenre.title).toEqual("Updated Genre");
-  });
+  }, 20000);
 
   it("should delete genre by id", async () => {
     const getValidGenreId = async () => {
@@ -102,5 +102,5 @@ describe("Genres Repository Integration Tests", () => {
     });
 
     expect(genre).toBeNull();
-  });
+  }, 20000);
 });

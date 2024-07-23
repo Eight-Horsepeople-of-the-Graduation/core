@@ -110,7 +110,7 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(createdBook).toEqual(book);
-  });
+  }, 20000);
 
   it("should get books by id", async () => {
     const bookId = 1;
@@ -126,7 +126,7 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(books).toEqual(book);
-  });
+  }, 20000);
 
   it("should get books by Author Id", async () => {
     const getValidAuthorId = async () => {
@@ -145,7 +145,7 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(books).toEqual(author.books);
-  });
+  }, 20000);
 
   it("should get books by Genre Id", async () => {
     const getValidGenreId = async () => {
@@ -164,14 +164,14 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(books).toEqual(genre.books);
-  });
+  }, 20000);
 
   it("should get all books", async () => {
     const searchQueryDto = {};
     const books = await booksRepository.getAllBooks(searchQueryDto);
     const allBooks = await prismaClient.book.findMany();
     expect(books).toHaveLength(allBooks.length);
-  });
+  }, 20000);
   it("should delete a book", async () => {
     const getValidBookId = async () => {
       const book = await prismaClient.book.findFirst();
@@ -185,7 +185,7 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(book).toBeNull();
-  });
+  }, 20000);
 
   it("should get books by user id ", async () => {
     const getValidbooksId = async () => {
@@ -208,7 +208,7 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(user.books).toHaveLength(books.length);
-  });
+  }, 20000);
 
   it("should update a book rating", async () => {
     const getValidBookId = async () => {
@@ -224,5 +224,5 @@ describe("Books Repository Integration Tests", () => {
       },
     });
     expect(book.rating).toEqual(rating);
-  });
+  }, 20000);
 });

@@ -13,7 +13,7 @@ import {
 } from "./seeders";
 import { seedConfig } from "./seeders/config";
 
-faker.seed(123);
+faker.seed(2254);
 
 async function main() {
   try {
@@ -25,8 +25,6 @@ async function main() {
     await seedBookshelves(seedConfig.bookshelfCount);
     await seedReadingChallenges(seedConfig.readingChallengeCount);
     await seedReviews(seedConfig.reviewCount);
-    await seedConversations();
-    await seedMessages();
     console.log("Database seeded successfully!");
   } catch (e) {
     console.error(e);

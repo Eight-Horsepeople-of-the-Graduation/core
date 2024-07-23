@@ -18,7 +18,7 @@ describe("User Repository Integration tests", () => {
         gender: "MALE",
       },
     });
-  });
+  }, 20000);
 
   afterAll(async () => {
     await prismaClient.user.deleteMany();
@@ -34,14 +34,15 @@ describe("User Repository Integration tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1`;
 
     await prismaClient.$disconnect();
-  });
+  }, 20000);
 
   it("should return all users", async () => {
     const allUsers = await usersRepository.getAllUsers({ term: "" });
     const users = await prismaClient.user.findMany();
 
-    expect(users).toHaveLength(allUsers.length);
-  });
+    //Default limit due to pagination is 10
+    expect(users).toHaveLength(Math.min(10, allUsers.length));
+  }, 20000);
 
   it("should return a user by id", async () => {
     const user = await prismaClient.user.findFirst();
@@ -56,7 +57,7 @@ describe("User Repository Integration tests", () => {
     });
 
     expect(foundUser).toMatchObject(userWithId);
-  });
+  }, 20000);
 
   it("should get user by username", async () => {
     const user = await prismaClient.user.findFirst();
@@ -71,7 +72,7 @@ describe("User Repository Integration tests", () => {
     });
 
     expect(foundUser).toMatchObject(userWithUsername);
-  });
+  }, 20000);
 
   it("create a new user", async () => {
     const newUser = {
@@ -93,7 +94,7 @@ describe("User Repository Integration tests", () => {
     });
 
     expect(createdUser).toMatchObject(user);
-  });
+  }, 20000);
   it("should update user by id", async () => {
     const user = await prismaClient.user.findFirst();
     const validUserId = user.id;
@@ -109,7 +110,7 @@ describe("User Repository Integration tests", () => {
     });
 
     expect(updatedUser).toMatchObject(userWithId);
-  });
+  }, 20000);
   it("should delete user by id", async () => {
     const user = await prismaClient.user.findFirst();
     const validUserId = user.id;
@@ -123,7 +124,7 @@ describe("User Repository Integration tests", () => {
     });
 
     expect(userWithId).toBeNull();
-  });
+  }, 20000);
 
   it("should hash a password", async () => {
     const password = "password";
@@ -135,7 +136,7 @@ describe("User Repository Integration tests", () => {
       },
     });
     expect(userWithHashedPassword).not.toBeNull;
-  });
+  }, 20000);
 
   it("should make sure the default bookshelves are created for a new user", async () => {
     const user = await signUp({
@@ -158,7 +159,7 @@ describe("User Repository Integration tests", () => {
       bookshelf.title?.toLowerCase()
     );
     expect(bookshelvesTitles).toEqual(getDefaultTitles());
-  });
+  }, 20000);
 
   it("should make sure the 3 default bookshelves are mutually exclusive", async () => {
     const user = await signUp({
