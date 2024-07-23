@@ -28,7 +28,7 @@ function createRandomUser() {
     name: `${firstName.toLowerCase()} ${lastName.toLowerCase()}`,
     username: username.toLowerCase(),
     email: email.toLowerCase(),
-    password: hashSync("password", genSaltSync(10)),
+    password: "password",
     country: faker.location.country(),
     gender,
     birthDate: faker.date.birthdate(),
