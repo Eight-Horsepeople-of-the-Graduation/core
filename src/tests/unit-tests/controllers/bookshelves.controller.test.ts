@@ -1,3 +1,4 @@
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
 import {
   addBookToBookshelf,
   createBookshelf,
@@ -9,7 +10,6 @@ import {
   updateBookshelf,
 } from "@modules/bookshelves/bookshelves.controller";
 import bookshelvesService from "@modules/bookshelves/bookshelves.service";
-import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 import { Request, Response } from "express";
 

@@ -23,19 +23,3 @@ export class CreateConversationDto {
   @IsPositive()
   userId: number;
 }
-
-export class CreateMessageDto {
-  @IsNotEmpty()
-  @IsString()
-  role: string;
-
-  @IsNotEmpty()
-  @IsString()
-  content: string;
-}
-
-export class ChatDto {
-  @IsNotEmpty()
-  @IsString()
-  question: string;
-}

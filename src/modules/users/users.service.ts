@@ -1,18 +1,19 @@
-import { IBook } from "../../common/interfaces/books.interface";
-import { IBookshelf } from "../../common/interfaces/bookshelves.interface";
-import { IReadingChallengeWithBooks } from "../../common/interfaces/reading-challenges.interface";
-import { IReviewWithUserAndBook } from "../../common/interfaces/reviews.interface";
-import { IUserWithoutPassword } from "../../common/interfaces/users.interface";
-import booksRepository from "../../modules/books/books.repository";
-import bookshelvesRepository from "../../modules/bookshelves/bookshelves.repository";
-import readingChallengesRepository from "../../modules/reading-challenges/reading-challenges.repository";
-import reviewsRepository from "../../modules/reviews/reviews.repository";
-import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
-import { CreateUserDto, UpdateUserDto } from "../../modules/users/dtos/users.dto";
-import usersRepository from "../../modules/users/users.repository";
+import { IBook } from "@common/interfaces/books.interface";
+import { IBookshelf } from "@common/interfaces/bookshelves.interface";
+import { IReadingChallengeWithBooks } from "@common/interfaces/reading-challenges.interface";
+import { IReviewWithUserAndBook } from "@common/interfaces/reviews.interface";
+import { IUserWithoutPassword } from "@common/interfaces/users.interface";
+import booksRepository from "@modules/books/books.repository";
+import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
+import readingChallengesRepository from "@modules/reading-challenges/reading-challenges.repository";
+import reviewsRepository from "@modules/reviews/reviews.repository";
+import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+import { CreateUserDto } from "@modules/users/dtos/create-user.dto";
+import { UpdateUserDto } from "@modules/users/dtos/update-user.dto";
+import usersRepository from "@modules/users/users.repository";
 
 export const getAllUsers = async (
-  filter: SearchQueryDto,
+  filter: SearchQueryDto
 ): Promise<IUserWithoutPassword[]> => {
   const users = await usersRepository.getAllUsers(filter);
 
@@ -20,7 +21,7 @@ export const getAllUsers = async (
 };
 
 export const getUserById = async (
-  userId: number,
+  userId: number
 ): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.getUserById(userId);
 
@@ -28,7 +29,7 @@ export const getUserById = async (
 };
 
 export const getUserByUsername = async (
-  username: string,
+  username: string
 ): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.getUserByUsername(username);
 
@@ -48,7 +49,7 @@ export const getReadingChallengesByUserId = async (userId: number) => {
 };
 
 export const getReadingChallengeByUserId = async (
-  userId: number,
+  userId: number
 ): Promise<IReadingChallengeWithBooks[]> => {
   const readingChallenge =
     await readingChallengesRepository.getReadingChallengesByUserId(userId);
@@ -57,7 +58,7 @@ export const getReadingChallengeByUserId = async (
 };
 
 export const getReviewsByUserId = async (
-  userId: number,
+  userId: number
 ): Promise<IReviewWithUserAndBook[]> => {
   const reviews = await reviewsRepository.getReviewsByUserId(userId);
 
@@ -65,7 +66,7 @@ export const getReviewsByUserId = async (
 };
 
 export const getBookshelvesByUserId = async (
-  userId: number,
+  userId: number
 ): Promise<IBookshelf[]> => {
   const bookshelves: IBookshelf[] =
     await bookshelvesRepository.getBookshelvesByUserId(userId);
@@ -75,17 +76,17 @@ export const getBookshelvesByUserId = async (
 
 export const getBookshelfByUserId = async (
   userId: number,
-  bookshelfId: number,
+  bookshelfId: number
 ): Promise<IBookshelf> => {
   const bookshelf = await bookshelvesRepository.getBookshelfByUserId(
     userId,
-    bookshelfId,
+    bookshelfId
   );
   return bookshelf;
 };
 
 export const createUser = async (
-  createUserDto: CreateUserDto,
+  createUserDto: CreateUserDto
 ): Promise<IUserWithoutPassword> => {
   const newUser = await usersRepository.createUser(createUserDto);
 
@@ -94,7 +95,7 @@ export const createUser = async (
 
 export const updateUserById = async (
   userId: number,
-  updatedData: UpdateUserDto,
+  updatedData: UpdateUserDto
 ): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.updateUserById(userId, updatedData);
 
@@ -102,7 +103,7 @@ export const updateUserById = async (
 };
 
 export const deleteUserById = async (
-  userId: number,
+  userId: number
 ): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.deleteUserById(userId);
 
@@ -111,7 +112,7 @@ export const deleteUserById = async (
 
 export const getReviewByUserId = async (
   userId: number,
-  reviewId: number,
+  reviewId: number
 ): Promise<IReviewWithUserAndBook> => {
   const review = await reviewsRepository.getReviewByUserId(userId, reviewId);
 
@@ -120,7 +121,7 @@ export const getReviewByUserId = async (
 
 export const validateCredentials = async (
   email: string,
-  password: string,
+  password: string
 ): Promise<IUserWithoutPassword> => {
   const user = await usersRepository.validateCredentials(email, password);
 

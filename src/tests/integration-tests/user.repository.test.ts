@@ -1,11 +1,12 @@
 import { SelectUserWithoutPassword } from "@common/interfaces/users.interface";
 import { getDefaultTitles } from "@common/utils/build-default-bookshelves";
 import prismaClient from "@common/utils/prisma";
-import { Gender } from "@modules/users/dtos/users.dto";
+import { Gender } from "@modules/users/user-gender.enum";
 import usersRepository from "@modules/users/users.repository";
 import { signUp } from "@modules/auth/auth.service";
 import { addBookToBookshelf } from "@modules/bookshelves/bookshelves.service";
-import { Format } from "@modules/books/dtos/books.dto";
+import { Format } from "@modules/books/book-format.enum";
+
 describe("User Repository Integration tests", () => {
   beforeAll(async () => {
     await prismaClient.user.create({

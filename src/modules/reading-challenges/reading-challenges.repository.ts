@@ -1,10 +1,6 @@
-import { getEndDate, getTimeframe } from "../../common/utils/dates-utils";
-import {
-  CreateReadingChallengeDto,
-  Duration,
-  UpdateReadingChallengeDto,
-} from "./dtos/reading-challenges.dto";
-import prismaClient from "../../common/utils/prisma";
+import { getEndDate, getTimeframe } from "@common/utils/dates-utils";
+import { CreateReadingChallengeDto } from "./dtos/create-reading-challenge.dto";
+import prismaClient from "@common/utils/prisma";
 import {
   IReadingChallenge,
   IReadingChallengeWithBooks,
@@ -12,7 +8,9 @@ import {
 import { SelectReadingChallengeBook } from "../../common/interfaces/books.interface";
 import { HttpException } from "../../common/exceptions/http.exception";
 import { HttpStatus } from "../../common/enums/http-status.enum";
-import { Transaction } from "../../common/types/prismaClient-transaction.type";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
+import { UpdateReadingChallengeDto } from "@modules/reading-challenges/dtos/update-reading-challenge.dto";
+import { Duration } from "@modules/reading-challenges/reading-challenge-duration.enum";
 
 export const getAllReadingChallenges = async (): Promise<
   IReadingChallengeWithBooks[]

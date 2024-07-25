@@ -1,6 +1,6 @@
-import { Format } from "@prisma/client";
 import authorsRepository from "@modules/authors/authors.repository";
 import prismaClient from "@common/utils/prisma";
+import { Format } from "@modules/books/book-format.enum";
 
 describe("Author Repository Integration Tests", () => {
   beforeAll(async () => {

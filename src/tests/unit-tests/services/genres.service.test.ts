@@ -1,5 +1,5 @@
+import { Format } from "@modules/books/book-format.enum";
 import booksRepository from "@modules/books/books.repository";
-import { Format } from "@modules/books/dtos/books.dto";
 import genresRepository from "@modules/genres/genres.repository";
 import {
   createGenre,
@@ -9,8 +9,6 @@ import {
   getGenreById,
   updateGenreById,
 } from "@modules/genres/genres.service";
-import { title } from "process";
-import { TemplateService } from "tsoa";
 
 describe("Genres Service Unit Tests", () => {
   describe("getAllGenres", () => {

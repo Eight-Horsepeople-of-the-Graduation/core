@@ -1,5 +1,5 @@
 import { IConversation } from "../interfaces/conversations.interface";
-import { ChatDto } from "../../modules/conversations/dtos/conversations.dto";
+import { ChatDto } from "../../modules/conversations/dtos/chat.dto";
 import { Body, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 
 @Route("conversations")
@@ -9,18 +9,18 @@ export class ConversationsSwagger {
   public chat(
     @Path() userId: number,
     @Path() bookId: number,
-    @Body() chatDto: ChatDto,
+    @Body() chatDto: ChatDto
   ): { answer: string } | any {}
 
   @Get("/user/:userId/book/:bookId")
   public getConversationByUserAndBook(
     @Path() userId: number,
-    @Path() bookId: number,
+    @Path() bookId: number
   ): IConversation | any {}
 
   @Delete("/user/:userId/book/:bookId")
   public deleteConversation(
     @Path() userId: number,
-    @Path() bookId: number,
+    @Path() bookId: number
   ): IConversation | any {}
 }

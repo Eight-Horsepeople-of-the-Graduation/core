@@ -1,6 +1,7 @@
 import { Body, Post, Route, Delete, Tags } from "tsoa";
 import { IUserWithoutPassword } from "../interfaces/users.interface";
-import { LogInDto, SignUpDto } from "../../modules/auth/dtos/auth.dto";
+import { SignUpDto } from "../../modules/auth/dtos/signup.dto";
+import { LogInDto } from "../../modules/auth/dtos/login.dto";
 
 @Route("auth")
 @Tags("Auth")
@@ -26,6 +27,6 @@ export class AuthDocs {
 
   @Post("/refresh-tokens")
   refreshTokens(
-    @Body() refreshToken: { refreshToken: string },
+    @Body() refreshToken: { refreshToken: string }
   ): { accessToken: string; refreshToken: string } | any {}
 }

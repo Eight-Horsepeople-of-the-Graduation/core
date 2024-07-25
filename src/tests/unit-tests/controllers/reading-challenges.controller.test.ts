@@ -1,7 +1,8 @@
 import { HttpStatus } from "@common/enums/http-status.enum";
 import { HttpException } from "@common/exceptions/http.exception";
 import { IReadingChallengeWithBooks } from "@common/interfaces/reading-challenges.interface";
-import { Format } from "@modules/books/dtos/books.dto";
+import { Format } from "@modules/books/book-format.enum";
+import { Duration } from "@modules/reading-challenges/reading-challenge-duration.enum";
 import {
   addBookToUserReadingChallenges,
   createReadingChallenge,
@@ -12,7 +13,6 @@ import {
   updateReadingChallengeDetails,
 } from "@modules/reading-challenges/reading-challenges.controller";
 import readingChallengesService from "@modules/reading-challenges/reading-challenges.service";
-import { ReadingChallengeType } from "@prisma/client";
 import { Request, Response } from "express";
 
 describe("Reading Challenges Controller", () => {
@@ -34,7 +34,7 @@ describe("Reading Challenges Controller", () => {
           id: 1,
           title: "Challenge 1",
           userId: 1,
-          type: ReadingChallengeType.MONTHLY,
+          type: Duration.MONTHLY,
           startDate: new Date("2023-01-01"),
           progress: 0,
           endDate: new Date("2023-04-01"),
@@ -48,7 +48,7 @@ describe("Reading Challenges Controller", () => {
           id: 2,
           title: "Challenge 2",
           userId: 1,
-          type: ReadingChallengeType.ANNUAL,
+          type: Duration.ANNUAL,
           startDate: new Date("2023-01-01"),
           progress: 42,
           endDate: new Date("2023-04-01"),
@@ -100,7 +100,7 @@ describe("Reading Challenges Controller", () => {
         id: 2,
         title: "Challenge 2",
         userId: 1,
-        type: ReadingChallengeType.ANNUAL,
+        type: Duration.ANNUAL,
         startDate: new Date("2023-01-01"),
         progress: 42,
         endDate: new Date("2023-04-01"),
@@ -154,7 +154,7 @@ describe("Reading Challenges Controller", () => {
           id: 2,
           title: "Challenge 2",
           userId: 1,
-          type: ReadingChallengeType.ANNUAL,
+          type: Duration.ANNUAL,
           startDate: new Date("2023-01-01"),
           progress: 42,
           endDate: new Date("2023-04-01"),
@@ -215,7 +215,7 @@ describe("Reading Challenges Controller", () => {
         description: "Read 5 books in a month",
         startDate: new Date("2023-01-01"),
         endDate: new Date("2023-01-31"),
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         goal: 5,
         userId: 1,
         progress: 0,
@@ -271,7 +271,7 @@ describe("Reading Challenges Controller", () => {
         description: "Read 5 books in a month",
         startDate: new Date("2023-01-01"),
         endDate: new Date("2023-01-31"),
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         goal: 5,
         userId: 1,
         progress: 0,
@@ -342,7 +342,7 @@ describe("Reading Challenges Controller", () => {
         title: "New Challenge",
         startDate: new Date("2023-01-01"),
         endDate: new Date("2023-01-31"),
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         goal: 5,
         userId: 1,
         progress: 0,
@@ -412,7 +412,7 @@ describe("Reading Challenges Controller", () => {
         description: "Read 5 books in a month",
         startDate: new Date("2023-01-01"),
         endDate: new Date("2023-01-31"),
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         goal: 5,
         userId: 1,
         progress: 0,

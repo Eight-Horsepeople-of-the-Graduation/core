@@ -1,7 +1,7 @@
-import { Duration } from "@modules/reading-challenges/dtos/reading-challenges.dto";
-import { Format } from "@prisma/client";
 import readingChallengesRepository from "@modules/reading-challenges/reading-challenges.repository";
 import prismaClient from "@common/utils/prisma";
+import { Duration } from "@modules/reading-challenges/reading-challenge-duration.enum";
+import { Format } from "@modules/books/book-format.enum";
 
 describe("Reading Challenges Repository Integration Tests", () => {
   beforeAll(async () => {
@@ -129,10 +129,10 @@ describe("Reading Challenges Repository Integration Tests", () => {
       await readingChallengesRepository.getReadingChallengeById(1);
 
     const newReadingChallenge = await prismaClient.readingChallenge.findUnique({
-      where: { id: 1, },
+      where: { id: 1 },
       include: {
-        books: true
-      }
+        books: true,
+      },
     });
 
     expect(readingChallenge).toEqual(newReadingChallenge);

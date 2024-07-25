@@ -9,8 +9,7 @@ import { IReadingChallengeWithBooks } from "@common/interfaces/reading-challenge
 import { IReviewWithUserAndBook } from "@common/interfaces/reviews.interface";
 import { IUserWithoutPassword } from "@common/interfaces/users.interface";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
-import { UpdateUserDto } from "@modules/users/dtos/users.dto";
-
+import { UpdateUserDto } from "@modules/users/dtos/update-user.dto";
 import usersService from "@modules/users/users.service";
 import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
@@ -18,7 +17,7 @@ import { uniqBy } from "lodash";
 
 export const getAllUsers = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IUserWithoutPassword[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
@@ -29,7 +28,7 @@ export const getAllUsers = async (
 
 export const getUserById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IUserWithoutPassword>> => {
   const userId = parseInt(req.params.userId, 10);
 
@@ -40,7 +39,7 @@ export const getUserById = async (
 
 export const getUserByUsername = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IUserWithoutPassword>> => {
   const username = req.params.username;
 
@@ -51,13 +50,13 @@ export const getUserByUsername = async (
 
 export const getReadingChallengesByUserId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IReadingChallengeWithBooks[]>> => {
   const userId = parseInt(req.params.userId, 10);
   if (!userId) {
     throw new HttpException(
       "Missing required field: userId",
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.BAD_REQUEST
     );
   }
 
@@ -69,16 +68,17 @@ export const getReadingChallengesByUserId = async (
 
 export const getReviewsByUserId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IReviewWithUserAndBook[]>> => {
   const { userId } = req.params;
   const reviews = await usersService.getReviewsByUserId(+userId);
 
   return res.send(reviews);
 };
+
 export const getReviewByUserId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IReviewWithUserAndBook>> => {
   const userId = parseInt(req.params.userId, 10);
 
@@ -91,7 +91,7 @@ export const getReviewByUserId = async (
 
 export const getBookshelvesByUserId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBookshelf[]>> => {
   const userId = parseInt(req.params.userId, 10);
 
@@ -102,7 +102,7 @@ export const getBookshelvesByUserId = async (
 
 export const getBookshelfByUserId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBookshelf>> => {
   const userId = parseInt(req.params.userId, 10);
 
@@ -110,7 +110,7 @@ export const getBookshelfByUserId = async (
 
   const bookshelf = await usersService.getBookshelfByUserId(
     userId,
-    bookshelfId,
+    bookshelfId
   );
 
   return res.send(bookshelf);
@@ -118,14 +118,14 @@ export const getBookshelfByUserId = async (
 
 export const getBooksByUserId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBook[]>> => {
   const userId = parseInt(req.params.userId, 10);
 
   const bookshelves = await usersService.getBookshelvesByUserId(userId);
 
   const books = bookshelves.flatMap(
-    (bookshelf: { books: IBookWithoutAuthorsAndGenres[] }) => bookshelf.books,
+    (bookshelf: { books: IBookWithoutAuthorsAndGenres[] }) => bookshelf.books
   );
 
   const distinctBooks = uniqBy(books, "id");
@@ -135,7 +135,7 @@ export const getBooksByUserId = async (
 
 export const updateUserById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IUserWithoutPassword>> => {
   const userId = parseInt(req.params.userId, 10);
   const updatedData: UpdateUserDto = req.body;
@@ -147,7 +147,7 @@ export const updateUserById = async (
 
 export const deleteUserById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IUserWithoutPassword>> => {
   const userId = parseInt(req.params.userId, 10);
 

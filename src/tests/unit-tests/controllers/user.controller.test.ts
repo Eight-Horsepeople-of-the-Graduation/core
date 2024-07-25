@@ -1,8 +1,8 @@
-import { HttpStatus } from "@common/enums/http-status.enum";
-import { Format } from "@modules/books/dtos/books.dto";
-import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
+import { Format } from "@modules/books/book-format.enum";
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
+import { Duration } from "@modules/reading-challenges/reading-challenge-duration.enum";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
-import { Gender } from "@modules/users/dtos/users.dto";
+import { Gender } from "@modules/users/user-gender.enum";
 import {
   deleteUserById,
   getAllUsers,
@@ -16,10 +16,7 @@ import {
   updateUserById,
 } from "@modules/users/users.controller";
 import usersService from "@modules/users/users.service";
-import { ReadingChallengeType } from "@prisma/client";
-import { profile } from "console";
 import { Request, Response } from "express";
-import { join } from "path";
 
 describe("User Controller Unit Tests", () => {
   describe("getAllUsers", () => {
@@ -128,7 +125,7 @@ describe("User Controller Unit Tests", () => {
           description: "Read 5 books in a month",
           startDate: new Date("2023-01-01"),
           endDate: new Date("2023-01-31"),
-          type: ReadingChallengeType.MONTHLY,
+          type: Duration.MONTHLY,
           goal: 5,
           userId: 1,
           progress: 0,

@@ -1,8 +1,8 @@
 import { HttpStatus } from "@common/enums/http-status.enum";
 import { HttpException } from "@common/exceptions/http.exception";
+import { Format } from "@modules/books/book-format.enum";
 import booksRepository from "@modules/books/books.repository";
-import { Format } from "@modules/books/dtos/books.dto";
-import { Duration } from "@modules/reading-challenges/dtos/reading-challenges.dto";
+import { Duration } from "@modules/reading-challenges/reading-challenge-duration.enum";
 import readingChallengesRepository from "@modules/reading-challenges/reading-challenges.repository";
 import {
   addBookToUserReadingChallenges,
@@ -14,11 +14,10 @@ import {
   getReadingChallengeById,
   updateReadingChallengeDetails,
 } from "@modules/reading-challenges/reading-challenges.service";
-import { Gender } from "@modules/users/dtos/users.dto";
 import usersRepository from "@modules/users/users.repository";
-import usersService from "@modules/users/users.service";
-import { ReadingChallengeType } from "@prisma/client";
-jest.mock('@modules/books/books.repository'); 
+// import usersService from "@modules/users/users.service";
+
+jest.mock("@modules/books/books.repository");
 
 describe("Reading Challenges Service Unit Tests", () => {
   afterEach(() => {
@@ -35,7 +34,7 @@ describe("Reading Challenges Service Unit Tests", () => {
           id: 1,
           title: "Challenge 1",
           userId: 1,
-          type: ReadingChallengeType.MONTHLY,
+          type: Duration.MONTHLY,
           startDate: new Date("2023-01-01"),
           progress: 0,
           endDate: new Date("2023-04-01"),
@@ -49,7 +48,7 @@ describe("Reading Challenges Service Unit Tests", () => {
           id: 2,
           title: "Challenge 2",
           userId: 1,
-          type: ReadingChallengeType.ANNUAL,
+          type: Duration.ANNUAL,
           startDate: new Date("2023-01-01"),
           progress: 42,
           endDate: new Date("2023-04-01"),
@@ -93,7 +92,7 @@ describe("Reading Challenges Service Unit Tests", () => {
         id: 1,
         title: "Challenge 1",
         userId: 1,
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         startDate: new Date("2023-01-01"),
         progress: 0,
         endDate: new Date("2023-04-01"),
@@ -218,7 +217,7 @@ describe("Reading Challenges Service Unit Tests", () => {
     //       id: 1,
     //       title: "Challenge 1",
     //       userId: 1,
-    //       type: ReadingChallengeType.MONTHLY,
+    //       type: Duration.MONTHLY,
     //       startDate: new Date("2023-01-01"),
     //       progress: 0,
     //       endDate: new Date("2023-04-01"),
@@ -361,7 +360,7 @@ describe("Reading Challenges Service Unit Tests", () => {
     //   //       id: 1,
     //   //       title: "Challenge 1",
     //   //       userId: 1,
-    //   //       type: ReadingChallengeType.MONTHLY,
+    //   //       type: Duration.MONTHLY,
     //   //       startDate: new Date("2023-01-01"),
     //   //       progress: 0,
     //   //       endDate: new Date("2023-04-01"),
@@ -411,7 +410,7 @@ describe("Reading Challenges Service Unit Tests", () => {
         id: 1,
         title: "Challenge 1",
         userId: 1,
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         startDate: new Date("2023-01-01"),
         progress: 0,
         endDate: new Date("2023-04-01"),
@@ -469,7 +468,7 @@ describe("Reading Challenges Service Unit Tests", () => {
         id: 1,
         title: "Challenge 1",
         userId: 1,
-        type: ReadingChallengeType.MONTHLY,
+        type: Duration.MONTHLY,
         startDate: new Date("2023-01-01"),
         progress: 0,
         endDate: new Date("2023-04-01"),

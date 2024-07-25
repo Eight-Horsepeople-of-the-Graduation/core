@@ -5,15 +5,13 @@ import {
   OptionalGenre,
 } from "@common/interfaces/genres.interface";
 import booksRepository from "@modules/books/books.repository";
-import {
-  CreateGenreDto,
-  UpdateGenreDto,
-} from "@modules/genres/dtos/genres.dto";
+import { CreateGenreDto } from "@modules/genres/dtos/create-genre.dto";
+import { UpdateGenreDto } from "@modules/genres/dtos/update-genre.dto";
 import genresRepository from "@modules/genres/genres.repository";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllGenres = async (
-  searchQueryDto: SearchQueryDto,
+  searchQueryDto: SearchQueryDto
 ): Promise<IGenreWithBooks[]> => {
   const genres = await genresRepository.getAllGenres(searchQueryDto);
 
@@ -27,7 +25,7 @@ export const getGenreById = async (genreId: number): Promise<OptionalGenre> => {
 };
 
 export const getBooksByGenreId = async (
-  genreId: number,
+  genreId: number
 ): Promise<IBookWithoutAuthorsAndGenres[]> => {
   const books = await booksRepository.getBooksByGenreId(genreId);
 
@@ -35,7 +33,7 @@ export const getBooksByGenreId = async (
 };
 
 export const createGenre = async (
-  createGenreDto: CreateGenreDto,
+  createGenreDto: CreateGenreDto
 ): Promise<IGenre> => {
   const newGenre = await genresRepository.createGenre(createGenreDto);
 
@@ -44,11 +42,11 @@ export const createGenre = async (
 
 export const updateGenreById = async (
   genreId: number,
-  updateGenreDto: UpdateGenreDto,
+  updateGenreDto: UpdateGenreDto
 ): Promise<IGenre> => {
   const updatedGenre = await genresRepository.updateGenreById(
     genreId,
-    updateGenreDto,
+    updateGenreDto
   );
 
   return updatedGenre;

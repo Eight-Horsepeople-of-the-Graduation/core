@@ -1,7 +1,5 @@
-import {
-  CreateBookshelfDto,
-  Privacy,
-} from "../../modules/bookshelves/dtos/bookshelves.dto";
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
+import { CreateBookshelfDto } from "@modules/bookshelves/dtos/create-bookshelf.dto";
 
 export const doneReadingInfo = {
   title: "Done Reading".toLowerCase(),

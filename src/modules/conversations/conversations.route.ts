@@ -2,7 +2,7 @@ import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
 import conversationsController from "@modules/conversations/conversations.controller";
-import { ChatDto } from "@modules/conversations/dtos/conversations.dto";
+import { ChatDto } from "@modules/conversations/dtos/chat.dto";
 import { Router } from "express";
 
 const router = Router();
@@ -10,20 +10,20 @@ const router = Router();
 router.get(
   "/user/:userId/book/:bookId",
   authMiddleware,
-  asyncWrapper(conversationsController.getConversationByUserAndBook),
+  asyncWrapper(conversationsController.getConversationByUserAndBook)
 );
 
 router.post(
   "/chat/user/:userId/book/:bookId",
   authMiddleware,
   [validationMiddleware(ChatDto)],
-  asyncWrapper(conversationsController.chat),
+  asyncWrapper(conversationsController.chat)
 );
 
 router.delete(
   "/user/:userId/book/:bookId",
   authMiddleware,
-  asyncWrapper(conversationsController.deleteConversation),
+  asyncWrapper(conversationsController.deleteConversation)
 );
 
 // router.delete(

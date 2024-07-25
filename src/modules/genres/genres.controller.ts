@@ -11,7 +11,7 @@ import { Request, Response } from "express";
 
 export const getAllGenres = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IGenreWithBooks[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
@@ -22,7 +22,7 @@ export const getAllGenres = async (
 
 export const getGenreById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<OptionalGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
 
@@ -33,7 +33,7 @@ export const getGenreById = async (
 
 export const getBooksByGenreId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBookWithoutAuthorsAndGenres[]>> => {
   const genreId = parseInt(req.params.genreId, 10);
 
@@ -44,7 +44,7 @@ export const getBooksByGenreId = async (
 
 export const createGenre = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IGenre>> => {
   const createGenreDto = req.body;
 
@@ -55,7 +55,7 @@ export const createGenre = async (
 
 export const updateGenreById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
 
@@ -63,7 +63,7 @@ export const updateGenreById = async (
 
   const updatedGenre = await genresService.updateGenreById(
     genreId,
-    updateGenreDto,
+    updateGenreDto
   );
 
   return res.send(updatedGenre);
@@ -71,7 +71,7 @@ export const updateGenreById = async (
 
 export const deleteGenreById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IGenre>> => {
   const genreId = parseInt(req.params.genreId, 10);
 

@@ -10,10 +10,8 @@ import {
   Patch,
 } from "tsoa";
 import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
-import {
-  CreateAuthorDto,
-  UpdateAuthorDto,
-} from "../../modules/authors/dtos/authors.dto";
+import { CreateAuthorDto } from "../../modules/authors/dtos/create-author.dto";
+import { UpdateAuthorDto } from "../../modules/authors/dtos/update-author.dto";
 import { IAuthor, OptionalAuthor } from "../interfaces/authors.interface";
 import { IBookWithoutAuthorsAndGenres } from "../interfaces/books.interface";
 
@@ -31,13 +29,13 @@ export class AuthorsDocs {
 
   @Get("/:authorId/books")
   getBooksByAuthorId(
-    @Path() authorId: number,
+    @Path() authorId: number
   ): Promise<IBookWithoutAuthorsAndGenres[]> | any {}
 
   @Patch("/:authorId")
   updateAuthorById(
     @Path() authorId: number,
-    @Body() updateAuthorDto: UpdateAuthorDto,
+    @Body() updateAuthorDto: UpdateAuthorDto
   ): IAuthor | any {}
 
   @Delete("/:authorId")

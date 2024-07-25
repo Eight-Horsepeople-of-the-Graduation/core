@@ -9,7 +9,7 @@ import { Request, Response } from "express";
 
 export const getConversationByUserAndBook = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IConversation>> => {
   const userId = parseInt(req.params.userId, 10);
   const bookId = parseInt(req.params.bookId, 10);
@@ -23,7 +23,7 @@ export const getConversationByUserAndBook = async (
 
   const conversation = await conversationsService.getConversationByUserAndBook(
     userId,
-    bookId,
+    bookId
   );
 
   return res.send(conversation);
@@ -31,7 +31,7 @@ export const getConversationByUserAndBook = async (
 
 export const chat = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<{ answer: string }>> => {
   const bookId = parseInt(req.params.bookId, 10);
   const userId = parseInt(req.params.userId, 10);
@@ -51,7 +51,7 @@ export const chat = async (
 
 export const deleteConversation = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<OptionalConversation>> => {
   const bookId = parseInt(req.params.bookId, 10);
   const userId = parseInt(req.params.userId, 10);
@@ -64,12 +64,12 @@ export const deleteConversation = async (
 
   const conversation = await conversationsService.deleteConversation(
     bookId,
-    userId,
+    userId
   );
   if (!conversation) {
     throw new HttpException(
       "No conversation started between the provided user and the provided book",
-      HttpStatus.NOT_FOUND,
+      HttpStatus.NOT_FOUND
     );
   }
   return res.status(HttpStatus.OK).send(conversation);

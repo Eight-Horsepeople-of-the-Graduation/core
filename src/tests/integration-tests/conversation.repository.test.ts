@@ -1,11 +1,9 @@
-import { Format } from "@prisma/client";
 import prismaClient from "@common/utils/prisma";
+import { Format } from "@modules/books/book-format.enum";
 import conversationsRepository from "@modules/conversations/conversations.repository";
-import { constant } from "lodash";
 
 describe("Conversation Repository Integration Tests", () => {
   beforeAll(async () => {
-    
     await prismaClient.book.create({
       data: {
         title: "Test Book",

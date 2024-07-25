@@ -1,5 +1,4 @@
 import { HttpStatus } from "@common/enums/http-status.enum";
-import { da } from "@faker-js/faker";
 import {
   chat,
   deleteConversation,
@@ -7,6 +6,7 @@ import {
 } from "@modules/conversations/conversations.controller";
 import conversationsService from "@modules/conversations/conversations.service";
 import { Request, Response } from "express";
+
 describe("conversation controller Unit Tests", () => {
   describe("getConversationByUserAndBook", () => {
     // Valid userId and bookId return a conversation
