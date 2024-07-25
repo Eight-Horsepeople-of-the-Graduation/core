@@ -1,4 +1,4 @@
-import { Gender } from "../../users/dtos/users.dto";
+import { Gender } from "@modules/users/user-gender.enum";
 import {
   IsBoolean,
   IsDateString,
@@ -58,16 +58,4 @@ export class SignUpDto {
   @IsOptional()
   @IsBoolean()
   isAdmin: boolean;
-}
-
-export class LogInDto {
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(8, 24)
-  password: string;
 }
