@@ -1,13 +1,11 @@
 import { IAuthor, OptionalAuthor } from "@common/interfaces/authors.interface";
 import prismaClient from "@common/utils/prisma";
-import {
-  CreateAuthorDto,
-  UpdateAuthorDto,
-} from "@modules/authors/dtos/authors.dto";
+import { CreateAuthorDto } from "@modules/authors/dtos/create-author.dto";
+import { UpdateAuthorDto } from "@modules/authors/dtos/update-author.dto";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllAuthors = async (
-  searchQueryDto: SearchQueryDto,
+  searchQueryDto: SearchQueryDto
 ): Promise<IAuthor[]> => {
   const authors: IAuthor[] = await prismaClient.author.findMany({
     where: {
@@ -24,7 +22,7 @@ export const getAllAuthors = async (
 };
 
 export const getAuthorById = async (
-  authorId: number,
+  authorId: number
 ): Promise<OptionalAuthor> => {
   const author: OptionalAuthor = await prismaClient.author.findUnique({
     where: {
@@ -50,7 +48,7 @@ export const getAuthorsByBookId = async (bookId: number) => {
 };
 
 export const createAuthor = async (
-  createAuthorDto: CreateAuthorDto,
+  createAuthorDto: CreateAuthorDto
 ): Promise<IAuthor> => {
   const newAuthor: IAuthor = await prismaClient.author.create({
     data: createAuthorDto,
@@ -61,7 +59,7 @@ export const createAuthor = async (
 
 export const updateAuthorById = async (
   authorId: number,
-  updateAuthorDto: UpdateAuthorDto,
+  updateAuthorDto: UpdateAuthorDto
 ): Promise<IAuthor> => {
   const updatedAuthor: IAuthor = await prismaClient.author.update({
     where: {
