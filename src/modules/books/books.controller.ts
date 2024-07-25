@@ -10,13 +10,13 @@ import {
 import { IReviewWithUserAndBook } from "@common/interfaces/reviews.interface";
 import { IGenre } from "@common/interfaces/genres.interface";
 import { IAuthor } from "@common/interfaces/authors.interface";
-import { UpdateBookDto } from "@modules/books/dtos/books.dto";
 import { HttpException } from "@common/exceptions/http.exception";
 import { HttpStatus } from "@common/enums/http-status.enum";
+import { UpdateBookDto } from "@modules/books/dtos/update-book.dto";
 
 export const getAllBooks = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBook[]>> => {
   const filter = plainToInstance(SearchQueryDto, req.query);
 
@@ -27,7 +27,7 @@ export const getAllBooks = async (
 
 export const getBookById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBook>> => {
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId) {
@@ -41,7 +41,7 @@ export const getBookById = async (
 
 export const getReviewsByBookId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IReviewWithUserAndBook[]>> => {
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId) {
@@ -55,7 +55,7 @@ export const getReviewsByBookId = async (
 
 export const getGenresByBookId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IGenre[]>> => {
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId)
@@ -68,7 +68,7 @@ export const getGenresByBookId = async (
 
 export const getAuthorsByBookId = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IAuthor>> => {
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId) {
@@ -81,14 +81,14 @@ export const getAuthorsByBookId = async (
 };
 export const createBook = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
   const bookData = req.body;
 
   if (!bookData) {
     throw new HttpException(
       "Bad Request: Empty request body",
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.BAD_REQUEST
     );
   }
 
@@ -100,7 +100,7 @@ export const createBook = async (
 
 export const updateBookById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response<IBookWithoutAuthorsAndGenres>> => {
   const bookId = parseInt(req.params.bookId, 10);
   if (!bookId) {

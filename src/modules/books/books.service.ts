@@ -12,13 +12,14 @@ import { Transaction } from "@common/types/prismaClient-transaction.type";
 import prismaClient from "@common/utils/prisma";
 import authorsRepository from "@modules/authors/authors.repository";
 import booksRepository from "@modules/books/books.repository";
-import { CreateBookDto, UpdateBookDto } from "@modules/books/dtos/books.dto";
+import { CreateBookDto } from "@modules/books/dtos/create-book.dto";
+import { UpdateBookDto } from "@modules/books/dtos/update-book.dto";
 import genresRepository from "@modules/genres/genres.repository";
 import reviewsRepository from "@modules/reviews/reviews.repository";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 
 export const getAllBooks = async (
-  searchQueryDto: SearchQueryDto,
+  searchQueryDto: SearchQueryDto
 ): Promise<IBook[]> => {
   const books = await booksRepository.getAllBooks(searchQueryDto);
 
@@ -35,7 +36,7 @@ export const getBookById = async (bookId: number): Promise<IBook> => {
 };
 
 export const getReviewsByBookId = async (
-  bookId: number,
+  bookId: number
 ): Promise<IReviewWithUserAndBook[]> => {
   if (!getBookById(bookId)) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
@@ -57,7 +58,7 @@ export const getGenresByBookId = async (bookId: number): Promise<IGenre[]> => {
 };
 
 export const getAuthorsByBookId = async (
-  bookId: number,
+  bookId: number
 ): Promise<IAuthor[]> => {
   if (!getBookById(bookId)) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
@@ -69,7 +70,7 @@ export const getAuthorsByBookId = async (
 };
 
 export const createBook = async (
-  createBookDto: CreateBookDto,
+  createBookDto: CreateBookDto
 ): Promise<IBookWithoutAuthorsAndGenres> => {
   const newBook = await booksRepository.createBook(createBookDto);
 
@@ -78,7 +79,7 @@ export const createBook = async (
 
 export const updateBookById = async (
   bookId: number,
-  updateBookDto: UpdateBookDto,
+  updateBookDto: UpdateBookDto
 ): Promise<IBookWithoutAuthorsAndGenres> => {
   if (!getBookById(bookId)) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
@@ -86,7 +87,7 @@ export const updateBookById = async (
 
   const updatedBook = await booksRepository.updateBookById(
     bookId,
-    updateBookDto,
+    updateBookDto
   );
 
   return updatedBook;
@@ -96,7 +97,7 @@ export const updateBookRating = async (
   rating: number,
   bookId: number,
   isNewRating: boolean,
-  tx?: Transaction,
+  tx?: Transaction
 ) => {
   if (!getBookById(bookId)) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
@@ -105,7 +106,7 @@ export const updateBookRating = async (
   const prisma = tx || prismaClient;
   const currentRatings = await reviewsRepository.aggregateRatingsByBookId(
     bookId,
-    prisma,
+    prisma
   );
   const newRatingsSum = isNewRating
     ? currentRatings.sum + rating
@@ -121,7 +122,7 @@ export const updateBookRating = async (
   return newRating;
 };
 export const deleteBookById = async (
-  bookId: number,
+  bookId: number
 ): Promise<IBookWithoutAuthorsAndGenres> => {
   if (!getBookById(bookId)) {
     throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
