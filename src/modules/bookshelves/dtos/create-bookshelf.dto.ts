@@ -1,3 +1,4 @@
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
 import {
   IsEnum,
   IsNotEmpty,
@@ -6,11 +7,6 @@ import {
   IsPositive,
   IsString,
 } from "class-validator";
-
-export enum Privacy {
-  PUBLIC = "PUBLIC",
-  PRIVATE = "PRIVATE",
-}
 
 export class CreateBookshelfDto {
   @IsString()
@@ -29,18 +25,4 @@ export class CreateBookshelfDto {
   @IsNumber()
   @IsPositive()
   userId: number;
-}
-
-export class UpdateBookshelfDto {
-  @IsOptional()
-  @IsString()
-  title?: string;
-
-  @IsOptional()
-  @IsString()
-  description?: string;
-
-  @IsOptional()
-  @IsEnum(Privacy)
-  privacy?: Privacy;
 }
