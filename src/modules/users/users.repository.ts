@@ -4,14 +4,15 @@ import {
   IUser,
   IUserWithoutPassword,
   SelectUserWithoutPassword,
-} from "../../common/interfaces/users.interface";
-import prismaClient from "../../common/utils/prisma";
-import { SearchQueryDto } from "../../modules/search/dtos/search.dto";
-import { CreateUserDto, UpdateUserDto } from "../../modules/users/dtos/users.dto";
-import { Transaction } from "../../common/types/prismaClient-transaction.type";
+} from "@common/interfaces/users.interface";
+import prismaClient from "@common/utils/prisma";
+import { SearchQueryDto } from "@modules/search/dtos/search.dto";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
+import { UpdateUserDto } from "@modules/users/dtos/update-user.dto";
+import { CreateUserDto } from "@modules/users/dtos/create-user.dto";
 
 export const getAllUsers = async (
-  searchQueryDto: SearchQueryDto,
+  searchQueryDto: SearchQueryDto
 ): Promise<IUserWithoutPassword[]> => {
   const { term, page = 1, limit = 10 } = searchQueryDto;
   const skip = (page - 1) * limit;
@@ -34,7 +35,7 @@ export const getAllUsers = async (
 };
 
 export const getUserById = async (
-  userId: number,
+  userId: number
 ): Promise<IUserWithoutPassword> => {
   const user: IUserWithoutPassword = await prismaClient.user.findUnique({
     where: { id: userId },
@@ -45,7 +46,7 @@ export const getUserById = async (
 };
 
 export const getUserByUsername = async (
-  username: string,
+  username: string
 ): Promise<IUserWithoutPassword> => {
   const user: IUserWithoutPassword = await prismaClient.user.findUnique({
     where: { username },
@@ -57,7 +58,7 @@ export const getUserByUsername = async (
 
 export const createUser = async (
   createUserDto: CreateUserDto,
-  tx?: Transaction,
+  tx?: Transaction
 ): Promise<IUserWithoutPassword> => {
   const _prismaClient = tx || prismaClient;
   const hashedPassword = await hashPassword(createUserDto.password);
@@ -76,7 +77,7 @@ export const createUser = async (
 export const updateUserById = async (
   userId: number,
   updatedData: UpdateUserDto,
-  tx?: Transaction,
+  tx?: Transaction
 ): Promise<IUserWithoutPassword> => {
   const _prismaClient = tx || prismaClient;
   const user = await _prismaClient.user.update({
@@ -89,7 +90,7 @@ export const updateUserById = async (
 };
 
 export const deleteUserById = async (
-  userId: number,
+  userId: number
 ): Promise<IUserWithoutPassword> => {
   const deletedUser: IUserWithoutPassword = await prismaClient.user.delete({
     where: { id: userId },
@@ -107,7 +108,7 @@ export const hashPassword = async (password: string): Promise<string> => {
 
 export const validateCredentials = async (
   email: string,
-  password: string,
+  password: string
 ): Promise<IUserWithoutPassword> => {
   const user: IUser = await prismaClient.user.findUnique({
     where: { email },
