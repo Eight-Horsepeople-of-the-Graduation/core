@@ -11,8 +11,8 @@ import {
   IsDateString,
 } from "class-validator";
 import { Format } from "@modules/books/book-format.enum";
-import { AuthorDto } from "@modules/authors/dtos/author.dto";
-import { GenreDto } from "@modules/genres/dtos/create-genre.dto";
+import { Author } from "@modules/authors/types/author.type";
+import { Genre } from "@modules/genres/types/genre.type";
 
 export class GetBookDto {
   @IsNotEmpty()
@@ -47,9 +47,9 @@ export class GetBookDto {
 
   @IsNotEmpty()
   @ValidateNested()
-  authors: AuthorDto[];
+  authors: Author[];
 
   @IsNotEmpty()
   @ValidateNested()
-  genres: GenreDto[];
+  genres: Genre[];
 }

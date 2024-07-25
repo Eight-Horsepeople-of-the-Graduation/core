@@ -1,6 +1,6 @@
-import { AuthorDto } from "@modules/authors/dtos/author.dto";
+import { Author } from "@modules/authors/types/author.type";
 import { Format } from "@modules/books/book-format.enum";
-import { GenreDto } from "@modules/genres/dtos/create-genre.dto";
+import { Genre } from "@modules/genres/types/genre.type";
 import {
   IsDateString,
   IsEnum,
@@ -59,9 +59,9 @@ export class UpdateBookDto {
 
   @IsOptional()
   @ValidateNested()
-  authors: AuthorDto[];
+  authors: Author[];
 
   @IsOptional()
   @ValidateNested()
-  genres: GenreDto[];
+  genres: Genre[];
 }
