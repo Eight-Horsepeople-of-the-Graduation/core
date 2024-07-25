@@ -1,6 +1,7 @@
 import booksRepository from "@modules/books/books.repository";
 import prismaClient from "@common/utils/prisma";
-import { Format } from "@modules/books/dtos/books.dto";
+import { Format } from "@modules/books/book-format.enum";
+
 describe("Books Repository Integration Tests", () => {
   beforeAll(async () => {
     await prismaClient.user.create({

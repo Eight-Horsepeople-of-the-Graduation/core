@@ -1,7 +1,7 @@
-import { Format } from "@prisma/client";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
 import prismaClient from "@common/utils/prisma";
-import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
+import { Format } from "@modules/books/book-format.enum";
 
 describe("Bookshelves Repository Integration Tests", () => {
   beforeAll(async () => {

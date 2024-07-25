@@ -1,6 +1,6 @@
-import { Format } from "@prisma/client";
 import genresRepository from "@modules/genres/genres.repository";
 import prismaClient from "@common/utils/prisma";
+import { Format } from "@modules/books/book-format.enum";
 
 describe("Genres Repository Integration Tests", () => {
   beforeAll(async () => {

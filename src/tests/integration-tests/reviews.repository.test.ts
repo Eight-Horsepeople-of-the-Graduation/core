@@ -1,7 +1,6 @@
 import prismaClient from "@common/utils/prisma";
-import { Format } from "@modules/books/dtos/books.dto";
+import { Format } from "@modules/books/book-format.enum";
 import reviewsRepository from "@modules/reviews/reviews.repository";
-import e from "express";
 
 describe("Reviews Repository Integration Tests", () => {
   beforeAll(async () => {
@@ -56,7 +55,7 @@ describe("Reviews Repository Integration Tests", () => {
     await prismaClient.$queryRaw`ALTER SEQUENCE "Book_id_seq" RESTART WITH 1`;
     await prismaClient.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1`;
     await prismaClient.$queryRaw`ALTER SEQUENCE "Review_id_seq" RESTART WITH 1`;
-    
+
     await prismaClient.$disconnect();
   }, 20000);
   it("should get review by book id ", async () => {
