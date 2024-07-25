@@ -1,20 +1,18 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import config from "../../config";
-import { LogInDto, SignUpDto } from "../../modules/auth/dtos/auth.dto";
-import { IUserWithoutPassword } from "../../common/interfaces/users.interface";
-import usersService from "../../modules/users/users.service";
-import { HttpException } from "../../common/exceptions/http.exception";
-import { JwtPayload } from "../../common/types/jwt-payload.interface";
-import prismaClient from "../../common/utils/prisma";
-import usersRepository from "../../modules/users/users.repository";
-import bookshelvesRepository from "../../modules/bookshelves/bookshelves.repository";
-import {
-  CreateBookshelfDto,
-  Privacy,
-} from "../../modules/bookshelves/dtos/bookshelves.dto";
-import { buildDefaultBookshelves } from "../../common/utils/build-default-bookshelves";
-import { Transaction } from "../../common/types/prismaClient-transaction.type";
+import { SignUpDto } from "@modules/auth/dtos/signup.dto";
+import { IUserWithoutPassword } from "@common/interfaces/users.interface";
+import usersService from "@modules/users/users.service";
+import { HttpException } from "@common/exceptions/http.exception";
+import { JwtPayload } from "@common/types/jwt-payload.interface";
+import prismaClient from "@common/utils/prisma";
+import usersRepository from "@modules/users/users.repository";
+import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
+import { buildDefaultBookshelves } from "@common/utils/build-default-bookshelves";
+import { Transaction } from "@common/types/prismaClient-transaction.type";
+import { CreateBookshelfDto } from "@modules/bookshelves/dtos/create-bookshelf.dto";
+import { LogInDto } from "@modules/auth/dtos/login.dto";
 
 export const signUp = async (
   signUpDto: SignUpDto
