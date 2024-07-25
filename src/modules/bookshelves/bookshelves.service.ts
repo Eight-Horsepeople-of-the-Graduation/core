@@ -11,12 +11,9 @@ import {
   getDefaultTitles,
 } from "@common/utils/build-default-bookshelves";
 import prismaClient from "@common/utils/prisma";
-import booksRepository from "@modules/books/books.repository";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
-import {
-  CreateBookshelfDto,
-  UpdateBookshelfDto,
-} from "@modules/bookshelves/dtos/bookshelves.dto";
+import { CreateBookshelfDto } from "@modules/bookshelves/dtos/create-bookshelf.dto";
+import { UpdateBookshelfDto } from "@modules/bookshelves/dtos/update-bookshelf.dto";
 import {
   addBookToUserReadingChallenges,
   deleteBookFromUserReadingChallenges,
