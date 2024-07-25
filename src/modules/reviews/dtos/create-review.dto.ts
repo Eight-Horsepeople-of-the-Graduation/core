@@ -21,21 +21,3 @@ export class CreateReviewDto {
   @IsNumber()
   userId: number;
 }
-
-export class UpdateReviewDetailsDto {
-  @IsOptional()
-  @IsString()
-  title?: string;
-
-  @IsOptional()
-  @IsString()
-  description?: string;
-}
-
-export class UpdateReviewRatingDto {
-  @IsNumber()
-  rating: number;
-
-  @IsNumber()
-  bookId: number;
-}
