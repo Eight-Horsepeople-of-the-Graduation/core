@@ -1,10 +1,8 @@
 import { authMiddleware } from "@common/middleware/auth.middleware";
 import { validationMiddleware } from "@common/middleware/validation.middleware";
 import asyncWrapper from "@common/utils/async-wrapper";
-import {
-  CreateGenreDto,
-  UpdateGenreDto,
-} from "@modules/genres/dtos/genres.dto";
+import { CreateGenreDto } from "@modules/genres/dtos/create-genre.dto";
+import { UpdateGenreDto } from "@modules/genres/dtos/update-genre.dto";
 import genresController from "@modules/genres/genres.controller";
 import { Router } from "express";
 
@@ -20,20 +18,20 @@ router.post(
   "/",
   authMiddleware,
   [validationMiddleware(CreateGenreDto)],
-  asyncWrapper(genresController.createGenre),
+  asyncWrapper(genresController.createGenre)
 );
 
 router.patch(
   "/:genreId",
   authMiddleware,
   [validationMiddleware(UpdateGenreDto)],
-  asyncWrapper(genresController.updateGenreById),
+  asyncWrapper(genresController.updateGenreById)
 );
 
 router.delete(
   "/:genreId",
   authMiddleware,
-  asyncWrapper(genresController.deleteGenreById),
+  asyncWrapper(genresController.deleteGenreById)
 );
 
 export default router;
