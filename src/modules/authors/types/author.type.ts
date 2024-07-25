@@ -1,6 +1,6 @@
 import { IsInt, IsNotEmpty, IsPositive, IsString } from "class-validator";
 
-export class AuthorDto {
+export class Author {
   @IsNotEmpty()
   @IsString()
   name: string;
