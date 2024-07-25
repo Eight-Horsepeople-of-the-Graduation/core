@@ -7,14 +7,13 @@ import {
   updateAuthorById,
 } from "@modules/authors/authors.controller";
 import authorsService from "@modules/authors/authors.service";
-import {
-  CreateAuthorDto,
-  UpdateAuthorDto,
-} from "@modules/authors/dtos/authors.dto";
-import { Format } from "@modules/books/dtos/books.dto";
+import { CreateAuthorDto } from "@modules/authors/dtos/create-author.dto";
+import { UpdateAuthorDto } from "@modules/authors/dtos/update-author.dto";
+import { Format } from "@modules/books/book-format.enum";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
+
 describe("Authors Controller Unit Tests", () => {
   describe("get All Authors", () => {
     // Retrieves all authors successfully when valid query parameters are provided

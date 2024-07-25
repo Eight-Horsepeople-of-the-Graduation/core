@@ -1,4 +1,4 @@
-import { Format } from "@modules/books/dtos/books.dto";
+import { Format } from "@modules/books/book-format.enum";
 import {
   createGenre,
   deleteGenreById,
@@ -11,6 +11,7 @@ import genresService from "@modules/genres/genres.service";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 import { plainToInstance } from "class-transformer";
 import { Request, Response } from "express";
+
 describe("Genres Controller Unit Tests", () => {
   describe("getAllGenres", () => {
     // Retrieves all genres successfully with valid query parameters
