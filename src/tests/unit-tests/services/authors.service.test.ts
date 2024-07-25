@@ -7,8 +7,8 @@ import {
   getBooksByAuthorId,
   updateAuthorById,
 } from "@modules/authors/authors.service";
+import { Format } from "@modules/books/book-format.enum";
 import booksRepository from "@modules/books/books.repository";
-import { Format } from "@modules/books/dtos/books.dto";
 
 describe("Authors Service Unit Tests", () => {
   describe("get All Authors", () => {

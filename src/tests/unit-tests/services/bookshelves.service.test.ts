@@ -1,5 +1,4 @@
-import { HttpStatus } from "@common/enums/http-status.enum";
-import { HttpException } from "@common/exceptions/http.exception";
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
 import bookshelvesService, {
   addBookToBookshelf,
@@ -10,8 +9,6 @@ import bookshelvesService, {
   removeBooksFromBookshelf,
   updateBookshelf,
 } from "@modules/bookshelves/bookshelves.service";
-import { Privacy } from "@modules/bookshelves/dtos/bookshelves.dto";
-import { title } from "process";
 
 describe("Bookshelves Service Unit Tests", () => {
   afterEach(() => {

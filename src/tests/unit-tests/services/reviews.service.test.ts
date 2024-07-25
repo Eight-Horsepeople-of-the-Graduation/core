@@ -1,3 +1,4 @@
+import { Format } from "@modules/books/book-format.enum";
 import prismaClient from "@common/utils/prisma";
 import booksService from "@modules/books/books.service";
 import reviewsRepository from "@modules/reviews/reviews.repository";
@@ -8,7 +9,6 @@ import {
   updateReviewDetails,
   updateReviewRating,
 } from "@modules/reviews/reviews.service";
-import { Format } from "@prisma/client";
 
 describe("Reviews Service Unit Tests", () => {
   describe("get review by id ", () => {
@@ -114,10 +114,10 @@ describe("Reviews Service Unit Tests", () => {
       jest
         .spyOn(reviewsRepository, "createReview")
         .mockResolvedValueOnce(createdReviewDto);
-        
-      jest.spyOn(prismaClient, "$transaction").mockImplementation((cb) =>
-        cb(prismaClient)
-      );
+
+      jest
+        .spyOn(prismaClient, "$transaction")
+        .mockImplementation((cb) => cb(prismaClient));
       const result = await createReview(createdReviewDto);
 
       expect(result).toEqual(createdReviewDto);

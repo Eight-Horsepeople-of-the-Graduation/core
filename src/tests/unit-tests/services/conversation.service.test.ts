@@ -1,6 +1,6 @@
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
+import { Format } from "@modules/books/book-format.enum";
 import booksRepository from "@modules/books/books.repository";
-import { Format } from "@modules/books/dtos/books.dto";
 import conversationsRepository from "@modules/conversations/conversations.repository";
 import {
   checkUserAndBook,
@@ -10,8 +10,8 @@ import {
   getConversationByUserAndBook,
   getMessagesByConversationId,
 } from "@modules/conversations/conversations.service";
+import { Gender } from "@modules/users/user-gender.enum";
 import usersRepository from "@modules/users/users.repository";
-import { Gender } from "@prisma/client";
 
 describe("ConversationService unit tests", () => {
   describe("checkUserAndBook", () => {

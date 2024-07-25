@@ -1,11 +1,11 @@
-import { de } from "@faker-js/faker";
+import { Format } from "@modules/books/book-format.enum";
 import booksRepository from "@modules/books/books.repository";
-import { Format } from "@modules/books/dtos/books.dto";
+import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
 import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
+import { Duration } from "@modules/reading-challenges/reading-challenge-duration.enum";
 import readingChallengesRepository from "@modules/reading-challenges/reading-challenges.repository";
 import reviewsRepository from "@modules/reviews/reviews.repository";
-
-import { Gender } from "@modules/users/dtos/users.dto";
+import { Gender } from "@modules/users/user-gender.enum";
 import usersRepository from "@modules/users/users.repository";
 import {
   createUser,
@@ -21,7 +21,6 @@ import {
   getUserByUsername,
   updateUserById,
 } from "@modules/users/users.service";
-import { Privacy, ReadingChallengeType } from "@prisma/client";
 
 describe("UserService unit tests", () => {
   describe("getAllUsers", () => {
@@ -164,7 +163,7 @@ describe("UserService unit tests", () => {
           id: 1,
           title: "Challenge 1",
           userId: 1,
-          type: ReadingChallengeType.MONTHLY,
+          type: Duration.MONTHLY,
           startDate: new Date("2023-01-01"),
           progress: 0,
           endDate: new Date("2023-04-01"),
@@ -197,7 +196,7 @@ describe("UserService unit tests", () => {
           id: 1,
           title: "Challenge 1",
           userId: 1,
-          type: ReadingChallengeType.MONTHLY,
+          type: Duration.MONTHLY,
           startDate: new Date("2023-01-01"),
           progress: 0,
           endDate: new Date("2023-04-01"),
