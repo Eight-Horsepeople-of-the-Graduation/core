@@ -22,8 +22,8 @@ export const getConversationByUserAndBook = async (
   }
 
   const conversation = await conversationsService.getConversationByUserAndBook(
-    userId,
-    bookId
+    bookId,
+    userId
   );
 
   return res.send(conversation);
