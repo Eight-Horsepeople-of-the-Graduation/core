@@ -5,6 +5,7 @@ env:
   POSTGRES_URL_NON_POOLING: ${{secrets.POSTGRES_URL_NON_POOLING}}
   JWT_REFRESH_SECRET: ${{secrets.JWT_REFRESH_SECRET}}
   JWT_ACCESS_SECRET: ${{secrets.JWT_ACCESS_SECRET}}
+  ORIGIN: ${{secrets.ORIGIN}}
 on:
   push:
     branches: [main]
