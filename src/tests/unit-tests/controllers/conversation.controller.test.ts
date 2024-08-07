@@ -36,7 +36,7 @@ describe("conversation controller Unit Tests", () => {
 
       expect(
         conversationsService.getConversationByUserAndBook
-      ).toHaveBeenCalledWith(1, 2);
+      ).toHaveBeenCalledWith(2, 1);
       expect(res.send).toHaveBeenCalledWith(mockConversation);
     });
   });
