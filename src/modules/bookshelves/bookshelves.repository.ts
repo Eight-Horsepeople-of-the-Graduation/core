@@ -28,6 +28,7 @@ export const getAllBookshelves = async (
             mode: "insensitive",
           },
         }),
+        privacy: "PUBLIC",
       },
       include: {
         books: true,
