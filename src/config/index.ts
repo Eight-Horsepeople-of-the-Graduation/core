@@ -6,7 +6,7 @@ dotenv.config();
  * Configuration object
  */
 export default {
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3001,
   db: {
     url: process.env.DB_URL,
   },
