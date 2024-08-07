@@ -3,14 +3,14 @@ import { IBookshelf } from "@common/interfaces/bookshelves.interface";
 import { IReadingChallengeWithBooks } from "@common/interfaces/reading-challenges.interface";
 import { IReviewWithUserAndBook } from "@common/interfaces/reviews.interface";
 import { IUserWithoutPassword } from "@common/interfaces/users.interface";
-import booksRepository from "@modules/books/books.repository";
-import bookshelvesRepository from "@modules/bookshelves/bookshelves.repository";
-import readingChallengesRepository from "@modules/reading-challenges/reading-challenges.repository";
-import reviewsRepository from "@modules/reviews/reviews.repository";
+import booksRepository from "../../modules/books/books.repository";
+import bookshelvesRepository from "../../modules/bookshelves/bookshelves.repository";
+import readingChallengesRepository from "../../modules/reading-challenges/reading-challenges.repository";
+import reviewsRepository from "../../modules/reviews/reviews.repository";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 import { CreateUserDto } from "@modules/users/dtos/create-user.dto";
 import { UpdateUserDto } from "@modules/users/dtos/update-user.dto";
-import usersRepository from "@modules/users/users.repository";
+import usersRepository from "../../modules/users/users.repository";
 
 export const getAllUsers = async (
   filter: SearchQueryDto

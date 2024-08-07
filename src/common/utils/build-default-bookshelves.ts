@@ -1,4 +1,4 @@
-import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
+import { Privacy } from "../../modules/bookshelves/bookshelf-privacy.enum";
 import { CreateBookshelfDto } from "@modules/bookshelves/dtos/create-bookshelf.dto";
 
 export const doneReadingInfo = {

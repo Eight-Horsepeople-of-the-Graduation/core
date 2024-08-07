@@ -8,7 +8,7 @@ import {
   OptionalBookshelf,
 } from "@common/interfaces/bookshelves.interface";
 import { Transaction } from "@common/types/prismaClient-transaction.type";
-import prismaClient from "@common/utils/prisma";
+import prismaClient from "../../common/utils/prisma";
 import { CreateBookshelfDto } from "@modules/bookshelves/dtos/create-bookshelf.dto";
 import { UpdateBookshelfDto } from "@modules/bookshelves/dtos/update-bookshelf.dto";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";

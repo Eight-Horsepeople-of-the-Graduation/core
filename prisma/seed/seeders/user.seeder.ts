@@ -1,7 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Gender } from "../../../src/modules/users/dtos/users.dto";
-import prismaClient from "../../../src/common/utils/prisma";
-import { hashSync, genSaltSync } from "bcrypt";
+import { Gender } from "../../../src/modules/users/user-gender.enum";
 import { signUp } from "../../../src/modules/auth/auth.service";
 export async function seedUsers(num: number) {
   console.log(

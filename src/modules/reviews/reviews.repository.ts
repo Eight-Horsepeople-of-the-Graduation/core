@@ -4,7 +4,7 @@ import {
   OptionalReviewWithUserAndBook,
 } from "@common/interfaces/reviews.interface";
 import { Transaction } from "@common/types/prismaClient-transaction.type";
-import prismaClient from "@common/utils/prisma";
+import prismaClient from "../../common/utils/prisma";
 import { CreateReviewDto } from "@modules/reviews/dtos/create-review.dto";
 import { UpdateReviewDetailsDto } from "@modules/reviews/dtos/update-review-details.dto";
 import { UpdateReviewRatingDto } from "@modules/reviews/dtos/update-review-rating.dto";
