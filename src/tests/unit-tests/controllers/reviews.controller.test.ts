@@ -13,7 +13,7 @@ describe("Reviews Controller Unit Tests", () => {
   describe("get review by id ", () => {
     // Successfully retrieves a review by a valid ID
     it("should return the review when given a valid ID", async () => {
-      const req = { params: { id: "1" } } as unknown as Request;
+      const req = { params: { reviewId: "1" } } as unknown as Request;
       const res = { send: jest.fn() } as unknown as Response;
       const review = {
         userId: 1,
@@ -149,7 +149,7 @@ describe("Reviews Controller Unit Tests", () => {
     // Successfully updates a review when valid review ID and update data are provided
     it("should update the review when valid review ID and update data are provided", async () => {
       const req = {
-        params: { id: "1" },
+        params: { reviewId: "1" },
         body: { title: "Updated Review Title" },
       } as unknown as Request;
       const res = {
@@ -214,7 +214,7 @@ describe("Reviews Controller Unit Tests", () => {
     // Successfully updates review rating when valid review ID and update data are provided
     it("should successfully update review rating when valid review ID and update data are provided", async () => {
       const req = {
-        params: { id: "1" },
+        params: { reviewId: "1" },
         body: { rating: 5 },
       } as unknown as Request;
       const res = {
@@ -278,7 +278,7 @@ describe("Reviews Controller Unit Tests", () => {
   describe("delete review", () => {
     // Successfully deleting a review by valid ID
     it("should return the deleted review when a valid ID is provided", async () => {
-      const req = { params: { id: "1" } } as unknown as Request;
+      const req = { params: { reviewId: "1" } } as unknown as Request;
       const res = { send: jest.fn() } as unknown as Response;
       const mockDeletedReview = {
         userId: 1,

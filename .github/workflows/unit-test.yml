@@ -1,6 +1,7 @@
 name: Run Unit Tests
 env:
   PINECONE_API_KEY: ${{secrets.PINECONE_API_KEY}}
+  ORIGIN: ${{secrets.ORIGIN}}
 on:
   push:
     branches: [main]

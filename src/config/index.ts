@@ -6,7 +6,7 @@ dotenv.config();
  * Configuration object
  */
 export default {
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3001,
   db: {
     url: process.env.DB_URL,
   },
@@ -20,5 +20,5 @@ export default {
     expiresIn: 1000 * 60 * 60 * 24 * 7 * 4, // 4 weeks
   },
   cookieSecret: process.env.COOKIE_SECRET,
-  origin: process.env.ORIGIN,
+  origin: process.env.ORIGIN.split(","),
 };

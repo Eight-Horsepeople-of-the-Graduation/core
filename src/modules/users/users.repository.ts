@@ -4,8 +4,8 @@ import {
   IUser,
   IUserWithoutPassword,
   SelectUserWithoutPassword,
-} from "@common/interfaces/users.interface";
-import prismaClient from "@common/utils/prisma";
+} from "../../common/interfaces/users.interface";
+import prismaClient from "../../common/utils/prisma";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
 import { Transaction } from "@common/types/prismaClient-transaction.type";
 import { UpdateUserDto } from "@modules/users/dtos/update-user.dto";

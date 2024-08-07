@@ -1,25 +1,25 @@
-import { Privacy } from "@modules/bookshelves/bookshelf-privacy.enum";
+import { Privacy } from "../../modules/bookshelves/bookshelf-privacy.enum";
 import { CreateBookshelfDto } from "@modules/bookshelves/dtos/create-bookshelf.dto";
 
 export const doneReadingInfo = {
   title: "Done Reading".toLowerCase(),
   description:
     "A bookshelf for books that you have already read.".toLowerCase(),
-  privacy: Privacy.PUBLIC,
+  privacy: Privacy.PRIVATE,
 };
 
 export const currentlyReadingInfo = {
   title: "Currently Reading".toLowerCase(),
   description:
     "A bookshelf for books that you are currently reading.".toLowerCase(),
-  privacy: Privacy.PUBLIC,
+  privacy: Privacy.PRIVATE,
 };
 
 export const wantToReadInfo = {
   title: "Want to Read".toLowerCase(),
   description:
     "A bookshelf for books that you want to read in the future.".toLowerCase(),
-  privacy: Privacy.PUBLIC,
+  privacy: Privacy.PRIVATE,
 };
 
 export const getDefaultTitles = () => {

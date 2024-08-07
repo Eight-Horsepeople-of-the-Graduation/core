@@ -10,7 +10,7 @@ export const getReviewById = async (
   req: Request,
   res: Response
 ): Promise<Response<OptionalReviewWithUserAndBook>> => {
-  const reviewId = parseInt(req.params.id, 10);
+  const reviewId = parseInt(req.params.reviewId, 10);
   const review = await reviewsService.getReviewById(+reviewId);
 
   return res.send(review);
@@ -31,7 +31,7 @@ export const updateReviewDetails = async (
   req: Request,
   res: Response
 ): Promise<Response<IReviewWithUserAndBook>> => {
-  const reviewId = parseInt(req.params.id, 10);
+  const reviewId = parseInt(req.params.reviewId, 10);
 
   const updateReviewDto = req.body;
 
@@ -47,7 +47,7 @@ export const updateReviewRating = async (
   req: Request,
   res: Response
 ): Promise<Response<IReviewWithUserAndBook>> => {
-  const reviewId = parseInt(req.params.id, 10);
+  const reviewId = parseInt(req.params.reviewId, 10);
 
   const updateReviewDto = req.body;
 
@@ -63,7 +63,7 @@ export const deleteReview = async (
   req: Request,
   res: Response
 ): Promise<Response<IReviewWithUserAndBook>> => {
-  const reviewId = parseInt(req.params.id, 10);
+  const reviewId = parseInt(req.params.reviewId, 10);
 
   const deletedReview = await reviewsService.deleteReview(reviewId);
 

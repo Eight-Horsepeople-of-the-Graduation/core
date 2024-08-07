@@ -1,6 +1,6 @@
-import { getEndDate, getTimeframe } from "@common/utils/dates-utils";
+import { getEndDate, getTimeframe } from "../../common/utils/dates-utils";
 import { CreateReadingChallengeDto } from "./dtos/create-reading-challenge.dto";
-import prismaClient from "@common/utils/prisma";
+import prismaClient from "../../common/utils/prisma";
 import {
   IReadingChallenge,
   IReadingChallengeWithBooks,
@@ -88,49 +88,45 @@ export const addBookToUserReadingChallenges = async (
         readingChallenge.progress >= readingChallenge.goal ||
         readingChallenge.endDate < new Date()
       ) {
-        await _prismaClient.readingChallenge.update({
-          where: { id: readingChallenge.id },
-          data: { hasEnded: true },
-        });
-        throw new HttpException(
-          "Reading challenge has already ended",
-          HttpStatus.BAD_REQUEST
-        );
+        const endedReadingChallenge =
+          await _prismaClient.readingChallenge.update({
+            where: { id: readingChallenge.id },
+            data: { hasEnded: true },
+          });
+
+        return endedReadingChallenge;
       }
 
       // Check if the book is already in the reading challenge
-      if (readingChallenge.books.some((book) => book.id === bookId))
-        throw new HttpException(
-          "Book was already added to the users currently active reading challenges",
-          HttpStatus.BAD_REQUEST
-        );
-
-      // Update the reading challenge by adding the book and incrementing the progress
-      const updatedReadingChallenge =
-        await _prismaClient.readingChallenge.update({
-          where: {
-            id: readingChallenge.id,
-          },
-          data: {
-            books: {
-              connect: {
-                id: bookId,
+      if (!readingChallenge.books.some((book) => book.id === bookId)) {
+        // Update the reading challenge by adding the book and incrementing the progress
+        const updatedReadingChallenge =
+          await _prismaClient.readingChallenge.update({
+            where: {
+              id: readingChallenge.id,
+            },
+            data: {
+              books: {
+                connect: {
+                  id: bookId,
+                },
+              },
+              progress: {
+                increment: 1,
+              },
+              hasEnded:
+                readingChallenge.endDate < new Date() ||
+                readingChallenge.progress + 1 >= readingChallenge.goal,
+            },
+            include: {
+              books: {
+                select: SelectReadingChallengeBook,
               },
             },
-            progress: {
-              increment: 1,
-            },
-            hasEnded:
-              readingChallenge.endDate < new Date() ||
-              readingChallenge.progress + 1 >= readingChallenge.goal,
-          },
-          include: {
-            books: {
-              select: SelectReadingChallengeBook,
-            },
-          },
-        });
-      return updatedReadingChallenge;
+          });
+        return updatedReadingChallenge;
+      }
+      return readingChallenge;
     })
   );
 
@@ -204,7 +200,6 @@ export const deleteBookFromUserReadingChallenges = async (
     await prismaClient.readingChallenge.findMany({
       where: {
         userId,
-        hasEnded: false,
       },
       include: {
         books: {
@@ -216,21 +211,6 @@ export const deleteBookFromUserReadingChallenges = async (
   const updatedReadingChallenges: IReadingChallengeWithBooks[] =
     await Promise.all(
       userReadingChallenges.map(async (readingChallenge) => {
-        // Check if the reading challenge has already been completed (false positive)
-        if (
-          readingChallenge.progress >= readingChallenge.goal ||
-          readingChallenge.endDate < new Date()
-        ) {
-          await _prismaClient.readingChallenge.update({
-            where: { id: readingChallenge.id },
-            data: { hasEnded: true },
-          });
-          throw new HttpException(
-            "Reading challenge has already ended",
-            HttpStatus.BAD_REQUEST
-          );
-        }
-
         if (readingChallenge.books.some((book) => book.id === bookId)) {
           const updatedReadingChallenge =
             await _prismaClient.readingChallenge.update({
@@ -257,11 +237,6 @@ export const deleteBookFromUserReadingChallenges = async (
               },
             });
           return updatedReadingChallenge;
-        } else {
-          throw new HttpException(
-            "Book was not found in the users currently active reading challenges",
-            HttpStatus.BAD_REQUEST
-          );
         }
       })
     );

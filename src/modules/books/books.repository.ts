@@ -4,7 +4,7 @@ import {
   OptionalBook,
 } from "@common/interfaces/books.interface";
 import { Transaction } from "@common/types/prismaClient-transaction.type";
-import prismaClient from "@common/utils/prisma";
+import prismaClient from "../../common/utils/prisma";
 import { CreateBookDto } from "@modules/books/dtos/create-book.dto";
 import { UpdateBookDto } from "@modules/books/dtos/update-book.dto";
 import { SearchQueryDto } from "@modules/search/dtos/search.dto";
