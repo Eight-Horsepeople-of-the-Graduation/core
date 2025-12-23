@@ -27,7 +27,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@langchain/core": "^0.1.61",
+    "@langchain/core": "^1.1.8",
     "@prisma/client": "^5.13.0",
     "@tsoa/runtime": "^6.3.0",
     "bcrypt": "^5.1.1",
